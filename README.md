@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 00:47:15
+ * @LastEditTime: 2022-12-22 01:26:31
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 
  * 
@@ -11,5 +11,5 @@
 ## 安装
 
 ```
-git clone https://github.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin  
+git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin  
 ```
