@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:08:11
+ * @LastEditTime: 2022-12-22 01:53:42
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -19,8 +19,8 @@ const Plugin_Path = path.join(Path, 'plugins', Plugin_Name)
 const cfg_path = path.join(Plugin_Path, 'config', 'config')
 class Config {
     constructor() {
-        this.initCfg()
         this.initPath()
+        this.initCfg()
     }
 
     /** 初始化配置 */
@@ -37,6 +37,7 @@ class Config {
     // 初始化路径
     initPath() {
         fs.mkdirSync(path.join(process.cwd(), 'resources/yuhuo/aiPainting'), { recursive: true });
+        fs.mkdirSync(cfg_path, { recursive: true });
     }
 
     /**获取配置
