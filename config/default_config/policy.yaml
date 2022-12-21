@@ -1,0 +1,17 @@
+cd: 10
+localNum: 50
+isDownload: true
+prohibitedUserList:
+  - 123456
+apMaster:
+  - 1234546
+gp:
+  global:
+    enable: true
+    JH: true
+    gcd: 20
+    pcd: 40
+    isRecall: false
+    recallDelay: 60
+    isBan: false
+    usageLimit: 30
