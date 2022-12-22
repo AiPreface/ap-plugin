@@ -2,20 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:03:26
+ * @LastEditTime: 2022-12-22 15:10:31
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import gsCfg from "../../genshin/model/gsCfg.js";
-import path from 'path';
-import moment from 'moment/moment.js';
-import fs from 'fs'
-import sizeOf from 'image-size'
 import fetch from 'node-fetch';
-import { promisify } from "util";
-import { pipeline } from "stream";
 
 
 /**
@@ -48,52 +42,6 @@ export async function parseImg(e) {
 }
 
 
-/**
- * 根据 图片的网络url 或 本地路径 获取图片信息
- * @param {string} url 图片网络url或本地路径
- * @return {object}  图片长宽，图片大小，图片base64
- */
-export async function getPicInfo(url) {
-    // 本地路径
-    let tempPic = url
-    // 如果是网络url则先下载
-    if (url.startsWith('http')) {
-        const response = await fetch(url);
-        // 没获取到
-        if (!response.ok)
-            return { ok: false }
-
-        // 下载临时图片
-        const streamPipeline = promisify(pipeline);
-        tempPic = path.join(process.cwd(), 'resources', `aiPainting_tempPic_${moment.now()}.png`);
-        await streamPipeline(response.body, fs.createWriteStream(tempPic));
-    }
-
-    // 取图片bs64 
-    let bitMap = fs.readFileSync(tempPic);
-    let base64 = Buffer.from(bitMap, "binary").toString("base64");
-
-    // 取图片长宽
-    let wh = sizeOf(tempPic)
-    let height = wh.height;
-    let width = wh.width;
-
-    // 删除下载的临时图片
-    if (url.startsWith('http'))
-        fs.unlinkSync(tempPic)
-
-    // 计算图片大小
-    let [b, imgsize, mb] = bs64Size(base64, true, 1)
-
-    return {
-        ok: true,
-        height: height,
-        width: width,
-        size: imgsize,
-        base64: base64
-    }
-}
-
 
 /**获取base64的大小 返回一个数组，依次是[b,kb,mb]；
  * @param {string} base64 
@@ -124,7 +72,7 @@ export function bs64Size(base64, isunit = false, tofix = 2) {
  * @return null：未匹配到角色名
  */
 export async function getgsName(name) {
-    let nameArr = Runtime.gsCfg.getAllAbbr()
+    let nameArr = gsCfg.getAllAbbr()
     for (let rolename of Object.values(nameArr))
         if (rolename.includes(name))
             return rolename[0]
@@ -178,17 +126,3 @@ export async function translate(txt, param = null) {
     }
     return result
 }
-
-/**快捷log  */
-class Log {
-    /**快捷执行logger.info( )  */
-    i(...msg) { logger.info('【aiPainting】', ...msg); }
-    /**快捷执行logger.mark( ) */
-    m(...msg) { logger.mark('【aiPainting】', ...msg); }
-    /**快捷执行logger.warn( ) */
-    w(...msg) { logger.warn('【aiPainting】', ...msg); }
-    /**快捷执行logger.error( ) */
-    e(...msg) { logger.error('【aiPainting】', ...msg); }
-}
-
-export default new Log

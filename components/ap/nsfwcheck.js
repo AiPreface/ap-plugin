@@ -2,14 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 23:54:08
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:02:48
+ * @LastEditTime: 2022-12-22 15:20:39
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\nsfwcheck.js
  * @Description: 百度鉴黄服务
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import Config from "./config.js"
-import Log, { getPicInfo } from "../../utils/utils.js"
+import { Pictools, Log } from "../../utils/utidx.js"
 import { createRequire } from "module";
 const apcfg = await Config.getcfg()
 class NsfwCheck {
@@ -57,7 +57,7 @@ class NsfwCheck {
         // 取图片base64
         let base64 = pic
         if (type) {
-            let picinfo = await getPicInfo(pic)
+            let picinfo = await Pictools.getPicInfo(pic)
             if (!picinfo.ok)
                 return {
                     message: '百度图片审核失败：获取图片信息失败'
@@ -106,7 +106,7 @@ class NsfwCheck {
         }
         // logger.info("【aiPainting鉴黄返回结果】", result);   /*                   */
         if (result.isnsfw) Log.w('图片不合规')
-        else Log.i('图片合规')
+        else Log.m('图片合规')
 
         return result
     }

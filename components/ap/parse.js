@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:03:43
+ * @LastEditTime: 2022-12-22 15:24:26
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -10,7 +10,8 @@
  */
 
 import Config from './config.js'
-import { parseImg, getPicInfo, translate } from '../../utils/utils.js'
+import { parseImg, translate } from '../../utils/utils.js'
+import { Pictools } from '../../utils/utidx.js'
 
 class Parse {
     constructor() {
@@ -54,7 +55,7 @@ class Parse {
         let picInfo = null
         // 存在图片时，取图片信息
         if (e.img) {
-            picInfo = await getPicInfo(e.img[0])
+            picInfo = await Pictools.getPicInfo(e.img[0])
             // 若获取图片信息失败 
             if (!picInfo.ok) return { code: 1, msg: "获取图片信息失败" }
         }

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:00:57
+ * @LastEditTime: 2022-12-22 16:02:55
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
  * @Description: 绘图
  * 
@@ -11,7 +11,9 @@
 import moment from 'moment';
 import { segment } from "oicq";
 import cfg from '../../../lib/config/config.js'
-import Log, { getuserName } from '../utils/utils.js'
+import { getuserName } from '../utils/utils.js'
+import Pictools from '../utils/pic_tools.js';
+import Log from '../utils/Log.js'
 import { Parse, CD, Policy, Draw } from '../components/apidx.js';
 
 
@@ -27,7 +29,7 @@ export class ap extends plugin {
       priority: 5000,
       rule: [
         {
-          reg: "^绘图([\\s\\S]*)$",
+          reg: "^#绘图([\\s\\S]*)$",
           fnc: "AiPainting",
         },
       ],
@@ -134,18 +136,22 @@ export class ap extends plugin {
         CD.clearCD(e)
         return await e.reply(res.description, true)
       }
-      
+
       // logger.warn(res);                                              /* */
 
       // 图片违规时，通知主人
       if (res.isnsfw) {
         let msg = [
-          "【aiPainting】不合规图片：",
+          "【aiPainting】不合规图片：\n",
           segment.image(`base64://${res.base64}`),
-          `来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+          `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
           `\n【Tags】：${paramdata.rawtag.tags}`,
           `\n【nTags】：${paramdata.rawtag.ntags}`,
         ]
+        // 将图片base64转换为基于QQ图床的url
+        // let url = Pictools.base64_to_imgurl(res.base64)
+        // e.reply(url)
+
         await Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
         return await e.reply("图片不合规，不予展示", true)
       }
@@ -156,7 +162,7 @@ export class ap extends plugin {
         paramdata.param.steps != 40 ? `steps=${paramdata.param.steps}\n` : '',
         paramdata.param.scale != 11 ? `scale=${paramdata.param.scale}\n` : '',
         paramdata.param.strength != 0.6 ? `strength=${paramdata.param.strength}\n` : '',
-        `seed=${paramdata.param.seed}\n`,
+        `seed=${res.seed}\n`,
         segment.image(`base64://${res.base64}`),
         `\n【Tags】：${paramdata.param.tags}`,
         `\n【nTags】：${paramdata.param.ntags}`,
@@ -210,9 +216,9 @@ export class ap extends plugin {
         // 图片违规时，通知主人
         if (res.isnsfw) {
           let msg = [
-            "【aiPainting】不合规图片：",
+            "【aiPainting】不合规图片：\n",
             segment.image(`base64://${res.base64}`),
-            `来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+            `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
             `\n【Tags】：${paramdata.rawtag.tags}`,
             `\n【nTags】：${paramdata.rawtag.ntags}`,
           ]
@@ -224,7 +230,7 @@ export class ap extends plugin {
 
         // 存入合并消息等待发送
         data_msg.push({
-          message: [segment.image(`base64://${res.base64}`)],
+          message: [segment.image(`base64://${res.base64}`), paramdata.param.seed == -1 ? `\nseed=${res.seed}` : ''],
           nickname: Bot.nickname,
           user_id: cfg.qq,
         });
@@ -239,9 +245,9 @@ export class ap extends plugin {
           `steps=${paramdata.param.steps}\n`,
           `scale=${paramdata.param.scale}\n`,
           `strength=${paramdata.param.strength}\n`,
-          `seed=${paramdata.param.seed}\n`,
+          paramdata.param.seed == -1 ? '' : `seed=${paramdata.param.seed}\n`,
           `【Tags】：${paramdata.param.tags}\n`,
-          `【nTags】：${paramdata.param.ntags}\n`,
+          `【nTags】：${paramdata.param.ntags}`,
         ],
         nickname: Bot.nickname,
         user_id: cfg.qq,

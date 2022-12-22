@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 00:55:25
+ * @LastEditTime: 2022-12-22 14:56:14
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -11,10 +11,13 @@
 import Config from "./config.js";
 import NsfwCheck from "./nsfwcheck.js"
 import moment from "moment";
+import YAML from 'YAML'
 import path from 'path';
 import fs from 'fs';
 import fetch from "node-fetch";
-import Log, { bs64Size } from '../../utils/utils.js';
+import {  bs64Size } from '../../utils/utils.js';
+import Log from '../../utils/Log.js'
+import process from "process";
 class Draw {
 
     /**获取一张图片。返回base64
@@ -90,7 +93,9 @@ class Draw {
 
         // 提取base64
         let res = await response.json();
+        fs.writeFileSync(path.join(process.cwd(), 'resources/aptemp.json'), JSON.stringify(res, null, "\t"), "utf8");                  /*  */
         let base64 = res.images[0].toString().replace(/data:image\/png;|base64,/g, "");
+        let resparam = res.parameters
         // 图片大小太小，判断为全黑故障图片
         let [b, imagesize, mb] = bs64Size(base64)
         if (imagesize < 10) {
@@ -103,7 +108,7 @@ class Draw {
             }
         }
 
-        Log.i("图片获取成功")
+        Log.m("图片获取成功")
 
         // 鉴黄
         let isnsfw = false
@@ -122,11 +127,12 @@ class Draw {
 
 
         //下载图片
-        this.downLoadPic(paramdata, base64)
+        this.downLoadPic(paramdata, resparam.seed, base64)
 
         return {
             code: 0,
             isnsfw: isnsfw,
+            seed: resparam.seed,
             base64: base64
         }
     }
@@ -141,7 +147,11 @@ class Draw {
         let ntags = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
         if (param.ntags != "默认")
             ntags = param.ntags
-        Log.i("尝试获取一张图片，使用接口：", api)
+        let seed = param.seed
+        if (seed == -1) {
+            seed = Math.floor(Math.random() * 2147483647)
+        }
+        Log.m("尝试获取一张图片，使用接口：", api)
         let data;
         // 文生图
         if (!param.base64) {
@@ -151,10 +161,10 @@ class Draw {
                 "firstphase_width": 0,
                 "firstphase_height": 0,
                 "styles": ["string"],
-                "subseed": -1,
-                "subseed_strength": 0,
-                "seed_resize_from_h": -1,
-                "seed_resize_from_w": -1,
+                // "subseed": -1,
+                // "subseed_strength": 0,
+                // "seed_resize_from_h": -1,
+                // "seed_resize_from_w": -1,
                 "batch_size": 1,
                 "n_iter": 1,
                 "restore_faces": false,
@@ -166,7 +176,7 @@ class Draw {
                 "s_noise": 1,
                 "override_settings": {},
                 "prompt": param.tags,
-                "seed": param.seed,
+                "seed": seed,
                 "steps": param.steps,
                 "cfg_scale": param.scale,
                 "height": param.height,
@@ -182,7 +192,7 @@ class Draw {
                 "sampler_index": param.sampler,
                 "denoising_strength": param.strength,
                 "prompt": param.tags,
-                "seed": param.seed,
+                "seed": seed,
                 "steps": param.steps,
                 "cfg_scale": param.scale,
                 "width": param.width,
@@ -208,13 +218,13 @@ class Draw {
      * @param {string} base64 图片bs64
      * @return {*}
      */
-    async downLoadPic(paramdata, base64) {
+    async downLoadPic(paramdata, seed, base64) {
         let param = paramdata.param
         let policy = await Config.getPolicy()
         if (!policy.isDownload) return false
 
         let currentTime = moment(new Date()).format("YYMMDD_HHmmss");
-        let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${param.seed}&user=${paramdata.user}.png`
+        let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`
         let picPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting', picname);
         fs.writeFile(picPath, base64, "base64", (err) => { if (err) throw err });
     }
