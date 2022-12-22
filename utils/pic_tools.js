@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 15:04:19
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 16:55:40
+ * @LastEditTime: 2022-12-22 17:15:44
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\pic_tools.js
  * @Description: 图片工具
  * 
@@ -66,6 +66,7 @@ class Pictools extends plugin {
 
         // 取图片md5
         let imgmd5 = md5(fs.readFileSync(tempPic))
+        imgmd5 = imgmd5.toUpperCase()
 
         // 取图片长宽
         let wh = sizeOf(tempPic)
