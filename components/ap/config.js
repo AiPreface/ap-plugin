@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:53:42
+ * @LastEditTime: 2022-12-22 22:55:30
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -98,8 +98,8 @@ class Config {
      * @return {*}
      */
     async getpreSets() {
-        let presets = await YAML.parse(
-            fs.readFileSync(path.join(cfg_path, 'preset.yaml'), "utf8")
+        let presets = await JSON.parse(
+            fs.readFileSync(path.join(cfg_path, 'preset.json'), "utf8")
         );
         return presets
     }
@@ -108,7 +108,10 @@ class Config {
      * @param {*} presets
      * @return {*}
      */
-    async setpreSets(presets) { fs.writeFileSync(path.join(cfg_path, 'preset.yaml'), YAML.stringify(presets), "utf8"); }
+    async setpreSets(presets) {
+        fs.writeFileSync(path.join(cfg_path, 'preset.json'), JSON.stringify(presets, null, "\t"), "utf8");
+        // fs.writeFileSync(path.join(cfg_path, 'preset.yaml'), YAML.stringify(presets), "utf8");
+    }
 
 
     /**获取全部配置

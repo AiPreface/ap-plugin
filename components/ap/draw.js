@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 17:02:32
+ * @LastEditTime: 2022-12-22 23:36:58
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -116,12 +116,20 @@ class Draw {
         if (paramdata.JH) {
             let jh = await NsfwCheck.check(base64)
             if (jh.message) {
-                return {
-                    code: 31,
-                    info: '鉴黄故障',
-                    msg: '',
-                    description: jh.message
-                }
+                if (jh.message == "【aiPainting图片审核】本次百度图片审核超时")
+                    return {
+                        code: 32,
+                        info: '百度图片审核超时',
+                        msg: '',
+                        description: jh.message
+                    }
+                else
+                    return {
+                        code: 31,
+                        info: '鉴黄故障',
+                        msg: '',
+                        description: jh.message
+                    }
             }
             isnsfw = jh.isnsfw
         }

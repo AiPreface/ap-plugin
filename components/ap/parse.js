@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 15:24:26
+ * @LastEditTime: 2022-12-22 23:19:30
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -119,9 +119,6 @@ class Parse {
                 msg = msg.replace(sampler, "")
             }
 
-        // 置换预设词
-        msg = await this.dealpreset(msg)
-
         // 取参数
         let reg = {
             Landscape: /(横图|(&shape=)?Landscape)/i,
@@ -152,29 +149,23 @@ class Parse {
             .replace(reg.steps, "")
             .replace(reg.specifyAPI, "")
 
-        // 处理特殊字符==========
-        msg = msg
-            .replace(/｛/g, "{")
-            .replace(/｝/g, "}")
-            .replace(/（/g, "(")
-            .replace(/）/g, ")")
-            .replace(/。/g, ".")
-            .replace("==>", "")
-            .replace(/#|＃|\/|\\/g, "")
-            .replace(/, ,|,,/g, ",")
-            .replace(
-                /[\u3002\uff1f\uff01\uff0c\u3001\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u300a\u300b\u3008\u3009\u3010\u3011\u300e\u300f\u300c\u300d\ufe43\ufe44\u3014\u3015\u2026\u2014\uff5e\ufe4f\uffe5]/g,
-                ","
-            )
 
-        // // 翻译
-        // msg = await translate(msg)
-
-        // 取tag
+        // 取tag和ntag
         let ntgReg = /ntag(s?)( = |=|＝| ＝ )?(.*)/i
-        let ntags = ntgReg.test(msg) ? ntgReg.exec(msg)[3].trim() : "";
-        ntags = ntags.replace(/^(=|＝)/g, "").trim() || "默认"
-        msg = msg.replace(/ntag(s?)( = |=|＝| ＝ )?(.*)/ig, "").trim()
+        let rawnt = ntgReg.test(msg) ? ntgReg.exec(msg)[3].trim() : "";
+        rawnt = rawnt.replace(/^(=|＝)/g, "").trim() || "默认"
+        let rawt = msg.replace(/ntag(s?)( = |=|＝| ＝ )?(.*)/ig, "").trim()
+
+        // 置换预设词       /* 预设中提取的参数优先级应当低于命令中的参数 */
+        let { tags, ntags, param } = await this.dealpreset(rawt, rawnt)
+        if ('scale' in param) scale = scale || param.scale
+        if ('sampler' in param) sampler = sampler || param.sampler
+
+
+        // 处理特殊字符==========
+        tags = this.replacespc(tags)
+        ntags = this.replacespc(ntags)
+
 
 
         // 整合参数
@@ -187,13 +178,13 @@ class Parse {
                 steps: Number(steps) || 40,
                 width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : 512,
                 height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : 768,
-                tags: msg,
+                tags: tags,
                 ntags: ntags
             },
             num: Number(num),
             specifyAPI: Number(specifyAPI),
             rawtag: {
-                tags: msg,
+                tags: tags,
                 ntags: ntags
             }
         }
@@ -201,30 +192,79 @@ class Parse {
     }
 
 
+    /**处理文本中的特殊字符
+     * @param {string} text
+     * @return {string}
+     */
+    replacespc(text) {
+        return text
+            .replace(/｛/g, "{")
+            .replace(/｝/g, "}")
+            .replace(/（/g, "(")
+            .replace(/）/g, ")")
+            .replace(/。/g, ".")
+            .replace("==>", "")
+            .replace(/#|＃|\/|\\/g, "")
+            .replace(/, ,|,,/g, ",")
+            .replace(
+                /[\u3002\uff1f\uff01\uff0c\u3001\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u300a\u300b\u3008\u3009\u3010\u3011\u300e\u300f\u300c\u300d\ufe43\ufe44\u3014\u3015\u2026\u2014\uff5e\ufe4f\uffe5]/g,
+                ","
+            )
+    }
+
+
     /**置换文本中的预设词
-     * @param {string} msg 
-     * @return {string} 置换后的msg
+     * @param {string} rawt
+     * @param {string} rawnt
+     * @return {object} 置换后的{ tags: tags, ntags: ntags，param: {}}
     */
-    async dealpreset(msg) {
+    async dealpreset(rawt, rawnt) {
+        // return { tags: rawt, ntags: rawnt }
+        let tags = rawt
+        let ntags = rawnt
         const preSet = await Config.getpreSets()
-        let matchedWords = ""; //匹配到的关键词
-        let hasPreSet = false; //标记是否匹配到了关键词
+
+        let matchedWord = ""; //匹配到的关键词
+        let matchedPst = {}; //匹配到的一条预设
+        let matchedWord_n = ""; //匹配到的关键词
+        let matchedPst_n = {}; //匹配到的一条预设 
+        let param = {}
         do {
-            matchedWords = ""; //匹配到的关键词
-            hasPreSet = false; //初始为false
-            for (var key in preSet) {
-                //便利预设词对象的key
-                if (msg.includes(key) && key.length > matchedWords.length) {
-                    //如果有预设词
-                    hasPreSet = true; //就标记
-                    matchedWords = key; //存一下匹配到的key
-                }
+            matchedWord = "";
+            matchedPst = {}
+            matchedWord_n = "";
+            matchedPst_n = {}
+
+            //便利预设词对象的key
+            for (let val of preSet) {
+                for (let key of val.keywords)
+                    // 如果预设key在正面tag中
+                    if (rawt.includes(key) && key.length > matchedWord.length) {
+                        matchedPst = val
+                        matchedWord = key; //存一下匹配到的key
+                    }
+                    // 如果预设key在负面tag中
+                    else if (rawnt.includes(key) && key.length > matchedWord_n.length) {
+                        matchedPst_n = val
+                        matchedWord_n = key; //存一下匹配到的key
+                    }
             }
-            if (matchedWords.length) {
-                msg = msg.replace(matchedWords, `${preSet[matchedWords]},`);
+            // key在正面tag中，正面tag替换，负面tag加在尾部
+            if (matchedWord.length) {
+                rawt = rawt.replace(matchedWord, "")
+                tags = tags.replace(matchedWord, matchedPst.tags ? `,${matchedPst.tags},` : '');
+                ntags = matchedPst.ntags ? (ntags.replace('默认', "") + ',' + matchedPst.ntags) : ntags
+                param = matchedPst.param
+                // key在负面tag中，负面tag替换，正面ttag加在尾部
+            } else if (matchedWord_n.length) {
+                rawnt = rawnt.replace(matchedWord_n, "")
+                tags = tags + matchedPst_n.tags ? `,${matchedPst_n.tags}` : ''
+                ntags = ntags.replace(matchedWord_n, matchedPst_n.ntags ? `,${matchedPst_n.ntags},` : '');
+                param = matchedPst.param
             }
-        } while (hasPreSet);
-        return msg
+        } while (matchedWord.length || matchedWord_n.length);
+
+        return { tags: tags, ntags: ntags, param: param }
     }
 
 

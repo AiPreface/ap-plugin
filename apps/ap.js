@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 17:16:00
+ * @LastEditTime: 2022-12-22 23:37:57
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
  * @Description: 绘图
  * 
@@ -66,7 +66,7 @@ export class ap extends plugin {
       CD.clearCD(e)
       return await e.reply(paramdata.msg, true, { recallMsg: 15 })
     }
-    console.log('【aiPainting】绘图参数：\n', paramdata)                       /*  */
+    // console.log('【aiPainting】绘图参数：\n', paramdata)                       /*  */
 
 
     // 禁止重复发起批量绘图
@@ -159,15 +159,15 @@ export class ap extends plugin {
 
       // 构建消息
       let msg = [
-        paramdata.param.sampler != 'Euler a' ? `sampler=${paramdata.param.sampler}\n` : '',
-        paramdata.param.steps != 40 ? `steps=${paramdata.param.steps}\n` : '',
-        paramdata.param.scale != 11 ? `scale=${paramdata.param.scale}\n` : '',
-        paramdata.param.strength != 0.6 ? `strength=${paramdata.param.strength}\n` : '',
-        `seed=${res.seed}\n`,
+        usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
         segment.image(`base64://${res.base64}`),
-        `\n【Tags】：${paramdata.param.tags}`,
-        `\n【nTags】：${paramdata.param.ntags}`,
-        usageLimit ? `\n今日剩余${remainingTimes - 1}次` : "",
+        `\nseed=${res.seed}`,
+        paramdata.param.sampler != 'Euler a' ? `\nsampler=${paramdata.param.sampler}` : '',
+        paramdata.param.steps != 40 ? `\nsteps=${paramdata.param.steps}` : '',
+        paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
+        paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
+        `\n${paramdata.param.tags}`,
+        `\nNTAGS=${paramdata.param.ntags}`,
       ]
 
       // 发送消息，发送失败清除CD，发送成功记录一次使用
@@ -201,8 +201,8 @@ export class ap extends plugin {
         // 获取一张图片
         let res = await Draw.get_a_pic(paramdata)
 
-        // 图片损坏
-        if (res.code == 21) {
+        // 图片损坏或审核超时
+        if (res.code == 21 || res.code == 21) {
           failedCount++;
           multiTask--;
           continue
@@ -247,13 +247,13 @@ export class ap extends plugin {
       // 在合并消息中加入图片信息 
       data_msg.push({
         message: [
+          paramdata.param.seed == -1 ? '' : `seed=${paramdata.param.seed}\n`,
           `sampler=${paramdata.param.sampler}\n`,
           `steps=${paramdata.param.steps}\n`,
           `scale=${paramdata.param.scale}\n`,
           `strength=${paramdata.param.strength}\n`,
-          paramdata.param.seed == -1 ? '' : `seed=${paramdata.param.seed}\n`,
-          `【Tags】：${paramdata.param.tags}\n`,
-          `【nTags】：${paramdata.param.ntags}`,
+          `${paramdata.param.tags}\n`,
+          `NTAGS=${paramdata.param.ntags}`,
         ],
         nickname: Bot.nickname,
         user_id: cfg.qq,
