@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 14:56:14
+ * @LastEditTime: 2022-12-22 16:13:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -11,7 +11,7 @@
 import Config from "./config.js";
 import NsfwCheck from "./nsfwcheck.js"
 import moment from "moment";
-import YAML from 'YAML'
+import YAML from 'yaml'
 import path from 'path';
 import fs from 'fs';
 import fetch from "node-fetch";
