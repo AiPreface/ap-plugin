@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 16:02:55
+ * @LastEditTime: 2022-12-22 17:06:18
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
  * @Description: 绘图
  * 
@@ -148,12 +148,13 @@ export class ap extends plugin {
           `\n【Tags】：${paramdata.rawtag.tags}`,
           `\n【nTags】：${paramdata.rawtag.ntags}`,
         ]
+
         // 将图片base64转换为基于QQ图床的url
-        // let url = Pictools.base64_to_imgurl(res.base64)
+        let url = await Pictools.base64_to_imgurl(res.base64)
         // e.reply(url)
 
         await Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
-        return await e.reply("图片不合规，不予展示", true)
+        return await e.reply(["图片不合规，不予展示", `\n${res.md5}`], true)
       }
 
       // 构建消息
@@ -223,6 +224,11 @@ export class ap extends plugin {
             `\n【nTags】：${paramdata.rawtag.ntags}`,
           ]
           await Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+          data_msg.push({
+            message: [res.md5],
+            nickname: Bot.nickname,
+            user_id: cfg.qq,
+          });
           blocked++;
           multiTask--;
           continue;

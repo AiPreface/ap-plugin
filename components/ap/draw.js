@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 16:13:52
+ * @LastEditTime: 2022-12-22 17:02:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -15,9 +15,10 @@ import YAML from 'yaml'
 import path from 'path';
 import fs from 'fs';
 import fetch from "node-fetch";
-import {  bs64Size } from '../../utils/utils.js';
+import { bs64Size } from '../../utils/utils.js';
 import Log from '../../utils/Log.js'
 import process from "process";
+import { Pictools } from "../../utils/utidx.js";
 class Draw {
 
     /**获取一张图片。返回base64
@@ -125,6 +126,9 @@ class Draw {
             isnsfw = jh.isnsfw
         }
 
+        // 图片信息
+        let picinfo = await Pictools.getPicInfo(base64, true)
+
 
         //下载图片
         this.downLoadPic(paramdata, resparam.seed, base64)
@@ -133,6 +137,8 @@ class Draw {
             code: 0,
             isnsfw: isnsfw,
             seed: resparam.seed,
+            size: picinfo.size,
+            md5: picinfo.md5,
             base64: base64
         }
     }

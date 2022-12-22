@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 15:04:19
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 16:03:32
+ * @LastEditTime: 2022-12-22 16:55:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\pic_tools.js
  * @Description: 图片工具
  * 
@@ -17,6 +17,8 @@ import { pipeline } from "stream";
 import cfg from '../../../lib/config/config.js'
 import { segment } from "oicq";
 import plugin from '../../../lib/plugins/plugin.js'
+import md5 from "md5";
+import { bs64Size } from "./utils.js";
 
 /**图片工具 */
 class Pictools extends plugin {
@@ -31,28 +33,39 @@ class Pictools extends plugin {
 
     /**
      * 根据 图片的网络url 或 本地路径 获取图片信息
-     * @param {string} url 图片网络url或本地路径
-     * @return {object}  图片长宽，图片大小，图片base64
+     * @param {string} param 图片网络url或本地路径
+     * @param {boolean} isbs64 提供的参数是否是图片的base64，默认false
+     * @return {object}  图片长宽，图片大小，图片md5，图片base64
      */
-    async getPicInfo(url) {
+    async getPicInfo(param, isbs64 = false) {
         // 本地路径
-        let tempPic = url
-        // 如果是网络url则先下载
-        if (url.startsWith('http')) {
-            const response = await fetch(url);
-            // 没获取到
-            if (!response.ok)
-                return { ok: false }
-
-            // 下载临时图片
-            const streamPipeline = promisify(pipeline);
+        let tempPic = param
+        if (isbs64 || param.startsWith('http')) {
             tempPic = path.join(process.cwd(), 'resources', `aiPainting_tempPic_${moment.now()}.png`);
-            await streamPipeline(response.body, fs.createWriteStream(tempPic));
+            // 保存base64为图片
+            if (isbs64) {
+                fs.writeFileSync(tempPic, param, "base64", (err) => { if (err) throw err });
+            }
+            // 如果是网络url则先下载
+            else {
+                const response = await fetch(param);
+                // 没获取到
+                if (!response.ok)
+                    return { ok: false }
+                const streamPipeline = promisify(pipeline);
+                await streamPipeline(response.body, fs.createWriteStream(tempPic));
+            }
         }
 
         // 取图片bs64 
-        let bitMap = fs.readFileSync(tempPic);
-        let base64 = Buffer.from(bitMap, "binary").toString("base64");
+        let base64 = param
+        if (!isbs64) {
+            let bitMap = fs.readFileSync(tempPic);
+            base64 = Buffer.from(bitMap, "binary").toString("base64");
+        }
+
+        // 取图片md5
+        let imgmd5 = md5(fs.readFileSync(tempPic))
 
         // 取图片长宽
         let wh = sizeOf(tempPic)
@@ -60,7 +73,7 @@ class Pictools extends plugin {
         let width = wh.width;
 
         // 删除下载的临时图片
-        if (url.startsWith('http'))
+        if (isbs64 || url.startsWith('http'))
             fs.unlinkSync(tempPic)
 
         // 计算图片大小
@@ -71,6 +84,7 @@ class Pictools extends plugin {
             height: height,
             width: width,
             size: imgsize,
+            md5: imgmd5,
             base64: base64
         }
     }
@@ -80,23 +94,13 @@ class Pictools extends plugin {
      * @param {string} base64
      * @return {string} 图片url
      */
-    base64_to_imgurl(base64) {
-        Bot.pickUser(cfg.qq).sendMsg([segment.image(`base64://${base64}`), false, { recallMsg: 5 }]);
-        let md5 = this.base64_to_md5(base64)
+    async base64_to_imgurl(base64) {
+        Bot.pickUser(cfg.qq).sendMsg([segment.image(`base64://${base64}`), false, { recallMsg: 20 }]);
+        let picinfo = await this.getPicInfo(base64, true)
+        let md5 = picinfo.md5
         return `https://gchat.qpic.cn/gchatpic_new/0/000000000-000000000-${md5}/0?term=3`
     }
 
-
-    /**根据图片base64取其md5
-     * @param {string} base64
-     * @return {string} 图片的md5
-     */
-    base64_to_md5(base64) {
-
-        // 交给苏苏
-        return "苏苏快写"
-
-    }
 
 
     /**将文本转为二维码，返回二维码的base64或url
