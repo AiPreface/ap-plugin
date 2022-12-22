@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 22:55:30
+ * @LastEditTime: 2022-12-22 23:53:53
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -27,7 +27,7 @@ class Config {
     initCfg() {
         let path = `${Plugin_Path}/config/config/`
         let pathDef = `${Plugin_Path}/config/default_config/`
-        const files = fs.readdirSync(pathDef).filter(file => file.endsWith('.yaml'))
+        const files = fs.readdirSync(pathDef).filter(file => file.endsWith('.yaml')||file.endsWith('.json'))
         for (let file of files) {
             if (!fs.existsSync(`${path}${file}`)) {
                 fs.copyFileSync(`${pathDef}${file}`, `${path}${file}`)
