@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 23:37:57
+ * @LastEditTime: 2022-12-23 12:27:22
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
  * @Description: 绘图
  * 
@@ -202,7 +202,7 @@ export class ap extends plugin {
         let res = await Draw.get_a_pic(paramdata)
 
         // 图片损坏或审核超时
-        if (res.code == 21 || res.code == 21) {
+        if (res.code == 21 || res.code == 32) {
           failedCount++;
           multiTask--;
           continue

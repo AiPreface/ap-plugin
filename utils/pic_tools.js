@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 15:04:19
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 17:15:44
+ * @LastEditTime: 2022-12-23 13:12:19
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\pic_tools.js
  * @Description: 图片工具
  * 
@@ -11,6 +11,7 @@
 import sizeOf from "image-size"
 import path from 'path';
 import moment from 'moment/moment.js';
+import fetch from "node-fetch";
 import fs from 'fs';
 import { promisify } from "util";
 import { pipeline } from "stream";
@@ -74,7 +75,7 @@ class Pictools extends plugin {
         let width = wh.width;
 
         // 删除下载的临时图片
-        if (isbs64 || url.startsWith('http'))
+        if (isbs64 || param.startsWith('http'))
             fs.unlinkSync(tempPic)
 
         // 计算图片大小
