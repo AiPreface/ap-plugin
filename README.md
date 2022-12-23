@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 14:22:44
+ * @LastEditTime: 2022-12-23 14:25:24
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -29,4 +29,4 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 
 - qq 交流群：[621069204](https://qm.qq.com/cgi-bin/qm/qr?k=rIsuCl_GFdEfL-IBAwp1K50_Q7LHU3PF&jump_from=webapi&authKey=C7F2rC3qdrxMoDLYA2xkYD0wbdAdkr+XizZry54cpCBoimI9lo06VEtNpXIMTZzQ)
 - Yunzai-Bot 插件库: [☞gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index) [☞github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)
-- [爱发电]()
+- [爱发电](https://afdian.net/a/yhArcadia)
