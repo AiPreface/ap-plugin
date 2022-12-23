@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 23:36:58
+ * @LastEditTime: 2022-12-23 15:35:42
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -42,7 +42,7 @@ class Draw {
 
         // 请求图片
         let response
-        try {
+        try { 
             response = await this.requestPic(paramdata.param, api)
         } catch (err) {
             // 处理错误
@@ -158,7 +158,8 @@ class Draw {
      * @return {object}  请求结果 response
      */
     async requestPic(param, api) {
-        let ntags = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+        // Log.i(param)                                 /*  */
+        let ntags = "nsfw, nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
         if (param.ntags != "默认")
             ntags = param.ntags
         let seed = param.seed
