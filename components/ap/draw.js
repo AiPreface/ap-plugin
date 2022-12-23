@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 15:35:42
+ * @LastEditTime: 2022-12-24 00:41:05
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -42,7 +42,7 @@ class Draw {
 
         // 请求图片
         let response
-        try { 
+        try {
             response = await this.requestPic(paramdata.param, api)
         } catch (err) {
             // 处理错误
@@ -94,7 +94,7 @@ class Draw {
 
         // 提取base64
         let res = await response.json();
-        fs.writeFileSync(path.join(process.cwd(), 'resources/aptemp.json'), JSON.stringify(res, null, "\t"), "utf8");                  /*  */
+        // fs.writeFileSync(path.join(process.cwd(), 'resources/aptemp.json'), JSON.stringify(res, null, "\t"), "utf8");                  /*  */
         let base64 = res.images[0].toString().replace(/data:image\/png;|base64,/g, "");
         let resparam = res.parameters
         // 图片大小太小，判断为全黑故障图片
@@ -236,7 +236,7 @@ class Draw {
     async downLoadPic(paramdata, seed, base64) {
         let param = paramdata.param
         let policy = await Config.getPolicy()
-        if (!policy.isDownload) return false
+        if (!policy.isDownload || paramdata.message == "二次元的我") return false
 
         let currentTime = moment(new Date()).format("YYMMDD_HHmmss");
         let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`

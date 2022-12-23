@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 15:17:44
+ * @LastEditTime: 2022-12-24 00:26:25
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -247,7 +247,7 @@ export function getdsc() {
             "内裤（前加颜色）": "panties,",
             "条纹内裤": "striped_panties,",
             // "没内裤": "no_panties,",
-            "低腰式内裤": "lowleg_panties/low_leg_panties,",
+            "低腰式内裤": "low_leg_panties,",
             "侧系带内裤": "side-tie_panties,",
             "高腰内裤": "string_panties,",
             "丁字裤": "thong,",
@@ -625,7 +625,7 @@ export function getdsc() {
             "靠墙": " against wall,",
             "趴着": "on_stomach,",
             "正坐": "seiza,",
-            "割坐": "wariza/w-sitting,",
+            "割坐": "w-sitting,",
             "侧身坐": "yokozuwari,",
             "盘腿": "indian_style,",
             "抱腿": "leg_hug,",

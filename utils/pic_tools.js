@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 15:04:19
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 13:12:19
+ * @LastEditTime: 2022-12-23 21:53:46
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\pic_tools.js
  * @Description: 图片工具
  * 
@@ -10,6 +10,7 @@
  */
 import sizeOf from "image-size"
 import path from 'path';
+import axios from "axios";
 import moment from 'moment/moment.js';
 import fetch from "node-fetch";
 import fs from 'fs';
@@ -101,6 +102,22 @@ class Pictools extends plugin {
         let picinfo = await this.getPicInfo(base64, true)
         let md5 = picinfo.md5
         return `https://gchat.qpic.cn/gchatpic_new/0/000000000-000000000-${md5}/0?term=3`
+    }
+
+
+
+    /**用图片url直接获取base64
+     * @author Su
+     * @param {string} url 图片地址
+     * @return {string} base64
+     */
+    async url_to_base64(url) {
+        let img = await axios.get(url, {
+            responseType: 'arraybuffer'
+        });
+        let base64 = Buffer.from(img.data, 'binary')
+            .toString('base64');
+        return base64
     }
 
 

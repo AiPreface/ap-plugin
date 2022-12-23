@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:08:51
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 01:07:32
+ * @LastEditTime: 2022-12-23 21:09:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\index.js
  * @Description: 
  * 
@@ -38,5 +38,5 @@ for (let i in files) {
 export { apps }
 
 // logger.info('---------------')
-logger.info(`aiPainting载入完成`)
-logger.info('---------------')
+// logger.info(`aiPainting载入完成`)
+// logger.info('---------------')

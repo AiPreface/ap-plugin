@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 15:39:39
+ * @LastEditTime: 2022-12-24 00:54:33
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -96,7 +96,7 @@ export class Anime_me extends plugin {
             user: Number(this.qq),
             code: 0,
             JH: false,
-            message: "",
+            message: "二次元的我",
         }
         return paramdata
     }

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 23:53:53
+ * @LastEditTime: 2022-12-24 01:37:58
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -21,13 +21,14 @@ class Config {
     constructor() {
         this.initPath()
         this.initCfg()
+        this.synccfg()
     }
 
     /** 初始化配置 */
     initCfg() {
         let path = `${Plugin_Path}/config/config/`
         let pathDef = `${Plugin_Path}/config/default_config/`
-        const files = fs.readdirSync(pathDef).filter(file => file.endsWith('.yaml')||file.endsWith('.json'))
+        const files = fs.readdirSync(pathDef).filter(file => file.endsWith('.yaml') || file.endsWith('.json'))
         for (let file of files) {
             if (!fs.existsSync(`${path}${file}`)) {
                 fs.copyFileSync(`${pathDef}${file}`, `${path}${file}`)
@@ -38,6 +39,25 @@ class Config {
     initPath() {
         fs.mkdirSync(path.join(process.cwd(), 'resources/yuhuo/aiPainting'), { recursive: true });
         fs.mkdirSync(cfg_path, { recursive: true });
+    }
+    // 同步config
+    async synccfg() {
+        let cfg = await this.getcfg()
+        let defcfg = await YAML.parse(
+            fs.readFileSync(path.join(`${Plugin_Path}/config/default_config/`, 'config.yaml'), "utf8")
+        );
+        for (let key in defcfg) {
+            if (!(key in cfg)) {
+                cfg[key] = defcfg[key]
+                await this.setcfg(cfg)
+            }
+        }
+        for (let key in cfg) {
+            if (!(key in defcfg)) {
+                delete cfg[key]
+                await this.setcfg(cfg)
+            }
+        }
     }
 
     /**获取配置
