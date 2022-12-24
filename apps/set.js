@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 20:51:37
+ * @LastEditTime: 2022-12-24 21:01:58
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -21,7 +21,7 @@ export class set extends plugin {
             rule: [
                 {
                     reg: "^#ap(添加|新增|录入)接口",
-                    fnc: "addtapi",
+                    fnc: "addapi",
                     permission: "master",
                 },
                 {
