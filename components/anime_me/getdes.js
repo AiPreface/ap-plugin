@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 00:26:25
+ * @LastEditTime: 2022-12-24 19:25:03
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -13,7 +13,7 @@
 /**随机获取一组“二次元的我”描述词
  * @return {object} { ch: 中文描述词, en: 英文tags }
  */
-export function getdsc() {
+export function getdsc(qq) {
     const tag_data = {
         "正面常用": {
             "高质量": "best quality,",
@@ -693,6 +693,11 @@ export function getdsc() {
     let ch = "二次元的_name_，有[发色]色的[头发]和[眼色]色的眼睛，[二次元]，[胸]，服装是[衣服]和[鞋子]，佩戴[装饰]装饰，属性是[类型]，身份是[身份]"
     let en = []
     for (var k0 in tag_data) {
+        if (k0 == '胸' && qq == 3146312184) {
+            ch = ch.replace(`[胸]`, '平胸')
+            en.push("flat breast,")
+            continue
+        }
         // k0:"发色"  obj:发色
         let obj = tag_data[k0]
         let keys = Object.keys(obj)

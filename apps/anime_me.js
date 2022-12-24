@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 00:54:33
+ * @LastEditTime: 2022-12-24 19:21:03
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -41,7 +41,7 @@ export class Anime_me extends plugin {
         let dsc = await JSON.parse(await redis.get(`Yunzai:aiPainting:ercydata:${this.qq}`));
         if (!dsc) {
             // 没有缓存时，获取新的描述，写入redis缓存，当日0点到期
-            dsc = getdsc()
+            dsc = getdsc(this.qq)
             let time = moment(Date.now()).add(1, "days").format("YYYY-MM-DD 00:00:00");
             let exTime = Math.round((new Date(time).getTime() - new Date().getTime()) / 1000);
             redis.set(`Yunzai:aiPainting:ercydata:${this.qq}`, JSON.stringify(dsc), { EX: exTime });
@@ -81,8 +81,8 @@ export class Anime_me extends plugin {
                 seed: -1,
                 scale: 11,
                 steps: 18,
-                width: 384,
-                height: base64 ? 384 : 512,
+                width: base64 ? 512 : 384,
+                height: 512,
                 tags: dsc.en,
                 ntags: "默认",
                 base64: base64,
