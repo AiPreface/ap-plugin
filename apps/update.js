@@ -136,7 +136,7 @@ export class update extends plugin {
 
     let end = "";
     end =
-      "更多详细信息，请前往gitee查看\nhttps://gitee.com/yhArcadia/ap-plugin/blob/master/CHANGELOG.md";
+      "更多详细信息，请前往gitee查看\nhttps://gitee.com/yhArcadia/ap-plugin/blob/main/CHANGELOG.md";
 
     log = await this.makeForwardMsg(`ap-plugin更新日志，共${line}条`, log, end);
 

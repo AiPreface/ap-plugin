@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 15:10:31
+ * @LastEditTime: 2022-12-24 16:34:20
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -10,6 +10,7 @@
  */
 import gsCfg from "../../genshin/model/gsCfg.js";
 import fetch from 'node-fetch';
+import cfg from '../../../lib/config/config.js'
 
 
 /**
@@ -18,7 +19,10 @@ import fetch from 'node-fetch';
  * @return {*} 处理过后的e
  */
 export async function parseImg(e) {
-    if (e.at && !e.source) {
+    if (e.atBot) {
+        e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${cfg.qq}`];
+    }
+    if (e.at) {
         e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`];
     }
     if (e.source) {

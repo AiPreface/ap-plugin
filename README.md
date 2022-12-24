@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 03:08:42
+ * @LastEditTime: 2022-12-24 15:30:21
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -19,7 +19,8 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 
 ## 功能简介
 
-ap-plugin是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展插件，提供基于 stable deffusion 接口的 ai 绘图能力
+ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展插件，提供基于 stable deffusion 接口的 ai 绘图能力
+_gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)_
 
 #### 绘图
 
@@ -41,7 +42,7 @@ ap-plugin是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 根据图片逆向解析对应 prompt
 ![alt 解析图片tag](./resources/readme/%E8%A7%A3%E6%9E%90tag.png)
 
-#####功能完善中……
+##### 功能完善中……
 
 ### 使用手册
 
