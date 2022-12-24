@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 00:41:05
+ * @LastEditTime: 2022-12-24 16:53:01
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -52,6 +52,13 @@ class Draw {
                     info: "访问超时",
                     msg: err.message,
                     description: `接口${index}:${remark} 访问失败，请尝试使用其他接口`
+                }
+            else if (err.code == "ECONNREFUSED")
+                return {
+                    code: 12,
+                    info: "连接被拒绝",
+                    msg: err.message,
+                    description: `接口${index}:${remark} 连接被服务区拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
                 }
             else {
                 let msg = {
