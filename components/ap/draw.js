@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 19:52:00
+ * @LastEditTime: 2022-12-25 23:18:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -90,6 +90,13 @@ class Draw {
                     info: "服务不可用",
                     msg: response.statusText,
                     description: `接口${index}:${remark} 服务不可用，请尝试使用其他接口。`
+                }
+            else if (response.status == 504)
+                return {
+                    code: response.status,
+                    info: "超时",
+                    msg: response.statusText,
+                    description: `接口${index}:${remark} 超时：504 Gateway Time-out。\n如果频繁出现此错误，请检查绘图服务器状态，或更换接口`
                 }
             else {
                 let msg = {

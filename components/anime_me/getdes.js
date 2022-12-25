@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 19:25:03
+ * @LastEditTime: 2022-12-25 23:12:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -695,7 +695,7 @@ export function getdsc(qq) {
     for (var k0 in tag_data) {
         if (k0 == '胸' && qq == 3146312184) {
             ch = ch.replace(`[胸]`, '平胸')
-            en.push("flat breast,")
+            en.push("flat breast,small breast,flat breast,")
             continue
         }
         // k0:"发色"  obj:发色
