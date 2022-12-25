@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 19:25:45
+ * @LastEditTime: 2022-12-25 23:27:33
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -17,7 +17,8 @@
 git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 ```
 
-启动报错请按需安装对应依赖：
+</br>
+启动报错请按需安装对应依赖：</br>
 image-size:
 
 ```
@@ -35,6 +36,8 @@ baidu-aip-sdk:
 ```
 pnpm add baidu-aip-sdk -w
 ```
+
+</br>
 
 ## 功能简介
 
@@ -69,9 +72,13 @@ _gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcad
 
 ##### 功能完善中……
 
+</br>
+
 ### 使用手册
 
 ##### [前往查看](https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE)
+
+</br>
 
 ### 其他
 

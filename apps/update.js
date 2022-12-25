@@ -88,9 +88,9 @@ export class update extends plugin {
     let time = await this.getTime("ap-plugin");
 
     if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
-      await this.reply(`aiPainting已经是最新版本\n最后更新时间：${time}`);
+      await this.reply(`ap-plugin已经是最新版本\n最后更新时间：${time}`);
     } else {
-      await this.reply(`aiPainting\n最后更新时间：${time}`);
+      await this.reply(`ap-plugin\n最后更新时间：${time}`);
       this.isUp = true;
       /** 获取ap-plugin的更新日志 */
       let log = await this.getLog("ap-plugin");
