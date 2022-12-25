@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 23:27:33
+ * @LastEditTime: 2022-12-25 23:30:12
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -18,7 +18,8 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 ```
 
 </br>
-启动报错请按需安装对应依赖：</br>
+启动报错请按需安装对应依赖：
+</br>
 image-size:
 
 ```
