@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 23:32:24
+ * @LastEditTime: 2022-12-26 00:18:14
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -25,12 +25,12 @@ ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 
 _gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)_
 
-#### 绘图
+#### 以文生图
 
 根据文案绘制图片
 ![alt 绘图](./resources/readme/%E7%BB%98%E5%9B%BE.png)
 
-#### 以文生图
+#### 以图生图
 
 根据文案，基于所给图片绘制图片
 ![alt 以文生图](./resources/readme/%E4%BB%A5%E5%9B%BE%E7%94%9F%E5%9B%BE.png)
