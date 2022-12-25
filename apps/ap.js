@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 12:27:22
+ * @LastEditTime: 2022-12-25 23:04:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
- * @Description: 绘图
+ * @Description: #绘图
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
@@ -139,22 +139,22 @@ export class ap extends plugin {
 
       // logger.warn(res);                                              /* */
 
-      // 图片违规时，通知主人
+      // 图片违规
       if (res.isnsfw) {
-        let msg = [
-          "【aiPainting】不合规图片：\n",
-          segment.image(`base64://${res.base64}`),
-          `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
-          `\n【Tags】：${paramdata.rawtag.tags}`,
-          `\n【nTags】：${paramdata.rawtag.ntags}`,
-        ]
-
         // 将图片base64转换为基于QQ图床的url
         let url = await Pictools.base64_to_imgurl(res.base64)
-        // e.reply(url)
-
-        await Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
-        return await e.reply(["图片不合规，不予展示", `\n${res.md5}`], true)
+        if (gpolicy.isTellMaster) {
+          let msg = [
+            "【aiPainting】不合规图片：\n",
+            segment.image(`base64://${res.base64}`),
+            `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+            `\n【Tags】：${paramdata.rawtag.tags}`,
+            `\n【nTags】：${paramdata.rawtag.ntags}`,
+          ]
+          Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+        }
+        e.reply(["图片不合规，不予展示", `\n${res.md5}`], true)
+        return true
       }
 
       // 构建消息
@@ -166,7 +166,7 @@ export class ap extends plugin {
         paramdata.param.steps != 40 ? `\nsteps=${paramdata.param.steps}` : '',
         paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
         paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
-        `\n${paramdata.param.tags}`,
+        paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
         `\nNTAGS=${paramdata.param.ntags}`,
       ]
 
@@ -216,14 +216,16 @@ export class ap extends plugin {
 
         // 图片违规时，通知主人
         if (res.isnsfw) {
-          let msg = [
-            "【aiPainting】不合规图片：\n",
-            segment.image(`base64://${res.base64}`),
-            `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
-            `\n【Tags】：${paramdata.rawtag.tags}`,
-            `\n【nTags】：${paramdata.rawtag.ntags}`,
-          ]
-          await Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+          if (gpolicy.isTellMaster) {
+            let msg = [
+              "【aiPainting】不合规图片：\n",
+              segment.image(`base64://${res.base64}`),
+              `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+              `\n【Tags】：${paramdata.rawtag.tags}`,
+              `\n【nTags】：${paramdata.rawtag.ntags}`,
+            ]
+            Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+          }
           data_msg.push({
             message: [res.md5],
             nickname: Bot.nickname,
@@ -252,7 +254,7 @@ export class ap extends plugin {
           `steps=${paramdata.param.steps}\n`,
           `scale=${paramdata.param.scale}\n`,
           `strength=${paramdata.param.strength}\n`,
-          `${paramdata.param.tags}\n`,
+          paramdata.param.tags ? `${paramdata.param.tags}\n` : '',
           `NTAGS=${paramdata.param.ntags}`,
         ],
         nickname: Bot.nickname,

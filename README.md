@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 17:28:04
+ * @LastEditTime: 2022-12-25 19:25:45
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -15,6 +15,25 @@
 
 ```
 git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
+```
+
+启动报错请按需安装对应依赖：
+image-size:
+
+```
+pnpm add image-size -w
+```
+
+axios:
+
+```
+pnpm add axios -w
+```
+
+baidu-aip-sdk:
+
+```
+pnpm add baidu-aip-sdk -w
 ```
 
 ## 功能简介
@@ -37,6 +56,11 @@ _gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcad
 
 随机组合一组属性，并绘制一张对应的图片
 ![alt 二次元的我](./resources/readme/%E4%BA%8C%E6%AC%A1%E5%85%83%E7%9A%84%E6%88%91.png)
+
+#### 超分和降噪
+
+拯救画质
+![alt 超分和降噪](./resources/readme/%E5%9B%BE%E7%89%87%E8%B6%85%E5%88%86.png)
 
 #### 解析图片 tag
 

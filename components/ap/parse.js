@@ -2,13 +2,12 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 13:15:03
+ * @LastEditTime: 2022-12-25 23:02:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\parse.js
  * @Description: 解析整合特定内容
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
-
 import Config from './config.js'
 import { parseImg, translate } from '../../utils/utils.js'
 import { Pictools } from '../../utils/utidx.js'
@@ -23,19 +22,24 @@ class Parse {
      */
     async parsecfg(e) {
         let policy = await Config.getPolicy()
+        let gid = 'private'
+        if (e.isGroup) {
+            gid = String(e.group_id)
+        }
         let gpolicy = {
             cd: policy.cd,
             localNum: policy.localNum,
             prohibitedUserList: policy.prohibitedUserList,
             apMaster: policy.apMaster,
-            enable: e.group_id in policy.gp && "enable" in policy.gp[e.group_id] ? policy.gp[e.group_id].enable : policy.gp.global.enable,
-            JH: e.group_id in policy.gp && "JH" in policy.gp[e.group_id] ? policy.gp[e.group_id].JH : policy.gp.global.JH,
-            gcd: e.group_id in policy.gp && "gcd" in policy.gp[e.group_id] ? policy.gp[e.group_id].gcd : policy.gp.global.gcd,
-            pcd: e.group_id in policy.gp && "pcd" in policy.gp[e.group_id] ? policy.gp[e.group_id].pcd : policy.gp.global.pcd,
-            isRecall: e.group_id in policy.gp && "isRecall" in policy.gp[e.group_id] ? policy.gp[e.group_id].isRecall : policy.gp.global.isRecall,
-            recallDelay: e.group_id in policy.gp && "recallDelay" in policy.gp[e.group_id] ? policy.gp[e.group_id].recallDelay : policy.gp.global.recallDelay,
-            isBan: e.group_id in policy.gp && "isBan" in policy.gp[e.group_id] ? policy.gp[e.group_id].isBan : policy.gp.global.isBan,
-            usageLimit: e.group_id in policy.gp && "usageLimit" in policy.gp[e.group_id] ? policy.gp[e.group_id].usageLimit : policy.gp.global.usageLimit,
+            isTellMaster: policy.isTellMaster,
+            enable: gid in policy.gp && "enable" in policy.gp[gid] ? policy.gp[gid].enable : policy.gp.global.enable,
+            JH: gid in policy.gp && "JH" in policy.gp[gid] ? policy.gp[gid].JH : policy.gp.global.JH,
+            gcd: gid in policy.gp && "gcd" in policy.gp[gid] ? policy.gp[gid].gcd : policy.gp.global.gcd,
+            pcd: gid in policy.gp && "pcd" in policy.gp[gid] ? policy.gp[gid].pcd : policy.gp.global.pcd,
+            isRecall: gid in policy.gp && "isRecall" in policy.gp[gid] ? policy.gp[gid].isRecall : policy.gp.global.isRecall,
+            recallDelay: gid in policy.gp && "recallDelay" in policy.gp[gid] ? policy.gp[gid].recallDelay : policy.gp.global.recallDelay,
+            isBan: gid in policy.gp && "isBan" in policy.gp[gid] ? policy.gp[gid].isBan : policy.gp.global.isBan,
+            usageLimit: gid in policy.gp && "usageLimit" in policy.gp[gid] ? policy.gp[gid].usageLimit : policy.gp.global.usageLimit,
         }
         return gpolicy
     }
@@ -105,7 +109,7 @@ class Parse {
      * @return {*}  txtparam 绘图参数
      */
     async parsetxt(msg) {
-        const samplerList = ['Euler a', 'DPM2 a Karras', 'DPM2 a', 'DPM2 Karras', 'DPM fast', 'DPM adaptive', 'LMS Karras', 'DDIM', 'PLMS', 'Euler', 'LMS', 'Heun','DPM2', ]
+        const samplerList = ['Euler a', 'DPM2 a Karras', 'DPM2 a', 'DPM2 Karras', 'DPM fast', 'DPM adaptive', 'LMS Karras', 'DDIM', 'PLMS', 'Euler', 'LMS', 'Heun', 'DPM2',]
         let sampler = ""
 
         // 张数

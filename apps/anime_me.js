@@ -2,14 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 19:21:03
+ * @LastEditTime: 2022-12-25 14:45:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import { getuserName } from "../utils/utils.js";
-import { Draw } from "../components/apidx.js";
+import { Draw, Parse, CD } from "../components/apidx.js";
 import Log from "../utils/Log.js";
 import { Pictools } from "../utils/utidx.js";
 import { getdsc } from "../components/anime_me/getdes.js";
@@ -34,6 +34,21 @@ export class Anime_me extends plugin {
     }
 
     async ercy(e) {
+        // 获取本群策略
+        let gpolicy = await Parse.parsecfg(e)
+        // 判断功能是否开启
+        if (!e.isMaster && gpolicy.apMaster.indexOf(e.user_id) == -1)
+            if (!gpolicy.enable) return await e.reply("aiPainting功能未开启", false, { recallMsg: 15 });
+        // 判断是否禁用用户
+        if (gpolicy.isBan)
+            if (gpolicy.prohibitedUserList.indexOf(e.user_id) != -1)
+                return await e.reply(["你的账号因违规使用屏蔽词绘图已被封禁"], true);
+        // 判断cd
+        let cdCheck = await CD.checkCD(e, gpolicy)
+        if (cdCheck)
+            return await e.reply(cdCheck, true, { recallMsg: 15 });
+
+
         this.qq = e.at || e.user_id
         // 二次元的@bot
         if (e.atBot && !e.msg.includes("我")) this.qq = cfg.qq
@@ -55,8 +70,11 @@ export class Anime_me extends plugin {
         let paramdata = await this.construct_param(dsc)
         // 根据描述获取图片
         let res = await Draw.get_a_pic(paramdata)
-        if (res.code)
-            return await e.reply(res.description, true)
+        if (res.code) {
+            CD.clearCD(e)
+            e.reply(res.description, true)
+            return true
+        }
         // 发送图片 
         return await e.reply([`${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
     }

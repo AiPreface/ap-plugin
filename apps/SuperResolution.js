@@ -57,8 +57,8 @@ export class SR extends plugin {
         //   scale
         let scale = 2;
         if (e.msg.match(/(双|二|2)重吟?唱?/)) scale = 2;
-        else if (e.msg.match(/(三|3)重吟?唱?/) && h * w < 400000) scale = 3;
-        else if (e.msg.match(/(四|4)重吟?唱?/) && h * w < 400000) scale = 4;
+        else if (e.msg.match(/(三|3)重吟?唱?/) && res.height * res.width < 400000) scale = 3;
+        else if (e.msg.match(/(四|4)重吟?唱?/) && res.height * res.width < 400000) scale = 4;
 
         // con
         let con = "conservative";

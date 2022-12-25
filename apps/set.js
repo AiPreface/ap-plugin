@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 00:43:09
+ * @LastEditTime: 2022-12-25 18:55:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -10,9 +10,11 @@
  */
 import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ap/config.js'
+import Log from '../utils/Log.js';
 import { getuserName } from '../utils/utils.js';
+import { segment } from 'oicq';
+import cfg from '../../../lib/config/config.js'
 
-// 设置是否保存图片 
 export class set extends plugin {
     constructor() {
         super({
@@ -37,6 +39,11 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口).+",
+                    fnc: "setother",
+                    permission: "master",
+                },
+                {
                     reg: "^#ap接口列表$",
                     fnc: "apilist",
                     // permission: "master",
@@ -44,8 +51,18 @@ export class set extends plugin {
                 {
                     reg: "^#ap设置$",
                     fnc: "config",
+                    permission: "master",
+                },
+                {
+                    reg: "^#ap封禁(列表|名单)$",
+                    fnc: "banlist",
                     // permission: "master",
                 },
+                // {
+                //     reg: "^#ap管理员(列表|名单)$",
+                //     fnc: "masterlist",
+                //     // permission: "master",
+                // },
             ],
         });
     }
@@ -139,6 +156,9 @@ export class set extends plugin {
         let apcfg = await Config.getcfg()
         let li = []
         let i = 1
+        if (apcfg.APIList.length == 0) {
+            e.reply("当前无可用接口，请先添加接口\n命令：#ap添加接口\n参考文档：https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk")
+        }
         for (let val of apcfg.APIList) {
             li.push(`${i}：${Object.values(val)[0]}${i == apcfg.usingAPI ? ' [默认]' : ''}` + (e.isPrivate && e.isMaster ? `\n   ${Object.keys(val)[0]}` : ''))
             i++
@@ -146,7 +166,6 @@ export class set extends plugin {
         e.reply(li.join('\n'))
         return true
     }
-
 
     async config(e) {
         let policy = await Config.getPolicy()
@@ -163,6 +182,8 @@ export class set extends plugin {
         let msg = [
             `全局CD：${policy.cd}秒\n`,
             `本地检索图片最大${policy.localNum}张\n`,
+            `保存图片至本地：${policy.isDownload ? '是' : '否'}\n`,
+            `有人绘制违规图片时通知主人：${policy.isTellMater ? '是' : '否'}\n`,
             `apAdministrator：\n`,
             apMaster.join('\n'),
 
@@ -182,13 +203,17 @@ export class set extends plugin {
         let msg_ = []
         for (let gid in gp) {
             if (gid != 'global') {
-                let gname = '未知群聊'
-                try {
-                    let ginfo = await Bot.getGroupInfo(gid)
-                    console.log(ginfo)
-                    gname = ginfo ? ginfo.group_name : '未知群聊'
-                } catch (err) { }
-                msg_.push(`\n\n[${gname}]` + (e.isPrivate && e.isMaster ? `(${gid})` : '') + '：')
+                if (gid == 'private') {
+                    msg_.push(`\n\n[私聊]：`)
+                } else {
+                    let gname = '未知群聊'
+                    try {
+                        let ginfo = await Bot.getGroupInfo(Number(gid))
+                        console.log(ginfo)
+                        gname = ginfo ? ginfo.group_name : '未知群聊'
+                    } catch (err) { }
+                    msg_.push(`\n\n[${gname}]` + (e.isPrivate && e.isMaster ? `(${gid})` : '') + '：')
+                }
                 for (let val of Object.keys(gp[gid])) {
                     let opt = val == 'enable' ? "\n      启用ap："
                         : val == 'JH' ? "\n      启用图片审核："
@@ -215,5 +240,89 @@ export class set extends plugin {
         if (msg_) msg = msg.concat(msg_)
         e.reply(msg.join(''))
         return true
+    }
+
+    async setother(e) {
+        let bdappidReg = /^#ap设置百度appid ?(\d{8})$/
+        let bdkeyReg = /^#ap设置百度apikey ?([A-Za-z0-9]+)$/
+        let bdskReg = /^#ap设置百度secretkey ?([A-Za-z0-9]+)$/
+        let jianshangReg = /^#ap设置鉴赏接口 ?(http.+)$/
+        let RCReg = /^#ap设置大清晰术接口 ?(http.+)$/
+
+        let bdappid = bdappidReg.exec(e.msg)
+        if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
+
+        let bdkey = bdkeyReg.exec(e.msg)
+        if (bdkey) { return this.writecfg(bdkey, 'baidu_apikey') }
+
+        let bdsk = bdskReg.exec(e.msg)
+        if (bdsk) { return this.writecfg(bdsk, 'baidu_secretkey') }
+
+        let jianshang = jianshangReg.exec(e.msg)
+        if (jianshang) { return this.writecfg(jianshang, 'appreciate') }
+
+        let RC = RCReg.exec(e.msg)
+        if (RC) { return this.writecfg(RC, 'Real_CUGAN') }
+
+        return false
+    }
+
+    /**
+     * @param {*} ret 匹配到的正则
+     * @param {*} type 属性类型
+     * @return {*}
+     */
+    async writecfg(ret, type) {
+        let value = ret[1].trim()
+        if (type == "baidu_appid") value = Number(value)
+        if (type == 'Real_CUGAN' && !value.endsWith('/')) value = (value.trim()) + '/'
+        console.log(value)
+        console.log(type)
+        try {
+            let apcfg = await Config.getcfg()
+            apcfg[type] = value.trim()
+            await Config.setcfg(apcfg)
+        } catch (err) {
+            Log.e(err)
+            Log.e(err.message)
+            return this.e.reply("设置失败。请查看控制台报错", true)
+        }
+        return this.e.reply("设置成功", true)
+    }
+
+    async banlist(e) {
+        let policy = await Config.getPolicy()
+        if (policy.prohibitedUserList.length == 0) {
+            e.reply("当前没有封禁用户哦～");
+            return true;
+        }
+
+        e.reply("发送中，请稍等");
+        var data_msg = [];
+        for (let val of policy.prohibitedUserList) {
+            data_msg.push({
+                message: [
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${val}`),
+                    `\n${val}`,
+                ],
+                nickname: await getuserName(e, val),
+                user_id: val * 1,
+            });
+        }
+        data_msg = data_msg.reverse();
+        data_msg.push({
+            message:
+                "这些群友为了造福群友，不惜舍身忘死，他们无私无畏的奉献精神值得我们每一个人尊重和铭记",
+            nickname: Bot.nickname,
+            user_id: cfg.qq,
+        });
+
+        let sendRes = null;
+        if (e.isGroup)
+            sendRes = await e.reply(await e.group.makeForwardMsg(data_msg));
+        else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
+        if (!sendRes) e.reply("消息发送失败，可能被风控");
+
+        return true;
     }
 }

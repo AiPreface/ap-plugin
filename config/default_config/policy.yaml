@@ -1,6 +1,7 @@
 cd: 10
 localNum: 50
 isDownload: false
+isTellMaster: false
 prohibitedUserList: []
 apMaster: []
 gp:
@@ -13,3 +14,5 @@ gp:
     recallDelay: 60
     isBan: false
     usageLimit: 30
+  private:
+    enable: false

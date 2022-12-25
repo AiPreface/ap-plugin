@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 01:37:58
+ * @LastEditTime: 2022-12-25 15:40:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -22,6 +22,7 @@ class Config {
         this.initPath()
         this.initCfg()
         this.synccfg()
+        this.syncplc()
     }
 
     /** 初始化配置 */
@@ -46,18 +47,33 @@ class Config {
         let defcfg = await YAML.parse(
             fs.readFileSync(path.join(`${Plugin_Path}/config/default_config/`, 'config.yaml'), "utf8")
         );
-        for (let key in defcfg) {
-            if (!(key in cfg)) {
-                cfg[key] = defcfg[key]
-                await this.setcfg(cfg)
+        cfg = await this.syncobj(cfg, defcfg)
+        this.setcfg(cfg)
+    }
+    // 同步策略
+    async syncplc() {
+        let policy = await this.getPolicy()
+        let defpolicy = await YAML.parse(
+            fs.readFileSync(path.join(`${Plugin_Path}/config/default_config/`, 'policy.yaml'), "utf8")
+        );
+        policy = await this.syncobj(policy, defpolicy)
+        policy.gp.global = await this.syncobj(policy.gp.global, defpolicy.gp.global)
+        // policy.gp.private = await this.syncobj(policy.gp.private, defpolicy.gp.private)
+        this.setPolicy(policy)
+    }
+    // 同步/config和/default_config中的属性
+    async syncobj(config, defconfig) {
+        for (let key in defconfig) {
+            if (!(key in config)) {
+                config[key] = defconfig[key]
             }
         }
-        for (let key in cfg) {
-            if (!(key in defcfg)) {
-                delete cfg[key]
-                await this.setcfg(cfg)
+        for (let key in config) {
+            if (!(key in defconfig)) {
+                delete config[key]
             }
         }
+        return config
     }
 
     /**获取配置
