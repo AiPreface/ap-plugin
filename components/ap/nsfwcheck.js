@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 23:54:08
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-22 15:20:39
+ * @LastEditTime: 2022-12-25 23:47:44
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\nsfwcheck.js
  * @Description: 百度鉴黄服务
  * 
@@ -28,7 +28,7 @@ class NsfwCheck {
         // 未配置apikey
         if (this.appid == "Your_App_ID" || this.apikey == 'Your_Api_Key' || this.secretkey == "Your_Secret_Key") {
             return {
-                message: "百度鉴黄服务调用失败，请先配置百度鉴黄接口，配置教程：https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw \n\n您也可以发送“ap全局设置鉴黄关闭”以关闭鉴黄功能"
+                message: "百度图片审核服务调用失败，请先配置百度图片审核接口，配置教程：https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw \n\n您也可以发送“#ap全局设置审核关闭”以关闭图片审核功能，关闭后绘制的图片将直接发送，不再进行审核"
             }
         }
         // 鉴黄

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 18:55:56
+ * @LastEditTime: 2022-12-26 00:13:18
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -183,7 +183,7 @@ export class set extends plugin {
             `全局CD：${policy.cd}秒\n`,
             `本地检索图片最大${policy.localNum}张\n`,
             `保存图片至本地：${policy.isDownload ? '是' : '否'}\n`,
-            `有人绘制违规图片时通知主人：${policy.isTellMater ? '是' : '否'}\n`,
+            `有人绘制违规图片时通知主人：${policy.isTellMaster ? '是' : '否'}\n`,
             `apAdministrator：\n`,
             apMaster.join('\n'),
 
