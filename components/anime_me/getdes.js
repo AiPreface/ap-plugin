@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 23:12:40
+ * @LastEditTime: 2022-12-26 02:35:18
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -615,7 +615,6 @@ export function getdsc(qq) {
             "肚脐": "Bare navel,"
         },
         "腿动作": {
-            "张开腿": "spread legs,",
             "二郎腿": "crossed_legs,",
             "曲腿至胸": "fetal_position,",
             "抬一只脚": "leg_lift,",
