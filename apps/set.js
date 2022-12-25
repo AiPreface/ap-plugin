@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 00:13:18
+ * @LastEditTime: 2022-12-26 01:46:23
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -280,7 +280,7 @@ export class set extends plugin {
         console.log(type)
         try {
             let apcfg = await Config.getcfg()
-            apcfg[type] = value.trim()
+            apcfg[type] = value
             await Config.setcfg(apcfg)
         } catch (err) {
             Log.e(err)
