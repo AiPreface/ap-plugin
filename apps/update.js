@@ -50,8 +50,8 @@ export class update extends plugin {
 
     /** 是否需要重启 */
     if (this.isUp) {
-      // await this.reply("更新完毕，请重启云崽后生效")
-      setTimeout(() => this.restart(), 2000)
+      await this.reply("更新完毕，请重启云崽以应用更新")
+      // setTimeout(() => this.restart(), 2000)
     }
   }
 
