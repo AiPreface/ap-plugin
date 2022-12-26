@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 18:44:29
+ * @LastEditTime: 2022-12-26 18:55:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -74,8 +74,9 @@ class Draw {
                     msg: err.message,
                     description: `接口${index}:${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
-                Log.e('【err】：', err);
-                Log.e('【报错信息】：', err.message, '【code】：', err.code);
+                Log.e('【request_err】：', err);
+                Log.e('【request_err_message】：', err.message);
+                Log.e('【request_err_code】：', err.code);
                 Log.e(msg)
                 return msg
             }
@@ -103,7 +104,7 @@ class Draw {
                     code: response.status,
                     info: "请求体过大",
                     msg: response.statusText,
-                    description: `错误：Request Entity Too Large\n源图片过大，请尝试使用较小的图片`
+                    description: `错误：Request Entity Too Large\n请尝试使用其他图片`
                 }
             else {
                 let msg = {
@@ -112,8 +113,9 @@ class Draw {
                     msg: response.statusText,
                     description: `接口${index}:${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
-                Log.w(response)
-                Log.e('【err】：' + response.status + ":" + response.statusText)
+                Log.e('【response_err】：', response)
+                Log.e('【response_err_status】：' + response.status)
+                Log.e('【response_err_statusText】：' + response.statusText)
                 Log.e(msg)
                 return msg
             }

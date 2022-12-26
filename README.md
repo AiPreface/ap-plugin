@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 14:06:56
+ * @LastEditTime: 2022-12-27 02:14:59
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description:
+ * @Description: 版本：2.0.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -23,7 +23,7 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 
 ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展插件，提供基于 stable deffusion 接口的 ai 绘图能力
 
-___gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)___
+**_gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)_**
 
 #### 以文生图
 
@@ -54,9 +54,7 @@ ___gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArc
 
 </br>
 
-### 使用手册
-
-##### [前往查看](https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE)
+### [使用手册](https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE)
 
 </br>
 

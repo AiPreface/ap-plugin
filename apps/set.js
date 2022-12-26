@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 17:01:18
+ * @LastEditTime: 2022-12-26 22:00:54
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -287,7 +287,7 @@ export class set extends plugin {
             Log.e(err.message)
             return this.e.reply("设置失败。请查看控制台报错", true)
         }
-        return this.e.reply("设置成功", true)
+        return this.e.reply("设置成功，若未生效请重启Bot", true)
     }
 
     async banlist(e) {
