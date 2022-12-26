@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 02:35:18
+ * @LastEditTime: 2022-12-26 17:47:21
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -604,8 +604,8 @@ export function getdsc(qq) {
             // "牵手": "holding_hands,",
             "四肢趴地": "all_fours,",
             // "女胸部贴在一起": "symmetrical_docking,",
-            "脱衣服": "undressing,",
-            "掀起裙子": "skirt lift,",
+            // "脱衣服": "undressing,",
+            // "掀起裙子": "skirt lift,",
             "掀起上衣": "shirt lift,",
             "调整过膝袜": "adjusting_thighhigh,",
 
@@ -651,15 +651,19 @@ export function getdsc(qq) {
         },
         "天气": {
             "白天": "day,",
+            "白天2": "day,",
+            "白天3": "day,",
+            "太阳": "sun,",
+            "太阳2": "sun,",
+            "太阳3": "sun,",
             "黄昏": "dusk,",
             "夜晚": "night,",
-            "下雨": "rain,",
-            "雨中": "in the rain,",
-            "雨天": "rainy days,",
+            // "下雨": "rain,",
+            // "雨中": "in the rain,",
+            // "雨天": "rainy days,",
             "日落": "sunset,",
-            "多云": "cloudy,",
+            // "多云": "cloudy,",
             "满月": "full_moon,",
-            "太阳": "sun,",
             "月亮": "moon,"
         },
         "环境": {
