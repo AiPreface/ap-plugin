@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 14:28:30
+ * @LastEditTime: 2022-12-26 17:01:18
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -275,7 +275,7 @@ export class set extends plugin {
     async writecfg(ret, type) {
         let value = ret[1].trim()
         if (type == "baidu_appid") value = Number(value)
-        if (type == 'Real_CUGAN' && !value.endsWith('/')) value = (value.trim()) + '/'
+        if ((type == 'Real_CUGAN' || type == 'appreciate') && !value.endsWith('/')) value = value + '/'
         console.log(value)
         console.log(type)
         try {
