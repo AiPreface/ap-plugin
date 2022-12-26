@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 00:32:47
+ * @LastEditTime: 2022-12-26 14:06:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description:
  *
@@ -23,32 +23,32 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 
 ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展插件，提供基于 stable deffusion 接口的 ai 绘图能力
 
-_gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)_
+___gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)___
 
 #### 以文生图
 
 根据文案绘制图片
-![alt 绘图](./resources/readme/%E7%BB%98%E5%9B%BE.png)
+![绘图 示例图片](./resources/readme/%E7%BB%98%E5%9B%BE.jpg)
 
 #### 以图生图
 
 根据文案，基于所给图片绘制图片
-![alt 以文生图](./resources/readme/%E4%BB%A5%E5%9B%BE%E7%94%9F%E5%9B%BE.png)
+![以文生图 示例图片](./resources/readme/%E4%BB%A5%E5%9B%BE%E7%94%9F%E5%9B%BE.jpg)
 
 #### 二次元的我
 
 随机组合一组属性，并绘制一张对应的图片
-![alt 二次元的我](./resources/readme/%E4%BA%8C%E6%AC%A1%E5%85%83%E7%9A%84%E6%88%91.png)
+![二次元的我 示例图片](./resources/readme/%E4%BA%8C%E6%AC%A1%E5%85%83%E7%9A%84%E6%88%91.jpg)
 
 #### 超分和降噪
 
 拯救画质
-![alt 超分和降噪](./resources/readme/%E5%9B%BE%E7%89%87%E8%B6%85%E5%88%86.png)
+![超分和降噪 示例图片](./resources/readme/%E5%9B%BE%E7%89%87%E8%B6%85%E5%88%86.jpg)
 
 #### 解析图片 tag
 
 根据图片逆向解析对应 prompt
-![alt 解析图片tag](./resources/readme/%E8%A7%A3%E6%9E%90tag.png)
+![解析图片tag 示例图片](./resources/readme/%E8%A7%A3%E6%9E%90tag.jpg)
 
 #### 功能完善中……
 

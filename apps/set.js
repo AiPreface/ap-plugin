@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 01:46:23
+ * @LastEditTime: 2022-12-26 14:28:30
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -85,7 +85,7 @@ export class set extends plugin {
 
         for (let val of apcfg.APIList) {
             if (Object.keys(val).includes(api))
-                return await e.reply(`已存在该接口[${remark}]`)
+                return await e.reply(`已存在该接口:${api}  [${val[api]}]`)
         }
 
         let obj = {}

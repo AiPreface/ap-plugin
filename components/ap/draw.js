@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 23:18:52
+ * @LastEditTime: 2022-12-26 13:54:43
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -75,7 +75,7 @@ class Draw {
                     description: `接口${index}:${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
                 Log.e('【err】：', err);
-                Log.e('【报错信息】：', err.message);
+                Log.e('【报错信息】：', err.message, '【code】：', err.code);
                 Log.e(msg)
                 return msg
             }
