@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 23:20:28
+ * @LastEditTime: 2022-12-26 18:18:31
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
  * @Description: #绘图
  * 
@@ -167,7 +167,7 @@ export class ap extends plugin {
         paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
         paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
         paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
-        `\nNTAGS=${paramdata.param.ntags}`,
+        paramdata.param.ntags == '默认' ? "" : `\nNTAGS=${paramdata.param.ntags}`,
       ]
 
       // 发送消息，发送失败清除CD，发送成功记录一次使用
@@ -255,7 +255,7 @@ export class ap extends plugin {
           `scale=${paramdata.param.scale}\n`,
           `strength=${paramdata.param.strength}\n`,
           paramdata.param.tags ? `${paramdata.param.tags}\n` : '',
-          `NTAGS=${paramdata.param.ntags}`,
+          paramdata.param.ntags == '默认' ? "" : `NTAGS=${paramdata.param.ntags}`,
         ],
         nickname: Bot.nickname,
         user_id: cfg.qq,
