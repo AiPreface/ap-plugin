@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 22:56:39
+ * @LastEditTime: 2022-12-27 21:18:10
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\setpolicy.js
  * @Description: 设置ap策略
  * 
@@ -241,6 +241,7 @@ export class setpolicy extends plugin {
         if (enable) {
             gid = enable[2] || gid || e.group_id
             if (enable[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let isopen = true
             if (enable[3] == '关闭') isopen = false
             this.gp_Property(gid, 'enable', isopen)
@@ -248,6 +249,7 @@ export class setpolicy extends plugin {
         else if (JH) {
             gid = JH[2] || gid || e.group_id
             if (JH[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let isopen = true
             if (JH[3] == '关闭') isopen = false
             this.gp_Property(gid, 'JH', isopen)
@@ -255,6 +257,7 @@ export class setpolicy extends plugin {
         else if (isRecall) {
             gid = isRecall[2] || gid || e.group_id
             if (isRecall[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let isopen = true
             if (isRecall[3] == '关闭') isopen = false
             this.gp_Property(gid, 'isRecall', isopen)
@@ -262,6 +265,7 @@ export class setpolicy extends plugin {
         else if (isBan) {
             gid = isBan[2] || gid || e.group_id
             if (isBan[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let isopen = true
             if (isBan[3] == '关闭') isopen = false
             this.gp_Property(gid, 'isBan', isopen)
@@ -270,18 +274,21 @@ export class setpolicy extends plugin {
         else if (gcd) {
             gid = gcd[2] || gid || e.group_id
             if (gcd[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let num = Number(gcd[3]) || 1
             this.gp_Property(gid, 'gcd', num)
         }
         else if (pcd) {
             gid = pcd[2] || gid || e.group_id
             if (pcd[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let num = Number(pcd[3]) || 1
             this.gp_Property(gid, 'pcd', num)
         }
         else if (recallDelay) {
             gid = recallDelay[2] || gid || e.group_id
             if (recallDelay[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let num = Number(recallDelay[3]) || 1
             if (num > 120) {
                 e.reply('不能超过120')
@@ -292,6 +299,7 @@ export class setpolicy extends plugin {
         else if (usageLimit) {
             gid = usageLimit[2] || gid || e.group_id
             if (usageLimit[1] == '全局') gid = 'global'
+            if (gid == '私聊') gid = 'private'
             let num = Number(usageLimit[3])
             if (usageLimit[3] == '无限') num = 0
             this.gp_Property(gid, 'usageLimit', num)

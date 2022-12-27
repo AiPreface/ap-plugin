@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 16:26:47
+ * @LastEditTime: 2022-12-27 19:21:09
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\resources\help.md
  * @Description: 
  * 
@@ -39,6 +39,7 @@
 
 * **#大清晰术** [ **二重唱** | **三重唱** | **四重唱** ] [ **强力术式** | **中等术式** | **不变式** | **原式** ] 
   * 图片超分和降噪。可对图片回复该命令，或将命令与图片一同发送
+  * 竖线表示不能共存，方括号中为可选内容
   * `?`**重唱**：指定放大倍数，默认2倍。图片过大时，将强制使用2倍放大
   * `?`**式**：指定降噪等级
 
