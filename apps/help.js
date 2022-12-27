@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 18:06:52
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 02:28:11
+ * @LastEditTime: 2022-12-27 15:41:05
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\help.js
  * @Description: ap帮助
  * 
@@ -31,7 +31,7 @@ export class help extends plugin {
             changelogs: Help.logs,
             elem: 'cryo'
         }, { e, scale: 2 })
-        e.reply('参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE')
+        // e.reply('参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE')
         return true
     }
 }
