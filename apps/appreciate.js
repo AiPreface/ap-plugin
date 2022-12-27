@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2022-12-23 22:19:02
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 17:06:16
+ * @LastEditTime: 2022-12-27 18:36:00
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\appreciate.js
  * @Description: 鉴赏图片获取tags
  */
@@ -124,7 +124,7 @@ export async function requestAppreciate(base64) {
     if (!api) return false
     Log.i('解析图片tags')
     try {
-        let res = await fetch(api + 'run/predict', {
+        let res = await fetch(api, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -136,7 +136,7 @@ export async function requestAppreciate(base64) {
                 ]
             })
         })
-        // console.log(res)
+        console.log(res)
         res = await res.json()
         let tags = res.data[2].confidences;
         console.log(tags)

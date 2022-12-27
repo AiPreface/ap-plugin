@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 16:45:10
+ * @LastEditTime: 2022-12-27 16:48:15
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -33,7 +33,7 @@ class Draw {
                 code: 41,
                 info: "未配置接口",
                 msg: '',
-                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk`
+                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk\n发送#ap说明书以查看详细说明`
             }
         let index = paramdata.specifyAPI || config.usingAPI
         let apiobj = config.APIList[index - 1]
@@ -51,28 +51,28 @@ class Draw {
                     code: 11,
                     info: "访问超时",
                     msg: err.message,
-                    description: `接口${index}:${remark} 访问失败，请尝试使用其他接口`
+                    description: `接口${index}：${remark} 访问失败，请尝试使用其他接口`
                 }
             else if (err.code == "ECONNREFUSED")
                 return {
                     code: 12,
                     info: "连接被拒绝",
                     msg: err.message,
-                    description: `接口${index}:${remark} 连接被服务区拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
+                    description: `接口${index}：${remark} 连接被服务区拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
                 }
             else if (err.code == "EPROTO")
                 return {
                     code: 13,
                     info: "跨域",
                     msg: err.message,
-                    description: `接口${index}:${remark} 协议错误：EPROTO，请检查接口是否填写正确（若服务器没有部署SSL证书，接口应当以http而不是https开头），或尝试使用其他接口`
+                    description: `接口${index}：${remark} 协议错误：EPROTO，请检查接口是否填写正确（若服务器没有部署SSL证书，接口应当以http而不是https开头），或尝试使用其他接口`
                 }
             else {
                 let msg = {
                     code: 10,
                     info: "未知错位",
                     msg: err.message,
-                    description: `接口${index}:${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
+                    description: `接口${index}：${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
                 Log.e('【request_err】：', err);
                 Log.e('【request_err_message】：', err.message);
@@ -90,21 +90,21 @@ class Draw {
                     code: response.status,
                     info: "服务不可用",
                     msg: response.statusText,
-                    description: `接口${index}:${remark} 服务不可用，请尝试使用其他接口。`
+                    description: `接口${index}：${remark} 服务不可用，请尝试使用其他接口。`
                 }
             else if (response.status == 504)
                 return {
                     code: response.status,
                     info: "超时",
                     msg: response.statusText,
-                    description: `接口${index}:${remark} 超时：504 Gateway Time-out。\n如果频繁出现此错误，请检查绘图服务器状态，或更换接口`
+                    description: `接口${index}：${remark} 超时：504 Gateway Time-out。\n如果频繁出现此错误，请检查绘图服务器状态，或更换接口`
                 }
             else if (response.status == 404)
                 return {
                     code: response.status,
                     info: "NotFound",
                     msg: response.statusText,
-                    description: `接口${index}:${remark} 访问失败：404 NotFound。\n请检查接口连通性，或更换接口`
+                    description: `接口${index}：${remark} 访问失败：404 NotFound。\n请检查接口连通性，或更换接口`
                 }
             else if (response.status == 413)
                 return {
@@ -118,7 +118,7 @@ class Draw {
                     code: response.status,
                     info: "未知错误",
                     msg: response.statusText,
-                    description: `接口${index}:${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
+                    description: `接口${index}：${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
                 Log.e('【response_err】：', response)
                 Log.e('【response_err_status】：' + response.status)
