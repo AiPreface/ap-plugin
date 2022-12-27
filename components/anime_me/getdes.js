@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 17:47:21
+ * @LastEditTime: 2022-12-28 02:05:00
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -190,15 +190,6 @@ export function getdsc(qq) {
             "洛丽塔风格": "lolita_fashion,",
             "哥特洛丽塔风格": "gothic_lolita,",
             "西部风格": "western,",
-            // "格子花纹": "tartan,",
-            // "露单肩": "off_shoulder,",
-            // "露双肩": "bare_shoulders,",
-            // "赤脚": "barefoot,",
-            // "裸足": "bare_legs,",
-            // "横条花纹的": "striped,",
-            // "点状花纹的": "polka_dot,",
-            // "皱边的": "frills,",
-            // "花边": "lace,",
             "日本女生运动短裤": "buruma,",
             "运动服": "gym_uniform,",
             "女用背心": "tank_top,",
@@ -224,7 +215,6 @@ export function getdsc(qq) {
             "海豚短裤": "dolphin shorts,",
             "腰带": "belt,",
             "吊索比基尼": "sling bikini,",
-            "比基尼乳罩": "bikini_top,",
             "上身比基尼": " bikini top only ,",
             "侧边系带比基尼下装": "side - tie bikini bottom,",
             "系带式比基尼": "side-tie_bikini,",
@@ -235,20 +225,10 @@ export function getdsc(qq) {
             "连体泳衣": "one-piece swimsuit,",
             "竞技泳衣": "competition swimsuit,",
             "死库水": "Sukumizu,",
-            "没胸罩": "no bra,",
-            "胸罩": "bra ,",
             "褶边文胸": "frilled bra ,",
-            "情趣内衣": "sexy lingerie,",
-            "透明内衣": "transparent underwear,",
             "缠胸布": "sarashi,",
             "胸衣": "bustier,",
             "吊带胸衣": "chemise,",
-            "内衣": "underwear,",
-            "内裤（前加颜色）": "panties,",
-            "条纹内裤": "striped_panties,",
-            // "没内裤": "no_panties,",
-            "低腰式内裤": "low_leg_panties,",
-            "侧系带内裤": "side-tie_panties,",
             "高腰内裤": "string_panties,",
             "丁字裤": "thong,",
             "日式丁字裤": "fundoshi,",
@@ -402,6 +382,7 @@ export function getdsc(qq) {
             //加几个男性选项 
             "小女孩": "little girl,",
             "小男孩": "little boy,",
+            "成年男性": "man,Adult male,male,man,",
             "正太": "shota,",
             "萝莉": "loli,",
             "可爱": "kawaii,",
@@ -479,7 +460,6 @@ export function getdsc(qq) {
             "皱眉": "frown,",
             "严肃": "serious,",
             "鄙夷": "jitome,",
-            "锐利": "scowl,",
             "疯狂的": "crazy,",
             "黑化的": "dark_persona,",
             "得意": "smug,",
@@ -596,7 +576,6 @@ export function getdsc(qq) {
             "颠倒的": "upside-down,",
             "趴着翘臀": "top-down_bottom-up,",
             "翘臀姿势": "bent_over,",
-            "弓身体": "arched_back,",
             // "背对背": "back-to-back,",
             // "手对手": "symmetrical_hand_pose,",
             // "眼对眼（对视）": "eye_contact,",
@@ -606,7 +585,6 @@ export function getdsc(qq) {
             // "女胸部贴在一起": "symmetrical_docking,",
             // "脱衣服": "undressing,",
             // "掀起裙子": "skirt lift,",
-            "掀起上衣": "shirt lift,",
             "调整过膝袜": "adjusting_thighhigh,",
 
             "肩膀": "Bare shoulders,",
