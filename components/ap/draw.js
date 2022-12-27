@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 16:48:15
+ * @LastEditTime: 2022-12-28 00:12:12
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -33,7 +33,7 @@ class Draw {
                 code: 41,
                 info: "未配置接口",
                 msg: '',
-                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk\n发送#ap说明书以查看详细说明`
+                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明`
             }
         let index = paramdata.specifyAPI || config.usingAPI
         let apiobj = config.APIList[index - 1]

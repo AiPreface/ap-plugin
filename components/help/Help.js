@@ -3,7 +3,7 @@ import lodash from 'lodash'
 import cfg from '../../../../lib/config/config.js'
 const Plugin_Path = `${process.cwd()}/plugins/ap-plugin`;
 const README_path = `${Plugin_Path}/README.md`
-const CHANGELOG_path = `${process.cwd()}/plugins/ap-plugin/resources/help.md`
+const CHANGELOG_path = `${process.cwd()}/plugins/ap-plugin/components/help/help.md`
 // const CHANGELOG_path = '../../resources/help.md'
 const yunzai_ver = `v${cfg.package.version}`;
 
