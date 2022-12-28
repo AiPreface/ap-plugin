@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 15:14:03
+ * @LastEditTime: 2022-12-28 15:19:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -361,5 +361,5 @@ export async function test_api(api) {
         else
             return false
     }
-    return true
+    return false
 }

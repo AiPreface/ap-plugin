@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 13:37:49
+ * @LastEditTime: 2022-12-28 15:24:57
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -507,7 +507,6 @@ export function getdsc(qq) {
             "看旁边": "looking to the side ,",
             "收缩的瞳孔": "constricted pupils,",
             "符号形状的瞳孔": "symbol-shaped pupils ,",
-            "❤": "heart in eye,",
             "爱心瞳孔": "heart-shaped pupils,",
             "眨眼": "wink ,",
             "眼下痣": "mole under eye,",
@@ -573,18 +572,9 @@ export function getdsc(qq) {
             "张手": "spread_arms,",
 
             "战斗姿态": "fighting_stance,",
-            "颠倒的": "upside-down,",
-            "趴着翘臀": "top-down_bottom-up,",
             "翘臀姿势": "bent_over,",
-            // "背对背": "back-to-back,",
-            // "手对手": "symmetrical_hand_pose,",
-            // "眼对眼（对视）": "eye_contact,",
             "掏耳勺": "mimikaki,",
-            // "牵手": "holding_hands,",
             "四肢趴地": "all_fours,",
-            // "女胸部贴在一起": "symmetrical_docking,",
-            // "脱衣服": "undressing,",
-            // "掀起裙子": "skirt lift,",
             "调整过膝袜": "adjusting_thighhigh,",
 
             "肩膀": "Bare shoulders,",
@@ -594,7 +584,6 @@ export function getdsc(qq) {
         },
         "腿动作": {
             "二郎腿": "crossed_legs,",
-            "曲腿至胸": "fetal_position,",
             "抬一只脚": "leg_lift,",
             "抬两只脚": "legs_up,",
             "前倾": "leaning forward,",

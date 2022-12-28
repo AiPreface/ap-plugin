@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 00:16:35
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 14:55:53
+ * @LastEditTime: 2022-12-28 15:21:26
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\test.js
  * @Description: 测试模块
  * 
@@ -51,5 +51,3 @@ import { test_api } from '../apps/set.js'
 
 
 // console.log(getdsc(123456789))
-
-test_api('https://arcadia-clarify.hf.space/api/redict/')
