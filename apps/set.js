@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 18:43:06
+ * @LastEditTime: 2022-12-28 15:14:03
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -14,6 +14,9 @@ import Log from '../utils/Log.js';
 import { getuserName } from '../utils/utils.js';
 import { segment } from 'oicq';
 import cfg from '../../../lib/config/config.js'
+import axios from 'axios';
+import common from '../../../lib/common/common.js'
+import e from 'express';
 
 export class set extends plugin {
     constructor() {
@@ -87,6 +90,8 @@ export class set extends plugin {
             if (Object.keys(val).includes(api))
                 return await e.reply(`已存在该接口:${api}  [${val[api]}]`)
         }
+        // 检测接口连通性
+        if (!await this.testapi(api, '绘图')) { return false }
 
         let obj = {}
         obj[api] = remark
@@ -279,6 +284,10 @@ export class set extends plugin {
         if ((type == 'appreciate') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         console.log(value)
         console.log(type)
+        // 测试接口连通性
+        if (type != "baidu_appid")
+            if (!await this.testapi(value, type)) { return false }
+
         try {
             let apcfg = await Config.getcfg()
             apcfg[type] = value
@@ -288,7 +297,9 @@ export class set extends plugin {
             Log.e(err.message)
             return this.e.reply("设置失败。请查看控制台报错", true)
         }
-        return this.e.reply("设置成功，若未生效请重启Bot", true)
+        this.e.reply("设置成功，若未生效请重启Bot")
+
+        return true
     }
 
     async banlist(e) {
@@ -326,4 +337,29 @@ export class set extends plugin {
 
         return true;
     }
+    async testapi(api, type = '') {
+        if (type == '绘图') { api = api + `/sdapi/v1/txt2img` }
+        this.e.reply('正在测试接口连通性，请稍候')
+        let testres = await test_api(api)
+        this.e.reply(testres ? `接口可用` : `接口未正确响应，您可能配置了错误的接口`, true)
+        return testres
+    }
+}
+
+export async function test_api(api) {
+    try {
+        let res = await axios.get(api, {
+            timeout: 5000
+        })
+        res = await res.json()
+        console.log(res.data);
+        if (!res.data.detail == 'Method Not Allowed') { return false }
+    } catch (err) {
+        console.log(err.message);
+        if (err.message == 'Request failed with status code 405')
+            return true
+        else
+            return false
+    }
+    return true
 }

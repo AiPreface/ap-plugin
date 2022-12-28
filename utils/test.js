@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 00:16:35
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-23 22:10:40
+ * @LastEditTime: 2022-12-28 14:55:53
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\test.js
  * @Description: 测试模块
  * 
@@ -14,6 +14,8 @@ import Pictools from "./pic_tools.js"
 import YAML from "yaml"
 import fs from 'fs'
 import path from 'path'
+import { getdsc } from '../components/anime_me/getdes.js'
+import { test_api } from '../apps/set.js'
 
 // console.log(await Pictools.url_to_base64('https://gchat.qpic.cn/gchatpic_new/1761869682/637615159-2678354508-E361F9DF207F178A532955E0677414AB/0'))
 
@@ -48,3 +50,6 @@ import path from 'path'
 // fs.writeFileSync(path.join(process.cwd(), 'plugins/ap-plugin/config/config/preset.json'), JSON.stringify(newpst, null, "\t"), "utf8");
 
 
+// console.log(getdsc(123456789))
+
+test_api('https://arcadia-clarify.hf.space/api/redict/')
