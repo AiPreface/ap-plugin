@@ -1,2 +1,3 @@
 config/config
-utils/test.js
+test
+!test/

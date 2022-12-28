@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 00:12:12
+ * @LastEditTime: 2022-12-28 23:07:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -85,7 +85,14 @@ class Draw {
 
         // 处理错误
         if (response.status != 200) {
-            if (response.status == 503)
+            if (response.status == 502)
+                return {
+                    code: response.status,
+                    info: "Bad Gateway",
+                    msg: response.statusText,
+                    description: `接口${index}：${remark} 错误：502 Bad Gateway\n若持续出现此错误，请检查stable diffusion是否添加了启动参数--api，或其他服务器错误\nhttps://product.pconline.com.cn/itbk/software/dnwt/1609/8402861.html`
+                }
+            else if (response.status == 503)
                 return {
                     code: response.status,
                     info: "服务不可用",
