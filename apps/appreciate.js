@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2022-12-23 22:19:02
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 18:36:00
+ * @LastEditTime: 2022-12-29 16:49:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\appreciate.js
  * @Description: 鉴赏图片获取tags
  */
@@ -42,7 +42,8 @@ export class appreciate extends plugin {
                     /** 命令正则匹配 */
                     reg: '^.*$',
                     /** 执行方法 */
-                    fnc: 'getImage'
+                    fnc: 'getImage',
+                    log: 'false'
                 }
             ]
         })
