@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 15:19:52
+ * @LastEditTime: 2022-12-29 20:58:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -207,39 +207,39 @@ export class set extends plugin {
 
         let msg_ = []
         for (let gid in gp) {
-            if (gid != 'global') {
-                if (gid == 'private') {
-                    msg_.push(`\n\n[私聊]：`)
-                } else {
-                    let gname = '未知群聊'
-                    try {
-                        let ginfo = await Bot.getGroupInfo(Number(gid))
-                        console.log(ginfo)
-                        gname = ginfo ? ginfo.group_name : '未知群聊'
-                    } catch (err) { }
-                    msg_.push(`\n\n[${gname}]` + (e.isPrivate && e.isMaster ? `(${gid})` : '') + '：')
-                }
-                for (let val of Object.keys(gp[gid])) {
-                    let opt = val == 'enable' ? "\n      启用ap："
-                        : val == 'JH' ? "\n      启用图片审核："
-                            : val == 'isRecall' ? "\n      自动撤回图片："
-                                : val == 'isBan' ? "\n      封禁使用屏蔽词绘图的用户："
-                                    : ''
-                    if (opt) {
-                        msg_.push(opt + `${gp[gid][val] ? '是' : '否'}`)
-                        continue
-                    }
-
-                    opt = val == 'gcd' ? "\n      群聊内共享CD："
-                        : val == 'pcd' ? "\n      个人CD："
-                            : val == 'recallDelay' ? "\n      自动撤回延时："
+            if (gid == 'global')
+                continue
+            if (gid == 'private') {
+                msg_.push(`\n\n[私聊]：`)
+            } else {
+                let gname = '未知群聊'
+                try {
+                    let ginfo = await Bot.getGroupInfo(Number(gid))
+                    console.log(ginfo)
+                    gname = ginfo ? ginfo.group_name : '未知群聊'
+                } catch (err) { }
+                msg_.push(`\n\n[${gname}]` + (e.isPrivate && e.isMaster ? `(${gid})` : '') + '：')
+            }
+            for (let val of Object.keys(gp[gid])) {
+                let opt = val == 'enable' ? "\n      启用ap："
+                    : val == 'JH' ? "\n      启用图片审核："
+                        : val == 'isRecall' ? "\n      自动撤回图片："
+                            : val == 'isBan' ? "\n      封禁使用屏蔽词绘图的用户："
                                 : ''
-                    if (opt) {
-                        msg_.push(opt + `${gp[gid][val]}秒`)
-                        continue
-                    }
-                    msg_.push(`\n      每日用量限制：` + (gp[gid][val] ? `${gp[gid][val]}张` : '不限'))
+                if (opt) {
+                    msg_.push(opt + `${gp[gid][val] ? '是' : '否'}`)
+                    continue
                 }
+
+                opt = val == 'gcd' ? "\n      群聊内共享CD："
+                    : val == 'pcd' ? "\n      个人CD："
+                        : val == 'recallDelay' ? "\n      自动撤回延时："
+                            : ''
+                if (opt) {
+                    msg_.push(opt + `${gp[gid][val]}秒`)
+                    continue
+                }
+                msg_.push(`\n      每日用量限制：` + (gp[gid][val] ? `${gp[gid][val]}张` : '不限'))
             }
         }
         if (msg_) msg = msg.concat(msg_)
@@ -284,6 +284,10 @@ export class set extends plugin {
         if ((type == 'appreciate') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         console.log(value)
         console.log(type)
+        if (type == 'appreciate')
+            if (!value.endsWith('predict'))
+                return this.e.reply('鉴赏接口应当以“predict”结尾')
+
         // 测试接口连通性
         if (type != "baidu_appid")
             if (!await this.testapi(value, type)) { return false }

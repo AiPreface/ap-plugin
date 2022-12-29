@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-24 16:34:20
+ * @LastEditTime: 2022-12-29 22:04:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -11,6 +11,7 @@
 import gsCfg from "../../genshin/model/gsCfg.js";
 import fetch from 'node-fetch';
 import cfg from '../../../lib/config/config.js'
+import moment from "moment";
 
 
 /**
@@ -129,4 +130,18 @@ export async function translate(txt, param = null) {
         result = "寄"
     }
     return result
+}
+
+
+/**获取当前到明天0点的剩余秒数
+ *  * @return {string} 当前到明天0点的剩余秒数
+ */
+export async function seconds_to_tomorrow_0_Oclock() {
+    // 获取明日0点的时间
+    let time = moment(Date.now()).add(1, "days").format("YYYY-MM-DD 00:00:00");
+    // 到明日零点的剩余秒数
+    let exTime = Math.round(
+        (new Date(time).getTime() - new Date().getTime()) / 1000
+    );
+    return exTime
 }

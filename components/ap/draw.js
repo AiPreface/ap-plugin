@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-29 14:05:55
+ * @LastEditTime: 2022-12-30 01:46:49
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -86,7 +86,28 @@ class Draw {
 
         // 处理错误
         if (response.status != 200) {
-            if (response.status == 502)
+            if (response.status == 404)
+                return {
+                    code: response.status,
+                    info: "NotFound",
+                    msg: response.statusText,
+                    description: `接口${index}：${remark} 访问失败：404 NotFound。\n请检查接口连通性，或更换接口`
+                }
+            else if (response.status == 413)
+                return {
+                    code: response.status,
+                    info: "请求体过大",
+                    msg: response.statusText,
+                    description: `错误：Request Entity Too Large\n请尝试使用其他图片`
+                }
+            else if (response.status == 500)
+                return {
+                    code: response.status,
+                    info: "服务器内部错误",
+                    msg: response.statusText,
+                    description: `接口${index}：${remark} 服务器内部错误：Internal Server Error\n服务器可能崩溃，也可能是暂时性故障。请稍后尝试，或检查服务器状态。\n若确认服务器状态正常后依然持续出现此错误，您也可以向开发者反馈。`
+                }
+            else if (response.status == 502)
                 return {
                     code: response.status,
                     info: "Bad Gateway",
@@ -106,20 +127,6 @@ class Draw {
                     info: "超时",
                     msg: response.statusText,
                     description: `接口${index}：${remark} 超时：504 Gateway Time-out。\n如果频繁出现此错误，请检查绘图服务器状态，或更换接口`
-                }
-            else if (response.status == 404)
-                return {
-                    code: response.status,
-                    info: "NotFound",
-                    msg: response.statusText,
-                    description: `接口${index}：${remark} 访问失败：404 NotFound。\n请检查接口连通性，或更换接口`
-                }
-            else if (response.status == 413)
-                return {
-                    code: response.status,
-                    info: "请求体过大",
-                    msg: response.statusText,
-                    description: `错误：Request Entity Too Large\n请尝试使用其他图片`
                 }
             else {
                 let msg = {
@@ -211,6 +218,26 @@ class Draw {
         if (seed == -1) {
             seed = Math.floor(Math.random() * 2147483647)
         }
+        // 请求接口判断是否存在指定sampler 
+        if (param.sampler != 'Euler a') {
+            try {
+                let res = await fetch(api + `/sdapi/v1/samplers`)
+                res = await res.json()
+                let exist = false
+                for (let val of res) {
+                    if (val.name == param.sampler) {
+                        exist = true
+                        break
+                    }
+                }
+                Log.i(`指定的采样器${param.sampler}：${exist ? '存在' : '不存在'}`)
+                if (!exist)
+                    param.sampler = 'Euler a'
+            } catch (err) {
+                param.sampler = 'Euler a'
+            }
+        }
+
         Log.m("尝试获取一张图片，使用接口：", api)
         let data;
         // 文生图
