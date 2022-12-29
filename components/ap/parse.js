@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 01:51:24
+ * @LastEditTime: 2022-12-30 02:25:23
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -109,7 +109,34 @@ class Parse {
      * @return {*}  txtparam 绘图参数
      */
     async parsetxt(msg) {
-        const samplerList = ['Euler a', 'DPM2 a Karras','DMP++ 2S a Karras','DMP++ 2S a','DMP++ 2M Karras','DMP++ 2M', 'DPM2 a', 'DPM2 Karras', 'DPM fast', 'DPM adaptive', 'LMS Karras', 'DDIM', 'PLMS', 'Euler', 'LMS', 'Heun', 'DPM2',]
+        const samplerList = [
+            'Euler a',
+            'Euler',
+
+            'LMS Karras',
+            'LMS',
+
+            'Heun',
+
+            'DPM fast',
+            'DPM adaptive',
+
+            'DPM2 Karras',
+            'DPM2 a Karras',
+            'DPM2 a',
+            'DPM2',
+
+            'DDIM',
+            'PLMS',
+
+            'DMP++ 2S a Karras',
+            'DMP++ 2S a',
+            'DMP++ 2M Karras',
+            'DMP++ 2M',
+            'DPM++ SDE Karras',
+            'DPM++ SDE',
+        ]
+        
         let sampler = ""
 
         // 张数

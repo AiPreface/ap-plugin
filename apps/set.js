@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-29 20:58:34
+ * @LastEditTime: 2022-12-30 02:19:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -33,7 +33,7 @@ export class set extends plugin {
                 },
                 {
                     reg: "^#ap设置接口(\\d{1,3})$",
-                    fnc: "setapi",
+                    fnc: "selectapi",
                     permission: "master",
                 },
                 {
@@ -61,6 +61,11 @@ export class set extends plugin {
                     fnc: "banlist",
                     // permission: "master",
                 },
+                {
+                    reg: "^#ap采样器列表$",
+                    fnc: "samplerlist",
+                    // permission: "master",
+                },
                 // {
                 //     reg: "^#ap管理员(列表|名单)$",
                 //     fnc: "masterlist",
@@ -69,6 +74,10 @@ export class set extends plugin {
             ],
         });
     }
+    /**添加绘图接口
+     * @param {*} e
+     * @return {*}
+     */
     async addapi(e) {
         let regExp = /^#ap(添加|新增|录入)接口((http|localhost).+)备注(.+)$/
         let regp = regExp.exec(e.msg)
@@ -102,7 +111,11 @@ export class set extends plugin {
         return true
     }
 
-    async setapi(e) {
+    /**选择默认接口
+     * @param {*} e
+     * @return {*}
+     */
+    async selectapi(e) {
         let num = e.msg.replace('#ap设置接口', "")
         console.log(num)
         let apcfg = await Config.getcfg()
@@ -122,6 +135,10 @@ export class set extends plugin {
         return true
     }
 
+    /**删除指定绘图接口
+     * @param {*} e
+     * @return {*}
+     */
     async delapi(e) {
         let num = e.msg.replace('#ap删除接口', "")
         console.log(num)
@@ -157,6 +174,10 @@ export class set extends plugin {
         return true
     }
 
+    /**查看接口列表
+     * @param {*} e
+     * @return {*}
+     */
     async apilist(e) {
         let apcfg = await Config.getcfg()
         let li = []
@@ -272,7 +293,7 @@ export class set extends plugin {
         return false
     }
 
-    /**
+    /**写入配置
      * @param {*} ret 匹配到的正则
      * @param {*} type 属性类型
      * @return {*}
@@ -341,6 +362,12 @@ export class set extends plugin {
 
         return true;
     }
+
+    /**检测接口的连通性
+     * @param {*} api 接口地址
+     * @param {*} type 接口类型：绘图 or ""
+     * @return {*}
+     */
     async testapi(api, type = '') {
         if (type == '绘图') { api = api + `/sdapi/v1/txt2img` }
         this.e.reply('正在测试接口连通性，请稍候')
@@ -348,8 +375,45 @@ export class set extends plugin {
         this.e.reply(testres ? `接口可用` : `接口未正确响应，您可能配置了错误的接口`, true)
         return testres
     }
+
+    /**查看当前接口支持的采样器列表
+     * @param {*} e
+     * @return {*}
+     */
+    async samplerlist(e) {
+        // 取默认接口
+        let apcfg = await Config.getcfg()
+        if (apcfg.APIList.length == 0) {
+            e.reply('当前暂无可用接口')
+            return true
+        }
+        let index = apcfg.usingAPI
+        let apiobj = apcfg.APIList[index - 1]
+        let api = Object.keys(apiobj)[0]      //接口
+        let remark = Object.values(apiobj)[0] //接口备注
+        try {
+            let res = await fetch(api + `/sdapi/v1/samplers`)
+            if (res.status == 404) {
+                return e.reply('此接口不支持查看')
+            }
+            res = await res.json()
+            let samplerList = []
+            for (let val of res)
+                samplerList.push(val.name)
+            e.reply(`当前接口[${remark}]支持如下采样器：\n` + samplerList.join('\n'))
+        } catch (err) {
+            console.log(err)
+            return e.reply('拉取列表失败')
+        }
+        return true
+
+    }
 }
 
+/**请求接口，判断是否收到了正确的响应
+ * @param {*} api
+ * @return {*}
+ */
 export async function test_api(api) {
     try {
         let res = await axios.get(api, {
