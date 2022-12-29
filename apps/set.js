@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 02:19:32
+ * @LastEditTime: 2022-12-30 02:28:54
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -310,7 +310,7 @@ export class set extends plugin {
                 return this.e.reply('鉴赏接口应当以“predict”结尾')
 
         // 测试接口连通性
-        if (type != "baidu_appid")
+        if (type != "baidu_appid" && type != "baidu_apikey" && type != "baidu_secretkey")
             if (!await this.testapi(value, type)) { return false }
 
         try {
