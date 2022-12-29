@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 02:30:34
+ * @LastEditTime: 2022-12-30 02:34:47
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -16,7 +16,7 @@ import { segment } from 'oicq';
 import cfg from '../../../lib/config/config.js'
 import axios from 'axios';
 import common from '../../../lib/common/common.js'
-import e from 'express';
+import fetch from 'node-fetch';
 
 export class set extends plugin {
     constructor() {
