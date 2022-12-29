@@ -2,13 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 23:07:17
+ * @LastEditTime: 2022-12-29 14:05:55
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
  * @Description: 请求接口获取图片
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import Config from "./config.js";
+import cfg from '../../../../lib/config/config.js'
 import NsfwCheck from "./nsfwcheck.js"
 import moment from "moment";
 import YAML from 'yaml'
@@ -265,10 +266,12 @@ class Draw {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'authorization': 'Bearer'
+                'authorization': 'Bearer',
+                'token': `token_test_${cfg.qq}`
             },
             body: JSON.stringify(data),
         })
+        // console.log(res)
         return res
     }
 
