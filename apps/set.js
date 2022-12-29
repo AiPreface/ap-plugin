@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 02:34:47
+ * @LastEditTime: 2022-12-30 02:40:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -394,7 +394,7 @@ export class set extends plugin {
         try {
             let res = await fetch(api + `/sdapi/v1/samplers`)
             if (res.status == 404) {
-                return e.reply('此接口不支持查看')
+                return e.reply('拉取列表失败')
             }
             res = await res.json()
             let samplerList = []
