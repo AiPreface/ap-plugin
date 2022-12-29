@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 02:28:54
+ * @LastEditTime: 2022-12-30 02:30:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
