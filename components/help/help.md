@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 01:30:27
+ * @LastEditTime: 2022-12-30 23:34:54
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -70,6 +70,8 @@
   * **审核**：图片发送前，先使用百度图片审核服务检测图片安全性
   * **撤回**：图片发送后，经过指定的时间之后自动撤回
   * **封禁**：开启后，将封禁试图使用屏蔽词绘图的用户
+* **#ap** [ **添加|删除** ] **屏蔽词** 
+* **#ap屏蔽词列表** 
 
 # 配置
 

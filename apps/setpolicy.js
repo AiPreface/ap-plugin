@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 17:02:57
+ * @LastEditTime: 2022-12-30 23:30:29
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\setpolicy.js
  * @Description: 设置ap策略
  * 
@@ -68,6 +68,16 @@ export class setpolicy extends plugin {
                 {
                     reg: "^#ap(全局)?设置(\\d{5,11}|私聊)?(((审核|撤回|封禁)?(开启|关闭))|((((群聊|个人)(cd|CD))|撤回时间|次数)(\\d{1,5}|无限)))$",
                     fnc: "setgp",
+                    // permission: "master",
+                },
+                {
+                    reg: "^#ap(添加|删除)屏蔽词(.*)$",
+                    fnc: "changePbWord",
+                    permission: "master",
+                },
+                {
+                    reg: "^#ap屏蔽词列表$",
+                    fnc: "pbWordList",
                     // permission: "master",
                 },
 
@@ -380,6 +390,92 @@ export class setpolicy extends plugin {
         else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
         if (!sendRes) e.reply("消息发送失败，可能被风控");
 
+        return true;
+    }
+
+    /**修改屏蔽词*/
+    async changePbWord(e) {
+        if (/^#ap(添加|删除)屏蔽词$/.test(e.msg))
+            return e.reply('发送#ap添加或删除屏蔽词XXX以添加或删除屏蔽词，支持多个词，英文不需区分大小写，以逗号分隔。\n例如：#ap添加屏蔽词抬腿,掀裙子,cum\n#ap删除屏蔽词bare leg, bare foot')
+        let isadd = true
+        if (/^#ap删除屏蔽词/.test(e.msg)) { isadd = false }
+        let rawmsg = e.msg.replace(/^#ap(添加|删除)屏蔽词/, "")
+        rawmsg = rawmsg.replace('，', ',').replace('，', ',')
+        let rawList = rawmsg.split(',')
+        rawList.forEach((value, index) => {
+            rawList[index] = value.trim()
+        })
+        rawList = [...new Set(rawList)]
+        console.log(rawList)
+        let pblist = await Config.getProhibitedWords()
+        let a = []
+        let b = []
+        if (isadd) {
+            for (let val of rawList)
+                if (pblist.includes(val)) {
+                    b.push(val)
+                } else {
+                    a.push(val)
+                    pblist.push(val)
+                }
+            e.reply([
+                a.length ? `成功添加屏蔽词：\n${a.join('\n')}` : '',
+                b.length ? `${a.length ? '\n\n' : ''}已存在屏蔽词：\n${b.join('\n')}` : '',
+                !(a.length || b.length) ? '你要添加的屏蔽词呢？' : ''
+            ])
+        } else {
+            for (let val of rawList)
+                if (!pblist.includes(val)) {
+                    b.push(val)
+                } else {
+                    a.push(val)
+                    let index = pblist.indexOf(val)
+                    pblist.splice(index, 1)
+                }
+            e.reply([
+                a.length ? `成功删除屏蔽词：\n${a.join('\n')}` : '',
+                b.length ? `${a.length ? '\n\n' : ''}不存在屏蔽词：\n${b.join('\n')}` : '',
+                !(a.length || b.length) ? '你要删除的屏蔽词呢？' : ''
+            ])
+        }
+        Config.setProhibitedWords(pblist)
+        return true
+    }
+
+    /**查看屏蔽词列表 */
+    async pbWordList(e) {
+        let pblist = await Config.getProhibitedWords()
+        if (pblist.length == 0)
+            return e.reply("当前没有屏蔽词哦")
+        var data_msg = [];
+        let text = "";
+        for (let i = 0; i < pblist.length; i++) {
+            text = text + "- " + pblist[i] + "\n";
+            if ((i + 1) % 50 == 0) {
+                data_msg.push({
+                    message: text,
+                    nickname: Bot.nickname,
+                    user_id: cfg.qq,
+                });
+                text = "";
+            }
+        }
+        if (text.length) {
+            data_msg.push({
+                message: text,
+                nickname: Bot.nickname,
+                user_id: cfg.qq,
+            });
+        }
+
+        let sendRes = null;
+        if (e.isGroup)
+            sendRes = await e.reply(await e.group.makeForwardMsg(data_msg));
+        else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
+
+        if (!sendRes) {
+            e.reply("消息发送失败，可能被风控~", true);
+        }
         return true;
     }
 
