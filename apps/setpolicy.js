@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-27 21:18:10
+ * @LastEditTime: 2022-12-30 17:02:57
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\setpolicy.js
  * @Description: 设置ap策略
  * 
@@ -14,6 +14,8 @@ import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ap/config.js'
 import Log from '../utils/Log.js';
 import { getuserName } from '../utils/utils.js';
+import cfg from '../../../lib/config/config.js'
+import { segment } from 'oicq';
 
 export class setpolicy extends plugin {
     constructor() {
@@ -54,6 +56,16 @@ export class setpolicy extends plugin {
                     // permission: "master",
                 },
                 {
+                    reg: "^#ap封禁(列表|名单)$",
+                    fnc: "banlist",
+                    // permission: "master",
+                },
+                {
+                    reg: "^#ap管理员(列表|名单)$",
+                    fnc: "masterlist",
+                    // permission: "master",
+                },
+                {
                     reg: "^#ap(全局)?设置(\\d{5,11}|私聊)?(((审核|撤回|封禁)?(开启|关闭))|((((群聊|个人)(cd|CD))|撤回时间|次数)(\\d{1,5}|无限)))$",
                     fnc: "setgp",
                     // permission: "master",
@@ -62,6 +74,7 @@ export class setpolicy extends plugin {
             ],
         });
     }
+    /**设置全局cd     */
     async setcd(e) {
         let regExp = /^#ap设置全局cd(\d{1,5})$/i
         let ret = regExp.exec(e.msg)
@@ -79,6 +92,7 @@ export class setpolicy extends plugin {
         e.reply("设置成功")
         return true
     }
+    /**设置本地检索图片张数  */
     async setlocalNum(e) {
         let regExp = /^#ap设置本地(\d{1,5})$/
         let ret = regExp.exec(e.msg)
@@ -96,6 +110,7 @@ export class setpolicy extends plugin {
         e.reply("设置成功")
         return true
     }
+    /**设置是否存本地  */
     async setisDownload(e) {
         let isOpen = true
         if (e.msg.includes('关闭'))
@@ -113,6 +128,7 @@ export class setpolicy extends plugin {
         e.reply("设置成功")
         return true
     }
+    /**设置发现有人绘制违规图片时是否通知主人 */
     async setisTellMaster(e) {
         let isOpen = true
         if (e.msg.includes('关闭'))
@@ -130,6 +146,7 @@ export class setpolicy extends plugin {
         e.reply("设置成功")
         return true
     }
+    /* 设置ap管理员 */
     async setapMaster(e) {
         let qq = NaN
         let isgive = true
@@ -170,6 +187,7 @@ export class setpolicy extends plugin {
         e.reply(`${isgive ? "授权" : "解除"}成功`, true)
         return true
     }
+    /* 封禁指定用户 */
     async setpbuser(e) {
         let policy = await Config.getPolicy()
         if (!(e.isMaster || policy.apMaster.includes(e.user_id))) {
@@ -214,6 +232,7 @@ export class setpolicy extends plugin {
         e.reply(`${isban ? "封禁" : "解封"}成功`, true)
         return true
     }
+    /* 设置策略 */
     async setgp(e) {
         let gid = null
         if (e.isPrivate) { gid = 'private' }
@@ -308,7 +327,67 @@ export class setpolicy extends plugin {
 
         return true
     }
+    /* 查看管理员列表 */
+    async masterlist(e) {
+        let policy = await Config.getPolicy()
+        let apMaster = [];
+        let i = 1
+        for (let val of policy.apMaster) {
+            apMaster.push(`${i}. ${await getuserName(e, val)}` + (e.isPrivate && e.isMaster ? `(${val})` : ''));
+            i++
+        }
+        let msg = ['当前暂未设置ap管理员哦']
+        if (apMaster.length) {
+            msg = [
+                '当前拥有ap管理权限的用户如下：\n',
+                apMaster.join('\n'),
+            ]
+        }
+        e.reply(msg)
+        return true
+    }
+    /**查看封禁用户列表 */
+    async banlist(e) {
+        let policy = await Config.getPolicy()
+        if (policy.prohibitedUserList.length == 0) {
+            e.reply("当前没有封禁用户哦～");
+            return true;
+        }
 
+        e.reply("发送中，请稍等");
+        var data_msg = [];
+        for (let val of policy.prohibitedUserList) {
+            data_msg.push({
+                message: [
+                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${val}`),
+                    `\n${val}`,
+                ],
+                nickname: await getuserName(e, val),
+                user_id: val * 1,
+            });
+        }
+        data_msg = data_msg.reverse();
+        data_msg.push({
+            message:
+                "这些群友为了造福群友，不惜舍身忘死，他们无私无畏的奉献精神值得我们每一个人尊重和铭记",
+            nickname: Bot.nickname,
+            user_id: cfg.qq,
+        });
+
+        let sendRes = null;
+        if (e.isGroup)
+            sendRes = await e.reply(await e.group.makeForwardMsg(data_msg));
+        else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
+        if (!sendRes) e.reply("消息发送失败，可能被风控");
+
+        return true;
+    }
+
+    /**写入指定群的策略
+     * @param {*} gid 群号，包括global和private
+     * @param {*} key 属性名
+     * @param {*} value 属性值 
+     */
     async gp_Property(gid, key, value) {
         console.log(gid, key, value)
         let policy = await Config.getPolicy()
@@ -369,6 +448,7 @@ export class setpolicy extends plugin {
         return true
     }
 
+    /* 整合策略：删去其他群中与global相同的属性 */
     integrateProperty(gp) {
         for (let each in gp) {
             if (each == 'global')
@@ -382,6 +462,5 @@ export class setpolicy extends plugin {
         }
         return gp
     }
-
 
 }

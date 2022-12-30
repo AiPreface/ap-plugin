@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 02:40:16
+ * @LastEditTime: 2022-12-30 17:00:18
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
  * @Description: 设置
  * 
@@ -11,9 +11,6 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ap/config.js'
 import Log from '../utils/Log.js';
-import { getuserName } from '../utils/utils.js';
-import { segment } from 'oicq';
-import cfg from '../../../lib/config/config.js'
 import axios from 'axios';
 import common from '../../../lib/common/common.js'
 import fetch from 'node-fetch';
@@ -57,27 +54,15 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap封禁(列表|名单)$",
-                    fnc: "banlist",
-                    // permission: "master",
-                },
-                {
                     reg: "^#ap采样器列表$",
                     fnc: "samplerlist",
                     // permission: "master",
                 },
-                // {
-                //     reg: "^#ap管理员(列表|名单)$",
-                //     fnc: "masterlist",
-                //     // permission: "master",
-                // },
+
             ],
         });
     }
-    /**添加绘图接口
-     * @param {*} e
-     * @return {*}
-     */
+    /**添加绘图接口 */
     async addapi(e) {
         let regExp = /^#ap(添加|新增|录入)接口((http|localhost).+)备注(.+)$/
         let regp = regExp.exec(e.msg)
@@ -111,10 +96,7 @@ export class set extends plugin {
         return true
     }
 
-    /**选择默认接口
-     * @param {*} e
-     * @return {*}
-     */
+    /**选择默认接口 */
     async selectapi(e) {
         let num = e.msg.replace('#ap设置接口', "")
         console.log(num)
@@ -135,10 +117,7 @@ export class set extends plugin {
         return true
     }
 
-    /**删除指定绘图接口
-     * @param {*} e
-     * @return {*}
-     */
+    /**删除指定绘图接口  */
     async delapi(e) {
         let num = e.msg.replace('#ap删除接口', "")
         console.log(num)
@@ -174,10 +153,7 @@ export class set extends plugin {
         return true
     }
 
-    /**查看接口列表
-     * @param {*} e
-     * @return {*}
-     */
+    /**查看接口列表     */
     async apilist(e) {
         let apcfg = await Config.getcfg()
         let li = []
@@ -193,27 +169,19 @@ export class set extends plugin {
         return true
     }
 
+    /* 查看当前ap设置 */
     async config(e) {
         let policy = await Config.getPolicy()
         let gp = policy.gp
-
-
-        let apMaster = [];
-        let i = 1
-        for (let val of policy.apMaster) {
-            apMaster.push(`      ${i}.${await getuserName(e, val)}` + (e.isPrivate && e.isMaster ? `(${val})` : ''));
-            i++
-        }
 
         let msg = [
             `全局CD：${policy.cd}秒\n`,
             `本地检索图片最大${policy.localNum}张\n`,
             `保存图片至本地：${policy.isDownload ? '是' : '否'}\n`,
             `有人绘制违规图片时通知主人：${policy.isTellMaster ? '是' : '否'}\n`,
-            `apAdministrator：\n`,
-            apMaster.join('\n'),
 
-            `\n\n=========ap策略=========\n`,
+
+            `\n=========ap策略=========\n`,
 
             `\n[全局]：`,
             `\n      启用ap：${gp.global.enable ? '是' : '否'}`,
@@ -327,41 +295,6 @@ export class set extends plugin {
         return true
     }
 
-    async banlist(e) {
-        let policy = await Config.getPolicy()
-        if (policy.prohibitedUserList.length == 0) {
-            e.reply("当前没有封禁用户哦～");
-            return true;
-        }
-
-        e.reply("发送中，请稍等");
-        var data_msg = [];
-        for (let val of policy.prohibitedUserList) {
-            data_msg.push({
-                message: [
-                    segment.image(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${val}`),
-                    `\n${val}`,
-                ],
-                nickname: await getuserName(e, val),
-                user_id: val * 1,
-            });
-        }
-        data_msg = data_msg.reverse();
-        data_msg.push({
-            message:
-                "这些群友为了造福群友，不惜舍身忘死，他们无私无畏的奉献精神值得我们每一个人尊重和铭记",
-            nickname: Bot.nickname,
-            user_id: cfg.qq,
-        });
-
-        let sendRes = null;
-        if (e.isGroup)
-            sendRes = await e.reply(await e.group.makeForwardMsg(data_msg));
-        else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
-        if (!sendRes) e.reply("消息发送失败，可能被风控");
-
-        return true;
-    }
 
     /**检测接口的连通性
      * @param {*} api 接口地址
@@ -376,10 +309,7 @@ export class set extends plugin {
         return testres
     }
 
-    /**查看当前接口支持的采样器列表
-     * @param {*} e
-     * @return {*}
-     */
+    /**查看当前接口支持的采样器列表 */
     async samplerlist(e) {
         // 取默认接口
         let apcfg = await Config.getcfg()
@@ -411,8 +341,7 @@ export class set extends plugin {
 }
 
 /**请求接口，判断是否收到了正确的响应
- * @param {*} api
- * @return {*}
+ * @param {*} api 接口地址
  */
 export async function test_api(api) {
     try {
