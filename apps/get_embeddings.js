@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:37:29
+ * @LastEditTime: 2023-01-03 22:46:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -11,9 +11,9 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
+import Log from '../utils/Log.js';
 
 const _path = process.cwd();
-const API = `https://x0y.cc/`
 
 export class GetEmbeddings extends plugin {
     constructor() {
@@ -47,7 +47,6 @@ export class GetEmbeddings extends plugin {
         let index = apcfg.usingAPI
         let apiobj = apcfg.APIList[index - 1]
         let API = Object.keys(apiobj)[0]      //接口
-        let remark = Object.values(apiobj)[0] //接口备注 
 
         let data = await getEmbeddings(API)
         if (data) {
@@ -79,11 +78,17 @@ export class GetEmbeddings extends plugin {
 
 async function getEmbeddings(API) {
     let url = API.endsWith('/') ? API : API + '/'
-    let response = await axios.get(url + `sdapi/v1/embeddings`, {
-        headers: {
-            'accept': 'application/json'
-        }
-    });
+    let response
+    try {
+        response = await axios.get(url + `sdapi/v1/embeddings`, {
+            headers: {
+                'accept': 'application/json'
+            }
+        });
+    } catch (err) {
+        Log.i(err)
+        return false
+    }
     if (response.status == 200) {
         return response.data
     } else {
