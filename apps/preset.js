@@ -2,14 +2,13 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 17:53:51
+ * @LastEditTime: 2023-01-03 18:16:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
  * Copyright (c) 2023 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 
-import e, { raw } from 'express';
 import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';

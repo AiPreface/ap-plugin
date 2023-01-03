@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 01:25:57
+ * @LastEditTime: 2023-01-03 18:45:33
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -17,6 +17,7 @@ import { segment } from "oicq";
 import { requestAppreciate } from './appreciate.js'
 import cfg from '../../../lib/config/config.js'
 import moment from "moment";
+import NsfwCheck from "../components/ai_painting/nsfwcheck.js";
 export class Anime_me extends plugin {
     constructor() {
         super({
@@ -76,6 +77,10 @@ export class Anime_me extends plugin {
             e.reply(res.description, true)
             return true
         }
+        if (res.isnsfw) {
+            e.reply('图片不合规，不予展示', true)
+            return true
+        }
         // 发送图片 
         return await e.reply([this.e.msg.startsWith('$') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
     }
@@ -89,6 +94,7 @@ export class Anime_me extends plugin {
         // 以#开头时，使用图生图
         let base64 = null
         let txdsc = null
+        let JH = false
         if (this.e.msg.startsWith('#')) {
             let res = await Pictools.getPicInfo(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${this.qq}`)
             if (res.ok)
@@ -99,6 +105,7 @@ export class Anime_me extends plugin {
             if (res.ok) {
                 base64 = res.base64
                 txdsc = await requestAppreciate(base64)
+                JH = true
             }
         }
         else if (this.e.msg.startsWith('$')) {
@@ -107,6 +114,7 @@ export class Anime_me extends plugin {
                 base64 = res.base64
                 txdsc = await requestAppreciate(base64)
                 base64 = null
+                JH = true
             }
         }
         let paramdata = {
@@ -130,7 +138,7 @@ export class Anime_me extends plugin {
             specifyAPI: NaN,
             user: Number(this.qq),
             code: 0,
-            JH: false,
+            JH: JH,
             message: "二次元的我",
         }
         return paramdata
