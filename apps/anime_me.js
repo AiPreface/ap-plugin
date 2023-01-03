@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 19:35:52
+ * @LastEditTime: 2023-01-03 23:18:44
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -116,6 +116,11 @@ export class Anime_me extends plugin {
                 base64 = null
                 JH = true
             }
+        }
+        // 获取本群策略
+        let current_group_policy = await Parse.parsecfg(this.e)
+        if (!current_group_policy.JH) {
+            JH = false
         }
         let paramdata = {
             param: {
