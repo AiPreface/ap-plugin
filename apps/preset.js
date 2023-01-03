@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 21:03:46
+ * @LastEditTime: 2023-01-03 22:14:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
@@ -12,7 +12,7 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
-import { isEqual } from '../utils/utils.js';
+import { isEqual, chNum2Num } from '../utils/utils.js';
 import cfg from '../../../lib/config/config.js'
 import { segment } from 'oicq';
 import Parse from '../components/ai_painting/parse.js'
@@ -147,7 +147,7 @@ export class setpolicy extends plugin {
         let page = 1 // 指定第几页的预设
         let keyword = '' // 指定检索的关键词 
         let regExp = /^#ap预设列表(.*?)(第(\d+)页)?$/
-
+        e.msg = chNum2Num(e.msg, { regExp: '第(\[一二三四五六七八九十零百千万亿\]\+\?)页\$' }) // 将中文数字替换为阿拉伯数字
         let ret = regExp.exec(e.msg)
         // 取用户指定的页数和关键词
         page = ret[3] || 1

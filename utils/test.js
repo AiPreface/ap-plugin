@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 00:16:35
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 00:49:50
+ * @LastEditTime: 2023-01-03 22:02:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\test.js
  * @Description: 测试模块
  * 
@@ -15,7 +15,7 @@ import YAML from "yaml"
 import fs from 'fs'
 import path from 'path'
 import { getdsc } from '../components/anime_me/getdes.js'
-import { isEqual } from './utils.js'
+import { isEqual, chNum2Num } from './utils.js'
 
 // console.log(await Pictools.url_to_base64('https://gchat.qpic.cn/gchatpic_new/1761869682/637615159-2678354508-E361F9DF207F178A532955E0677414AB/0'))
 
@@ -48,3 +48,5 @@ import { isEqual } from './utils.js'
 //     newpst.push(pst)
 // }
 // fs.writeFileSync(path.join(process.cwd(), 'plugins/ap-plugin/config/config/preset.json'), JSON.stringify(newpst, null, "\t"), "utf8");
+// console.log(chNum2Num('非人非第十八页aa','第(\[一二三四五六七八九十零百千万亿\]\+)页'))
+// console.log(chNum2Num('打发十六第十八页aa', { l_text: '第' }))

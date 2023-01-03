@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 00:43:24
+ * @LastEditTime: 2023-01-03 22:10:42
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -192,3 +192,126 @@ export function isEqual(p1, p2) {
 }
 function isObject(p) { return typeof p === 'object' && p !== null }
 function isArray(p) { return Array.isArray(p) }
+
+
+
+/**将文本中的中文数字修改为阿拉伯数字
+ * @param {string} text 待修改的文本
+ * @param {string} data.regExp  指定正则表达式。中文数字推荐用 (\\\[一二三四五六七八九十零百千万亿\\\]\\\+) 来匹配
+ * @param {string} data.l_text  数字左边的固定文字
+ * @param {string} data.r_text  数字右边的固定文字
+ * @return {string} 修改后的文本
+ */
+export function chNum2Num(text, data = {}) {
+    if (!('l_text' in data))
+        data['l_text'] = ''
+    if (!('r_text' in data))
+        data['r_text'] = ''
+    if (!('regExp' in data))
+        data['regExp'] = ''
+
+    let regExp
+    if (data.regExp)
+        regExp = new RegExp(data.regExp)
+    else {
+        regExp = new RegExp(data.l_text + '(\[一二三四五六七八九十零百千万亿\]\+)' + data.r_text)
+    }
+    // console.log(regExp)
+    // console.log(regExp.exec(text))
+    let chNum = regExp.exec(text)[1].trim()
+    let enNum = numberDigit(chNum)
+    if (enNum == -1) return text
+    return text.replace(chNum, enNum)
+}
+// 解析失败返回-1，成功返回转换后的数字，不支持负数
+function numberDigit(chinese_number) {
+    var map = {
+        "零": 0,
+
+        "一": 1,
+        "壹": 1,
+
+        "二": 2,
+        "贰": 2,
+        "两": 2,
+
+        "三": 3,
+        "叁": 3,
+
+        "四": 4,
+        "肆": 4,
+
+        "五": 5,
+        "伍": 5,
+
+        "六": 6,
+        "陆": 6,
+
+        "七": 7,
+        "柒": 7,
+
+        "八": 8,
+        "捌": 8,
+
+        "九": 9,
+        "玖": 9,
+
+        "十": 10,
+        "拾": 10,
+
+        "百": 100,
+        "佰": 100,
+
+        "千": 1000,
+        "仟": 1000,
+
+        "万": 10000,
+        "十万": 100000,
+        "百万": 1000000,
+        "千万": 10000000,
+        "亿": 100000000
+    };
+
+    var len = chinese_number.length;
+    if (len == 0) return -1;
+    if (len == 1) return (map[chinese_number] <= 10) ? map[chinese_number] : -1;
+    var summary = 0;
+    if (map[chinese_number[0]] == 10) {
+        chinese_number = "一" + chinese_number;
+        len++;
+    }
+    if (len >= 3 && map[chinese_number[len - 1]] < 10) {
+        var last_second_num = map[chinese_number[len - 2]];
+        if (last_second_num == 100 || last_second_num == 1000 || last_second_num == 10000 || last_second_num == 100000000) {
+            for (var key in map) {
+                if (map[key] == last_second_num / 10) {
+                    chinese_number += key;
+                    len += key.length;
+                    break;
+                }
+            }
+        }
+    }
+    if (chinese_number.match(/亿/g) && chinese_number.match(/亿/g).length > 1) return -1;
+    var splited = chinese_number.split("亿");
+    if (splited.length == 2) {
+        var rest = splited[1] == "" ? 0 : numberDigit(splited[1]);
+        return summary + numberDigit(splited[0]) * 100000000 + rest;
+    }
+    splited = chinese_number.split("万");
+    if (splited.length == 2) {
+        var rest = splited[1] == "" ? 0 : numberDigit(splited[1]);
+        return summary + numberDigit(splited[0]) * 10000 + rest;
+    }
+    var i = 0;
+    while (i < len) {
+        var first_char_num = map[chinese_number[i]];
+        var second_char_num = map[chinese_number[i + 1]];
+        if (second_char_num > 9)
+            summary += first_char_num * second_char_num;
+        i++;
+        if (i == len)
+            summary += first_char_num <= 9 ? first_char_num : 0;
+    }
+    return summary;
+}
