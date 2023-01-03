@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-29 22:04:40
+ * @LastEditTime: 2023-01-03 00:43:24
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -145,3 +145,50 @@ export async function seconds_to_tomorrow_0_Oclock() {
     );
     return exTime
 }
+
+
+
+/** 判断两个值是否相等，支持数组和对象
+ * @param {*} p1 第一个值
+ * @param {*} p2 第二个值
+ * @return {boolean} 二者是否相等
+ */
+export function isEqual(p1, p2) {
+    // 是数组的情况 
+    if (isArray(p1) && isArray(p2)) {
+        if (p1.length != p2.length) {
+            return false
+        }
+        for (let i = 0; i < p1.length; i++) {
+            if (p1[i] != p2[i])
+                return false
+        }
+        return true
+    }
+    // 判断如果传入的不是对象类型的话 就直接返回两个值的比较
+    if (!isObject(p1) || !isObject(p2)) {
+        return p1 === p2
+    }
+    // 判断是否传入同一个对象
+    if (p1 === p2) return true
+    // 判断两个对象的键是否一致
+    let K1 = Object.keys(p1)
+    let K2 = Object.keys(p2)  // -> array
+    if (!isEqual(K1, K2)) return false
+
+    let props1 = Object.getOwnPropertyNames(p1);
+    let props2 = Object.getOwnPropertyNames(p2);
+    if (props1.length != props2.length) {
+        return false;
+    }
+
+    for (let i = 0; i < props1.length; i++) {
+        let propName = props1[i];
+        if (!isEqual(p1[propName], p2[propName])) {
+            return false;
+        }
+    }
+    return true;
+}
+function isObject(p) { return typeof p === 'object' && p !== null }
+function isArray(p) { return Array.isArray(p) }

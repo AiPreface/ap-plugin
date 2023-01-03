@@ -2,14 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 17:00:18
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set.js
- * @Description: 设置
+ * @LastEditTime: 2023-01-02 18:54:39
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
+ * @Description: 设置接口
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import plugin from '../../../lib/plugins/plugin.js';
-import Config from '../components/ap/config.js'
+import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import axios from 'axios';
 import common from '../../../lib/common/common.js'
@@ -77,6 +77,9 @@ export class set extends plugin {
 
         if (api.endsWith('/'))
             api = api.replace(/\/$/, "").trim()
+
+        if (/hf.space/.test(api))
+            return e.reply("大清晰术和鉴赏的接口无法用于绘图哦，详见https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE")
 
         let apcfg = await Config.getcfg()
 

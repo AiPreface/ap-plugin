@@ -3,7 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { segment } from 'oicq';
 import pic_tools from '../utils/pic_tools.js';
-import Config from '../components/ap/config.js';
+import Config from '../components/ai_painting/config.js';
 let apcfg = await Config.getcfg()
 const api = apcfg.Real_CUGAN
 

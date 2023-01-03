@@ -2,8 +2,8 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-25 15:40:38
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\config.js
+ * @LastEditTime: 2023-01-02 18:16:22
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\config.js
  * @Description: 获取和写入ap各项配置
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -133,7 +133,7 @@ class Config {
     /**获取预设词列表
      * @return {*}
      */
-    async getpreSets() {
+    async getPresets() {
         let presets = await JSON.parse(
             fs.readFileSync(path.join(cfg_path, 'preset.json'), "utf8")
         );
@@ -157,7 +157,7 @@ class Config {
         let apcfg = await this.getcfg()
         let plc = await this.getPolicy()
         let pwords = await this.getProhibitedWords()
-        let presets = await this.getpreSets()
+        let presets = await this.getPresets()
         return [apcfg, plc, pwords, presets]
     }
 

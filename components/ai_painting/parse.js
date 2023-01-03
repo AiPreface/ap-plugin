@@ -2,8 +2,8 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 02:25:23
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\parse.js
+ * @LastEditTime: 2023-01-03 17:14:22
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -66,7 +66,8 @@ class Parse {
 
         // 解析命令中的参数
         let txtparam = await this.parsetxt(e.msg)
-
+        // 对于没有出现的属性，使用默认值填充
+        txtparam = this.complete_txtparam(txtparam)
         // 如果指定了不存在的接口
         let config = await Config.getcfg()
         if (txtparam.specifyAPI > config.APIList.length)
@@ -136,7 +137,7 @@ class Parse {
             'DPM++ SDE Karras',
             'DPM++ SDE',
         ]
-        
+
         let sampler = ""
 
         // 张数
@@ -197,28 +198,35 @@ class Parse {
         tags = this.replacespc(tags)
         ntags = this.replacespc(ntags)
 
-
-
         // 整合参数
         let txtparam = {
             param: {
-                sampler: sampler || 'Euler a',
-                strength: Number(strength) || 0.6,
-                seed: seed || -1,
-                scale: Number(scale) || 11,
-                steps: Number(steps) || 40,
+                sampler: sampler,
+                strength: Number(strength),
+                seed: seed,
+                scale: Number(scale),
+                steps: Number(steps),
                 width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : 512,
                 height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : 768,
-                tags: tags,
-                ntags: ntags
+                tags: tags.trim(),
+                ntags: ntags.trim()
             },
             num: Number(num),
             specifyAPI: Number(specifyAPI),
             rawtag: {
-                tags: tags,
-                ntags: ntags
+                tags: tags.trim(),
+                ntags: ntags.trim()
             }
         }
+        return txtparam
+    }
+    /** 对于没有出现的属性，使用默认值填充 */
+    complete_txtparam(txtparam) {
+        txtparam.param.sampler = txtparam.param.sampler || 'Euler a'
+        txtparam.param.strength = txtparam.param.strength || 0.6
+        txtparam.param.seed = txtparam.param.seed || -1
+        txtparam.param.scale = txtparam.param.scale || 11
+        txtparam.param.steps = txtparam.param.steps || 40
         return txtparam
     }
 
@@ -253,7 +261,7 @@ class Parse {
         // return { tags: rawt, ntags: rawnt }
         let tags = rawt
         let ntags = rawnt
-        const preSet = await Config.getpreSets()
+        const preSet = await Config.getPresets()
 
         let matchedWord = ""; //匹配到的关键词
         let matchedPst = {}; //匹配到的一条预设

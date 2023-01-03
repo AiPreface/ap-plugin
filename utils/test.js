@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 00:16:35
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 15:21:26
+ * @LastEditTime: 2023-01-03 00:49:50
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\test.js
  * @Description: 测试模块
  * 
@@ -15,7 +15,7 @@ import YAML from "yaml"
 import fs from 'fs'
 import path from 'path'
 import { getdsc } from '../components/anime_me/getdes.js'
-import { test_api } from '../apps/set.js'
+import { isEqual } from './utils.js'
 
 // console.log(await Pictools.url_to_base64('https://gchat.qpic.cn/gchatpic_new/1761869682/637615159-2678354508-E361F9DF207F178A532955E0677414AB/0'))
 
@@ -28,7 +28,7 @@ import { test_api } from '../apps/set.js'
 
 // let presets = await YAML.parse(
 //     fs.readFileSync(path.join(process.cwd(), 'plugins/ap-plugin/config/config/preset.yaml'), "utf8")
-// ); 
+// );
 // let newpst = []
 // for (let key in presets) {
 //     console.log(key)
@@ -48,6 +48,3 @@ import { test_api } from '../apps/set.js'
 //     newpst.push(pst)
 // }
 // fs.writeFileSync(path.join(process.cwd(), 'plugins/ap-plugin/config/config/preset.json'), JSON.stringify(newpst, null, "\t"), "utf8");
-
-
-// console.log(getdsc(123456789))

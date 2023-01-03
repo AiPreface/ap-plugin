@@ -2,8 +2,8 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 20:47:52
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ap.js
+ * @LastEditTime: 2023-01-02 14:31:24
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -18,9 +18,9 @@ import { Parse, CD, Policy, Draw } from '../components/apidx.js';
 
 
 // 批量绘图的剩余张数
-let multiTask = 0;
+let remaining_tasks = 0;
 
-export class ap extends plugin {
+export class Ai_Painting extends plugin {
   constructor() {
     super({
       name: "AiPainting",
@@ -30,32 +30,32 @@ export class ap extends plugin {
       rule: [
         {
           reg: "^#绘图([\\s\\S]*)$",
-          fnc: "AiPainting",
+          fnc: "aiPainting",
         },
       ],
     });
   }
 
-  async AiPainting(e) {
+  async aiPainting(e) {
 
     // 获取本群策略
-    let gpolicy = await Parse.parsecfg(e)
+    let current_group_policy = await Parse.parsecfg(e)
     // console.log('【aiPainting】本群ap策略：\n',gpolicy)                    /*  */  
 
 
     // 判断功能是否开启
-    if (!e.isMaster && gpolicy.apMaster.indexOf(e.user_id) == -1)
-      if (!gpolicy.enable) return await e.reply("aiPainting功能未开启", false, { recallMsg: 15 });
+    if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1)
+      if (!current_group_policy.enable) return await e.reply("aiPainting功能未开启", false, { recallMsg: 15 });
 
 
     // 判断是否禁用用户
-    if (gpolicy.isBan)
-      if (gpolicy.prohibitedUserList.indexOf(e.user_id) != -1)
+    if (current_group_policy.isBan)
+      if (current_group_policy.prohibitedUserList.indexOf(e.user_id) != -1)
         return await e.reply(["你的账号因违规使用屏蔽词绘图已被封禁"], true);
 
 
     // 判断cd
-    let cdCheck = await CD.checkCD(e, gpolicy)
+    let cdCheck = await CD.checkCD(e, current_group_policy)
     if (cdCheck)
       return await e.reply(cdCheck, true, { recallMsg: 15 });
 
@@ -70,14 +70,14 @@ export class ap extends plugin {
 
 
     // 禁止重复发起批量绘图
-    if (paramdata.num > 1 && multiTask) {
+    if (paramdata.num > 1 && remaining_tasks) {
       CD.clearCD(e);
-      return await e.reply(`当前已有批量绘图任务进行中，剩余${multiTask}张图，请稍候`, true);
+      return await e.reply(`当前已有批量绘图任务进行中，剩余${remaining_tasks}张图，请稍候`, true);
     }
 
 
     // 判断次数限制
-    let usageLimit = e.isMaster || gpolicy.apMaster.indexOf(e.user_id) > -1 ? 0 : gpolicy.usageLimit;
+    let usageLimit = e.isMaster || current_group_policy.apMaster.indexOf(e.user_id) > -1 ? 0 : current_group_policy.usageLimit;
     let used = await redis.get(`Yz:AiPainting:Usage:${e.user_id}`) || 0;
     Log.i(`用户 ${await getuserName(e)}(${e.user_id}) 发起绘图。今日已使用${used}次。`)
     let remainingTimes = usageLimit - used;//今日剩余次数
@@ -108,9 +108,9 @@ export class ap extends plugin {
 
     // 检测屏蔽词
     let prohibitedWords = []
-    if (!e.isMaster && gpolicy.apMaster.indexOf(e.user_id) == -1) {
+    if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1) {
       [prohibitedWords, paramdata] = await Parse.checkWords(paramdata)
-      if (prohibitedWords.length && gpolicy.isBan) {
+      if (prohibitedWords.length && current_group_policy.isBan) {
         Policy.banUser(e.user_id)// 封禁用户
         return await e.reply(`tags中包含屏蔽词：${prohibitedWords.join('、')}\n您的账号已被禁止使用绘图功能。如属误封，请截图您的此条消息，然后联系机器人主人解封~`, true)
       }
@@ -121,7 +121,7 @@ export class ap extends plugin {
       prohibitedWords.length ? "已去除关键词中包含的屏蔽词，正在" : "",
       paramdata.param.base64 ? "以图生图" : "绘制", "中，请稍候。",
       paramdata.num > 1 ? "绘制多张图片所需时间较长，请耐心等待" : "",
-      multiTask ? "\n\n※当前有进行中的批量绘图任务，您可能需要等待较长时间，请见谅" : "",
+      remaining_tasks ? "\n\n※当前有进行中的批量绘图任务，您可能需要等待较长时间，请见谅" : "",
     ], false, { at: true, recallMsg: 20 });
 
 
@@ -143,7 +143,7 @@ export class ap extends plugin {
       if (res.isnsfw) {
         // 将图片base64转换为基于QQ图床的url
         let url = await Pictools.base64_to_imgurl(res.base64)
-        if (gpolicy.isTellMaster) {
+        if (current_group_policy.isTellMaster) {
           let msg = [
             "【aiPainting】不合规图片：\n",
             segment.image(`base64://${res.base64}`),
@@ -171,9 +171,9 @@ export class ap extends plugin {
       ]
 
       // 发送消息，发送失败清除CD，发送成功记录一次使用
-      let sendRes = await e.reply(msg, true, { recallMsg: gpolicy.isRecall ? gpolicy.recallDelay : 0 })
+      let sendRes = await e.reply(msg, true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
       if (!sendRes) {
-        e.reply(["图片发送失败，可能被风控"], true, { recallMsg: gpolicy.isRecall ? gpolicy.recallDelay : 0 })
+        e.reply(["图片发送失败，可能被风控"], true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
         CD.clearCD(e)
       } else {
         this.addUsage(e.user_id, 1);
@@ -181,8 +181,8 @@ export class ap extends plugin {
     }
     // 多张
     else {
-      multiTask = paramdata.num > 10 ? 10 : paramdata.num;
-      CD.batchCD(e, multiTask, gpolicy)
+      remaining_tasks = paramdata.num > 10 ? 10 : paramdata.num;
+      CD.batchCD(e, remaining_tasks, current_group_policy)
 
       let blocked = 0;  //  标记合并消息中屏蔽了几张图
       let failedCount = 0; //  标记有几张图请求失败
@@ -204,19 +204,19 @@ export class ap extends plugin {
         // 图片损坏或审核超时或响应超时
         if (res.code == 21 || res.code == 32 || res.code == 504) {
           failedCount++;
-          multiTask--;
+          remaining_tasks--;
           continue
         }
         // 严重错误，清除CD，发送报错信息 
         else if (res.code) {
           CD.clearCD(e)
-          multiTask = 0
+          remaining_tasks = 0
           return await e.reply(res.description, true)
         }
 
         // 图片违规时，通知主人
         if (res.isnsfw) {
-          if (gpolicy.isTellMaster) {
+          if (current_group_policy.isTellMaster) {
             let msg = [
               "【aiPainting】不合规图片：\n",
               segment.image(`base64://${res.base64}`),
@@ -232,7 +232,7 @@ export class ap extends plugin {
             user_id: cfg.qq,
           });
           blocked++;
-          multiTask--;
+          remaining_tasks--;
           continue;
         }
 
@@ -243,7 +243,7 @@ export class ap extends plugin {
           user_id: cfg.qq,
         });
 
-        multiTask--;
+        remaining_tasks--;
       }
 
       // 在合并消息中加入图片信息 
@@ -267,18 +267,18 @@ export class ap extends plugin {
         sendRes = await e.reply(
           await e.group.makeForwardMsg(data_msg),
           false,
-          { recallMsg: gpolicy.isRecall ? gpolicy.recallDelay : 0 }
+          { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
         );
       else
         sendRes = await e.reply(
           await e.friend.makeForwardMsg(data_msg),
           false,
-          { recallMsg: gpolicy.isRecall ? gpolicy.recallDelay : 0 }
+          { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
         );
 
       // 消息发送失败
       if (!sendRes) {
-        e.reply(["消息发送失败，可能被风控"], true, { recallMsg: gpolicy.isRecall ? gpolicy.recallDelay : 0 });
+        e.reply(["消息发送失败，可能被风控"], true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 });
         CD.clearCD(e);
       } else {
         // 发送成功
@@ -293,11 +293,11 @@ export class ap extends plugin {
             usageLimit ? `\n今日剩余${remainingTimes - successCount}次` : "",
           ],
           true,
-          { recallMsg: gpolicy.isRecall ? gpolicy.recallDelay : 0 }
+          { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
         );
       }
 
-      multiTask = 0;
+      remaining_tasks = 0;
       return true
     }
   }

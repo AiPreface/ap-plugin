@@ -2,8 +2,8 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 23:30:29
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\setpolicy.js
+ * @LastEditTime: 2023-01-02 21:58:54
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_policy.js
  * @Description: 设置ap策略
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -11,7 +11,7 @@
 
 import e from 'express';
 import plugin from '../../../lib/plugins/plugin.js';
-import Config from '../components/ap/config.js'
+import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import { getuserName } from '../utils/utils.js';
 import cfg from '../../../lib/config/config.js'
@@ -532,7 +532,7 @@ export class setpolicy extends plugin {
                             : key == 'pcd' ? "个人cd"
                                 : key == 'gcd' ? "共享cd"
                                     : key == 'isBan' ? "封禁"
-                                        : key == 'usageLimit' ? "每日用量限制"
+                                        : key == 'usageLimit' ? "每人每日用量限制"
                                             : '???',
             `已设为`,
             (key == 'enable' || key == 'JH' || key == 'isRecall' || key == 'isBan') ? (value ? '开启' : '关闭')

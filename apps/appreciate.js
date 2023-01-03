@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2022-12-23 22:19:02
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-29 16:49:56
+ * @LastEditTime: 2023-01-02 22:01:54
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\appreciate.js
  * @Description: 鉴赏图片获取tags
  */
@@ -10,15 +10,15 @@ import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
 import { segment } from "oicq";
-import Config from '../components/ap/config.js';
+import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
 import { parseImg } from '../utils/utils.js';
 import pic_tools from '../utils/pic_tools.js';
 
-let apcfg = await Config.getcfg()
-const api = apcfg.appreciate
-let FiguretypeUser = {}
-let getImagetime = {}
+let ap_cfg = await Config.getcfg()
+const API = ap_cfg.appreciate
+let figure_type_user = {}
+let get_image_time = {}
 
 export class appreciate extends plugin {
     constructor() {
@@ -43,14 +43,14 @@ export class appreciate extends plugin {
                     reg: '^.*$',
                     /** 执行方法 */
                     fnc: 'getImage',
-                    log: 'false'
+                    log: false
                 }
             ]
         })
     }
 
     async appreciate(e) {
-        if (!api)
+        if (!API)
             return await e.reply("请先配置鉴赏图片所需api，配置教程：https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T")
         await AppreciatePictures(e)
     }
@@ -58,9 +58,9 @@ export class appreciate extends plugin {
         if (!this.e.img) {
             return false;
         }
-        if (getImagetime[e.user_id]) {
-            clearTimeout(getImagetime[e.user_id]);
-            delete getImagetime[e.user_id];
+        if (get_image_time[e.user_id]) {
+            clearTimeout(get_image_time[e.user_id]);
+            delete get_image_time[e.user_id];
         } else {
             return false;
         }
@@ -72,7 +72,7 @@ export class appreciate extends plugin {
 async function AppreciatePictures(e) {
     let start = new Date().getTime();
 
-    if (FiguretypeUser[e.user_id]) {
+    if (figure_type_user[e.user_id]) {
         e.reply('当前你有任务在列表中排排坐啦，请不要重复发送喵~（๑>؂<๑）')
         return true
     }
@@ -80,9 +80,9 @@ async function AppreciatePictures(e) {
     e = await parseImg(e)
 
     if (e.img) {
-        FiguretypeUser[e.user_id] = setTimeout(() => {
-            if (FiguretypeUser[e.user_id]) {
-                delete FiguretypeUser[e.user_id];
+        figure_type_user[e.user_id] = setTimeout(() => {
+            if (figure_type_user[e.user_id]) {
+                delete figure_type_user[e.user_id];
             }
         }, 60000);
 
@@ -101,16 +101,16 @@ async function AppreciatePictures(e) {
 
         await e.reply([segment.at(e.user_id), `鉴赏用时：${time}秒`, true])
         e.reply(msg, true)
-        if (FiguretypeUser[e.user_id]) {
-            delete FiguretypeUser[e.user_id];
+        if (figure_type_user[e.user_id]) {
+            delete figure_type_user[e.user_id];
         }
 
     } else {
         e.reply('请在60s内发送图片喵~（๑>؂<๑）')
-        getImagetime[e.user_id] = setTimeout(() => {
-            if (getImagetime[e.user_id]) {
+        get_image_time[e.user_id] = setTimeout(() => {
+            if (get_image_time[e.user_id]) {
                 e.reply('鉴赏已超时，请再次发送命令喵~', true);
-                delete getImagetime[e.user_id];
+                delete get_image_time[e.user_id];
             }
         }, 60000);
         return false;
@@ -122,10 +122,10 @@ async function AppreciatePictures(e) {
  * @return {*}  解析的tags
  */
 export async function requestAppreciate(base64) {
-    if (!api) return false
+    if (!API) return false
     Log.i('解析图片tags')
     try {
-        let res = await fetch(api, {
+        let res = await fetch(API, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

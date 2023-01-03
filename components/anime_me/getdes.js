@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-28 15:24:57
+ * @LastEditTime: 2023-01-03 13:05:59
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -435,7 +435,8 @@ export function getdsc(qq) {
             "女巫": "witch,",
             "搞基": "yaoi,",
             "油库里": "yukkuri_shiteitte_ne,",
-            "百合": "yuri,"
+            "百合": "yuri,",
+            "jojo": "jojo"
         },
         "表情": {
             "微笑": "smirk,",
