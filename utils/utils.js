@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:10:42
+ * @LastEditTime: 2023-01-03 23:08:59
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -218,7 +218,9 @@ export function chNum2Num(text, data = {}) {
     }
     // console.log(regExp)
     // console.log(regExp.exec(text))
-    let chNum = regExp.exec(text)[1].trim()
+    let ret = regExp.exec(text)
+    if (!ret) return text
+    let chNum = ret[1].trim()
     let enNum = numberDigit(chNum)
     if (enNum == -1) return text
     return text.replace(chNum, enNum)
