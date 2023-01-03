@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 19:40:49
+ * @LastEditTime: 2023-01-03 21:03:46
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
@@ -145,15 +145,13 @@ export class setpolicy extends plugin {
         presets = await Config.getPresets() // -> array
 
         let page = 1 // 指定第几页的预设
-        let keyword = '' // 指定检索的关键词
-        let page_reg = /^#ap预设列表.*第(\d+)页$/;
-        let keyword_reg = /^#ap预设列表(.+?)(第\d+页)?$/
+        let keyword = '' // 指定检索的关键词 
+        let regExp = /^#ap预设列表(.*?)(第(\d+)页)?$/
 
+        let ret = regExp.exec(e.msg)
         // 取用户指定的页数和关键词
-        if (page_reg.test(e.msg)) // 匹配页数
-            page = page_reg.exec(e.msg)[1] > 0 ? page_reg.exec(e.msg)[1] : 1;
-        if (keyword_reg.test(e.msg)) // 匹配关键词
-            keyword = keyword_reg.exec(e.msg)[1];
+        page = ret[3] || 1
+        keyword = ret[1] || ''
         Log.i(page, keyword)
 
         // 筛选出包含关键词的预设
