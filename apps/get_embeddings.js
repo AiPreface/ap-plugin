@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:23:41
+ * @LastEditTime: 2023-01-03 22:37:29
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -25,11 +25,11 @@ export class GetEmbeddings extends plugin {
             /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 5000,
+            priority: 4999,
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#查看预设$',
+                    reg: '^#ap查看预设$',
                     /** 执行方法 */
                     fnc: 'getEmbeddings'
                 }

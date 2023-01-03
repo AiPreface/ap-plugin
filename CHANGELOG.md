@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 02:48:57
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:31:22
+ * @LastEditTime: 2023-01-03 22:38:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\CHANGELOG.md
  * @Description: changeLog
  * 
@@ -10,7 +10,7 @@
 -->
 # 2.0.3
 
-* 新增`#查看预设`：查看接口包含的embeddings的信息。**by苏苏**
+* 新增`#ap查看预设`：查看接口包含的embeddings的信息。**by苏苏**
 # 2.0.2
 
 * 新增预设管理：`#ap添加预设`、`#ap删除预设`、`#ap预设列表`
