@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-04 01:03:58
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 01:33:21
+ * @LastEditTime: 2023-01-04 01:59:14
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_dectect.js
  * @Description: 
  * 
@@ -116,8 +116,12 @@ export class AiDetect extends plugin {
                         .toFixed(2)
                     if (human > ai) {
                         e.reply(`检查完成，耗时${time}秒，这张画像【不是AI制作的】，置信率概率为${human}%`, true)
-                    } else {
-                        e.reply(`检查完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%`, true)
+                    }
+                    else {
+                        if (ai < 96)
+                            e.reply(`检查完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%\n※：这并不意味着这张画像一定是AI制作的，因为结果置信率低于96%，数据仅供参考`, true)
+                        else
+                            e.reply(`检查完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%`, true)
                     }
                     delete FiguretypeUser[e.user_id];
                     return true
