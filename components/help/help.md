@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 19:36:59
+ * @LastEditTime: 2023-01-03 22:30:21
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -49,7 +49,7 @@
 # 鉴赏图片
 
 * **#鉴赏**
-  * 逆推图片的tag。可对图片回复该命令，或将命令与图片一同发送。需要先配置逆推接口
+  * 逆推图片的tag。可对图片回复该命令，或将命令与图片一同发送。需要先配置逆推接口。`by苏苏`
 
 # 预设
 
@@ -59,6 +59,7 @@
 * **#ap添加预设** `预设名` **=>** `预设内容` 
   * 绘图时，命令中的 **预设名** 将会被替换为对应的 **预设内容**
 * **#ap删除预设** `预设名`
+* **#查看预设** ：查看接口包含的embeddings的信息。`by苏苏`
 # 管理
 
 * **#ap设置** 
