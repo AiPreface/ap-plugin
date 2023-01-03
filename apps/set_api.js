@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-02 18:54:39
+ * @LastEditTime: 2023-01-04 01:16:48
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -39,7 +39,7 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口).+",
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口).+",
                     fnc: "setother",
                     permission: "master",
                 },
@@ -240,26 +240,30 @@ export class set extends plugin {
     }
 
     async setother(e) {
-        let bdappidReg = /^#ap设置百度appid ?(\d{8})$/
-        let bdkeyReg = /^#ap设置百度apikey ?([A-Za-z0-9]+)$/
-        let bdskReg = /^#ap设置百度secretkey ?([A-Za-z0-9]+)$/
-        let jianshangReg = /^#ap设置鉴赏接口 ?(http.+)$/
-        let RCReg = /^#ap设置大清晰术接口 ?(http.+)$/
+        let baidu_appid_reg = /^#ap设置百度appid ?(\d{8})$/
+        let baidu_ak_reg = /^#ap设置百度apikey ?([A-Za-z0-9]+)$/
+        let baidu_sk_reg = /^#ap设置百度secretkey ?([A-Za-z0-9]+)$/
+        let jianshang_reg = /^#ap设置鉴赏接口 ?(http.+)$/
+        let super_resolution_reg = /^#ap设置大清晰术接口 ?(http.+)$/
+        let ai_detect_reg = /^#ap设置检查ai接口 ?(http.+)$/
 
-        let bdappid = bdappidReg.exec(e.msg)
+        let bdappid = baidu_appid_reg.exec(e.msg)
         if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
 
-        let bdkey = bdkeyReg.exec(e.msg)
+        let bdkey = baidu_ak_reg.exec(e.msg)
         if (bdkey) { return this.writecfg(bdkey, 'baidu_apikey') }
 
-        let bdsk = bdskReg.exec(e.msg)
+        let bdsk = baidu_sk_reg.exec(e.msg)
         if (bdsk) { return this.writecfg(bdsk, 'baidu_secretkey') }
 
-        let jianshang = jianshangReg.exec(e.msg)
+        let jianshang = jianshang_reg.exec(e.msg)
         if (jianshang) { return this.writecfg(jianshang, 'appreciate') }
 
-        let RC = RCReg.exec(e.msg)
+        let RC = super_resolution_reg.exec(e.msg)
         if (RC) { return this.writecfg(RC, 'Real_CUGAN') }
+        
+        let ai_detect = ai_detect_reg.exec(e.msg)
+        if (ai_detect) { return this.writecfg(ai_detect, 'ai_detect') }
 
         return false
     }
@@ -273,12 +277,12 @@ export class set extends plugin {
         let value = ret[1].trim()
         if (type == "baidu_appid") value = Number(value)
         if ((type == 'Real_CUGAN') && !value.endsWith('/')) value = value + '/'
-        if ((type == 'appreciate') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
+        if ((type == 'appreciate'||type == 'ai_detect') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         console.log(value)
         console.log(type)
-        if (type == 'appreciate')
+        if (type == 'appreciate'||type == 'ai_detect')
             if (!value.endsWith('predict'))
-                return this.e.reply('鉴赏接口应当以“predict”结尾')
+                return this.e.reply('鉴赏接口和检查ai接口应当以“predict”结尾')
 
         // 测试接口连通性
         if (type != "baidu_appid" && type != "baidu_apikey" && type != "baidu_secretkey")
