@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 18:16:56
+ * @LastEditTime: 2023-01-03 19:40:49
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
@@ -92,9 +92,10 @@ export class setpolicy extends plugin {
             return false
 
         let kword = reg_result[1] // 提取预设的key
+        kword = kword.trim()
 
         // 解析预设的value
-        let res = await Parse.parsetxt(reg_result[2])
+        let res = await Parse.parsetxt(reg_result[2], false)
         // Log.i(res)
         if (res.param.tags + res.param.ntags == '') {
             return false

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-02 21:58:54
+ * @LastEditTime: 2023-01-03 19:15:19
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_policy.js
  * @Description: 设置ap策略
  * 
@@ -405,6 +405,7 @@ export class setpolicy extends plugin {
         rawList.forEach((value, index) => {
             rawList[index] = value.trim()
         })
+        rawList = rawList.filter(x => { return x })
         rawList = [...new Set(rawList)]
         console.log(rawList)
         let pblist = await Config.getProhibitedWords()

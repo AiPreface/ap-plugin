@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 18:45:33
+ * @LastEditTime: 2023-01-03 19:35:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -27,7 +27,7 @@ export class Anime_me extends plugin {
             priority: 4999,
             rule: [
                 {
-                    reg: "^(#|%|\\$)?二次元的我?$", //匹配消息正则，命令正则
+                    reg: "^(#|%|/)?二次元的我?$", //匹配消息正则，命令正则
                     fnc: 'ercy',
                 }
             ]
@@ -69,7 +69,7 @@ export class Anime_me extends plugin {
 
         // 构造绘图参数
         let paramdata = await this.construct_param(dsc)
-        Log.i("二次元的", `${name}：`, (e.msg.startsWith('%') || e.msg.startsWith('$')) ? paramdata.param.tags : dsc);
+        Log.i("二次元的", `${name}：`, (e.msg.startsWith('%') || e.msg.startsWith('/')) ? paramdata.param.tags : dsc);
         // 根据描述获取图片
         let res = await Draw.get_a_pic(paramdata)
         if (res.code) {
@@ -82,7 +82,7 @@ export class Anime_me extends plugin {
             return true
         }
         // 发送图片 
-        return await e.reply([this.e.msg.startsWith('$') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
+        return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
     }
 
 
@@ -108,7 +108,7 @@ export class Anime_me extends plugin {
                 JH = true
             }
         }
-        else if (this.e.msg.startsWith('$')) {
+        else if (this.e.msg.startsWith('/')) {
             let res = await Pictools.getPicInfo(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${this.qq}`)
             if (res.ok) {
                 base64 = res.base64
@@ -126,7 +126,7 @@ export class Anime_me extends plugin {
                 steps: 18,
                 width: txdsc ? 384 : base64 ? 512 : 384,
                 height: 512,
-                tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('$') ? "" : dsc.en) : dsc.en,
+                tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en,
                 ntags: "默认",
                 base64: txdsc ? null : base64,
             },

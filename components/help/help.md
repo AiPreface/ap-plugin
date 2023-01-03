@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 17:53:02
+ * @LastEditTime: 2023-01-03 19:36:59
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -35,7 +35,7 @@
   * 随机组合一组属性作为tag，使用头像以图生图。 
 * **%二次元的我** 
   * 有可用逆推接口时，随机组合一组属性作为tag，并解析头像的tag，将二者组合作为tag来以文生图; 没有可用逆推接口时，效果与 **#二次元的我** 相同
-* **$二次元的我** 
+* **/二次元的我** 
   * 有可用逆推接口时，解析头像的tag，以文生图绘制对应图片; 没有可用逆推接口时，效果与 **二次元的我** 相同
 
 # 清晰术

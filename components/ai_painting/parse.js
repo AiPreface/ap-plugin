@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 17:14:22
+ * @LastEditTime: 2023-01-03 19:40:41
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -107,9 +107,10 @@ class Parse {
     /**
      * 提取命令中的绘图参数
      * @param {string} msg 绘图命令
+     * @param {boolean} is_check_preset 是否匹配和替换预设
      * @return {*}  txtparam 绘图参数
      */
-    async parsetxt(msg) {
+    async parsetxt(msg, is_check_preset = true) {
         const samplerList = [
             'Euler a',
             'Euler',
@@ -189,7 +190,16 @@ class Parse {
         let rawt = msg.replace(/ntag(s?)( = |=|＝| ＝ )?(.*)/ig, "").trim()
 
         // 置换预设词       /* 预设中提取的参数优先级应当低于命令中的参数 */
-        let { tags, ntags, param } = await this.dealpreset(rawt, rawnt)
+        let tags = rawt
+        let ntags = rawnt
+        let param = {}
+        if (is_check_preset) {
+            let tres = await this.dealpreset(rawt, rawnt)
+            tags = tres.tags
+            ntags = tres.ntags
+            param = tres.param
+        }
+
         if ('scale' in param) scale = scale || param.scale
         if ('sampler' in param) sampler = sampler || param.sampler
 
