@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 17:33:54
+ * @LastEditTime: 2023-01-03 17:53:51
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
@@ -74,7 +74,7 @@ export class setpolicy extends plugin {
             }
             // 仅预设名相同时
             else if (presets[i].keywords.includes(raw_preset.keywords[0])) {
-                e.reply(`已包含名为【${raw_preset.keywords[0]}】的预设：\n${this.stringifyPreset(raw_preset)}\n\n请更换预设名，或先删除同名预设再添加`)
+                e.reply(`已包含名为【${raw_preset.keywords[0]}】的预设：\n${this.stringifyPreset(presets[i])}\n\n请更换预设名，或先删除同名预设再添加`)
                 return true
             }
         }

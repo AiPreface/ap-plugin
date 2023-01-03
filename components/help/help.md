@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 17:45:41
+ * @LastEditTime: 2023-01-03 17:53:02
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -21,7 +21,7 @@
   * **自由度**： 默认11，范围0~99
   * **接口**：指定使用某个接口绘图。不指定时将使用默认值
   * `?`**张**：批量绘制若干张图片。最大10张
-  * **采样器**：用于指定本次绘图使用的采样器，目前支持Euler a, DPM2 a Karras, DPM2 a, DPM2 Karras, DPM fast, DPM adaptive, LMS Karras, DDIM, PLMS, Euler, LMS, Heun, DPM2
+  * **采样器**：用于指定本次绘图使用的采样器，如Euler a, DPM2 a Karras, DPM2 a, DPM2等
   * **指定图片**：当符合以下条件之一，判断此次绘图为**以图生图**
   * ①绘图命令`附带了图片`
   * ②绘图命令`引用回复了图片`

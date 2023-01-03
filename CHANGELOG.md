@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 02:48:57
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 17:36:47
+ * @LastEditTime: 2023-01-03 17:48:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\CHANGELOG.md
  * @Description: changeLog
  * 
@@ -16,5 +16,4 @@
 * 新增屏蔽词管理：`#ap添加屏蔽词`、`#ap删除屏蔽词`、`#ap屏蔽词列表`
 # 2.0.0
 
-* **aiPainting v2.0**
 * aiPainting v2.0
