@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 13:47:51
+ * @LastEditTime: 2023-01-04 17:29:22
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -29,7 +29,7 @@ export class GetEmbeddings extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap查看预设$',
+                    reg: '^#ap查看pt$',
                     /** 执行方法 */
                     fnc: 'getEmbeddings'
                 }
@@ -60,14 +60,25 @@ export class GetEmbeddings extends plugin {
                     nickname: Bot.nickname,
                     user_id: Bot.uin,
                 });
+                if (num % 200 == 0) {
+                    if (e.isGroup) {
+                      ForwardMsg = await e.group.makeForwardMsg(data_msg);
+                    }
+                    else {
+                      ForwardMsg = await e.friend.makeForwardMsg(data_msg);
+                    }
+                    e.reply(ForwardMsg);
+                    data_msg = [];
+                  }
             }
-            if (e.isGroup) {
-                ForwardMsg = await e.group.makeForwardMsg(data_msg);
-            }
-            else {
-                ForwardMsg = await e.friend.makeForwardMsg(data_msg);
-            }
-            e.reply(ForwardMsg);
+            if (data_msg.length > 0) {
+                if (e.isGroup) {
+                  ForwardMsg = await e.group.makeForwardMsg(data_msg);
+                } else {
+                  ForwardMsg = await e.friend.makeForwardMsg(data_msg);
+                }
+                e.reply(ForwardMsg);
+              }
             return true
         } else {
             e.reply('获取失败，请尝试更新Stable Diffusion')
