@@ -2,14 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 19:40:41
+ * @LastEditTime: 2023-01-04 14:38:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import Config from './config.js'
-import { parseImg, translate } from '../../utils/utils.js'
+import { parseImg, translate, chNum2Num } from '../../utils/utils.js'
 import { Pictools } from '../../utils/utidx.js'
 
 class Parse {
@@ -141,6 +141,7 @@ class Parse {
 
         let sampler = ""
 
+        msg = chNum2Num(msg, { r_text: '张' })
         // 张数
         let num = /(\d{1,5})张/.exec(msg) ? /(\d{1,5})张/.exec(msg)[1] : 1;
         num = num || 1
