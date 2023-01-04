@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-02 18:16:22
+ * @LastEditTime: 2023-01-05 00:26:04
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -23,6 +23,7 @@ class Config {
         this.initCfg()
         this.synccfg()
         this.syncplc()
+        this.sync_api_format()
     }
 
     /** 初始化配置 */
@@ -74,6 +75,24 @@ class Config {
             }
         }
         return config
+    }
+    // 更新接口格式
+    async sync_api_format() {
+        let apcfg = await this.getcfg()
+        for (let i = 0; i < apcfg.APIList.length; i++) {
+            if (Object.keys(apcfg.APIList[i]).length == 1) {
+                let api = Object.keys(apcfg.APIList[i])[0]
+                console.log(`刷新接口格式：${api}`)
+                apcfg.APIList[i] = {
+                    url: api,
+                    remark: apcfg.APIList[i][api],
+                    account_id: '',
+                    account_password: '',
+                    token: ''
+                }
+                await this.setcfg(apcfg)
+            }
+        }
     }
 
     /**获取配置

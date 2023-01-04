@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 17:44:24
+ * @LastEditTime: 2023-01-05 03:32:54
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -48,12 +48,14 @@
   * `?`**重唱**：指定放大倍数，默认2倍。图片过大时，将强制使用2倍放大
   * `?`**式**：指定降噪等级
 
-# 审计图片
+# 其他功能
 
 * **#鉴赏**
   * 逆推图片的tag。可对图片回复该命令，或将命令与图片一同发送。需要先配置逆推接口。`by苏苏`
 * **#鉴定图片**
   * 检查图片是否为AI绘制的。`by苏苏`
+* **#抠图**
+  * 去除图片背景。`by苏苏`
 
 # 预设
 

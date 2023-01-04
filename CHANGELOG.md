@@ -2,13 +2,17 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 02:48:57
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 17:44:43
+ * @LastEditTime: 2023-01-05 03:34:47
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\CHANGELOG.md
  * @Description: changeLog
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
 -->
 
+# 2.1.0
+
+* 新增`#抠图`：去除图片背景。**by苏苏**
+* 新增接口身份认证功能
 # 2.0.4
 
 * 新增`#鉴定图片`：检查图片是否为AI绘制的。**by苏苏**

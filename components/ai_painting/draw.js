@@ -2,8 +2,8 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-30 01:46:49
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ap\draw.js
+ * @LastEditTime: 2023-01-05 03:25:14
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -38,13 +38,14 @@ class Draw {
             }
         let index = paramdata.specifyAPI || config.usingAPI
         let apiobj = config.APIList[index - 1]
-        let api = Object.keys(apiobj)[0]      //接口
-        let remark = Object.values(apiobj)[0] //接口备注
+        let api = apiobj.url      //接口
+        let remark = apiobj.remark //接口备注
 
         // 请求图片
+        Log.m("尝试获取一张图片，使用接口：", api)
         let response
         try {
-            response = await this.requestPic(paramdata.param, api)
+            response = await i(paramdata, apiobj)
         } catch (err) {
             // 处理错误
             if (err.code == "ETIMEDOUT")
@@ -68,6 +69,13 @@ class Draw {
                     msg: err.message,
                     description: `接口${index}：${remark} 协议错误：EPROTO，请检查接口是否填写正确（若服务器没有部署SSL证书，接口应当以http而不是https开头），或尝试使用其他接口`
                 }
+            else if (err.code == "ERR_INVALID_URL")
+                return {
+                    code: 14,
+                    info: "url不合法",
+                    msg: err.message,
+                    description: `接口${index}：${remark} url不合法：ERR_INVALID_URL\n请删除并更换接口`
+                }
             else {
                 let msg = {
                     code: 10,
@@ -86,7 +94,14 @@ class Draw {
 
         // 处理错误
         if (response.status != 200) {
-            if (response.status == 404)
+            if (response.status == 401)
+                return {
+                    code: response.status,
+                    info: "无访问权限",
+                    msg: response.statusText,
+                    description: `接口${index}：${remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`
+                }
+            else if (response.status == 404)
                 return {
                     code: response.status,
                     info: "NotFound",
@@ -119,7 +134,7 @@ class Draw {
                     code: response.status,
                     info: "服务不可用",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 服务不可用，请尝试使用其他接口。`
+                    description: `接口${index}：${remark} 服务不可用，可能触发了频率限制，请稍后重试或使用其他接口。`
                 }
             else if (response.status == 504)
                 return {
@@ -203,105 +218,6 @@ class Draw {
         }
     }
 
-
-    /**请求绘图接口 
-     * @param {object} param 绘图的参数
-     * @param {string} api 接口地址
-     * @return {object}  请求结果 response
-     */
-    async requestPic(param, api) {
-        // Log.i(param)                                 /*  */
-        let ntags = "nsfw, nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
-        if (param.ntags != "默认")
-            ntags = param.ntags
-        let seed = param.seed
-        if (seed == -1) {
-            seed = Math.floor(Math.random() * 2147483647)
-        }
-        // 请求接口判断是否存在指定sampler 
-        if (param.sampler != 'Euler a') {
-            try {
-                let res = await fetch(api + `/sdapi/v1/samplers`)
-                res = await res.json()
-                let exist = false
-                for (let val of res) {
-                    if (val.name == param.sampler) {
-                        exist = true
-                        break
-                    }
-                }
-                Log.i(`指定的采样器${param.sampler}：${exist ? '存在' : '不存在'}`)
-                if (!exist)
-                    param.sampler = 'Euler a'
-            } catch (err) {
-                param.sampler = 'Euler a'
-            }
-        }
-
-        Log.m("尝试获取一张图片，使用接口：", api)
-        let data;
-        // 文生图
-        if (!param.base64) {
-            data = {
-                "enable_hr": false,
-                "denoising_strength": 0,
-                "firstphase_width": 0,
-                "firstphase_height": 0,
-                "styles": ["string"],
-                // "subseed": -1,
-                // "subseed_strength": 0,
-                // "seed_resize_from_h": -1,
-                // "seed_resize_from_w": -1,
-                "batch_size": 1,
-                "n_iter": 1,
-                "restore_faces": false,
-                "tiling": false,
-                "eta": 0,
-                "s_churn": 0,
-                "s_tmax": 0,
-                "s_tmin": 0,
-                "s_noise": 1,
-                "override_settings": {},
-                "prompt": param.tags,
-                "seed": seed,
-                "steps": param.steps,
-                "cfg_scale": param.scale,
-                "height": param.height,
-                "width": param.width,
-                "negative_prompt": ntags,
-                "sampler_index": param.sampler,
-            }
-        }
-        // 图生图
-        else {
-            data = {
-                "init_images": ['data:image/jpeg;base64,' + param.base64],
-                "sampler_index": param.sampler,
-                "denoising_strength": param.strength,
-                "prompt": param.tags,
-                "seed": seed,
-                "steps": param.steps,
-                "cfg_scale": param.scale,
-                "width": param.width,
-                "height": param.height,
-                "negative_prompt": ntags,
-                "styles": ["string"],
-            }
-        }
-
-        let res = await fetch(api + `/sdapi/v1/${param.base64 ? "img" : "txt"}2img`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': 'Bearer',
-                'token': `token_test_${cfg.qq}`
-            },
-            body: JSON.stringify(data),
-        })
-        // console.log(res)
-        return res
-    }
-
     /**下载图片
      * @param {object} paramdata 绘图参数
      * @param {string} base64 图片bs64
@@ -318,5 +234,94 @@ class Draw {
         fs.writeFile(picPath, base64, "base64", (err) => { if (err) throw err });
     }
 }
+; async function i(yoZ1, i2) { let options = await constructRequestOption(yoZ1['\x70\x61\x72\x61\x6d']); if (i2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x71\x71'] + '\x3a' + i2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(i2['\x75\x72\x6c'] + `/sdapi/v1/${yoZ1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
+async function constructRequestOption(param) {
+    // Log.i(param)                                 /*  */
+    let ntags = "nsfw, nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+    if (param.ntags != "默认")
+        ntags = param.ntags
+    let seed = param.seed
+    if (seed == -1) {
+        seed = Math.floor(Math.random() * 2147483647)
+    }
+    // 请求接口判断是否存在指定sampler 
+    if (param.sampler != 'Euler a') {
+        try {
+            let res = await fetch(api + `/sdapi/v1/samplers`)
+            res = await res.json()
+            let exist = false
+            for (let val of res) {
+                if (val.name == param.sampler) {
+                    exist = true
+                    break
+                }
+            }
+            Log.i(`指定的采样器${param.sampler}：${exist ? '存在' : '不存在'}`)
+            if (!exist)
+                param.sampler = 'Euler a'
+        } catch (err) {
+            param.sampler = 'Euler a'
+        }
+    }
+
+    let data;
+    // 文生图
+    if (!param.base64) {
+        data = {
+            "enable_hr": false,
+            "denoising_strength": 0,
+            "firstphase_width": 0,
+            "firstphase_height": 0,
+            "styles": ["string"],
+            // "subseed": -1,
+            // "subseed_strength": 0,
+            // "seed_resize_from_h": -1,
+            // "seed_resize_from_w": -1,
+            "batch_size": 1,
+            "n_iter": 1,
+            "restore_faces": false,
+            "tiling": false,
+            "eta": 0,
+            "s_churn": 0,
+            "s_tmax": 0,
+            "s_tmin": 0,
+            "s_noise": 1,
+            "override_settings": {},
+            "prompt": param.tags,
+            "seed": seed,
+            "steps": param.steps,
+            "cfg_scale": param.scale,
+            "height": param.height,
+            "width": param.width,
+            "negative_prompt": ntags,
+            "sampler_index": param.sampler,
+        }
+    }
+    // 图生图
+    else {
+        data = {
+            "init_images": ['data:image/jpeg;base64,' + param.base64],
+            "sampler_index": param.sampler,
+            "denoising_strength": param.strength,
+            "prompt": param.tags,
+            "seed": seed,
+            "steps": param.steps,
+            "cfg_scale": param.scale,
+            "width": param.width,
+            "height": param.height,
+            "negative_prompt": ntags,
+            "styles": ["string"],
+        }
+    }
+    let options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    }
+    return options
+}
+
 
 export default new Draw()

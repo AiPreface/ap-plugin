@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 19:56:09
+ * @LastEditTime: 2023-01-05 01:38:22
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -31,6 +31,11 @@ export class set extends plugin {
                 {
                     reg: "^#ap设置接口(\\d{1,3})$",
                     fnc: "selectapi",
+                    permission: "master",
+                },
+                {
+                    reg: "^#ap设置接口(\\d{1,3})密码(.+)$",
+                    fnc: "set_sd_info",
                     permission: "master",
                 },
                 {
@@ -84,14 +89,19 @@ export class set extends plugin {
         let apcfg = await Config.getcfg()
 
         for (let val of apcfg.APIList) {
-            if (Object.keys(val).includes(api))
-                return await e.reply(`已存在该接口:${api}  [${val[api]}]`)
+            if (val.url == api)
+                return await e.reply(`已存在该接口:${api}  [${val.remark}]`)
         }
         // 检测接口连通性
         if (!await this.testapi(api, '绘图')) { return false }
 
-        let obj = {}
-        obj[api] = remark
+        let obj = {
+            url: api,
+            remark: remark,
+            account_id: '',
+            account_password: '',
+            token: ''
+        }
         apcfg.APIList.push(obj)
         Config.setcfg(apcfg)
 
@@ -108,7 +118,7 @@ export class set extends plugin {
             let li = []
             let i = 1
             for (let val of apcfg.APIList) {
-                li.push(`${i}：${Object.values(val)[0]}${i == apcfg.usingAPI ? ' [当前]' : ''}`)
+                li.push(`${i}：${val.remark}${i == apcfg.usingAPI ? ' [当前]' : ''}${e.isPrivate && e.isMaster ? `\n  ${val.url}` : ''}`)
                 i++
             }
             e.reply(`接口${num}不存在,当前可选接口为：\n${li.join('\n')}`)
@@ -116,7 +126,30 @@ export class set extends plugin {
         }
         apcfg.usingAPI = Number(num)
         Config.setcfg(apcfg)
-        e.reply(`默认接口已设置为${num}：${Object.values(apcfg.APIList[num - 1])[0]}`)
+        e.reply(`默认接口已设置为${num}：${apcfg.APIList[num - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}`)
+        return true
+    }
+
+    /**设置接口密码 */
+    async set_sd_info(e) {
+        let ret = /^#ap设置接口(\d{1,3})密码(.+)$/.exec(e.msg)
+        let num = ret[1]
+        let account_password = ret[2]
+        Log.w(num, account_password)
+        let apcfg = await Config.getcfg()
+        if (num > apcfg.APIList.length || num < 1) {
+            let li = []
+            let i = 1
+            for (let val of apcfg.APIList) {
+                li.push(`${i}：${val.remark}${i == apcfg.usingAPI ? ' [当前]' : ''}${e.isPrivate && e.isMaster ? `\n  ${val.url}` : ''}`)
+                i++
+            }
+            e.reply(`接口${num}不存在,当前可选接口为：\n${li.join('\n')}`)
+            return true
+        }
+        apcfg.APIList[num - 1].account_password = account_password
+        Config.setcfg(apcfg)
+        e.reply(`接口${num}：${apcfg.APIList[num - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}\n密码已设置为：${account_password}`)
         return true
     }
 
@@ -129,7 +162,7 @@ export class set extends plugin {
             let li = []
             let i = 1
             for (let val of apcfg.APIList) {
-                li.push(`${i}：${Object.values(val)[0]}`)
+                li.push(`${i}：${val.remark}${i == apcfg.usingAPI ? ' [当前]' : ''}${e.isPrivate && e.isMaster ? `\n  ${val.url}` : ''}`)
                 i++
             }
             e.reply(`接口${num}不存在,当前可选接口为：\n${li.join('\n')}`)
@@ -143,13 +176,13 @@ export class set extends plugin {
             apcfg.usingAPI--
 
         apcfg.APIList.splice(num - 1, 1)
-        console.log(apcfg.APIList)
+        // console.log(apcfg.APIList)
 
         Config.setcfg(apcfg)
 
         let msg = [
-            `成功删除接口${num}：${Object.values(target)[0]}`,
-            apcfg.APIList.length == 0 ? '\n当前接口列表为空' : ischange ? `\n默认接口已更改为${apcfg.usingAPI}：${Object.values(apcfg.APIList[apcfg.usingAPI - 1])[0]}` : ''
+            `成功删除接口${num}：${apcfg.APIList[num - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}`,
+            apcfg.APIList.length == 0 ? '\n当前接口列表为空' : ischange ? `\n默认接口已更改为${apcfg.usingAPI}：${apcfg.APIList[apcfg.usingAPI - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}` : ''
         ]
 
         e.reply(msg)
@@ -162,10 +195,10 @@ export class set extends plugin {
         let li = []
         let i = 1
         if (apcfg.APIList.length == 0) {
-            e.reply("当前无可用接口，请先添加接口\n命令：#ap添加接口\n参考文档：https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk")
+            return e.reply("当前无可用接口，请先添加接口\n命令：#ap添加接口\n参考文档：https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk")
         }
         for (let val of apcfg.APIList) {
-            li.push(`${i}：${Object.values(val)[0]}${i == apcfg.usingAPI ? ' [默认]' : ''}` + (e.isPrivate && e.isMaster ? `\n   ${Object.keys(val)[0]}` : ''))
+            li.push(`${i}：${val.remark}${i == apcfg.usingAPI ? ' [默认]' : ''}` + (e.isPrivate && e.isMaster ? `\n   ${val.url}` : ''))
             i++
         }
         e.reply(li.join('\n'))
@@ -281,7 +314,7 @@ export class set extends plugin {
         let value = ret[1].trim()
         if (type == "baidu_appid") value = Number(value)
         if ((type == 'Real_CUGAN') && !value.endsWith('/')) value = value + '/'
-        if ((type == 'appreciate' || type == 'ai_detect') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
+        if ((type == 'appreciate' || type == 'ai_detect' || type == 'remove_bg') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         console.log(value)
         console.log(type)
         if (type == 'appreciate' || type == 'ai_detect')
@@ -332,8 +365,8 @@ export class set extends plugin {
         }
         let index = apcfg.usingAPI
         let apiobj = apcfg.APIList[index - 1]
-        let api = Object.keys(apiobj)[0]      //接口
-        let remark = Object.values(apiobj)[0] //接口备注
+        let api = apiobj.url     //接口
+        let remark = apiobj.remark //接口备注
         try {
             let res = await fetch(api + `/sdapi/v1/samplers`)
             if (res.status == 404) {

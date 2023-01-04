@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 17:29:22
+ * @LastEditTime: 2023-01-05 01:22:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -46,7 +46,7 @@ export class GetEmbeddings extends plugin {
         }
         let index = apcfg.usingAPI
         let apiobj = apcfg.APIList[index - 1]
-        let API = Object.keys(apiobj)[0]      //接口
+        let API = apiobj.url      //接口
 
         let data = await getEmbeddings(API)
         if (data) {

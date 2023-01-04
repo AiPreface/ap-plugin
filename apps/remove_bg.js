@@ -2,7 +2,7 @@
  * @Author: 苏苏
  * @Date: 2023-01-04 19:44:45
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 20:01:11
+ * @LastEditTime: 2023-01-04 20:17:19
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\remove_bg.js
  * @Description: 去除图片背景
  * 
@@ -34,7 +34,7 @@ export class RemoveBackground extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#?(去背景|抠图)$',
+                    reg: '^#?(去背景|抠图|扣图)$',
                     /** 执行方法 */
                     fnc: 'AnimeRemoveBackground'
                 },
@@ -54,7 +54,7 @@ export class RemoveBackground extends plugin {
         return await e.reply("请先配置去背景所需api，配置教程：https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF")
         //将URL处理成API格式
         const API = 'https://' + URL.split('/')[4] + '-anime-remove-background.hf.space/api/queue/'
-        
+
         if (FiguretypeUser[e.user_id]) {
             e.reply('当前有任务在列表中排队，请不要重复发送，去背景完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
             return true
