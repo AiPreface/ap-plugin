@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 23:08:59
+ * @LastEditTime: 2023-01-04 02:06:59
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -197,9 +197,9 @@ function isArray(p) { return Array.isArray(p) }
 
 /**将文本中的中文数字修改为阿拉伯数字
  * @param {string} text 待修改的文本
- * @param {string} data.regExp  指定正则表达式。中文数字推荐用 (\\\[一二三四五六七八九十零百千万亿\\\]\\\+) 来匹配
- * @param {string} data.l_text  数字左边的固定文字
- * @param {string} data.r_text  数字右边的固定文字
+ * @param {string} data.regExp  当语句情况比较复杂时，可以根据语境手动指定正则表达式。中文数字推荐用 (\\\[一二三四五六七八九十零百千万亿\\\]\\\+) 来匹配
+ * @param {string} data.l_text  数字左边的固定文本
+ * @param {string} data.r_text  数字右边的固定文本。此二者可以用于更精准地定位要修改的数字，避免误伤。当指定了data.regExp时此二者无效
  * @return {string} 修改后的文本
  */
 export function chNum2Num(text, data = {}) {

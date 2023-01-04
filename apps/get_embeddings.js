@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:46:07
+ * @LastEditTime: 2023-01-04 13:47:51
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -70,7 +70,7 @@ export class GetEmbeddings extends plugin {
             e.reply(ForwardMsg);
             return true
         } else {
-            e.reply('获取失败')
+            e.reply('获取失败，请尝试更新Stable Diffusion')
             return false
         }
     }

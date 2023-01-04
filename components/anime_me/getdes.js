@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 13:05:59
+ * @LastEditTime: 2023-01-04 14:32:22
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -23,20 +23,20 @@ export function getdsc(qq) {
             "插图": "illustration,"
         },
         "发色": {
-            "亮棕": "light brown ",
-            "双": "two-tone ",
-            "彩": "multicolored ",
-            "白": "white ",
-            "金": "blonde  ",
-            "银": "silver ",
-            "灰": "grey  ",
-            "紫": "purple ",
-            "红": "red ",
-            "黄": "yellow ",
-            "绿": "green ",
-            "蓝": "blue ",
-            "黑": "black ",
-            "棕": "brown "
+            "亮棕": "light brown hair, light brown ",
+            "双": "two-tone hair, two-tone ",
+            "彩": "multicolored hair, multicolored ",
+            "白": "white hair, white ",
+            "金": "blonde hair, blonde ",
+            "银": "silver hair, silver ",
+            "灰": "grey hair, grey ",
+            "紫": "purple hair, purple ",
+            "红": "red hair, red ",
+            "黄": "yellow hair, yellow ",
+            "绿": "green hair, green ",
+            "蓝": "blue hair, blue ",
+            "黑": "black hair, black ",
+            "棕": "brown hair, brown "
         },
         "头发": {
             "短发": "short hair,",
@@ -77,17 +77,17 @@ export function getdsc(qq) {
             "凌乱发型": "messy_hair,"
         },
         "眼色": {
-            "白": "white eyes,white eyes,",
-            "金": "blonde eyes,blonde eyes, ",
-            "银": "silver eyes,silver eyes,",
-            "灰": "grey eyes,grey eyes, ",
-            "紫": "purple eyes,purple eyes,",
-            "红": "red eyes,red eyes,",
-            "黄": "yellow eyes,yellow eyes,",
-            "绿": "green eyes,green eyes,",
-            "蓝": "blue eyes,blue eyes,",
-            "黑": "black eyes,black eyes,",
-            "棕": "brown eyes,brown eyes,"
+            "白": "white eyes,white eyes,white pupils,white pupils,",
+            "金": "blonde eyes,blonde eyes, blonde pupils,blonde pupils, ",
+            "银": "silver eyes,silver eyes,silver pupils,silver pupils,",
+            "灰": "grey eyes,grey eyes,grey pupils,grey pupils, ",
+            "紫": "purple eyes,purple eyes,purple pupils,purple pupils,",
+            "红": "red eyes,red eyes,red pupils,red pupils,",
+            "黄": "yellow eyes,yellow eyes,yellow pupils,yellow pupils,",
+            "绿": "green eyes,green eyes,green pupils,green pupils,",
+            "蓝": "blue eyes,blue eyes,blue pupils,blue pupils,",
+            "黑": "black eyes,black eyes,black pupils,black pupils,",
+            "棕": "brown eyes,brown eyes,brown pupils,brown pupils,"
         },
         "衣服颜色": {
             "亮棕": "light brown ",
@@ -381,9 +381,10 @@ export function getdsc(qq) {
         "类型": {
             //加几个男性选项 
             "小女孩": "little girl,",
-            "小男孩": "little boy,",
+            "小男孩": "little boy,male,",
             "成年男性": "man,Adult male,male,man,",
-            "正太": "shota,",
+            "年轻男性": "young boy,male,boy,",
+            "正太": "shota,male,",
             "萝莉": "loli,",
             "可爱": "kawaii,",
             "雌小鬼": "mesugaki,",
