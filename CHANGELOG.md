@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 02:48:57
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 17:30:00
+ * @LastEditTime: 2023-01-04 17:44:43
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\CHANGELOG.md
  * @Description: changeLog
  * 
@@ -11,7 +11,7 @@
 
 # 2.0.4
 
-* 新增`#检查画像`：检查图片是否为AI绘制的。**by苏苏**
+* 新增`#鉴定图片`：检查图片是否为AI绘制的。**by苏苏**
 # 2.0.3
 
 * 新增`#ap查看pt`：查看接口包含的embeddings的信息。**by苏苏**

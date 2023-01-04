@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 01:26:44
+ * @LastEditTime: 2023-01-04 18:57:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.0.4
  *
@@ -21,7 +21,7 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 
 ## 功能简介
 
-ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展插件，提供基于 stable diffusion 接口的 ai 绘图能力
+ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展插件，提供基于 Stable Diffusion 接口的 ai 绘图能力
 
 **_gitee 图片加载不出来请[前往 github 查看](https://github.com/yhArcadia/ap-plugin)_**
 
@@ -60,7 +60,7 @@ ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 
 ### 其他
 
-- qq 交流群：[621069204](https://qm.qq.com/cgi-bin/qm/qr?k=rIsuCl_GFdEfL-IBAwp1K50_Q7LHU3PF&jump_from=webapi&authKey=C7F2rC3qdrxMoDLYA2xkYD0wbdAdkr+XizZry54cpCBoimI9lo06VEtNpXIMTZzQ)
+- QQ 交流群：[621069204](https://qm.qq.com/cgi-bin/qm/qr?k=rIsuCl_GFdEfL-IBAwp1K50_Q7LHU3PF&jump_from=webapi&authKey=C7F2rC3qdrxMoDLYA2xkYD0wbdAdkr+XizZry54cpCBoimI9lo06VEtNpXIMTZzQ)
 - Yunzai-Bot: [☞gitee](https://gitee.com/Le-niao/Yunzai-Bot) [☞github](https://github.com/Le-niao/Yunzai-Bot)
 - Yunzai-Bot 插件库: [☞gitee](https://gitee.com/yhArcadia/Yunzai-Bot-plugins-index) [☞github](https://github.com/yhArcadia/Yunzai-Bot-plugins-index)
 - [爱发电](https://afdian.net/a/yhArcadia)

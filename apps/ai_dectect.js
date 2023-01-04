@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-04 01:03:58
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 01:59:14
+ * @LastEditTime: 2023-01-04 17:44:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_dectect.js
  * @Description: 
  * 
@@ -24,7 +24,7 @@ export class AiDetect extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '检查画像',
+            name: '鉴定图片',
             /** 功能描述 */
             dsc: '简单开发示例',
             /** https://oicqjs.github.io/oicq/#events */
@@ -34,7 +34,7 @@ export class AiDetect extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#检查画像$',
+                    reg: '^#?(检查|鉴定)图(片|像)$',
                     /** 执行方法 */
                     fnc: 'anime_ai_detect'
                 },
