@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 14:32:22
+ * @LastEditTime: 2023-01-04 15:35:21
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -556,7 +556,6 @@ export function getdsc(qq) {
             "举手": "hands up ,",
             "伸懒腰": "stretch,",
             "举手露腋": "armpits,",
-            "手把腿抓着": "leg hold,",
             "抓住": "grabbing,",
             "拿着": "holding,",
             "用手指做出笑脸": "fingersmile,",
