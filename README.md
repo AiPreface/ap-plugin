@@ -50,6 +50,11 @@ ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 根据图片逆向解析对应 prompt
 ![解析图片tag 示例图片](./resources/readme/%E8%A7%A3%E6%9E%90tag.jpg)
 
+#### 检查图片
+
+识别图片是否为ai绘制的
+![检查图片](./resources/readme/%E6%A3%80%E6%9F%A5%E5%9B%BE%E7%89%87.jpg)
+
 #### 功能完善中……
 
 </br>

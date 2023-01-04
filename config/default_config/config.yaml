@@ -4,5 +4,6 @@ baidu_secretkey: Your_Secret_Key
 appreciate:
 Real_CUGAN:
 ai_detect: 
+remove_bg:
 APIList: []
 usingAPI: 1
