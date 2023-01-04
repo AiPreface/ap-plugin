@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 23:18:44
+ * @LastEditTime: 2023-01-04 16:07:43
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -29,7 +29,12 @@ export class Anime_me extends plugin {
                 {
                     reg: "^(#|%|/)?二次元的我?$", //匹配消息正则，命令正则
                     fnc: 'ercy',
-                }
+                },
+                {
+                    reg: "^#?(全局)?刷新二次元的我$", //匹配消息正则，命令正则
+                    fnc: 'refreshErcy',
+                    permission: "master",
+                },
             ]
         })
         this.qq = NaN
@@ -147,5 +152,36 @@ export class Anime_me extends plugin {
             message: "二次元的我",
         }
         return paramdata
+    }
+
+
+    /**刷新“二次元的我”属性
+     * @param {*} e
+     * @return {*}
+     */
+    async refreshErcy(e) {
+        let is_all_refresh = false
+        if (e.msg.match(/全局/)) { is_all_refresh = true }
+        // Log.i(is_all_refresh)
+
+        let all_list = await redis.keys('Yunzai:aiPainting:ercydata:*')
+        // Log.i(all_list)
+
+        if (e.atBot) { e['at'] = cfg.qq }
+
+        if (is_all_refresh) {
+            for (let val of all_list) {
+                redis.del(val)
+            }
+            e.reply('已刷新全部用户的属性')
+        }
+        else if (e.at) {
+            redis.del(`Yunzai:aiPainting:ercydata:${e.at}`)
+            e.reply(`已刷新${await getuserName(e, e.at)}(${e.at})的属性`)
+        }
+        else {
+            e.reply('命令格式：\n#刷新二次元的我@用户\n或\n#全局刷新二次元的我')
+        } 
+        return true
     }
 }
