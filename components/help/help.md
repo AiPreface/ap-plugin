@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 03:32:54
+ * @LastEditTime: 2023-01-05 04:19:00
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -56,6 +56,8 @@
   * 检查图片是否为AI绘制的。`by苏苏`
 * **#抠图**
   * 去除图片背景。`by苏苏`
+* **#图片动漫化**
+  * 将照片处理为动漫风格。`by苏苏`
 
 # 预设
 
@@ -107,5 +109,9 @@
   * **#ap设置大清晰术接口**`接口地址`：配置大清晰术所用接口
 * `鉴赏`
   * **#ap设置鉴赏接口**`接口地址`：配置逆推图片tag所用接口
-* `检查画像`
+* `鉴定图片`
   * **#ap设置检查ai接口**`接口地址`：配置检查画像所用接口
+* `抠图`
+  * **#ap设置去背景接口**`接口地址`：配置抠图所用接口
+* `动漫化`
+  * **#ap设置动漫化接口**`接口地址`：配置图片动漫化所用接口

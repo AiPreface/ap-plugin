@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-04 01:03:58
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 17:44:07
+ * @LastEditTime: 2023-01-05 03:58:05
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_dectect.js
  * @Description: 
  * 
@@ -34,7 +34,7 @@ export class AiDetect extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#?(检查|鉴定)图(片|像)$',
+                    reg: '^#?(检查|鉴定)(图|画)(片|像)$',
                     /** 执行方法 */
                     fnc: 'anime_ai_detect'
                 },
@@ -51,9 +51,9 @@ export class AiDetect extends plugin {
 
     async anime_ai_detect(e) {
         if (!API)
-            return await e.reply("请先配置检查画像所需api，配置教程：https://www.wolai.com/3koPDP8wEne97evw1bjDiL")
+            return await e.reply("请先配置鉴定图片所需api，配置教程：https://www.wolai.com/3koPDP8wEne97evw1bjDiL")
         if (FiguretypeUser[e.user_id]) {
-            e.reply('当前有任务在列表中排队，请不要重复发送，检查完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
+            e.reply('当前有任务在列表中排队，请不要重复发送，鉴定完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
             return true
         }
         if (e.source) {
@@ -75,7 +75,7 @@ export class AiDetect extends plugin {
             }
         }
         if (this.e.img) {
-            e.reply('正在检查画像，请稍后...', true)
+            e.reply('正在鉴定图片，请稍后...', true)
             FiguretypeUser[e.user_id] = setTimeout(() => {
                 if (FiguretypeUser[e.user_id]) {
                     delete FiguretypeUser[e.user_id];
@@ -115,22 +115,22 @@ export class AiDetect extends plugin {
                     let time = ((end.getTime() - start.getTime()) / 1000)
                         .toFixed(2)
                     if (human > ai) {
-                        e.reply(`检查完成，耗时${time}秒，这张画像【不是AI制作的】，置信率概率为${human}%`, true)
+                        e.reply(`鉴定完成，耗时${time}秒，这张画像【不是AI制作的】，置信率概率为${human}%`, true)
                     }
                     else {
                         if (ai < 96)
-                            e.reply(`检查完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%\n※：这并不意味着这张画像一定是AI制作的，因为结果置信率低于96%，数据仅供参考`, true)
+                            e.reply(`鉴定完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%\n※：这并不意味着这张画像一定是AI制作的，因为结果置信率低于96%，数据仅供参考`, true)
                         else
-                            e.reply(`检查完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%`, true)
+                            e.reply(`鉴定完成，耗时${time}秒，这张画像【是AI制作的】，置信率概率为${ai}%`, true)
                     }
                     delete FiguretypeUser[e.user_id];
                     return true
                 })
         } else {
-            e.reply('请在60s内发送需要检查的图片~', true);
+            e.reply('请在60s内发送需要鉴定的图片~', true);
             getImagetime[e.user_id] = setTimeout(() => {
                 if (getImagetime[e.user_id]) {
-                    e.reply('检查已超时，请再次发送命令~', true);
+                    e.reply('鉴定已超时，请再次发送命令~', true);
                     delete getImagetime[e.user_id];
                 }
             }, 60000);

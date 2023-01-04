@@ -5,5 +5,6 @@ appreciate:
 Real_CUGAN:
 ai_detect: 
 remove_bg:
+cartoonization:
 APIList: []
 usingAPI: 1

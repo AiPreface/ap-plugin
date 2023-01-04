@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 01:38:22
+ * @LastEditTime: 2023-01-05 04:07:25
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -44,7 +44,7 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口).+",
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口).+",
                     fnc: "setother",
                     permission: "master",
                 },
@@ -280,6 +280,7 @@ export class set extends plugin {
         let super_resolution_reg = /^#ap设置大清晰术接口 ?(http.+)$/
         let ai_detect_reg = /^#ap设置检查ai接口 ?(http.+)$/
         let remove_bg_reg = /^#ap设置去背景接口 ?(http.+)$/
+        let cartoonization_reg = /^#ap设置动漫化接口 ?(http.+)$/
 
         let bdappid = baidu_appid_reg.exec(e.msg)
         if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
@@ -302,6 +303,9 @@ export class set extends plugin {
         let remove_bg = remove_bg_reg.exec(e.msg)
         if (remove_bg) { return this.writecfg(remove_bg, 'remove_bg') }
 
+        let cartoonization = cartoonization_reg.exec(e.msg)
+        if (cartoonization) { return this.writecfg(cartoonization, 'cartoonization') }
+
         return false
     }
 
@@ -315,14 +319,16 @@ export class set extends plugin {
         if (type == "baidu_appid") value = Number(value)
         if ((type == 'Real_CUGAN') && !value.endsWith('/')) value = value + '/'
         if ((type == 'appreciate' || type == 'ai_detect' || type == 'remove_bg') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
-        console.log(value)
+        if (type == "cartoonization") value = value.replace('/+/', '/').replace(/\/$/, "")
+
         console.log(type)
-        if (type == 'appreciate' || type == 'ai_detect')
-            if (!value.endsWith('predict'))
-                return this.e.reply('鉴赏接口和检查ai接口应当以“predict”结尾')
+        console.log(value)
+        // if (type == 'appreciate' || type == 'ai_detect')
+        //     if (!value.endsWith('predict'))
+        //         return this.e.reply('鉴赏接口和检查ai接口应当以“predict”结尾')
 
         // 测试接口连通性
-        if (!type == 'remove_bg')
+        if (type != 'remove_bg')
             if (type != "baidu_appid" && type != "baidu_apikey" && type != "baidu_secretkey") {
                 if (!await this.testapi(value, type)) { return false }
             }
