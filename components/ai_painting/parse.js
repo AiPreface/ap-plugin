@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 14:38:52
+ * @LastEditTime: 2023-01-05 15:49:11
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -351,6 +351,7 @@ class Parse {
                 paramdata.rawtag.tags = await paramdata.rawtag.tags.replace(re.exec(paramdata.rawtag.tags)[0], "");
             }
         }
+        prohibitedWords = [...new Set(prohibitedWords)] // 去重
         return [prohibitedWords, paramdata]
     }
 
