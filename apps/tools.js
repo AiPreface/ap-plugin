@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-04 20:22:48
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 22:38:03
+ * @LastEditTime: 2023-01-05 16:01:41
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\tools.js
  * @Description: 一些小工具
  * 
@@ -28,7 +28,11 @@ export class Tools extends plugin {
                 {
                     reg: '^#?取图链$',
                     fnc: 'getImgUrl'
-                }
+                },
+                {
+                    reg: '^#?图链模板$',
+                    fnc: 'image_template'
+                },
             ]
         })
     }
@@ -45,6 +49,13 @@ export class Tools extends plugin {
         e = await parseImg(e)
         if (e.img)
             e.reply(e.img[0])
+        else
+            e.reply('请附带图片，或对图片回复')
+        return true
+    }
+
+    async image_template(e) {
+        e.reply('https://gchat.qpic.cn/gchatpic_new/0000000000/0000000000-0000000000-替换/0?term=3&is_origin=0')
         return true
     }
 }
