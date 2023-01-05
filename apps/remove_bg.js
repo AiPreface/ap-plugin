@@ -2,7 +2,7 @@
  * @Author: 苏苏
  * @Date: 2023-01-04 19:44:45
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 16:20:55
+ * @LastEditTime: 2023-01-05 16:34:04
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\remove_bg.js
  * @Description: 去除图片背景
  * 
@@ -13,6 +13,7 @@ import Config from '../components/ai_painting/config.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
 import { segment } from 'oicq'
+import { parseImg } from '../utils/utils.js'
 
 const _path = process.cwd();
 let ap_cfg = await Config.getcfg()
@@ -59,24 +60,8 @@ export class RemoveBackground extends plugin {
             e.reply('当前有任务在列表中排队，请不要重复发送，去背景完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试', false, { at: true, recallMsg: 15 })
             return true
         }
-        if (e.source) {
-            let reply;
-            if (e.isGroup) {
-                reply = (await e.group.getChatHistory(e.source.seq, 1))
-                    .pop()?.message;
-            } else {
-                reply = (await e.friend.getChatHistory(e.source.time, 1))
-                    .pop()?.message;
-            }
-            if (reply) {
-                for (let val of reply) {
-                    if (val.type == "image") {
-                        e.img = [val.url];
-                        break;
-                    }
-                }
-            }
-        }
+        e = await parseImg(e)
+        
         if (this.e.img) {
             e.reply('正在为图像去背景，请稍候...', false, { at: true, recallMsg: 15 })
             FiguretypeUser[e.user_id] = setTimeout(() => {
