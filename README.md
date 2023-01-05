@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 04:23:28
+ * @LastEditTime: 2023-01-05 15:30:57
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.6.0
  *
@@ -45,6 +45,11 @@ ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 拯救画质
 ![超分和降噪 示例图片](./resources/readme/%E5%9B%BE%E7%89%87%E8%B6%85%E5%88%86.jpg)
 
+#### 抠图
+
+去除图片背景
+![抠图](./resources/readme/%E6%8A%A0%E5%9B%BE.jpg)
+
 #### 解析图片 tag
 
 根据图片逆向解析对应 prompt
@@ -54,6 +59,11 @@ ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 
 识别图片是否为ai绘制的
 ![检查图片](./resources/readme/%E6%A3%80%E6%9F%A5%E5%9B%BE%E7%89%87.jpg)
+
+#### 图片动漫化
+
+一个动漫风格滤镜
+![图片动漫化](./resources/readme/%E5%8A%A8%E6%BC%AB%E5%8C%96.jpg)
 
 #### 功能完善中……
 
