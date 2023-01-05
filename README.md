@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 18:31:07
+ * @LastEditTime: 2023-01-05 22:05:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.6.5
+ * @Description: 版本：2.6.6
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -16,6 +16,12 @@
 ```
 git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 ```
+
+</br>
+
+## 更新
+
+对机器人发送`#ap更新`或`#ap强制更新`即可
 
 </br>
 

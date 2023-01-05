@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 04:07:25
+ * @LastEditTime: 2023-01-05 19:42:28
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -181,8 +181,8 @@ export class set extends plugin {
         Config.setcfg(apcfg)
 
         let msg = [
-            `成功删除接口${num}：${apcfg.APIList[num - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}`,
-            apcfg.APIList.length == 0 ? '\n当前接口列表为空' : ischange ? `\n默认接口已更改为${apcfg.usingAPI}：${apcfg.APIList[apcfg.usingAPI - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}` : ''
+            `成功删除接口${num}：${target.remark}${e.isPrivate && e.isMaster ? `\n  ${target.url}` : ''}`,
+            apcfg.APIList.length == 0 ? '\n当前接口列表为空' : ischange ? `\n默认接口已更改为${apcfg.usingAPI}：${apcfg.APIList[apcfg.usingAPI - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[apcfg.usingAPI - 1].url}` : ''}` : ''
         ]
 
         e.reply(msg)
