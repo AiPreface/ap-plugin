@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 15:49:11
+ * @LastEditTime: 2023-01-06 01:02:55
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -11,6 +11,7 @@
 import Config from './config.js'
 import { parseImg, translate, chNum2Num } from '../../utils/utils.js'
 import { Pictools } from '../../utils/utidx.js'
+import Log from '../../utils/Log.js'
 
 class Parse {
     constructor() {
@@ -187,7 +188,7 @@ class Parse {
         // 取tag和ntag
         let ntgReg = /ntag(s?)( = |=|＝| ＝ )?(.*)/i
         let rawnt = ntgReg.test(msg) ? ntgReg.exec(msg)[3].trim() : "";
-        rawnt = rawnt.replace(/^(=|＝)/g, "").trim() || "默认"
+        rawnt = rawnt.replace(/^(=|＝)/g, "").trim()
         let rawt = msg.replace(/ntag(s?)( = |=|＝| ＝ )?(.*)/ig, "").trim()
 
         // 置换预设词       /* 预设中提取的参数优先级应当低于命令中的参数 */
@@ -201,6 +202,28 @@ class Parse {
             param = tres.param
         }
 
+        // 取tags中的pt
+        let pt_reg = /(【.+?】)/
+        let pt = []
+        let npt = []
+        while (pt_reg.test(tags)) {
+            let check_pt = pt_reg.exec(tags)
+            // Log.i(check_pt)  //
+            pt.push(check_pt[0].replace(/^【/, '').replace(/】$/, '').trim())
+            tags = tags.replace(check_pt[0], '')
+        }
+        while (pt_reg.test(ntags)) {
+            let check_pt = pt_reg.exec(ntags)
+            // Log.i(check_pt)  //
+            npt.push(check_pt[0].replace(/^【/, '').replace(/】$/, '').trim())
+            ntags = ntags.replace(check_pt[0], '')
+        }
+        // Log.i(pt)
+        // Log.i(npt)
+        // Log.i(tags)
+        // Log.i(ntags)
+
+
         if ('scale' in param) scale = scale || param.scale
         if ('sampler' in param) sampler = sampler || param.sampler
 
@@ -208,7 +231,8 @@ class Parse {
         // 处理特殊字符==========
         tags = this.replacespc(tags)
         ntags = this.replacespc(ntags)
-
+        // Log.i(tags)
+        // Log.i(ntags)
         // 整合参数
         let txtparam = {
             param: {
@@ -220,7 +244,9 @@ class Parse {
                 width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : 512,
                 height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : 768,
                 tags: tags.trim(),
-                ntags: ntags.trim()
+                ntags: ntags.trim(),
+                pt: pt,
+                npt: npt,
             },
             num: Number(num),
             specifyAPI: Number(specifyAPI),
@@ -255,11 +281,14 @@ class Parse {
             .replace(/。/g, ".")
             .replace("==>", "")
             .replace(/#|＃|\/|\\/g, "")
-            .replace(/, ,|,,/g, ",")
             .replace(
                 /[\u3002\uff1f\uff01\uff0c\u3001\uff1b\uff1a\u201c\u201d\u2018\u2019\uff08\uff09\u300a\u300b\u3008\u3009\u3010\u3011\u300e\u300f\u300c\u300d\ufe43\ufe44\u3014\u3015\u2026\u2014\uff5e\ufe4f\uffe5]/g,
                 ","
             )
+            .replace(/,{2,10}/g, ",")
+            .replace(/,[ ],/g, ",")
+            .replace(/^,+/, "")
+            .replace(/,+$/, "")
     }
 
 
@@ -287,17 +316,26 @@ class Parse {
 
             //便利预设词对象的key
             for (let val of preSet) {
-                for (let key of val.keywords)
+                for (let key of val.keywords) {
                     // 如果预设key在正面tag中
                     if (rawt.includes(key) && key.length > matchedWord.length) {
+                        // let regexp = new RegExp(`【\[\^【】\]\*${key}\[\^【】\]\*】`) // ==>  /【[^【】]*key[^【】]*】/   表示key两侧有【】
+                        // if (regexp.test(rawt)) {
+                        //     continue
+                        // }
                         matchedPst = val
                         matchedWord = key; //存一下匹配到的key
                     }
                     // 如果预设key在负面tag中
                     else if (rawnt.includes(key) && key.length > matchedWord_n.length) {
+                        // let regexp = new RegExp(`【\[\^【】\]\*${key}\[\^【】\]\*】`) // ==>  /【[^【】]*key[^【】]*】/   表示key两侧有【】
+                        // if (regexp.test(rawnt)) {
+                        //     continue
+                        // }
                         matchedPst_n = val
                         matchedWord_n = key; //存一下匹配到的key
                     }
+                }
             }
             // key在正面tag中，正面tag替换，负面tag加在尾部
             if (matchedWord.length) {
@@ -326,7 +364,7 @@ class Parse {
         let chReg = /(?:[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/
         if (chReg.test(paramdata.param.tags))
             paramdata.param.tags = await translate(paramdata.param.tags)
-        if (chReg.test(paramdata.param.ntags.replace('默认')))
+        if (chReg.test(paramdata.param.ntags))
             paramdata.param.ntags = await translate(paramdata.param.ntags)
         return paramdata
     }

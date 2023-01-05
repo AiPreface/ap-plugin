@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:14:16
+ * @LastEditTime: 2023-01-06 00:49:49
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
@@ -96,8 +96,18 @@ export class setpolicy extends plugin {
 
         // 解析预设的value
         let res = await Parse.parsetxt(reg_result[2], false)
+        // Log.w(res)
+        // 回填pt
+        if (res.param.pt.length) {
+            res.param.pt.forEach((value, index) => { res.param.pt[index] = `【${value}】` })
+            res.param.tags = `${res.param.pt.join(',')},` + res.param.tags
+        }
+        if (res.param.npt.length) {
+            res.param.npt.forEach((value, index) => { res.param.npt[index] = `【${value}】` })
+            res.param.ntags = `${res.param.npt.join(',')},` + res.param.ntags
+        }
         // Log.i(res)
-        if (res.param.tags + res.param.ntags == '') {
+        if ((res.param.tags + res.param.ntags).trim() == '') {
             return false
         }
 
@@ -108,7 +118,7 @@ export class setpolicy extends plugin {
             "pt": "",
             "param": {},
             "tags": res.param.tags,
-            "ntags": res.param.ntags == '默认' ? '' : res.param.ntags
+            "ntags": res.param.ntags
         }
         if (res.param.scale)
             raw_preset.param['scale'] = res.param.scale

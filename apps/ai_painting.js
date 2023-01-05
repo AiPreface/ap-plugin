@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-02 14:31:24
+ * @LastEditTime: 2023-01-06 01:10:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -105,6 +105,11 @@ export class Ai_Painting extends plugin {
       }
     }
 
+    // 回填pt
+    if (paramdata.param.pt.length)
+      paramdata.param.tags = `${paramdata.param.pt.join(',')},` + paramdata.param.tags
+    if (paramdata.param.npt.length)
+      paramdata.param.ntags = `${paramdata.param.npt.join(',')},` + paramdata.param.ntags
 
     // 检测屏蔽词
     let prohibitedWords = []
@@ -118,7 +123,7 @@ export class Ai_Painting extends plugin {
 
 
     e.reply([
-      prohibitedWords.length ? "已去除关键词中包含的屏蔽词，正在" : "",
+      prohibitedWords.length ? `已去除关键词中包含的屏蔽词：${prohibitedWords.join('、')}\n正在` : "",
       paramdata.param.base64 ? "以图生图" : "绘制", "中，请稍候。",
       paramdata.num > 1 ? "绘制多张图片所需时间较长，请耐心等待" : "",
       remaining_tasks ? "\n\n※当前有进行中的批量绘图任务，您可能需要等待较长时间，请见谅" : "",
@@ -158,6 +163,7 @@ export class Ai_Painting extends plugin {
       }
 
       // 构建消息
+      // Log.w(paramdata.param)
       let msg = [
         usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
         segment.image(`base64://${res.base64}`),
@@ -167,7 +173,7 @@ export class Ai_Painting extends plugin {
         paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
         paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
         paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
-        paramdata.param.ntags == '默认' ? "" : `\n\nNTAGS=${paramdata.param.ntags}`,
+        paramdata.param.ntags ? `\n\nNTAGS=${paramdata.param.ntags}` : "",
       ]
 
       // 发送消息，发送失败清除CD，发送成功记录一次使用
@@ -255,7 +261,7 @@ export class Ai_Painting extends plugin {
           `scale=${paramdata.param.scale}\n`,
           `strength=${paramdata.param.strength}\n`,
           paramdata.param.tags ? `${paramdata.param.tags}` : '',
-          paramdata.param.ntags == '默认' ? "" : `\nNTAGS=${paramdata.param.ntags}`,
+          paramdata.param.ntags ? `\nNTAGS=${paramdata.param.ntags}` : "",
         ],
         nickname: Bot.nickname,
         user_id: cfg.qq,

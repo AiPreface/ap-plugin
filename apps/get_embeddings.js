@@ -2,7 +2,7 @@
  * @Author: 苏苏
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 22:04:45
+ * @LastEditTime: 2023-01-06 01:07:02
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -53,18 +53,18 @@ export class GetEmbeddings extends plugin {
         try {
             response = await _(apiobj)
         } catch (err) {
-            if (err.code == 'ERR_BAD_REQUEST') {
-                return e.reply(`接口${index}：${apiobj.remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`)
-            }
             Log.e(err)
-            return e.reply('拉取失败，请尝试更新SD')
+            // if (err.code == 'ERR_BAD_REQUEST') {
+            //     return e.reply(`接口${index}：${apiobj.remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`)
+            // }
+            return e.reply('拉取失败')
         }
         if (response.status != 200) {
-            return e.reply('拉取失败，请尝试更新SD')
+            return e.reply('拉取失败')
         }
         let data = response.data
         if (!data) {
-            e.reply('获取失败，请尝试更新Stable Diffusion')
+            e.reply('拉取失败')
             return false
         }
 
@@ -115,7 +115,7 @@ export class GetEmbeddings extends plugin {
         let i = 1 + (page - 1) * 100
         for (let val of selected_page) {
             data_msg.push({
-                message: `${i++} \n├预设名称：${val}\n└训练步数：${data.loaded[val].step}`,
+                message: `${i++} \n├预设名称：【${val}】\n└训练步数：${data.loaded[val].step}`,
                 nickname: Bot.nickname,
                 user_id: cfg.qq,
             });
