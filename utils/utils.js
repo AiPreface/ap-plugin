@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 16:02:32
+ * @LastEditTime: 2023-01-05 18:29:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -15,16 +15,18 @@ import moment from "moment";
 
 
 /**
- * 处理消息中的图片：当消息引用了图片，或者消息有@对象，则将对应图片放入e.img 
+ * 处理消息中的图片：当消息引用了图片，或者消息有@对象，则将对应图片放入e.img ，优先级==> e.source.img > e.img > e.at的头像 > bot头像
  * @param {*} e OICQ事件参数e
  * @return {*} 处理过后的e
  */
 export async function parseImg(e) {
-    if (e.atBot) {
-        e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${cfg.qq}`];
-    }
-    if (e.at) {
-        e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`];
+    if (!e.img) {
+        if (e.atBot) {
+            e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${cfg.qq}`];
+        }
+        if (e.at) {
+            e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`];
+        }
     }
     if (e.source) {
         let reply;
