@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 16:07:43
+ * @LastEditTime: 2023-01-07 00:29:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -133,17 +133,17 @@ export class Anime_me extends plugin {
                 strength: 0.6,
                 seed: -1,
                 scale: 11,
-                steps: 18,
+                steps: 25,
                 width: txdsc ? 384 : base64 ? 512 : 384,
                 height: 512,
                 tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en,
-                ntags: "默认",
+                ntags: "",
                 base64: txdsc ? null : base64,
             },
             num: 1,
             rawtag: {
                 tags: dsc.en,
-                ntags: "默认"
+                ntags: ""
             },
             specifyAPI: NaN,
             user: Number(this.qq),
