@@ -2,8 +2,8 @@
  * @Author: https://github.com/itorr/one-last-image
  * @Date: 2023-01-06 17:01:03
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-07 00:07:01
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\louvre\louvre.js
+ * @LastEditTime: 2023-01-07 01:28:13
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\louvre\louvre.cjs
  * @Description: 
  * 
  * Copyright (c) 2023 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -16,7 +16,6 @@ try {
 	Canvas = require("canvas");
 } catch (err) {
 	Log.w(err)
-	return { 'err': err }
 }
 // import Canvas from "canvas";
 global.Image = Canvas.Image;
@@ -36,7 +35,7 @@ const canvasShadeMin = Canvas.createCanvas();
 const canvasMin = Canvas.createCanvas();
 const pencilTextureCanvas = Canvas.createCanvas();
 
-export async function louvre({
+async function louvre({
 	img,
 	config,
 }, e) {
@@ -482,3 +481,6 @@ const convoluteY = (pixels, weights, ctx) => {
 	}
 	return output;
 };
+module.exports = {
+	louvre
+}

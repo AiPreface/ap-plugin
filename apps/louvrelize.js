@@ -4,6 +4,8 @@ import { segment } from "oicq";
 // import Canvas from "canvas";
 import { parseImg } from '../utils/utils.js'
 import Log from '../utils/Log.js';
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
 let FiguretypeUser = {}
 let getImagetime = {}
@@ -29,16 +31,16 @@ var style = {
 	shadeLimit: 118,       //线迹轻重
 	shadeLight: 20,        //调子数量
 	shade: true,
-	kuma: true,            //Kiss
+	kuma: false,            //Kiss
 	hajimei: false,        //初回
-	watermark: true,       //水印
+	watermark: false,       //水印
 	convoluteName: '精细', //精细度
 	convolute1Diff: true,
 	convoluteName2: null,
 	Convolutes,
 	lightCut: 128,         //亮部处理
 	darkCut: 118,          //暗部处理
-	denoise: true,         //降噪
+	denoise: false,         //降噪
 };
 
 export class louvreimg extends plugin {
@@ -49,17 +51,21 @@ export class louvreimg extends plugin {
 			event: "message",
 			priority: 5000,
 			rule: [
-				// {
-				// 	reg: "^#?(卢浮宫|louvre)([\\s\\S]*)$",
-				// 	fnc: "louvreImg",
-				// },
-				// {
-				// 	/** 命令正则匹配 */
-				// 	reg: '^.*$',
-				// 	/** 执行方法 */
-				// 	fnc: 'getImage',
-				// 	log: false
-				// },
+				{
+					reg: "^#?(卢浮宫|louvre)([\\s\\S]*)$",
+					fnc: "louvreImg",
+				},
+				{
+					reg: "^#?线稿$",
+					fnc: "louvreImg",
+				},
+				{
+					/** 命令正则匹配 */
+					reg: '^.*$',
+					/** 执行方法 */
+					fnc: 'getImage',
+					log: false
+				},
 				// {
 				// 	/** 命令正则匹配 */
 				// 	reg: '^#卢浮宫帮助$',
@@ -74,13 +80,17 @@ export class louvreimg extends plugin {
 			return louvreHelp(e)
 
 		let Canvas
+		let louvre
 		try {
 			Canvas = require("canvas");
+			louvre = require('../components/louvre/louvre.cjs').louvre;
+			// Log.i(louvre)
+			// Log.i(typeof louvre)
 		} catch (err) {
 			Log.w(err)
+			e.reply('louvres卢浮宫滤镜功能需要安装依赖：canvas\n请在yunzai根目录执行 pnpm add canvas -w 来安装依赖\n若安装失败，请尝试以下命令：\ncnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas\n\n若安装依赖后仍出现此报错，您可联系开发者反馈')
 			return true
 		}
-
 
 
 		if (FiguretypeUser[e.user_id]) {
@@ -104,8 +114,46 @@ export class louvreimg extends plugin {
 			return false;
 		}
 
-		// 当添加了参数时，提取参数：
-		if (!/^#?(louvre|卢浮宫)$/.test(e.msg.trim())) {
+
+		if (/^#?线稿$/.test(e.msg.trim())) {
+			style = {
+				zoom: 1,
+				light: 0,
+				shadeLimit: 118,       //线迹轻重
+				shadeLight: 20,        //调子数量
+				shade: true,
+				kuma: false,            //Kiss
+				hajimei: false,        //初回
+				watermark: false,       //水印
+				convoluteName: '精细', //精细度
+				convolute1Diff: true,
+				convoluteName2: null,
+				Convolutes,
+				lightCut: 128,         //亮部处理
+				darkCut: 118,          //暗部处理
+				denoise: true,         //降噪
+			};
+		}
+		else if (/^#?louvre$/.test(e.msg.trim())) {
+			style = {
+				zoom: 1,
+				light: 0,
+				shadeLimit: 118,       //线迹轻重
+				shadeLight: 20,        //调子数量
+				shade: true,
+				kuma: true,            //Kiss
+				hajimei: true,        //初回
+				watermark: true,       //水印
+				convoluteName: '精细', //精细度
+				convolute1Diff: true,
+				convoluteName2: null,
+				Convolutes,
+				lightCut: 128,         //亮部处理
+				darkCut: 118,          //暗部处理
+				denoise: false,         //降噪
+			};
+		}
+		else {
 			if (e.msg.includes('精细')) {
 				style.convoluteName = '精细'
 			} else if (e.msg.includes('一般')) {
@@ -182,7 +230,6 @@ export class louvreimg extends plugin {
 				style.shadeLight = 108
 			}
 		}
-
 
 
 		FiguretypeUser[e.user_id] = setTimeout(() => {
