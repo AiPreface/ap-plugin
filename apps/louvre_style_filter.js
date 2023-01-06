@@ -73,6 +73,16 @@ export class louvreimg extends plugin {
 		if (e.msg.includes('帮助'))
 			return louvreHelp(e)
 
+		let Canvas
+		try {
+			Canvas = require("canvas");
+		} catch (err) {
+			Log.w(err)
+			return true
+		}
+
+
+
 		if (FiguretypeUser[e.user_id]) {
 			e.reply('当前有任务在列表中排队，请不要重复发送，生成完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试', false, {
 				at: true,

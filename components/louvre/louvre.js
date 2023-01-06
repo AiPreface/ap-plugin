@@ -2,7 +2,7 @@
  * @Author: https://github.com/itorr/one-last-image
  * @Date: 2023-01-06 17:01:03
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 19:15:50
+ * @LastEditTime: 2023-01-07 00:07:01
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\louvre\louvre.js
  * @Description: 
  * 
@@ -11,8 +11,14 @@
 /* 
 [致谢itorr提供图像处理方法]：https://github.com/itorr/one-last-image
  */
-
-import Canvas from "canvas";
+let Canvas
+try {
+	Canvas = require("canvas");
+} catch (err) {
+	Log.w(err)
+	return { 'err': err }
+}
+// import Canvas from "canvas";
 global.Image = Canvas.Image;
 
 const randRange = (a, b) => Math.floor(Math.random() * (b - a) + a);
