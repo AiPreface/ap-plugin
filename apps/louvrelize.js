@@ -88,7 +88,7 @@ export class louvreimg extends plugin {
 			// Log.i(typeof louvre)
 		} catch (err) {
 			Log.w(err)
-			e.reply('louvres卢浮宫滤镜功能需要安装依赖：canvas\n请在yunzai根目录执行如下命令来安装依赖：\ncnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas\n\n若安装依赖后仍出现此报错，您可联系开发者反馈')
+			e.reply('出错：louvres卢浮宫滤镜功能需要安装依赖：canvas\n请在yunzai根目录执行如下命令来安装依赖：\ncnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas\n\n若安装依赖后仍出现此报错，您可联系开发者反馈')
 			return true
 		}
 
