@@ -2,12 +2,16 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 02:48:57
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 04:23:33
+ * @LastEditTime: 2023-01-06 19:55:46
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\CHANGELOG.md
  * @Description: changeLog
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
 -->
+
+# 2.7.0
+
+* 新增`#卢浮宫`：一个优雅的图片风格化滤镜。**by苏苏** 
 
 # 2.6.0
 

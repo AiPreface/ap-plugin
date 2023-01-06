@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 01:12:41
+ * @LastEditTime: 2023-01-06 19:58:33
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.6.7
+ * @Description: 版本：2.7.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -65,6 +65,11 @@ ap-plugin 是[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)的一个扩展�
 
 识别图片是否为ai绘制的
 ![检查图片](./resources/readme/%E6%A3%80%E6%9F%A5%E5%9B%BE%E7%89%87.jpg)
+
+#### 卢浮宫
+
+一个优雅的风格化滤镜
+![图片动漫化](./resources/readme/%E5%8D%A2%E6%B5%AE%E5%AE%AB.jpg)
 
 #### 图片动漫化
 

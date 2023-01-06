@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-26 14:14:46
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 14:25:03
+ * @LastEditTime: 2023-01-06 20:20:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\dependencies_reminder.js
  * @Description: 缺少依赖时的提醒
  * 
@@ -12,8 +12,8 @@ import chalk from 'chalk'
 export const needPackage = [
     'axios',
     'image-size',
+    // "canvas",
 ]
-
 export async function checkPackage() {
     for (let pkgName of needPackage) {
         try {
