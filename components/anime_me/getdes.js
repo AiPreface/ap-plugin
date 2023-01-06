@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-04 16:04:38
+ * @LastEditTime: 2023-01-06 21:32:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -77,17 +77,17 @@ export function getdsc(qq) {
             "凌乱发型": "messy_hair,"
         },
         "眼色": {
-            "白": "white eyes,white eyes,white pupils,white pupils,",
-            "金": "blonde eyes,blonde eyes, blonde pupils,blonde pupils, ",
-            "银": "silver eyes,silver eyes,silver pupils,silver pupils,",
-            "灰": "grey eyes,grey eyes,grey pupils,grey pupils, ",
-            "紫": "purple eyes,purple eyes,purple pupils,purple pupils,",
-            "红": "red eyes,red eyes,red pupils,red pupils,",
-            "黄": "yellow eyes,yellow eyes,yellow pupils,yellow pupils,",
-            "绿": "green eyes,green eyes,green pupils,green pupils,",
-            "蓝": "blue eyes,blue eyes,blue pupils,blue pupils,",
-            "黑": "black eyes,black eyes,black pupils,black pupils,",
-            "棕": "brown eyes,brown eyes,brown pupils,brown pupils,"
+            "白": "white eyes,white pupils,",
+            "金": "blonde eyes,blonde pupils, ",
+            "银": "silver eyes,silver pupils,",
+            "灰": "grey eyes,grey pupils, ",
+            "紫": "purple eyes,purple pupils,",
+            "红": "red eyes,red pupils,",
+            "黄": "yellow eyes,yellow pupils,",
+            "绿": "green eyes,green pupils,",
+            "蓝": "blue eyes,blue pupils,",
+            "黑": "black eyes,black pupils,",
+            "棕": "brown eyes,brown pupils,"
         },
         "衣服颜色": {
             "亮棕": "light brown ",

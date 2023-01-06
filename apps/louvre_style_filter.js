@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { segment } from "oicq";
-import { louvre } from '../components/louvre/louvre.js';
-import Canvas from "canvas";
+// import { louvre } from '../components/louvre/louvre.js';
+// import Canvas from "canvas";
 import { parseImg } from '../utils/utils.js'
 import Log from '../utils/Log.js';
 
@@ -48,17 +48,18 @@ export class louvreimg extends plugin {
 			dsc: "louvreImg",
 			event: "message",
 			priority: 5000,
-			rule: [{
-				reg: "^#?(卢浮宫|louvre)([\\s\\S]*)$",
-				fnc: "louvreImg",
-			},
-			{
-				/** 命令正则匹配 */
-				reg: '^.*$',
-				/** 执行方法 */
-				fnc: 'getImage',
-				log: false
-			},
+			rule: [
+				// {
+				// 	reg: "^#?(卢浮宫|louvre)([\\s\\S]*)$",
+				// 	fnc: "louvreImg",
+				// },
+				// {
+				// 	/** 命令正则匹配 */
+				// 	reg: '^.*$',
+				// 	/** 执行方法 */
+				// 	fnc: 'getImage',
+				// 	log: false
+				// },
 				// {
 				// 	/** 命令正则匹配 */
 				// 	reg: '^#卢浮宫帮助$',
@@ -181,7 +182,7 @@ export class louvreimg extends plugin {
 		}, 60000);
 
 		let start = new Date()
-		
+
 		if (/^#?(louvre|卢浮宫)$/.test(e.msg.trim())) {
 			e.reply('正在生成卢浮宫风格，请稍等\n当前生成参数：\n精细程度：' + style.convoluteName + '\n降噪：' + (style.denoise ? '开启' : '关闭') + '\n水印：' + (style.watermark ? '开启' : '关闭') + '\nKiss：' + (style.kuma ? '开启' : '关闭') + '\n初回：' + (style.hajimei ? '开启' : '关闭') + '\n线迹轻重：' + style.shadeLimit + '\n调子数量：' + style.shadeLight, true, {
 				at: true,
