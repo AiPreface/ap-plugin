@@ -88,7 +88,7 @@ export class louvreimg extends plugin {
 			// Log.i(typeof louvre)
 		} catch (err) {
 			Log.w(err)
-			e.reply('出错：louvres卢浮宫滤镜功能需要安装依赖：canvas\n请在yunzai根目录执行如下命令来安装依赖：\ncnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas\n\n若安装依赖后仍出现此报错，您可联系开发者反馈')
+			e.reply('出错：louvres卢浮宫滤镜功能需要安装依赖：canvas\n请在yunzai根目录执行如下命令来安装依赖：\ncnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas\n\n若安装依赖后仍出现此报错，您可查看控制台报错并联系开发者反馈')
 			return true
 		}
 
@@ -142,8 +142,8 @@ export class louvreimg extends plugin {
 				shadeLight: 20,        //调子数量
 				shade: true,
 				kuma: true,            //Kiss
-				hajimei: true,        //初回
-				watermark: true,       //水印
+				hajimei: false,        //初回
+				watermark: false,       //水印
 				convoluteName: '精细', //精细度
 				convolute1Diff: true,
 				convoluteName2: null,
