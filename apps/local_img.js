@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 03:00:32
+ * @LastEditTime: 2023-01-08 03:03:37
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -72,6 +72,9 @@ export class LocalImg extends plugin {
                 return x.includes(key_word)
             })
         }
+        fileList = fileList.filter(x => {
+            return x != 'temp'
+        })
 
         let policy = await Config.getPolicy()
         if (fileList.length == 0) {
