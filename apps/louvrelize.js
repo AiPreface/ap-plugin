@@ -150,7 +150,7 @@ export class louvreimg extends plugin {
 				Convolutes,
 				lightCut: 128,         //亮部处理
 				darkCut: 118,          //暗部处理
-				denoise: false,         //降噪
+				denoise: true,         //降噪
 			};
 		}
 		else {
