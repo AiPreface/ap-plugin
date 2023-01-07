@@ -2,7 +2,7 @@
  * @Author: 苏苏
  * @Date: 2023-01-05 03:49:51
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 16:34:45
+ * @LastEditTime: 2023-01-07 17:24:58
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\white_box_cartoonization.js
  * @Description: 
  * 
@@ -14,6 +14,7 @@ import fetch from 'node-fetch'
 import axios from 'axios'
 import { segment } from 'oicq'
 import { parseImg } from '../utils/utils.js'
+import Log from '../utils/Log.js'
 
 const _path = process.cwd();
 let ap_cfg = await Config.getcfg()
@@ -84,7 +85,8 @@ export class Cartoonization extends plugin {
           return response.json();
         })
         .then(function (response) {
-          // console.log(response.data[0])
+          // Log.w(response.data)
+          // Log.w(response.data[0])
           let end = new Date()
           let time = ((end.getTime() - start.getTime()) / 1000).toFixed(2)
           e.reply(`耗时${time}s，正在发送结果...`, true)

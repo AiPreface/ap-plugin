@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-07 00:20:02
+ * @LastEditTime: 2023-01-07 19:48:02
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -230,7 +230,7 @@ class Draw {
 
         let currentTime = moment(new Date()).format("YYMMDD_HHmmss");
         let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`
-        let picPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting', picname);
+        let picPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures', picname);
         fs.writeFile(picPath, base64, "base64", (err) => { if (err) throw err });
     }
 }
