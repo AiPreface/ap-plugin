@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 02:56:26
+ * @LastEditTime: 2023-01-08 03:00:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -114,30 +114,40 @@ export class LocalImg extends plugin {
         // 处理每一张图片
         let i = 1 + (page - 1) * policy.localNum
         for (let val of selected_page) {
-            let exec = /(\d{2})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})_Tags=(.*)&seed=(.+)&user=(.+).png/.exec(val)
-            let [YY, MM, DD, HH, mm, ss, tags, seed, qq] = [exec[1], exec[2], exec[3], exec[4], exec[5], exec[6], exec[7], exec[8], exec[9]]
-            // Log.i(exec)
-            let [tag, ntag] = tags.split('&nTags=')
-            let name = await getuserName(e, qq)
-            // Log.i(YY, MM, DD, HH, mm, ss, tag, ntag, seed, qq, name)
-
             let picPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures', val);
             let bitMap = fs.readFileSync(picPath);
             let base64 = Buffer.from(bitMap, "binary").toString("base64");
-
-            data_msg.push({
-                message: [
-                    `${i++}.\n`,
-                    segment.image(`base64://${base64}`),
-                    `\n时间：20${YY}.${MM}.${DD} ${HH}:${mm}:${ss}\n`,
-                    `seed：${seed}\n`,
-                    `用户：${name}(${qq})\n`,
-                    `tags(部分)：${tag}\n`,
-                    `ntags(部分)：${ntag}`,
-                ],
-                nickname: name,
-                user_id: Number(qq),
-            });
+            let exec = /(\d{2})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})_Tags=(.*)&seed=(.+)&user=(.+).png/.exec(val)
+            if (exec) {
+                let [YY, MM, DD, HH, mm, ss, tags, seed, qq] = [exec[1], exec[2], exec[3], exec[4], exec[5], exec[6], exec[7], exec[8], exec[9]]
+                // Log.i(exec)
+                let [tag, ntag] = tags.split('&nTags=')
+                let name = await getuserName(e, qq)
+                // Log.i(YY, MM, DD, HH, mm, ss, tag, ntag, seed, qq, name)
+                data_msg.push({
+                    message: [
+                        `${i++}.\n`,
+                        segment.image(`base64://${base64}`),
+                        `\n时间：20${YY}.${MM}.${DD} ${HH}:${mm}:${ss}\n`,
+                        `seed：${seed}\n`,
+                        `用户：${name}(${qq})\n`,
+                        `tags(部分)：${tag}\n`,
+                        `ntags(部分)：${ntag}`,
+                    ],
+                    nickname: name,
+                    user_id: Number(qq),
+                });
+            }
+            else {
+                data_msg.push({
+                    message: [
+                        `${i++}.\n`,
+                        segment.image(`base64://${base64}`),
+                    ],
+                    nickname: Bot.nickname,
+                    user_id: Number(Bot.uin),
+                });
+            }
         }
 
 
