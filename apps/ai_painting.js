@@ -2,13 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 01:10:08
+ * @LastEditTime: 2023-01-07 20:17:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import moment from 'moment';
+import common from '../../../lib/common/common.js'
 import { segment } from "oicq";
 import cfg from '../../../lib/config/config.js'
 import { getuserName } from '../utils/utils.js'
@@ -164,17 +165,24 @@ export class Ai_Painting extends plugin {
 
       // 构建消息
       // Log.w(paramdata.param)
-      let msg = [
-        usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
-        segment.image(`base64://${res.base64}`),
-        `\nseed=${res.seed}`,
+      let info = [
+        `seed=${res.seed}`,
         paramdata.param.sampler != 'Euler a' ? `\nsampler=${paramdata.param.sampler}` : '',
         paramdata.param.steps != 40 ? `\nsteps=${paramdata.param.steps}` : '',
         paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
         paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
         paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
         paramdata.param.ntags ? `\n\nNTAGS=${paramdata.param.ntags}` : "",
+      ].join('')
+      let msg = [
+        usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
+        segment.image(`base64://${res.base64}`),
       ]
+      Log.i(info.length)
+      if (info.length < 600) {
+        msg.push('\n' + info);
+        info = null;
+      }
 
       // 发送消息，发送失败清除CD，发送成功记录一次使用
       let sendRes = await e.reply(msg, true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
@@ -183,6 +191,28 @@ export class Ai_Painting extends plugin {
         CD.clearCD(e)
       } else {
         this.addUsage(e.user_id, 1);
+        if (info) {
+          await common.sleep(350)
+          let data_msg = [{
+            message: [info],
+            nickname: Bot.nickname,
+            user_id: cfg.qq,
+          }]
+          if (e.isGroup) {
+            e.reply(
+              await e.group.makeForwardMsg(data_msg),
+              false,
+              { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
+            );
+          }
+          else {
+            e.reply(
+              await e.friend.makeForwardMsg(data_msg),
+              false,
+              { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
+            );
+          }
+        }
       }
     }
     // 多张

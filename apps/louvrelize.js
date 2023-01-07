@@ -77,7 +77,7 @@ export class louvreimg extends plugin {
 	};
 	async louvreImg(e) {
 		if (e.msg.includes('帮助'))
-			return louvreHelp(e)
+			return this.louvreHelp(e)
 
 		let Canvas
 		let louvre
