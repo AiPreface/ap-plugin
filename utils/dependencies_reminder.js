@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-26 14:14:46
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 20:20:32
+ * @LastEditTime: 2023-01-08 01:08:38
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\dependencies_reminder.js
  * @Description: 缺少依赖时的提醒
  * 
@@ -31,6 +31,6 @@ export function packageTips(error) {
     let pack = error.stack.match(/'(.+?)'/g)[0].replace(/'/g, '')
     logger.mark(`缺少依赖：${chalk.red(pack)}`)
     let cmd = 'pnpm add $s -w'
-    logger.mark(`请执行安装依赖命令：${chalk.red(cmd.replace('$s', pack))}`)
+    logger.mark(`请在Yunzai-Bot根目录执行如下命令以安装依赖：${chalk.red(cmd.replace('$s', pack))}`)
     logger.mark('---------------------------')
 }
