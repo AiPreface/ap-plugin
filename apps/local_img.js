@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 03:03:37
+ * @LastEditTime: 2023-01-08 14:46:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -14,7 +14,7 @@ import { segment } from "oicq";
 import cfg from '../../../lib/config/config.js'
 import Config from '../components/ai_painting/config.js'
 import Parse from '../components/ai_painting/parse.js';
-import { getuserName, parseImg } from '../utils/utils.js'
+import { chNum2Num, getuserName, parseImg } from '../utils/utils.js'
 import Log from '../utils/Log.js';
 import path from 'path';
 import fs from 'fs'
@@ -54,9 +54,9 @@ export class LocalImg extends plugin {
             if (current_group_policy.prohibitedUserList.indexOf(e.user_id) != -1)
                 return await e.reply(["你的账号因违规使用屏蔽词绘图已被封禁"], true);
 
-
+        e.msg = chNum2Num(e.msg, { RegExp: /第([一二三四五六七八九十零百千万亿]+)页$/ })
         let exec = /^#?ap检索(本地)?图片([\s\S]*?)(第(.*)页)?$/.exec(e.msg)
-        // Log.i(exec)                            /*  */
+        Log.i(exec)                            /*  */
         let key_word = exec[2]
         let page = exec[4] || 1
 
@@ -67,15 +67,16 @@ export class LocalImg extends plugin {
             fileList.push(fileName)
         );
 
-        if (key_word) {
-            fileList = fileList.filter(x => {
-                return x.includes(key_word)
-            })
-        }
+        // 筛选符合条件的图片
         fileList = fileList.filter(x => {
-            return x != 'temp'
+            if (key_word) {
+                return x.includes(key_word) && x.endsWith('png')
+            } else {
+                return x.endsWith('png')
+            }
         })
 
+        // 未找到图片
         let policy = await Config.getPolicy()
         if (fileList.length == 0) {
             return e.reply([
@@ -160,41 +161,27 @@ export class LocalImg extends plugin {
         if (e.isGroup)
             send_res = await e.reply(await e.group.makeForwardMsg(data_msg));
         else send_res = await e.reply(await e.friend.makeForwardMsg(data_msg));
+        // 未发送成功
         if (!send_res) {
-            e.reply("消息发送失败，可能被风控~");
+            e.reply("消息发送失败，可能被风控，将尝试改为纯文字发送");
+            await common.sleep(250)
+            for (let val of data_msg) {
+                if (val.message.length == 1) { continue }
+                val.message.splice(1, 1, '[我是一张图片]')   //将图片替换为文本，以绕过风控
+            }
+            let sendRes = null;
+            if (e.isGroup)
+                sendRes = await e.reply(await e.group.makeForwardMsg(data_msg));
+            else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
+            if (!sendRes) {
+                e.reply("消息发送失败，可能被风控");
+            }
         }
         return true;
-
-
-        // if (!sendRes) {
-        //     e.reply("消息发送失败，改为纯文字发送");
-        //     count = 0;
-        //     data_msg = [];
-        //     for (let val of fileList) {
-        //         if (val == "temp") continue;
-        //         if (count >= settings.localNum) break;
-        //         if (
-        //             !keyWord ||
-        //             val.substring(0, val.length - 4).indexOf(keyWord) != -1
-        //         ) {
-        //             data_msg.push({
-        //                 message: [val.substring(0, val.length - 4)],
-        //                 nickname: Bot.nickname,
-        //                 user_id: e.at,
-        //             });
-        //             count++;
-        //         }
-        //     }
-        //     let sendRes = null;
-        //     if (e.isGroup)
-        //         sendRes = await e.reply(await e.group.makeForwardMsg(data_msg));
-        //     else sendRes = await e.reply(await e.friend.makeForwardMsg(data_msg));
-        //     if (!sendRes) {
-        //         e.reply("消息发送失败，可能被风控");
-        //     }
-        // }
-        // return true;
     }
+
+
+
     async deleteLocalImg(e) {
 
     }
