@@ -76,9 +76,11 @@ export class louvreimg extends plugin {
 		});
 	};
 	async louvreImg(e) {
-		if (e.msg && e.msg.includes('帮助'))
-			return this.louvreHelp(e)
-
+		if (e.msg) {
+			if (e.msg.includes('帮助'))
+				return this.louvreHelp(e)
+			if (!/^#?(卢浮宫|louvre)[精细一般稍超极粗浮雕降噪水印kiss初回线迹轻重调子数量0-9]*$/i.test(e.msg)) { return false }
+		}
 		let Canvas
 		let louvre
 		try {
