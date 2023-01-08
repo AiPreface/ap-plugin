@@ -116,138 +116,139 @@ export class louvreimg extends plugin {
 			return false;
 		}
 
-
-		if (/^#?线稿$/.test(e.msg.trim())) {
-			style = {
-				zoom: 1,
-				light: 0,
-				shadeLimit: 118,       //线迹轻重
-				shadeLight: 20,        //调子数量
-				shade: true,
-				kuma: false,            //Kiss
-				hajimei: false,        //初回
-				watermark: false,       //水印
-				convoluteName: '精细', //精细度
-				convolute1Diff: true,
-				convoluteName2: null,
-				Convolutes,
-				lightCut: 128,         //亮部处理
-				darkCut: 118,          //暗部处理
-				denoise: true,         //降噪
-			};
-		}
-		else if (/^#?louvre$/.test(e.msg.trim())) {
-			style = {
-				zoom: 1,
-				light: 0,
-				shadeLimit: 118,       //线迹轻重
-				shadeLight: 20,        //调子数量
-				shade: true,
-				kuma: true,            //Kiss
-				hajimei: false,        //初回
-				watermark: false,       //水印
-				convoluteName: '精细', //精细度
-				convolute1Diff: true,
-				convoluteName2: null,
-				Convolutes,
-				lightCut: 128,         //亮部处理
-				darkCut: 118,          //暗部处理
-				denoise: true,         //降噪
-			};
-		}
-		else {
-			if (e.msg.includes('精细')) {
-				style.convoluteName = '精细'
-			} else if (e.msg.includes('一般')) {
-				style.convoluteName = '一般'
-			} else if (e.msg.includes('稍粗')) {
-				style.convoluteName = '稍粗'
-			} else if (e.msg.includes('超粗')) {
-				style.convoluteName = '超粗'
-			} else if (e.msg.includes('极粗')) {
-				style.convoluteName = '极粗'
-			} else if (e.msg.includes('浮雕')) {
-				style.convoluteName = '浮雕'
+		if (e.msg) {
+			if (/^#?线稿$/.test(e.msg.trim())) {
+				style = {
+					zoom: 1,
+					light: 0,
+					shadeLimit: 118,       //线迹轻重
+					shadeLight: 20,        //调子数量
+					shade: true,
+					kuma: false,            //Kiss
+					hajimei: false,        //初回
+					watermark: false,       //水印
+					convoluteName: '精细', //精细度
+					convolute1Diff: true,
+					convoluteName2: null,
+					Convolutes,
+					lightCut: 128,         //亮部处理
+					darkCut: 118,          //暗部处理
+					denoise: true,         //降噪
+				};
 			}
-
-			if (e.msg.includes('降噪')) {
-				style.denoise = true
-			} else {
-				style.denoise = false
+			else if (/^#?louvre$/.test(e.msg.trim())) {
+				style = {
+					zoom: 1,
+					light: 0,
+					shadeLimit: 118,       //线迹轻重
+					shadeLight: 20,        //调子数量
+					shade: true,
+					kuma: true,            //Kiss
+					hajimei: false,        //初回
+					watermark: false,       //水印
+					convoluteName: '精细', //精细度
+					convolute1Diff: true,
+					convoluteName2: null,
+					Convolutes,
+					lightCut: 128,         //亮部处理
+					darkCut: 118,          //暗部处理
+					denoise: true,         //降噪
+				};
 			}
-
-			if (e.msg.includes('水印')) {
-				style.watermark = true
-			} else {
-				style.watermark = false
-			}
-
-			if (/kiss/i.test(e.msg)) {
-				// if (e.msg.includes('Kiss')) {
-				style.kuma = true
-			} else {
-				style.kuma = false
-			}
-
-			if (e.msg.includes('初回')) {
-				if (style.watermark == false) {
-					e.reply('未开启水印，无法开启初回', false, {
-						at: true,
-						recallMsg: 15
-					})
-					return true
+			else {
+				if (e.msg.includes('精细')) {
+					style.convoluteName = '精细'
+				} else if (e.msg.includes('一般')) {
+					style.convoluteName = '一般'
+				} else if (e.msg.includes('稍粗')) {
+					style.convoluteName = '稍粗'
+				} else if (e.msg.includes('超粗')) {
+					style.convoluteName = '超粗'
+				} else if (e.msg.includes('极粗')) {
+					style.convoluteName = '极粗'
+				} else if (e.msg.includes('浮雕')) {
+					style.convoluteName = '浮雕'
 				}
-				style.hajimei = true
-			} else {
-				style.hajimei = false
-			}
 
-			if (e.msg.includes('线迹轻重')) {
-				let light = e.msg.match(/线迹轻重(\d+)/)
-				if (light[1] >= 80 && light[1] <= 126) {
-					style.shadeLimit = light[1]
+				if (e.msg.includes('降噪')) {
+					style.denoise = true
 				} else {
-					e.reply('线迹轻重参数错误，应该在80-126之间，已默认为118', false, {
-						at: true,
-						recallMsg: 15
-					})
+					style.denoise = false
+				}
+
+				if (e.msg.includes('水印')) {
+					style.watermark = true
+				} else {
+					style.watermark = false
+				}
+
+				if (/kiss/i.test(e.msg)) {
+					// if (e.msg.includes('Kiss')) {
+					style.kuma = true
+				} else {
+					style.kuma = false
+				}
+
+				if (e.msg.includes('初回')) {
+					if (style.watermark == false) {
+						e.reply('未开启水印，无法开启初回', false, {
+							at: true,
+							recallMsg: 15
+						})
+						return true
+					}
+					style.hajimei = true
+				} else {
+					style.hajimei = false
+				}
+
+				if (e.msg.includes('线迹轻重')) {
+					let light = e.msg.match(/线迹轻重(\d+)/)
+					if (light[1] >= 80 && light[1] <= 126) {
+						style.shadeLimit = light[1]
+					} else {
+						e.reply('线迹轻重参数错误，应该在80-126之间，已默认为118', false, {
+							at: true,
+							recallMsg: 15
+						})
+						style.shadeLimit = 118
+					}
+				} else {
 					style.shadeLimit = 118
 				}
-			} else {
-				style.shadeLimit = 118
-			}
 
-			if (e.msg.includes('调子数量')) {
-				let shade = e.msg.match(/调子数量(\d+)/)
-				if (shade[1] >= 20 && shade[1] <= 200) {
-					style.shadeLight = shade[1]
+				if (e.msg.includes('调子数量')) {
+					let shade = e.msg.match(/调子数量(\d+)/)
+					if (shade[1] >= 20 && shade[1] <= 200) {
+						style.shadeLight = shade[1]
+					} else {
+						e.reply('调子数量参数错误，应该在20-200之间，已默认为108', false, {
+							at: true,
+							recallMsg: 15
+						})
+						style.shadeLight = 108
+					}
 				} else {
-					e.reply('调子数量参数错误，应该在20-200之间，已默认为108', false, {
-						at: true,
-						recallMsg: 15
-					})
 					style.shadeLight = 108
 				}
-			} else {
-				style.shadeLight = 108
+			}
+
+
+			FiguretypeUser[e.user_id] = setTimeout(() => {
+				if (FiguretypeUser[e.user_id]) {
+					delete FiguretypeUser[e.user_id];
+				}
+			}, 60000);
+
+
+			if (/^#?(louvre|卢浮宫)$/.test(e.msg.trim())) {
+				e.reply('正在生成卢浮宫风格，请稍等\n当前生成参数：\n精细程度：' + style.convoluteName + '\n降噪：' + (style.denoise ? '开启' : '关闭') + '\n水印：' + (style.watermark ? '开启' : '关闭') + '\nKiss：' + (style.kuma ? '开启' : '关闭') + '\n初回：' + (style.hajimei ? '开启' : '关闭') + '\n线迹轻重：' + style.shadeLimit + '\n调子数量：' + style.shadeLight, true, {
+					at: true,
+					recallMsg: 15
+				})
 			}
 		}
-
-
-		FiguretypeUser[e.user_id] = setTimeout(() => {
-			if (FiguretypeUser[e.user_id]) {
-				delete FiguretypeUser[e.user_id];
-			}
-		}, 60000);
-
 		let start = new Date()
-
-		if (/^#?(louvre|卢浮宫)$/.test(e.msg.trim())) {
-			e.reply('正在生成卢浮宫风格，请稍等\n当前生成参数：\n精细程度：' + style.convoluteName + '\n降噪：' + (style.denoise ? '开启' : '关闭') + '\n水印：' + (style.watermark ? '开启' : '关闭') + '\nKiss：' + (style.kuma ? '开启' : '关闭') + '\n初回：' + (style.hajimei ? '开启' : '关闭') + '\n线迹轻重：' + style.shadeLimit + '\n调子数量：' + style.shadeLight, true, {
-				at: true,
-				recallMsg: 15
-			})
-		}
 		// 根据参数，画图
 		var img = await new Canvas.loadImage(e.img[0]);
 		var outputCanvas = await louvre({
