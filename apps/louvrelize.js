@@ -76,7 +76,7 @@ export class louvreimg extends plugin {
 		});
 	};
 	async louvreImg(e) {
-		if (e.msg.includes('帮助'))
+		if (e.msg && e.msg.includes('帮助'))
 			return this.louvreHelp(e)
 
 		let Canvas
