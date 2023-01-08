@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-07 20:17:38
+ * @LastEditTime: 2023-01-09 00:49:50
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -179,7 +179,7 @@ export class Ai_Painting extends plugin {
         segment.image(`base64://${res.base64}`),
       ]
       Log.i(info.length)
-      if (info.length < 600) {
+      if (info.length < 500) {
         msg.push('\n' + info);
         info = null;
       }

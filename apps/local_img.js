@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 22:06:14
+ * @LastEditTime: 2023-01-09 01:36:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -18,7 +18,8 @@ import { chNum2Num, getuserName, parseImg } from '../utils/utils.js'
 import Log from '../utils/Log.js';
 import path from 'path';
 import fs from 'fs'
-
+const dirPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures');
+let confirm_clear = false
 export class LocalImg extends plugin {
     constructor() {
         super({
@@ -31,14 +32,20 @@ export class LocalImg extends plugin {
                     reg: "^#?ap检索(本地)?图片([\\s\\S]*)(第(.*)页)?$",
                     fnc: "searchLocalImg",
                 },
-                // {
-                //     reg: "^#?ap(删除|清空)(本地)?图片([\\s\\S]*)$",
-                //     fnc: "deleteLocalImg",
-                // },
-                // {
-                //     reg: "^#?ap查水表$",
-                //     fnc: "searchLocalImg",
-                // },
+                {
+                    reg: "^#?ap删除(本地)?图片([\\s\\S]*)$",
+                    fnc: "deleteLocalImg",
+                    permission: "master",
+                },
+                {
+                    reg: "^#?ap清(空|除)(本地)?图片$",
+                    fnc: "clearLocalImg",
+                    permission: "master",
+                },
+                {
+                    reg: "^#?ap查水表(第(.*)页)?$",
+                    fnc: "FBI",
+                },
             ],
         });
     };
@@ -47,38 +54,39 @@ export class LocalImg extends plugin {
         let current_group_policy = await Parse.parsecfg(e)
         // console.log('【aiPainting】本群ap策略：\n',gpolicy)                    /*  */  
         // 判断功能是否开启
-        if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1)
-            if (!current_group_policy.enable) return await e.reply("aiPainting功能未开启", false, { recallMsg: 15 });
+        if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1) {
+            // 判断群友权限
+            if (!current_group_policy.isAllowSearchLocalImg) {
+                return e.reply('你没有权限哦~')
+            }
+            if (!current_group_policy.enable) {
+                return await e.reply("aiPainting功能未开启", false, { recallMsg: 15 });
+            }
+        }
         // 判断是否禁用用户
         if (current_group_policy.isBan)
             if (current_group_policy.prohibitedUserList.indexOf(e.user_id) != -1)
                 return await e.reply(["你的账号因违规使用屏蔽词绘图已被封禁"], true);
 
+
         e.msg = chNum2Num(e.msg, { RegExp: /第([一二三四五六七八九十零百千万亿]+)页$/ })
         let exec = /^#?ap检索(本地)?图片([\s\S]*?)(第(.*)页)?$/.exec(e.msg)
-        Log.i(exec)                            /*  */
+        // Log.i(exec)                            /*  */
         let key_word = exec[2]
         let page = exec[4] || 1
 
         // 读取本地文件列表
         let fileList = [];
-        let dirPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures');
-        fs.readdirSync(dirPath).forEach((fileName) =>
-            fileList.push(fileName)
-        );
-
-        // 筛选符合条件的图片
-        fileList = fileList.filter(x => {
+        fs.readdirSync(dirPath).forEach((fileName) => {
             if (key_word) {
-                return x.includes(key_word) && x.endsWith('png')
-            } else {
-                return x.endsWith('png')
+                if (fileName.includes(key_word) && fileName.endsWith('png')) { fileList.push(fileName) }
             }
-        })
-
+            else
+                if (fileName.endsWith('png')) { fileList.push(fileName) }
+        });
         // 未找到图片
-        let policy = await Config.getPolicy()
         if (fileList.length == 0) {
+            let policy = await Config.getPolicy()
             return e.reply([
                 `没有检索到`,
                 key_word ? `包含【${key_word}】的` : '',
@@ -180,12 +188,85 @@ export class LocalImg extends plugin {
         return true;
     }
 
-
-
     async deleteLocalImg(e) {
+        let exec = /^#?ap删除(本地)?图片([\s\S]*)$/.exec(e.msg)
+        // Log.i(exec)
+        let key_word = exec[2]
+        if (!key_word) {
+            return e.reply('在命令后附带关键词，以删除包含该关键词的图片；或发送#ap清空本地图片，以删除全部图片')
+        }
 
+        // 读取本地文件列表
+        let fileList = [];
+        fs.readdirSync(dirPath).forEach((fileName) => {
+            if (fileName.includes(key_word) && fileName.endsWith('png')) { fileList.push(fileName) }
+        });
+
+        // 未找到图片
+        if (fileList.length == 0) {
+            let policy = await Config.getPolicy()
+            return e.reply([
+                `未在本地检索到`,
+                key_word ? `包含【${key_word}】的` : '',
+                '图片哦',
+                policy.isDownload ? '' : '\n当前存本地未开启，绘制的图片不会保存至本地。如需开启，请发送#ap设置存本地开启'
+            ])
+        }
+
+        let count = 0;
+        for (let val of fileList) {
+            let picPath = path.join(dirPath, val)
+            fs.unlink(picPath, (err) => { });
+            count++;
+        }
+        e.reply(`已删除包含【${key_word}】关键词的${count}张图片~`);
+        return true;
     }
-    async FBI(e) {
 
+    async clearLocalImg(e) {
+        if (!confirm_clear) {
+            confirm_clear = true
+            e.reply(`请再次发送${e.msg}以确认清空全部本地图片`)
+            setTimeout(() => {
+                confirm_clear = false
+            }, 60000)
+            return true
+        }
+        // 读取本地文件列表
+        let fileList = [];
+        fs.readdirSync(dirPath).forEach((fileName) => {
+            if (fileName.endsWith('png')) { fileList.push(fileName) }
+        });
+
+        // 未找到图片
+        if (fileList.length == 0) {
+            let policy = await Config.getPolicy()
+            return e.reply([
+                `未在本地检索到图片哦`,
+                policy.isDownload ? '' : '\n当前存本地未开启，绘制的图片不会保存至本地。如需开启，请发送#ap设置存本地开启'
+            ])
+        }
+
+        let count = 0;
+        for (let val of fileList) {
+            let picPath = path.join(dirPath, val)
+            fs.unlink(picPath, (err) => { });
+            count++;
+        }
+        e.reply(`已删除${count}张本地图片~`);
+        return true;
+    }
+
+    async FBI(e) {
+        if (!e.at) {
+            return e.reply('查谁的？')
+        }
+        let page = 1
+        let exec = /第(.*)页$/.exec(e.msg)
+        if (exec) {
+            page = exec[1]
+        }
+        e.msg = `#ap检索图片${e.at}第${page}页`
+        return this.searchLocalImg(e)
     }
 }

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 19:15:19
+ * @LastEditTime: 2023-01-09 00:54:36
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_policy.js
  * @Description: 设置ap策略
  * 
@@ -33,6 +33,11 @@ export class setpolicy extends plugin {
                 {
                     reg: "^#ap设置本地(\\d{1,5})$",
                     fnc: "setlocalNum",
+                    permission: "master",
+                },
+                {
+                    reg: "^#ap设置查水表(开启|关闭)$",
+                    fnc: "setisAllowSearchLocalImg",
                     permission: "master",
                 },
                 {
@@ -128,6 +133,24 @@ export class setpolicy extends plugin {
 
         let policy = await Config.getPolicy()
         policy.isDownload = isOpen
+        try {
+            await Config.setPolicy(policy)
+        } catch (err) {
+            Log.e(err)
+            Log.e(err.message)
+            return this.e.reply("设置失败。请查看控制台报错", true)
+        }
+        e.reply("设置成功")
+        return true
+    }
+    /**设置是否允许群员查水表  */
+    async setisAllowSearchLocalImg(e) {
+        let isOpen = true
+        if (e.msg.includes('关闭'))
+            isOpen = false
+
+        let policy = await Config.getPolicy()
+        policy.isAllowSearchLocalImg = isOpen
         try {
             await Config.setPolicy(policy)
         } catch (err) {

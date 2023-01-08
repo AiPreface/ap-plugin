@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 01:02:55
+ * @LastEditTime: 2023-01-09 00:44:31
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -41,6 +41,8 @@ class Parse {
             recallDelay: gid in policy.gp && "recallDelay" in policy.gp[gid] ? policy.gp[gid].recallDelay : policy.gp.global.recallDelay,
             isBan: gid in policy.gp && "isBan" in policy.gp[gid] ? policy.gp[gid].isBan : policy.gp.global.isBan,
             usageLimit: gid in policy.gp && "usageLimit" in policy.gp[gid] ? policy.gp[gid].usageLimit : policy.gp.global.usageLimit,
+            isDownload: policy.isDownload,
+            isAllowSearchLocalImg: policy.isAllowSearchLocalImg
         }
         return gpolicy
     }

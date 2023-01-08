@@ -2,6 +2,7 @@ cd: 10
 localNum: 50
 isDownload: false
 isTellMaster: false
+isAllowSearchLocalImg: false
 prohibitedUserList: []
 apMaster: []
 gp:
