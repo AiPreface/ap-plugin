@@ -102,7 +102,9 @@ export class louvreimg extends plugin {
 		}
 
 		e = await parseImg(e)
-		e.msg = e.msg.replace('自己', '')
+		if (e.msg) {
+			e.msg = e.msg.replace('自己', '')
+		}
 		if (!e.img) {
 			e.reply('请在60s内发送需要生成卢浮宫的图片~', true);
 			getImagetime[e.user_id] = setTimeout(() => {
