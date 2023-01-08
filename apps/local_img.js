@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 14:46:56
+ * @LastEditTime: 2023-01-08 22:06:14
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -31,14 +31,14 @@ export class LocalImg extends plugin {
                     reg: "^#?ap检索(本地)?图片([\\s\\S]*)(第(.*)页)?$",
                     fnc: "searchLocalImg",
                 },
-                {
-                    reg: "^#?ap(删除|清空)(本地)?图片([\\s\\S]*)$",
-                    fnc: "deleteLocalImg",
-                },
-                {
-                    reg: "^#?ap查水表$",
-                    fnc: "FBI",
-                },
+                // {
+                //     reg: "^#?ap(删除|清空)(本地)?图片([\\s\\S]*)$",
+                //     fnc: "deleteLocalImg",
+                // },
+                // {
+                //     reg: "^#?ap查水表$",
+                //     fnc: "searchLocalImg",
+                // },
             ],
         });
     };

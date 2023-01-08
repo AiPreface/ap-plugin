@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 18:53:08
+ * @LastEditTime: 2023-01-08 22:05:35
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -20,7 +20,7 @@ import moment from "moment";
  * @return {*} 处理过后的e
  */
 export async function parseImg(e) {
-    if (e.msg.includes('自己')) {
+    if (e.msg && e.msg.includes('自己')) {
         e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}`]
     }
     if (!e.img) {
