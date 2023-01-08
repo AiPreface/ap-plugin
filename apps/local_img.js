@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 01:36:17
+ * @LastEditTime: 2023-01-09 02:06:57
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -85,8 +85,8 @@ export class LocalImg extends plugin {
                 if (fileName.endsWith('png')) { fileList.push(fileName) }
         });
         // 未找到图片
+        let policy = await Config.getPolicy()
         if (fileList.length == 0) {
-            let policy = await Config.getPolicy()
             return e.reply([
                 `没有检索到`,
                 key_word ? `包含【${key_word}】的` : '',
