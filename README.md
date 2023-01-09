@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 14:41:05
+ * @LastEditTime: 2023-01-09 19:27:27
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.8.10
+ * @Description: 版本：2.8.11
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -161,7 +161,7 @@ npm restart
 <summary>展开/收起</summary>
 
 可选参数：
- - 继承[以图绘图](#以文生图)的所有参数
+ - 继承[以文生图](#以文生图)的所有参数
  - 重绘幅度：强度0.6（越高越接近prompt所描述）
  - [图片]：带上你的图片（附带图片，引用图片与艾特用户均可）
 

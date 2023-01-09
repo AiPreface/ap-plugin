@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-07 00:29:34
+ * @LastEditTime: 2023-01-09 16:04:14
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -60,13 +60,13 @@ export class Anime_me extends plugin {
         // 二次元的@bot
         if (e.atBot && !e.msg.includes("我")) this.qq = cfg.qq
         // 优先取redis中的缓存数据
-        let dsc = await JSON.parse(await redis.get(`Yunzai:aiPainting:ercydata:${this.qq}`));
+        let dsc = await JSON.parse(await redis.get(`Yz:AiPainting:ercydata:${this.qq}`));
         if (!dsc) {
             // 没有缓存时，获取新的描述，写入redis缓存，当日0点到期
             dsc = getdsc(this.qq)
             let time = moment(Date.now()).add(1, "days").format("YYYY-MM-DD 00:00:00");
             let exTime = Math.round((new Date(time).getTime() - new Date().getTime()) / 1000);
-            redis.set(`Yunzai:aiPainting:ercydata:${this.qq}`, JSON.stringify(dsc), { EX: exTime });
+            redis.set(`Yz:AiPainting:ercydata:${this.qq}`, JSON.stringify(dsc), { EX: exTime });
         }
         // 用户名
         let name = await getuserName(e, this.qq)
@@ -164,7 +164,7 @@ export class Anime_me extends plugin {
         if (e.msg.match(/全局/)) { is_all_refresh = true }
         // Log.i(is_all_refresh)
 
-        let all_list = await redis.keys('Yunzai:aiPainting:ercydata:*')
+        let all_list = await redis.keys('Yz:AiPainting:ercydata:*')
         // Log.i(all_list)
 
         if (e.atBot) { e['at'] = cfg.qq }
@@ -176,7 +176,7 @@ export class Anime_me extends plugin {
             e.reply('已刷新全部用户的属性')
         }
         else if (e.at) {
-            redis.del(`Yunzai:aiPainting:ercydata:${e.at}`)
+            redis.del(`Yz:AiPainting:ercydata:${e.at}`)
             e.reply(`已刷新${await getuserName(e, e.at)}(${e.at})的属性`)
         }
         else {
