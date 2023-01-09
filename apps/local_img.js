@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 02:06:57
+ * @LastEditTime: 2023-01-09 14:39:50
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -15,6 +15,7 @@ import cfg from '../../../lib/config/config.js'
 import Config from '../components/ai_painting/config.js'
 import Parse from '../components/ai_painting/parse.js';
 import { chNum2Num, getuserName, parseImg } from '../utils/utils.js'
+import common from '../../../lib/common/common.js'
 import Log from '../utils/Log.js';
 import path from 'path';
 import fs from 'fs'
