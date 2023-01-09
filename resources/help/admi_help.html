@@ -2,16 +2,14 @@
 <link
   rel="stylesheet"
   type="text/css"
-  href="{{_res_path}}/help/version-info.css"
+  href="{{_res_path}}/help/help.css"
 />
 {{/block}} {{block 'main'}} {{each changelogs ds idx}}
-<div class="hydro-bg log-cont">
+<div class="geo log-cont">
   <div class="cont">
     {{if idx === 0 }}
-    <!-- <div class="cont-title current-version">当前版本 {{ds.version}}</div> -->
     <div class="cont-title">{{ds.version}}</div>
     {{else}}
-    <!-- <div class="cont-title">ap版本 {{ds.version}}</div> -->
     <div class="cont-title">{{ds.version}}</div>
     {{/if}}
     <div class="cont-body">

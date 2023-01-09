@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 18:06:52
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 19:20:58
+ * @LastEditTime: 2023-01-09 20:29:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\help.js
  * @Description: ap帮助
  * 
@@ -31,21 +31,19 @@ export class help extends plugin {
         });
     }
     async help(e) {
-        await render('help/version-info', {
+        await render('help/help', {
             currentVersion: Help.ver,
             changelogs: Help.logs,
             elem: 'cryo'
         }, { e, scale: 2 })
-        // e.reply('参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE')
         return true
     }
     async admi_help(e) {
-        await render('help/version-info', {
+        await render('help/admi_help', {
             currentVersion: Admi_Help.ver,
             changelogs: Admi_Help.logs,
-            elem: 'cryo'
+            elem: 'geo'
         }, { e, scale: 2 })
-        // e.reply('参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE')
         return true
     }
 }
