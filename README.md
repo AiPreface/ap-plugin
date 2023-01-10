@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-10 23:59:17
+ * @LastEditTime: 2023-01-11 01:29:27
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.8.12
  *
@@ -310,7 +310,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 ## Todo
 - [ ] 更严谨的API鉴权方式（Arcadia）
 - [ ] 简单图片处理（Su）
-- [ ] 云端同步与共享预设
+<!-- - [ ] 云端同步与共享预设 -->
 - [ ] 咕咕咕？
 
 ## 致谢
