@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 15:15:11
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-07 15:21:10
+ * @LastEditTime: 2023-01-10 23:56:33
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\withdraw.js
  * @Description: 撤回机器人消息
  * 
@@ -21,7 +21,7 @@ export class Withdraw extends plugin {
             priority: 5000,
             rule: [
                 {
-                    reg: "^撤回$",
+                    reg: "^#?撤回$",
                     fnc: "WithDraw",
                 },
             ],

@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 19:27:27
+ * @LastEditTime: 2023-01-10 23:59:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.8.11
+ * @Description: 版本：2.8.12
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -61,7 +61,7 @@ Ap-plugin是一款在QQ内快速调用[Stable Diffusion web UI](https://github.c
 
 ## 安装插件
 
-### 前置安装注意
+<!-- ### 前置安装注意
 
 本插件有较多复杂配置，如果没有以下技能，请停止对插件的安装。
 
@@ -72,7 +72,7 @@ Ap-plugin是一款在QQ内快速调用[Stable Diffusion web UI](https://github.c
 * 有基础的代码辨识能力，比如什么是True，什么是False
 * 对于Yunzai有一定的了解，有一定的错误排查能力
 
-如果您在配置与使用中遇到问题，请先阅读[提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)后，加入我们的[交流群](#header)进行提问，一般来说聪明问题将会得到解答
+如果您在配置与使用中遇到问题，请先阅读[提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)后，加入我们的[交流群](#header)进行提问，一般来说聪明问题将会得到解答 -->
 
 <p align="center">
   <a href="https://asciinema.org/a/550312">

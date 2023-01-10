@@ -2,7 +2,7 @@
  * @Author: 苏苏
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 01:41:30
+ * @LastEditTime: 2023-01-10 23:54:53
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_embeddings.js
  * @Description: 
  * 
@@ -89,14 +89,14 @@ export class GetEmbeddings extends plugin {
         if (pt_list.length == 0)
             return e.reply(`当前接口还没有添加${keyword ? `包含关键词【${keyword}】的` : ""}pt文件哦`)
 
-        // 计算预设页数（100条每页）
-        let page_count = Math.ceil(pt_list.length / 100);
+        // 计算预设页数（99条每页）
+        let page_count = Math.ceil(pt_list.length / 99);
         if (page > page_count)
             return e.reply(`当前接口中${keyword ? `包含关键词【${keyword}】` : ""}的pt共${page_count}页哦`);
 
         // 取出指定的一页预设
         let selected_page = [];
-        selected_page = pt_list.slice((page - 1) * 100, page * 100);
+        selected_page = pt_list.slice((page - 1) * 99, page * 99);
         // Log.i(selected_page, selected_page.length)
 
         // 构建合并消息数组
@@ -104,7 +104,7 @@ export class GetEmbeddings extends plugin {
         // 首条说明信息
         let first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}pt列表，共${pt_list.length}条`]
         if (page_count > 1)
-            first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}pt列表，第${page}页，共${pt_list.length}条、${page_count}页，您可发送“#pt列表${keyword}第1页，#pt列表${keyword}第2页……”来查看对应页`]
+            first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}pt列表，第${page}/${page_count}页，共${pt_list.length}条。您可发送\n#pt列表${keyword}第1页\n#pt列表${keyword}第2页\n……\n来查看对应页\n\n※pt使用方式：直接作为tag使用即可。若pt包含中文，请连同【中括号】一同复制，以避免被翻译`]
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,
@@ -112,7 +112,7 @@ export class GetEmbeddings extends plugin {
         });
 
         // 处理每一条pt
-        let i = 1 + (page - 1) * 100
+        let i = 1 + (page - 1) * 99
         for (let val of selected_page) {
             data_msg.push({
                 message: `${i++} \n├预设名称：【${val}】\n└训练步数：${data.loaded[val].step}`,

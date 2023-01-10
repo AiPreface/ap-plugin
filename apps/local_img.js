@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-07 22:07:55
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 14:39:50
+ * @LastEditTime: 2023-01-10 23:54:05
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\local_img.js
  * @Description: 管理本地图片
  * 
@@ -113,9 +113,9 @@ export class LocalImg extends plugin {
         // 构建合并消息数组
         let data_msg = [];
         // 首条说明信息
-        let first_message = [`${key_word ? `包含关键词【${key_word}】的` : ""}本地图片：共${fileList.length}张`]
+        let first_message = [`${key_word ? `包含关键词【${key_word}】的` : ""}本地图片：共${fileList.length}张\n\nps:过长的tag可能不会完整显示`]
         if (page_count > 1)
-            first_message = [`${key_word ? `包含关键词【${key_word}】的` : ""}本地图片：第${page}页，共${fileList.length}张、${page_count}页，您可发送“#ap检索本地图片${key_word}第1页，#ap检索(本地)?图片${key_word}第二页……”来查看对应页`]
+            first_message = [`${key_word ? `包含关键词【${key_word}】的` : ""}本地图片：第${page}/${page_count}页，共${fileList.length}张。您可发送\n#ap检索本地图片${key_word}第1页\n#ap检索本地图片${key_word}第二页\n……\n来查看对应页\n\nps:过长的tag可能不会完整显示`]
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,
@@ -141,11 +141,11 @@ export class LocalImg extends plugin {
                     message: [
                         `${i++}.\n`,
                         segment.image(`base64://${base64}`),
-                        `\n时间：20${YY}.${MM}.${DD} ${HH}:${mm}:${ss}\n`,
-                        `seed：${seed}\n`,
+                        `\n时间：20${YY}-${MM}-${DD}   ${HH}:${mm}:${ss}\n`,
+                        `种子：${seed}\n`,
                         `用户：${name}(${qq})\n`,
-                        `tags(部分)：${tag}\n`,
-                        `ntags(部分)：${ntag}`,
+                        `tags：${tag}\n`,
+                        `ntags：${ntag}`,
                     ],
                     nickname: name,
                     user_id: Number(qq),

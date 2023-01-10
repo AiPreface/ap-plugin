@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-01 18:31:22
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 00:49:49
+ * @LastEditTime: 2023-01-10 23:50:11
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\preset.js
  * @Description: 管理预设
  * 
@@ -186,7 +186,7 @@ export class setpolicy extends plugin {
         // 首条说明信息
         let first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}ap预设列表，共${presets.length}条`]
         if (page_count > 1)
-            first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}ap预设列表，第${page}页，共${presets.length}条、${page_count}页，您可发送“#ap预设列表${keyword}第1页，#ap预设列表${keyword}第2页……”来查看对应页`]
+            first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}ap预设列表，第${page}/${page_count}页，共${presets.length}条。您可发送\n#ap预设列表${keyword}第1页\n#ap预设列表${keyword}第二页\n……\n来查看对应页`]
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,

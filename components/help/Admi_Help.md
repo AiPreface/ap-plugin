@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 19:40:01
+ * @LastEditTime: 2023-01-10 23:56:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\Admi_Help.md
  * @Description: 
  * 
@@ -36,7 +36,8 @@
 * **#ap屏蔽词列表** 
 * **#ap** [ **封禁**|**解封** ]  [ `qq号`|`@某人`]
   * 被封禁的用户无法使用ap插件的功能
-* **撤回** 对机器人的消息回复此命令以撤回该消息
+* **#撤回**
+  * 对机器人的消息回复此命令,以撤回该消息
 
 # 配置
 
