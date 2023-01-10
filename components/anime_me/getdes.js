@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 15:13:31
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-06 21:32:38
+ * @LastEditTime: 2023-01-11 00:47:06
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\anime_me\getdes.js
  * @Description: 随机获取一组“二次元的我”描述词
  * 
@@ -218,7 +218,7 @@ export function getdsc(qq) {
             // "上身比基尼": " bikini top only ,",
             // "侧边系带比基尼下装": "side - tie bikini bottom,",
             // "系带式比基尼": "side-tie_bikini,",
-            "褶边比基尼": "friled bikini,",
+            // "褶边比基尼": "friled bikini,",
             // "比基尼内衣": " bikini under clothes,",
             "泳装": "swimsuit,",
             "学校泳衣": "school swimsuit,",
@@ -228,11 +228,11 @@ export function getdsc(qq) {
             "褶边文胸": "frilled bra ,",
             "缠胸布": "sarashi,",
             "胸衣": "bustier,",
-            "吊带胸衣": "chemise,",
-            "高腰内裤": "string_panties,",
+            // "吊带胸衣": "chemise,",
+            // "高腰内裤": "string_panties,",
             // "丁字裤": "thong,",
-            "日式丁字裤": "fundoshi,",
-            "女用贴身内衣裤": "lingerie,"
+            // "日式丁字裤": "fundoshi,",
+            // "女用贴身内衣裤": "lingerie,"
         },
         "鞋子颜色": {
             "亮棕": "light brown ",
