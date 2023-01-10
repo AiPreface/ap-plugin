@@ -310,6 +310,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 ## Todo
 - [ ] 更严谨的API鉴权方式（Arcadia）
 - [ ] 简单图片处理（Su）
+- [ ] 图片局部重绘（Arcadia）
 - [ ] 云端同步与共享预设
 - [ ] 咕咕咕？
 
