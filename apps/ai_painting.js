@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 00:49:50
+ * @LastEditTime: 2023-01-11 19:31:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -178,7 +178,7 @@ export class Ai_Painting extends plugin {
         usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
         segment.image(`base64://${res.base64}`),
       ]
-      Log.i(info.length)
+      // Log.i(info.length)                                           /*  */
       if (info.length < 500) {
         msg.push('\n' + info);
         info = null;

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-05 19:42:28
+ * @LastEditTime: 2023-01-11 17:20:49
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -93,7 +93,7 @@ export class set extends plugin {
                 return await e.reply(`已存在该接口:${api}  [${val.remark}]`)
         }
         // 检测接口连通性
-        if (!await this.testapi(api, '绘图')) { return false }
+        // if (!await this.testapi(api, '绘图')) { return false }
 
         let obj = {
             url: api,

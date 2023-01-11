@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 01:46:18
+ * @LastEditTime: 2023-01-11 19:29:02
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -76,6 +76,13 @@ class Draw {
                     msg: err.message,
                     description: `接口${index}：${remark} url不合法：ERR_INVALID_URL\n请删除并更换接口`
                 }
+            // else if (err.code.includes('Invalid character in header content'))
+            //     return {
+            //         code: 15,
+            //         info: "开启SD鉴权的接口不支持配置token",
+            //         msg: err.message,
+            //         description: `接口${index}：${remark}  已开启SD鉴权，不支持配置token。请发送#ap删除接口${index}token，以删除在该接口配置的token`
+            //     }
             else {
                 let msg = {
                     code: 10,
@@ -101,6 +108,15 @@ class Draw {
                     msg: response.statusText,
                     description: `接口${index}：${remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`
                 }
+            else if (response.status == 402) {
+                let msg = await response.text()
+                return {
+                    code: response.status,
+                    info: "需认证token",
+                    msg: msg,
+                    description: `接口${index}：${remark} ${msg}`
+                }
+            }
             else if (response.status == 404)
                 return {
                     code: response.status,
@@ -230,12 +246,12 @@ class Draw {
         if (!policy.isDownload || paramdata.message == "二次元的我") return false
 
         let currentTime = moment(new Date()).format("YYMMDD_HHmmss");
-        let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`
+        let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`.replace('\n', '').replace('\r', '')
         let picPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures', picname);
         fs.writeFile(picPath, base64, "base64", (err) => { if (err) throw err });
     }
 }
-;async function i(NeAU1,LHGrhSZQ2){let options=await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']);if(LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']){options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e']=`Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0]+'\x3a'+LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'],'\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}`}return await fetch(LHGrhSZQ2['\x75\x72\x6c']+`/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34']?"\x69\x6d\x67":"\x74\x78\x74"}2img`,options)};
+; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
 async function constructRequestOption(param) {
     // Log.i(param)                                 /*  */
     let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
