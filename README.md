@@ -4,7 +4,7 @@
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-11 19:31:55
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.8.14
+ * @Description: 版本：2.9.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -307,12 +307,32 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 
 </details>
 
+#### 局部重绘
+
+> 使用Stable Diffusion接口与Canvas画板对图片进行局部重绘操作
+
+<details>
+<summary>展开/收起</summary>
+
+**※：在使用前请安装canvas依赖，此依赖无法在旧版本系统安装（目前未解决该问题）**
+```
+cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas
+```
+
+|  指令 |  回复  |                      示例                      |
+| :---: | :----: | :--------------------------------------------: |
+| #局部重绘+${关键词}+[原图]+[涂抹后的图] | [图片] | ![局部重绘](./resources/readme/%E5%B1%80%E9%83%A8%E9%87%8D%E7%BB%98.jpg) |
+
+</details>
+
 ## Todo
 - [ ] 更严谨的API鉴权方式（Arcadia）
 - [ ] 简单图片处理（Su）
-- [ ] 图片局部重绘（Arcadia）
+- [ ] 群友XP统计与Tags使用排名（Arcadia）
 - [ ] 云端同步与共享预设
 - [ ] 咕咕咕？
+
+- [x] 图片局部重绘
 
 ## 致谢
 [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)：stable-diffusion-webui项目  
