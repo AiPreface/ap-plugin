@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-25 16:57:47
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 00:54:36
+ * @LastEditTime: 2023-01-11 14:29:43
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_policy.js
  * @Description: 设置ap策略
  * 
@@ -94,7 +94,7 @@ export class setpolicy extends plugin {
         let regExp = /^#ap设置全局cd(\d{1,5})$/i
         let ret = regExp.exec(e.msg)
         if (!ret) return false
-        let num = Number((ret[1].trim()))
+        let num = Number((ret[1].trim())) || 1
         let policy = await Config.getPolicy()
         policy.cd = num
         try {
@@ -104,7 +104,7 @@ export class setpolicy extends plugin {
             Log.e(err.message)
             return this.e.reply("设置失败。请查看控制台报错", true)
         }
-        e.reply("设置成功")
+        e.reply(`全局cd已设置为${num}`)
         return true
     }
     /**设置本地检索图片张数  */
