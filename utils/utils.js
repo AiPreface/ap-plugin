@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-08 22:05:35
+ * @LastEditTime: 2023-01-13 01:48:43
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -36,8 +36,7 @@ export async function parseImg(e) {
         if (e.isGroup) {
             reply = (await e.group.getChatHistory(e.source.seq, 1)).pop()?.message;
         } else {
-            reply = (await e.friend.getChatHistory(e.source.time, 1)).pop()
-                ?.message;
+            reply = (await e.friend.getChatHistory(e.source.time, 1)).pop()?.message;
         }
         if (reply) {
             for (let val of reply) {
