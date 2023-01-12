@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 00:44:31
+ * @LastEditTime: 2023-01-12 15:31:30
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -93,6 +93,9 @@ class Parse {
             param: {
                 ...txtparam.param,
                 base64: picInfo ? picInfo.base64 : null,
+                mask: null,
+                mask_blur: NaN,
+                inpainting_mask_invert: NaN,
             },
             num: txtparam.num,
             rawtag: txtparam.rawtag,

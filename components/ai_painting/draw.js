@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-11 19:29:02
+ * @LastEditTime: 2023-01-12 15:55:37
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -24,7 +24,8 @@ class Draw {
 
     /**获取一张图片。返回base64
      * @param {object} paramdata 绘图参数
-     * @return {object}  
+     * @return {object} 获取成功时返回 ： { code: 0,   isnsfw: 是否合规,   seed: seed,   size: 图片大小(KB),   md5:图片的md5,   base64: 图片的base64 }  
+     * 获取失败时code非零 ： { code: ?, info: 简要描述错误, msg: 错误信息, description: 回复给用户的消息内容 }
      */
     async get_a_pic(paramdata) {
         // 读取接口地址和接口备注
@@ -60,7 +61,7 @@ class Draw {
                     code: 12,
                     info: "连接被拒绝",
                     msg: err.message,
-                    description: `接口${index}：${remark} 连接被服务区拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
+                    description: `接口${index}：${remark} 连接被服务区拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器是否开启、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
                 }
             else if (err.code == "EPROTO")
                 return {

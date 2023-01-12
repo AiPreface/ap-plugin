@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-11 19:31:32
+ * @LastEditTime: 2023-01-12 15:57:04
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -67,7 +67,7 @@ export class Ai_Painting extends plugin {
       CD.clearCD(e)
       return await e.reply(paramdata.msg, true, { recallMsg: 15 })
     }
-    // console.log('【aiPainting】绘图参数：\n', paramdata)                       /*  */
+    // Log.i('绘图参数：\n', paramdata)                       /*  */
 
 
     // 禁止重复发起批量绘图
