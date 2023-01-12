@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 00:16:35
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-03 22:02:32
+ * @LastEditTime: 2023-01-13 02:14:41
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\test.js
  * @Description: 测试模块
  * 
@@ -50,3 +50,7 @@ import { isEqual, chNum2Num } from './utils.js'
 // fs.writeFileSync(path.join(process.cwd(), 'plugins/ap-plugin/config/config/preset.json'), JSON.stringify(newpst, null, "\t"), "utf8");
 // console.log(chNum2Num('非人非第十八页aa','第(\[一二三四五六七八九十零百千万亿\]\+)页'))
 // console.log(chNum2Num('打发十六第十八页aa', { l_text: '第' }))
+
+let chReg = /([\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/g
+
+console.log('i疏忽和六位48536返回鹿茸jiosjfh 时uf 654是客服那使得否esfr 边肉丝jsnserdgf客服什么呢'.match(chReg))

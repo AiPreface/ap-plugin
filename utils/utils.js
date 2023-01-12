@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-13 01:48:43
+ * @LastEditTime: 2023-01-13 03:11:05
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -12,6 +12,7 @@ import gsCfg from "../../genshin/model/gsCfg.js";
 import fetch from 'node-fetch';
 import cfg from '../../../lib/config/config.js'
 import moment from "moment";
+import Log from "./Log.js";
 
 
 /**
@@ -124,11 +125,18 @@ export async function translate(txt, param = null) {
     param = 'zh2en'
     let result = ''
     try {
-        let res = await fetch(`http://www.iinside.cn:7001/api_req?reqmode=nmt_mt5_jez&password=3652&text=${encodeURI(txt)}&order=${param}`)
+        // let res = await fetch(`http://www.iinside.cn:7001/api_req?reqmode=nmt_mt5_jez&password=3652&text=${encodeURI(txt)}&order=${param}`)
+        let res = await fetch(`http://ovooa.com/API/qqfy/api.php?msg=${encodeURI(txt)}`)
+        // Log.i(res)
+        res = await res.text()
+        // Log.i(res)
+        // Log.i(/翻译内容：(.+)$/.exec(res))
+        let en = /翻译内容：(.+)$/.exec(res)[1]
         // logger.warn(res);
 
-        res = await res.json()
-        result = res.data
+        // res = await res.json()
+        // result = res.data
+        result = en.toLowerCase()
     } catch (err) {
         logger.error('【aiPainting】翻译报错：\n', err)
         result = "寄"
@@ -320,4 +328,12 @@ function numberDigit(chinese_number) {
             summary += first_char_num <= 9 ? first_char_num : 0;
     }
     return summary;
+}
+
+/**
+ * 休眠函数
+ * @param ms 毫秒
+ */
+export function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
 }

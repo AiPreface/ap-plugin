@@ -2,14 +2,14 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-12 15:31:30
+ * @LastEditTime: 2023-01-13 03:11:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import Config from './config.js'
-import { parseImg, translate, chNum2Num } from '../../utils/utils.js'
+import { parseImg, translate, chNum2Num, sleep } from '../../utils/utils.js'
 import { Pictools } from '../../utils/utidx.js'
 import Log from '../../utils/Log.js'
 
@@ -366,12 +366,22 @@ class Parse {
      * @return {object} paramdata
      */
     async transtag(paramdata) {
-        let chReg = /(?:[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/
-        if (chReg.test(paramdata.param.tags))
-            paramdata.param.tags = await translate(paramdata.param.tags)
-        if (chReg.test(paramdata.param.ntags))
-            paramdata.param.ntags = await translate(paramdata.param.ntags)
+        paramdata.param.tags = await this.trans(paramdata.param.tags)
+        paramdata.param.ntags = await this.trans(paramdata.param.ntags)
         return paramdata
+    }
+    async trans(tg) {
+        let chReg = /([\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/g
+        // let CH_list = [...Object.values(tg.match(chReg))]
+        let CH_list = tg.match(chReg)
+        if (!CH_list || CH_list.length == 0) { return tg }
+        for (let i = 0; i < CH_list.length; i++) {
+            if (i) { await sleep(1500) }
+            let en = await translate(CH_list[i])
+            tg = tg.replace(CH_list[i], en)
+            // Log.i(CH_list[i], ' ==> ', en)
+        }
+        return tg
     }
 
 
