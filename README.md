@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-11 19:31:55
+ * @LastEditTime: 2023-01-12 16:41:49
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.9.0
  *
@@ -96,7 +96,7 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 git clone https://github.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 ```
 
- 3. 安装必要依赖（axios）
+ <!-- 3. 安装必要依赖（axios）
  - 使用npm
 ```
 npm install axios --registry=https://registry.npmmirror.com
@@ -105,11 +105,11 @@ npm install axios --registry=https://registry.npmmirror.com
  - 使用pnpm
 ```
 pnpm add axios -w
-```
+``` -->
 
- 4. 重启Yunzai
+ 3. 重启Yunzai
 ```
-npm restart
+pnpm restart
 ```
 
 ## 配置接口
