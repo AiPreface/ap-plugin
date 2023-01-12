@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-12 15:55:37
+ * @LastEditTime: 2023-01-12 16:02:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -327,6 +327,9 @@ async function constructRequestOption(param) {
             "height": param.height,
             "negative_prompt": ntags,
             "styles": ["string"],
+            "mask": "mask" in param ? param.mask : null,
+            "mask_blur": "mask_blur" in param ? param.mask_blur : NaN,
+            "inpainting_mask_invert": "inpainting_mask_invert" in param ? param.inpainting_mask_invert : NaN,
         }
     }
     let options = {
