@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-12 21:10:17
+ * @LastEditTime: 2023-01-13 01:15:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.9.1
  *
@@ -59,7 +59,11 @@ _🎉 基于 Yunzai-Bot 的 AI 绘图插件 🎉_
 Ap-plugin 是一款在 QQ 内快速调用[Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)提供的 API 接口进行多参数便捷 AI 绘图的[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)插件，除此之外也拥有多种图片处理功能，本插件功能不断拓展中，更多功能敬请期待……
 
 <br>
+
 ## 安装插件
+
+<details>
+<summary>展开/收起</summary>
 
 <!-- ### 前置安装注意
 
@@ -117,7 +121,17 @@ pnpm add axios -w
 pnpm restart
 ```
 
-<!-- ## 配置接口
+首次载入请观察控制台，若载入时提醒需要安装依赖，执行控制台给出的安装命令即可
+
+</details>
+<br><br>
+
+## 配置接口
+
+每个配置项独立对应不同功能，可根据需要按需配置：
+
+<details>
+<summary>展开/收起</summary>
 
 |        需要配置的接口       |                         用途                         |                         配置文档                         |
 | :-------------------------: | :--------------------------------------------------: | :------------------------------------------------------: |
@@ -129,7 +143,9 @@ pnpm restart
 |White Box Cartoonization接口|    用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)    | [文档链接](https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK) |
 |       百度图片审核服务      |         用于检查图像是否合规，相关功能：[图像审核](#图像审核)         | [文档链接](https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw) |
 
-其中，Stable Diffusion接口需要大量算力生成图像，相对来说成本较高，详情信息可查看[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务免费额度用完后是收费的，大约是5元10000次审核次数，总的来说还是比较便宜的；除这两个接口门槛较高外，其他的接口都是免费在[Hugging Face](https://huggingface.co/)上部署的，请自行斟酌，插件开发者不免费提供（也没能力提供）任何接口，不愿意动手的小伙伴劝退 -->
+其中，Stable Diffusion接口需要大量算力生成图像，相对来说成本较高，详情信息可查看[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务免费额度用完后是收费的，大约是5元10000次审核次数，总的来说还是比较便宜的；除这两个接口门槛较高外，其他的接口都是免费在[Hugging Face](https://huggingface.co/)上部署的，请自行斟酌，插件开发者不免费提供（也没能力提供）任何接口，不愿意动手的小伙伴劝退
+
+</details>
 
 <br><br>
 
