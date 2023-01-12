@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-04 20:22:48
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-11 16:06:23
+ * @LastEditTime: 2023-01-12 21:09:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\tools.js
  * @Description: 一些小工具
  * 
@@ -34,6 +34,10 @@ export class Tools extends plugin {
                     reg: '^#?图链模板$',
                     fnc: 'image_template'
                 },
+                {
+                    reg: "^#?撤回$",
+                    fnc: "WithDraw",
+                },
             ]
         })
     }
@@ -59,24 +63,7 @@ export class Tools extends plugin {
         e.reply('https://gchat.qpic.cn/gchatpic_new/0000000000/0000000000-0000000000-替换/0?term=3&is_origin=0')
         return true
     }
-}
 
-
-export class Withdraw extends plugin {
-    constructor() {
-        super({
-            name: "withdraw",
-            dsc: "撤回机器人消息",
-            event: "message.group",
-            priority: 5000,
-            rule: [
-                {
-                    reg: "^#?撤回$",
-                    fnc: "WithDraw",
-                },
-            ],
-        });
-    }
 
     async WithDraw(e) {
         // 没引用则放行指令
@@ -132,4 +119,6 @@ export class Withdraw extends plugin {
         e.group.recallMsg(e.source.seq, e.source.rand);
         e.group.recallMsg(e.message_id);
     }
+
+
 }
