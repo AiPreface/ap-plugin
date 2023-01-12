@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-12 16:55:00
+ * @LastEditTime: 2023-01-12 17:59:28
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.9.0
  *
@@ -112,7 +112,7 @@ pnpm add axios -w
 pnpm restart
 ```
 
-## 配置接口
+<!-- ## 配置接口
 
 |        需要配置的接口       |                         用途                         |                         配置文档                         |
 | :-------------------------: | :--------------------------------------------------: | :------------------------------------------------------: |
@@ -124,7 +124,7 @@ pnpm restart
 |White Box Cartoonization接口|    用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)    | [文档链接](https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK) |
 |       百度图片审核服务      |         用于检查图像是否合规，相关功能：[图像审核](#图像审核)         | [文档链接](https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw) |
 
-其中，Stable Diffusion接口需要大量算力生成图像，相对来说成本较高，详情信息可查看[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务免费额度用完后是收费的，大约是5元10000次审核次数，总的来说还是比较便宜的；除这两个接口门槛较高外，其他的接口都是免费在[Hugging Face](https://huggingface.co/)上部署的，请自行斟酌，插件开发者不免费提供（也没能力提供）任何接口，不愿意动手的小伙伴劝退
+其中，Stable Diffusion接口需要大量算力生成图像，相对来说成本较高，详情信息可查看[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务免费额度用完后是收费的，大约是5元10000次审核次数，总的来说还是比较便宜的；除这两个接口门槛较高外，其他的接口都是免费在[Hugging Face](https://huggingface.co/)上部署的，请自行斟酌，插件开发者不免费提供（也没能力提供）任何接口，不愿意动手的小伙伴劝退 -->
 
 ## 功能演示
 
