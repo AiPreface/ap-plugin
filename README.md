@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-12 16:41:49
+ * @LastEditTime: 2023-01-12 16:55:00
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
  * @Description: 版本：2.9.0
  *
@@ -80,12 +80,12 @@ Ap-plugin是一款在QQ内快速调用[Stable Diffusion web UI](https://github.c
   </a>
 </p>
 
- 1. 挂载至Yunzai-Bot目录
+ #### 1. 挂载至Yunzai-Bot目录
 ``` 
 cd Yunzai-Bot
 ```
 
- 2. 克隆本仓库至plugins目录
+ #### 2. 克隆本仓库至plugins目录
  - 使用Gitee（国内服务器推荐使用此方法）
 ```
 git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
@@ -107,7 +107,7 @@ npm install axios --registry=https://registry.npmmirror.com
 pnpm add axios -w
 ``` -->
 
- 3. 重启Yunzai
+ #### 3. 重启Yunzai
 ```
 pnpm restart
 ```
