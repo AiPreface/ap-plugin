@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-04 20:22:48
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-12 21:09:17
+ * @LastEditTime: 2023-01-12 21:16:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\tools.js
  * @Description: 一些小工具
  * 
@@ -116,9 +116,9 @@ export class Tools extends plugin {
         };
     }
     async withdrawFn(e) {
-        e.group.recallMsg(e.source.seq, e.source.rand);
-        e.group.recallMsg(e.message_id);
+        try {
+            e.group.recallMsg(e.source.seq, e.source.rand);
+            e.group.recallMsg(e.message_id); 
+        } catch (err) { }
     }
-
-
 }
