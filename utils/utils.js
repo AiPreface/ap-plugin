@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-13 03:11:05
+ * @LastEditTime: 2023-01-14 01:50:06
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -115,34 +115,6 @@ export async function getuserName(e, qq = null) {
     return String(user.nickname || qq);
 }
 
-
-/**翻译
- * @param {string} txt 待翻译文本
- * @param {string} param 可选参数
- * @return {string} 
- */
-export async function translate(txt, param = null) {
-    param = 'zh2en'
-    let result = ''
-    try {
-        // let res = await fetch(`http://www.iinside.cn:7001/api_req?reqmode=nmt_mt5_jez&password=3652&text=${encodeURI(txt)}&order=${param}`)
-        let res = await fetch(`http://ovooa.com/API/qqfy/api.php?msg=${encodeURI(txt)}`)
-        // Log.i(res)
-        res = await res.text()
-        // Log.i(res)
-        // Log.i(/翻译内容：(.+)$/.exec(res))
-        let en = /翻译内容：(.+)$/.exec(res)[1]
-        // logger.warn(res);
-
-        // res = await res.json()
-        // result = res.data
-        result = en.toLowerCase()
-    } catch (err) {
-        logger.error('【aiPainting】翻译报错：\n', err)
-        result = "寄"
-    }
-    return result
-}
 
 
 /**获取当前到明天0点的剩余秒数

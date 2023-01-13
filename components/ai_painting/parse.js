@@ -2,16 +2,17 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-13 03:11:08
+ * @LastEditTime: 2023-01-14 02:12:41
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import Config from './config.js'
-import { parseImg, translate, chNum2Num, sleep } from '../../utils/utils.js'
+import { parseImg, chNum2Num, sleep } from '../../utils/utils.js'
 import { Pictools } from '../../utils/utidx.js'
 import Log from '../../utils/Log.js'
+import Translate from '../../utils/translate.js'
 
 class Parse {
     constructor() {
@@ -377,7 +378,7 @@ class Parse {
         if (!CH_list || CH_list.length == 0) { return tg }
         for (let i = 0; i < CH_list.length; i++) {
             if (i) { await sleep(1500) }
-            let en = await translate(CH_list[i])
+            let en = await Translate.t(CH_list[i])
             tg = tg.replace(CH_list[i], en)
             // Log.i(CH_list[i], ' ==> ', en)
         }
