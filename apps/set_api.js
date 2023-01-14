@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-11 17:20:49
+ * @LastEditTime: 2023-01-14 16:45:58
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -14,6 +14,7 @@ import Log from '../utils/Log.js';
 import axios from 'axios';
 import common from '../../../lib/common/common.js'
 import fetch from 'node-fetch';
+import translate from '../utils/translate.js';
 
 export class set extends plugin {
     constructor() {
@@ -46,6 +47,11 @@ export class set extends plugin {
                 {
                     reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口).+",
                     fnc: "setother",
+                    permission: "master",
+                },
+                {
+                    reg: "^#ap设置(百度|有道)翻译(id|key).+",
+                    fnc: "setTranslateToken",
                     permission: "master",
                 },
                 {
@@ -389,6 +395,64 @@ export class set extends plugin {
         }
         return true
 
+    }
+
+
+    /**设置百度和有道翻译的appid和key  */
+    async setTranslateToken(e) {
+        let company = ''
+        let company_ = ''
+        let type = ''
+        let value = ''
+        let regExp = /^#ap设置(百度|有道)翻译(id|key)(.+)/
+        let reg = regExp.exec(e.msg)
+        if (reg) { value = reg[3].trim() }
+        if (/^#ap设置百度/.test(e.msg)) {
+            company = 'baidu_translate'
+            company_ = '百度'
+        }
+        else if (/^#ap设置有道/.test(e.msg)) {
+            company = 'youdao_translate'
+            company_ = '有道'
+        }
+        if (/^#ap设置(百度|有道)翻译id/.test(e.msg)) { type = 'id' }
+        else if (/^#ap设置(百度|有道)翻译key/.test(e.msg)) { type = 'key' }
+
+        if (!(company && type && value)) {
+            return e.reply('命令格式：#ap设百度(或有道)翻译id(或key) 你的翻译id或key\n(不带加号)')
+        }
+        Log.w(company, type, value)
+
+        let apcfg = await Config.getcfg()
+        apcfg[company][type] = value
+        await Config.setcfg(apcfg)
+        e.reply(`${company_}翻译的${type}已设置为：【${value}】`)
+        if (apcfg[company].id && apcfg[company].key) {
+            if (await this.testTranslate(company_, apcfg[company])) {
+                setTimeout(() => { e.reply(`${company_}翻译配置成功，将优先使用该翻译接口。请重启Bot以应用配置`) }, 500)
+            } else {
+                setTimeout(() => { e.reply(`${company_}翻译调用失败，请检查您的appid和key是否有误`) }, 500)
+            }
+        }
+        return true
+    }
+    /** 测试用户配置的翻译接口的连通性 */
+    async testTranslate(company_, verify) {
+        if (company_ == '百度') {
+            let res = await translate.BaiduTranslate('测试', verify.id, verify.key)
+            if (res) {
+                Log.i(res)
+                return true
+            }
+        }
+        else if (company_ == '有道') {
+            let res = await translate.YoudaoTranslate('测试', verify.id, verify.key)
+            if (res) {
+                Log.i(res)
+                return true
+            }
+        }
+        return false
     }
 }
 

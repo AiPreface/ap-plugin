@@ -2,13 +2,12 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 14:54:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 02:21:02
+ * @LastEditTime: 2023-01-14 15:45:01
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\Log.js
- * @Description: 快捷logger
- * 
+ * @Description: 快捷logger 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
- */
-/**快捷log  */
+ */ 
+
 import fs from 'fs'
 let currentVersion = undefined
 let README_path = `${process.cwd()}/plugins/ap-plugin/README.md`
@@ -22,6 +21,9 @@ try {
         }
     }
 } catch (err) { }
+
+/**快捷logger：i-info m-mark w-warn e-error 
+ */
 class Log {
     constructor() {
         this.header = `【ap-plugin v${currentVersion}】`

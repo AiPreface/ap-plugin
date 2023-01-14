@@ -2,12 +2,16 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-24 02:48:57
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 01:59:16
+ * @LastEditTime: 2023-01-14 18:48:48
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\CHANGELOG.md
  * @Description: changeLog
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
 -->
+# 2.9.0
+
+* 新增百度和有道翻译支持
+
 # 2.9.0
 
 * 新增`#更换背景(人物)`，`#局部重绘`功能

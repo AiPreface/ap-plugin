@@ -3,8 +3,14 @@ baidu_apikey: Your_Api_Key
 baidu_secretkey: Your_Secret_Key
 appreciate:
 Real_CUGAN:
-ai_detect: 
+ai_detect:
 remove_bg:
 cartoonization:
 APIList: []
 usingAPI: 1
+baidu_translate:
+  id: null
+  key: null
+youdao_translate:
+  id: null
+  key: null

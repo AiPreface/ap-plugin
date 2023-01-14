@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-14 01:47:29
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 02:15:54
+ * @LastEditTime: 2023-01-14 18:45:51
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\translate.js
  * @Description: 聚合翻译
  * 
@@ -12,6 +12,15 @@
 
 import fetch from 'node-fetch'
 import crypto from 'crypto'
+import Log from './Log.js'
+import config from '../components/ai_painting/config.js'
+import md5 from 'md5'
+import lodash from 'lodash'
+import { sleep } from './utils.js'
+
+let apcfg = await config.getcfg()
+const BAIDU = apcfg.baidu_translate
+const YOUDAO = apcfg.youdao_translate
 
 
 
@@ -22,12 +31,58 @@ class Translate {
      * @return {string}  翻译
      */
     async t(text) {
-        try {
-            return await this.ovooa(text)
-        } catch (err) {
-            logger.error('【aiPainting】独角兽翻译报错：\n', err)
+        // 优先百度
+        if (BAIDU.id && BAIDU.key) {
+            try {
+                let result = await this.BaiduTranslate(text, BAIDU.id, BAIDU.key)
+                if (result) {
+                    Log.i('[百度翻译] ', text, ' ==> ', result)
+                    return result
+                }
+            } catch (err) {
+                Log.e('【百度翻译报错】:', err)
+            }
         }
-        return '翻译接口寄了'
+
+        // 有道
+        if (YOUDAO.id && YOUDAO.key) {
+            try {
+                let result = await this.YoudaoTranslate(text, YOUDAO.id, YOUDAO.key)
+                if (result) {
+                    Log.i('[有道翻译] ', text, ' ==> ', result)
+                    return result
+                }
+            } catch (err) {
+                Log.e('【有道翻译报错】:', err)
+            }
+        }
+
+        // 独角兽
+        try {
+            let result = await this.ovooa(text)
+            if (result) {
+                Log.i('[独角兽翻译] ', text, ' ==> ', result)
+                await sleep(1000)
+                return result
+            }
+        } catch (err) {
+            Log.e('【独角兽翻译报错】:', err)
+        }
+
+
+        // 椰奶有道
+        try {
+            let result = await this.yenai_youdao(text)
+            if (result) {
+                Log.i('[椰奶有道翻译] ', text, ' ==> ', result)
+                await sleep(1000)
+                return result
+            }
+        } catch (err) {
+            Log.e('【椰奶有道翻译报错】:', err)
+        }
+
+        return false
     }
 
     /**独角兽翻译
@@ -35,28 +90,21 @@ class Translate {
      * @return {string} 翻译后的文本 
      */
     async ovooa(text) {
-        let result = ''
         let res = await fetch(`http://ovooa.com/API/qqfy/api.php?msg=${encodeURI(text)}`)
-        // Log.i(res)
         res = await res.text()
-        // Log.i(res)
-        // Log.i(/翻译内容：(.+)$/.exec(res))
+        // Log.w(res)                         /*  */
+        if (res.includes('请勿频繁请求本站')) {
+            Log.i('【独角兽翻译报错】:', res)
+            return false
+        }
         let en = /翻译内容：(.+)$/.exec(res)[1]
-        // logger.warn(res);
-
-        // res = await res.json()
-        // result = res.data
-        result = en.toLowerCase()
-        return result
+        en = en.split('/')
+        return en[0]
     }
 
 
     /**椰奶有道翻译 */
     async yenai_youdao(text) {
-        // 翻译结果为空的提示
-        const API_ERROR = "出了点小问题，待会再试试吧";
-        const RESULT_ERROR = "找不到翻译结果";
-        // API 请求错误提示
         const qs = (obj) => {
             let res = "";
             for (const [k, v] of Object.entries(obj))
@@ -95,40 +143,25 @@ class Translate {
                 method: "POST",
                 body: postData,
                 headers
-            }).then(res => res.json()).catch(err => console.error(err));
-            if (errorCode != 0) return API_ERROR;
+            }).then(res => res.json()).catch(err => Log.e(err));
+            if (errorCode != 0) return false;
             translateResult = lodash.flattenDeep(translateResult)?.map(item => item.tgt).join("\n");
-            if (!translateResult) return RESULT_ERROR
+            if (!translateResult) return false
+            // Log.i(translateResult)
             return translateResult
         } catch (e) {
-            console.log(e);
-            return API_ERROR
-        }
-    }
-
-
-
-    async Translate(e) {
-        let BDAPPID = `20200908000561381`
-        let BDAPPKEY = `92mTwzOHsFgLgyCxu5mQ`
-        let YDAPPID = `4523a49ea362ec0c`
-        let YDAPPKEY = `TplRPttIx0dF65xqMBkITM0k9vh7YFUB`
-        let msg = e.msg.replace(/^#(百度|有道)翻译/, '')
-        let res = false
-        if (e.msg.match(/^#百度翻译/)) {
-            res = await BaiduTranslate(msg, BDAPPID, BDAPPKEY)
-        } else if (e.msg.match(/^#有道翻译/)) {
-            res = await YoudaoTranslate(msg, YDAPPID, YDAPPKEY)
-
-        } else {
+            Log.e('【椰奶有道翻译报错】:', e);
             return false
         }
-        if (res) {
-            e.reply(res)
-        }
     }
 
 
+    /**百度翻译
+     * @param {string} msg 待翻译文本
+     * @param {string} BDAPPID 百度翻译appid
+     * @param {string} BDAPPKEY 百度翻译key
+     * @return {string}
+     */
     async BaiduTranslate(msg, BDAPPID, BDAPPKEY) {
         let TranslateAPI = `http://api.fanyi.baidu.com/api/trans/vip/translate`
         let salt = Math.random().toString(36).substr(2)
@@ -136,13 +169,24 @@ class Translate {
         let url = `${TranslateAPI}?q=${msg}&from=zh&to=en&appid=${BDAPPID}&salt=${salt}&sign=${sign}`
         let res = await fetch(url)
         let json = await res.json()
-        if (json.error_code) {
-            return false
-        } else {
+        try {
+            if (json.error_code) {
+                Log.i('【百度翻译报错】:', json)
+                return false
+            }
             return json.trans_result[0].dst
+        } catch (err) {
+            Log.e('【百度翻译报错】:', err)
+            return false
         }
     }
 
+    /**有道翻译
+     * @param {string} msg 待翻译文本
+     * @param {string} YDAPPID 有道翻译appid
+     * @param {string} YDAPPKEY 有道翻译key 
+     * @return {string}
+     */
     async YoudaoTranslate(msg, YDAPPID, YDAPPKEY) {
         let TranslateAPI = `https://openapi.youdao.com/api`;
         var len = msg.length;
@@ -157,10 +201,18 @@ class Translate {
         let url = `${TranslateAPI}?appKey=${YDAPPID}&q=${msg}&from=auto&to=en&salt=${salt}&sign=${sign}&signType=v3&curtime=${curtime}`
         let res = await fetch(url)
         let json = await res.json()
-        return json.translation[0]
+        // Log.i(json)                    /*  */
+        try {
+            if (json.errorCode != 0) {
+                Log.i('【有道翻译报错】:', json)
+                return false
+            }
+            return json.translation[0]
+        } catch (err) {
+            Log.e('【有道翻译报错】:', err)
+            return false
+        }
     }
-
-
 }
 
 

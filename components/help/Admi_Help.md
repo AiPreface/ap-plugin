@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-10 23:56:40
+ * @LastEditTime: 2023-01-14 18:51:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\Admi_Help.md
  * @Description: 
  * 
@@ -46,13 +46,18 @@
   * **#ap接口列表**：查看已添加的接口列表
   * **#ap设置接口**`接口编号`：更换默认接口
   * **#ap删除接口**`接口编号`：删除指定接口
-* `百度图片审核`
-  * **#ap设置百度appid**`你的appid`：配置百度图片审核appid
-  * **#ap设置百度apikey**`你的apikey`：配置百度图片审核apikey
-  * **#ap设置百度secretkey**`你的secretkey`：配置百度图片审核secretkey
-* `其他接口管理`
+* `图片处理接口`
   * **#ap设置大清晰术接口**`接口地址`：配置大清晰术所用接口
   * **#ap设置鉴赏接口**`接口地址`：配置鉴赏(逆推图片tag)所用接口
   * **#ap设置检查ai接口**`接口地址`：配置鉴定图片所用接口
   * **#ap设置去背景接口**`接口地址`：配置抠图所用接口
   * **#ap设置动漫化接口**`接口地址`：配置图片动漫化所用接口
+* `百度图片审核`
+  * **#ap设置百度appid**`你的appid`：配置百度图片审核appid
+  * **#ap设置百度apikey**`你的apikey`：配置百度图片审核apikey
+  * **#ap设置百度secretkey**`你的secretkey`：配置百度图片审核secretkey
+* `翻译`
+  * **#ap设置百度翻译id**`你的id`：配置百度翻译id
+  * **#ap设置百度翻译key**`你的key`：配置百度翻译key
+  * **#ap设置有道翻译id**`你的id`：配置有道翻译id
+  * **#ap设置有道翻译key**`你的key`：配置有道翻译key
