@@ -62,9 +62,6 @@ Ap-plugin 是一款在 QQ 内快速调用[Stable Diffusion web UI](https://githu
 
 ## 安装插件
 
-<details>
-<summary>展开/收起</summary>
-
 <!-- ### 前置安装注意
 
 本插件有较多复杂配置，如果没有以下技能，请停止对插件的安装。
@@ -123,7 +120,6 @@ pnpm restart
 
 首次载入请观察控制台，若载入时提醒需要安装依赖，执行控制台给出的安装命令即可
 
-</details>
 <br><br>
 
 ## 配置接口
@@ -156,6 +152,7 @@ pnpm restart
 > 首次使用请发送**ap 帮助**查看可用指令
 
 <br> 
+
 #### 以文生图
 
 > 使用 Stable Diffusion 接口根据用户输入的 prompt 进行作图
@@ -330,12 +327,12 @@ pnpm add baidu-aip-sdk -w
 
 #### 卢浮宫
 
-> 使用 Canvas 画板将**赛璐珞风格**动画截图或**插画**，转换成**One Last Kiss**封面风格
+> 使用 Canvas 画板将赛璐珞风格动画截图或插画，转换成One Last Kiss封面风格
 
 <details>
 <summary>展开/收起</summary>
 
-**※：在使用前请安装 canvas 依赖，此依赖无法在旧版本系统安装（目前未解决该问题）**
+**※：在使用前请安装 canvas 依赖，此依赖无法在部分系统直接安装，相应安装方法咨询百度**
 
 ```
 cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas
@@ -366,7 +363,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 <details>
 <summary>展开/收起</summary>
 
-**※：在使用前请安装 canvas 依赖，此依赖无法在旧版本系统安装（目前未解决该问题）**
+**※：在使用前请安装 canvas 依赖，此依赖无法在部分系统直接安装，相应安装方法咨询百度**
 
 ```
 cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas
@@ -385,6 +382,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 - [ ] 更严谨的 API 鉴权方式（Arcadia）
 - [ ] 简单图片处理（Su）
 - [ ] 群友 XP 统计与 Tags 使用排名（Arcadia）
+- [ ] 接入百度，有道翻译（Arcadia）
 - [ ] 云端同步与共享预设
 - [ ] 咕咕咕？
 
