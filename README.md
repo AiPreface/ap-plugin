@@ -382,9 +382,9 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 - [ ] 更严谨的 API 鉴权方式（Arcadia）
 - [ ] 简单图片处理（Su）
 - [ ] 群友 XP 统计与 Tags 使用排名（Arcadia）
-- [ ] 云端同步与共享预设
 - [ ] 咕咕咕？
 
+- [x] 云端同步与共享预设
 - [x] 接入百度，有道翻译（Arcadia）
 - [x] 图片局部重绘
 

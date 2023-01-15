@@ -8,9 +8,10 @@
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
 -->
-# 2.9.0
+# 2.10.0
 
 * 新增百度和有道翻译支持
+* 新增云端同步与共享预设
 
 # 2.9.0
 
