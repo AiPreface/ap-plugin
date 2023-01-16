@@ -45,7 +45,7 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐).+",
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口).+",
                     fnc: "setother",
                     permission: "master",
                 },
