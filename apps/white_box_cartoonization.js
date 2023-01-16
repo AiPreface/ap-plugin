@@ -1,5 +1,5 @@
 /*
- * @Author: 苏苏
+ * @Author: 0卡苏打水
  * @Date: 2023-01-05 03:49:51
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-07 17:24:58
@@ -53,7 +53,7 @@ export class Cartoonization extends plugin {
 
   async WhiteBoxCartoonization(e) {
     if (!API)
-      return await e.reply("请先配置图片动漫化所需api，配置教程：https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK")
+      return await e.reply("请先配置图片动漫化所需API，配置教程：https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK")
     if (FiguretypeUser[e.user_id]) {
       e.reply('当前有任务在列表中排队，请不要重复发送，动漫化完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
       return true

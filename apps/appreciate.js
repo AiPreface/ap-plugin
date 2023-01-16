@@ -1,5 +1,5 @@
 /*
- * @Author: Su
+ * @Author: 0卡苏打水
  * @Date: 2022-12-23 22:19:02
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-02 22:01:54
@@ -51,7 +51,7 @@ export class appreciate extends plugin {
 
     async appreciate(e) {
         if (!API)
-            return await e.reply("请先配置鉴赏图片所需api，配置教程：https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T")
+            return await e.reply("请先配置鉴赏图片所需API，配置教程：https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T")
         await AppreciatePictures(e)
     }
     async getImage(e) {

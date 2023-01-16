@@ -397,6 +397,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 [saltacc/anime-ai-detect](https://huggingface.co/spaces/saltacc/anime-ai-detect)：超级棒的鉴定图片项目  
 [skytnt/anime-remove-background](https://huggingface.co/spaces/skytnt/anime-remove-background)：超级棒的去背景项目  
 [hylee/White-box-Cartoonization](https://huggingface.co/spaces/hylee/White-box-Cartoonization)：超级棒的图片动漫化项目  
+[fffiloni/img-to-music](https://huggingface.co/spaces/fffiloni/img-to-music)：超级棒的图片转音频项目  
 [itorr/one-last-image](https://github.com/itorr/one-last-image)：超级好看的卢浮宫生成器
 
 ## 声明

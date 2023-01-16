@@ -45,7 +45,7 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口).+",
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐).+",
                     fnc: "setother",
                     permission: "master",
                 },
@@ -287,6 +287,7 @@ export class set extends plugin {
         let ai_detect_reg = /^#ap设置检查ai接口 ?(http.+)$/
         let remove_bg_reg = /^#ap设置去背景接口 ?(http.+)$/
         let cartoonization_reg = /^#ap设置动漫化接口 ?(http.+)$/
+        let img_to_music_reg = /^#ap设置图片转音乐接口 ?(http.+)$/
 
         let bdappid = baidu_appid_reg.exec(e.msg)
         if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
@@ -312,6 +313,9 @@ export class set extends plugin {
         let cartoonization = cartoonization_reg.exec(e.msg)
         if (cartoonization) { return this.writecfg(cartoonization, 'cartoonization') }
 
+        let img_to_music = img_to_music_reg.exec(e.msg)
+        if (img_to_music) { return this.writecfg(img_to_music, 'img_to_music') }
+
         return false
     }
 
@@ -326,6 +330,7 @@ export class set extends plugin {
         if ((type == 'Real_CUGAN') && !value.endsWith('/')) value = value + '/'
         if ((type == 'appreciate' || type == 'ai_detect' || type == 'remove_bg') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         if (type == "cartoonization") value = value.replace('/+/', '/').replace(/\/$/, "")
+        if ((type == "img_to_music") && !value.endsWith('/')) value = value + '/'
 
         console.log(type)
         console.log(value)
