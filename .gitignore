@@ -1,3 +1,4 @@
 config/config
 test
 !test/
+genshin_voice.js

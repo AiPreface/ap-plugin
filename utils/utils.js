@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 01:50:06
+ * @LastEditTime: 2023-01-16 18:41:12
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -75,13 +75,23 @@ export function bs64Size(base64, isunit = false, tofix = 2) {
 
 
 
+/** 随机获取数组中的一个成员
+ * @param {array} arr 原数组
+ * @return {*} 随机返回数组中的一个成员
+ */
+export function randomArrayMember(arr) {
+    return arr[Math.floor(Math.random() * arr.length)]
+}
+
+
+
 /**
  * 通过角色别名获取角色原名
  * @param {string} name 角色别称
  * @return {string} 角色原名
  * @return null：未匹配到角色名
  */
-export async function getgsName(name) {
+export function getgsName(name) {
     let nameArr = gsCfg.getAllAbbr()
     for (let rolename of Object.values(nameArr))
         if (rolename.includes(name))
