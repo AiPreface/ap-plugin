@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-13 02:08:45
+ * @LastEditTime: 2023-01-16 16:16:03
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -168,7 +168,7 @@ export class Ai_Painting extends plugin {
       let info = [
         `seed=${res.seed}`,
         paramdata.param.sampler != 'Euler a' ? `\nsampler=${paramdata.param.sampler}` : '',
-        paramdata.param.steps != 40 ? `\nsteps=${paramdata.param.steps}` : '',
+        paramdata.param.steps != 22 ? `\nsteps=${paramdata.param.steps}` : '',
         paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
         paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
         paramdata.param.tags ? `\n${paramdata.param.tags}` : '',

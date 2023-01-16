@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 18:33:56
+ * @LastEditTime: 2023-01-16 16:16:27
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -269,7 +269,7 @@ class Parse {
         txtparam.param.strength = txtparam.param.strength || 0.6
         txtparam.param.seed = txtparam.param.seed || -1
         txtparam.param.scale = txtparam.param.scale || 11
-        txtparam.param.steps = txtparam.param.steps || 40
+        txtparam.param.steps = txtparam.param.steps || 22
         return txtparam
     }
 
