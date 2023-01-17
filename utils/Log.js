@@ -2,11 +2,11 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 14:54:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 15:45:01
+ * @LastEditTime: 2023-01-16 19:21:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\Log.js
  * @Description: 快捷logger 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
- */ 
+ */
 
 import fs from 'fs'
 let currentVersion = undefined
@@ -36,5 +36,7 @@ class Log {
     w(...msg) { logger.warn(this.header, ...msg); }
     /**快捷执行logger.error( ) */
     e(...msg) { logger.error(this.header, ...msg); }
+    /**快捷执行console.log( ) */
+    c(...msg) { console.log(this.header, ...msg); }
 }
 export default new Log
