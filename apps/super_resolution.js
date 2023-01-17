@@ -16,7 +16,7 @@ export class SR extends plugin {
             priority: 5000,
             rule: [
                 {
-                    reg: "^#?大清晰术(.*)",
+                    reg: "^#?大清晰术([234二三四双]重吟?唱?)?(强力术式|中等术式|弱术式|不变式|原式)?$",
                     fnc: "Real_CUGAN",
                 },
                 {
