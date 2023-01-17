@@ -1,5 +1,5 @@
 /*
- * @Author: 苏苏
+ * @Author: 0卡苏打水
  * @Date: 2023-01-04 19:44:45
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-05 16:34:04
@@ -52,7 +52,7 @@ export class RemoveBackground extends plugin {
 
     async AnimeRemoveBackground(e) {
         if (!URL)
-            return await e.reply("请先配置去背景所需api，配置教程：https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF")
+            return await e.reply("请先配置去背景所需API，配置教程：https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF")
         //将URL处理成API格式
         const API = 'https://' + URL.split('/')[4] + '-anime-remove-background.hf.space/api/queue/'
 

@@ -4,6 +4,7 @@ baidu_secretkey: Your_Secret_Key
 appreciate:
 Real_CUGAN:
 ai_detect:
+img_to_music:
 remove_bg:
 cartoonization:
 APIList: []

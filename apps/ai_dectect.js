@@ -1,5 +1,5 @@
 /*
- * @Author: Su
+ * @Author: 0卡苏打水
  * @Date: 2023-01-04 01:03:58
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-05 16:33:08
@@ -52,7 +52,7 @@ export class AiDetect extends plugin {
 
     async anime_ai_detect(e) {
         if (!API)
-            return await e.reply("请先配置鉴定图片所需api，配置教程：https://www.wolai.com/3koPDP8wEne97evw1bjDiL")
+            return await e.reply("请先配置鉴定图片所需API，配置教程：https://www.wolai.com/3koPDP8wEne97evw1bjDiL")
         if (FiguretypeUser[e.user_id]) {
             e.reply('当前有任务在列表中排队，请不要重复发送，鉴定完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
             return true
