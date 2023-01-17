@@ -104,6 +104,9 @@ export class example extends plugin {
 		}
 		let data = await Config.getPresets()
 		let res_data = JSON.parse(res)
+		// 输出res_data的类型
+		console.log(typeof res_data) // object
+		console.log(typeof data) // object
 		for (let val in res_data) {
 			if (!res_data[val].keywords) {
 				e.reply("远程预设文件第" + (val + 1) + "个数据keywords参数错误，无法导入")
@@ -128,7 +131,11 @@ export class example extends plugin {
 				if (res_data[val].pt == data[val2].pt && JSON.stringify(res_data[val].param) == JSON.stringify(data[val2].param) && res_data[val].tags == data[val2].tags && res_data[val].ntags == data[val2].ntags) {
 					let keywords = res_data[val].keywords.concat(data[val2].keywords)
 					keywords = [...new Set(keywords)]
-					data[val].keywords = keywords
+					try {
+						data[val].keywords = keywords
+					} catch (err) {
+						console.log("出现不合法的预设数据：" + JSON.stringify(data[val]))
+					}
 					splicelist.push(val)
 					merge++
 					break
