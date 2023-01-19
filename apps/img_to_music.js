@@ -3,7 +3,7 @@
  * @Date: 2023-01-04 01:03:58
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-05 16:33:08
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_dectect.js
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\img_to_music.js
  * @Description: 
  * 
  * Copyright (c) 2023 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 

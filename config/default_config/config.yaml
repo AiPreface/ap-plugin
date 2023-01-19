@@ -6,6 +6,7 @@ Real_CUGAN:
 ai_detect:
 img_to_music:
 remove_bg:
+anime_aesthetic_predict:
 cartoonization:
 APIList: []
 usingAPI: 1

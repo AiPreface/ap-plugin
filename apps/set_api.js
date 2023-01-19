@@ -45,7 +45,7 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口).+",
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口).+",
                     fnc: "setother",
                     permission: "master",
                 },
@@ -288,6 +288,7 @@ export class set extends plugin {
         let remove_bg_reg = /^#ap设置去背景接口 ?(http.+)$/
         let cartoonization_reg = /^#ap设置动漫化接口 ?(http.+)$/
         let img_to_music_reg = /^#ap设置图片转音乐接口 ?(http.+)$/
+        let anime_aesthetic_predict_reg = /^#ap设置二次元美学接口 ?(http.+)$/
 
         let bdappid = baidu_appid_reg.exec(e.msg)
         if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
@@ -316,6 +317,9 @@ export class set extends plugin {
         let img_to_music = img_to_music_reg.exec(e.msg)
         if (img_to_music) { return this.writecfg(img_to_music, 'img_to_music') }
 
+        let anime_aesthetic_predict = anime_aesthetic_predict_reg.exec(e.msg)
+        if (anime_aesthetic_predict) { return this.writecfg(anime_aesthetic_predict, 'anime_aesthetic_predict') }
+
         return false
     }
 
@@ -331,6 +335,7 @@ export class set extends plugin {
         if ((type == 'appreciate' || type == 'ai_detect' || type == 'remove_bg') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         if (type == "cartoonization") value = value.replace('/+/', '/').replace(/\/$/, "")
         if ((type == "img_to_music") && !value.endsWith('/')) value = value + '/'
+        if ((type == "anime_aesthetic_predict") && !value.endsWith('/')) value = value + '/'
 
         console.log(type)
         console.log(value)
