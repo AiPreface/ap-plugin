@@ -8,6 +8,7 @@ img_to_music:
 remove_bg:
 anime_aesthetic_predict:
 cartoonization:
+saucenao: []
 APIList: []
 usingAPI: 1
 baidu_translate:

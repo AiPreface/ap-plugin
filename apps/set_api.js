@@ -45,7 +45,7 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口).+",
+                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口|搜图接口).+",
                     fnc: "setother",
                     permission: "master",
                 },
@@ -289,6 +289,7 @@ export class set extends plugin {
         let cartoonization_reg = /^#ap设置动漫化接口 ?(http.+)$/
         let img_to_music_reg = /^#ap设置图片转音乐接口 ?(http.+)$/
         let anime_aesthetic_predict_reg = /^#ap设置二次元美学接口 ?(http.+)$/
+        let saucenao_reg = /^#ap设置搜图接口 ?[a-z0-9]{40}$/
 
         let bdappid = baidu_appid_reg.exec(e.msg)
         if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
@@ -320,6 +321,24 @@ export class set extends plugin {
         let anime_aesthetic_predict = anime_aesthetic_predict_reg.exec(e.msg)
         if (anime_aesthetic_predict) { return this.writecfg(anime_aesthetic_predict, 'anime_aesthetic_predict') }
 
+        let saucenao = saucenao_reg.exec(e.msg)
+        if (saucenao) {
+            let apikey = saucenao[0].replace('#ap设置搜图接口', '')
+            try {
+                let apcfg = await Config.getcfg()
+                if (apcfg['saucenao'].indexOf(apikey) != -1) {
+                    return this.e.reply("已经存在这个APIKEY了", true)
+                }
+                apcfg['saucenao'].push(apikey)
+                await Config.setcfg(apcfg)
+            } catch (err) {
+                Log.e(err)
+                Log.e(err.message)
+                return this.e.reply("设置失败。请查看控制台报错", true)
+            }
+            this.e.reply("设置成功，若未生效请重启Bot")
+            return true
+        }
         return false
     }
 
