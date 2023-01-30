@@ -2,7 +2,7 @@
  * @Author: Su
  * @Date: 2023-01-30 16:19:27
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-30 17:25:28
+ * @LastEditTime: 2023-01-30 18:40:23
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\saucenao.js
  * @Description: Saucenao搜图
  * 
@@ -45,7 +45,7 @@ export class saucenao extends plugin {
 			priority: 5000,
 			rule: [{
 				/** 命令正则匹配 */
-				reg: '^#?ap搜图((阈值)?\\d)?$',
+				reg: '^#?ap搜图((阈值)?\\d+)?$',
 				/** 执行方法 */
 				fnc: 'saucenao',
 			},
