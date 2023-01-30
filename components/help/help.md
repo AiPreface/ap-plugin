@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 19:30:20
+ * @LastEditTime: 2023-01-30 18:27:45
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -73,6 +73,7 @@
 # 其他功能
 
 * **#看头像**、**#取图链**、**#图链模板**
+* **#ap搜图**[ **阈值**`60`] ：以图搜图，阈值为可选参数
 
 # 预设
 

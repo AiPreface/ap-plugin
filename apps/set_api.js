@@ -45,8 +45,13 @@ export class set extends plugin {
                     permission: "master",
                 },
                 {
-                    reg: "^#ap设置(百度|鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口|搜图接口).+",
+                    reg: "^#ap设置(鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口|搜图接口).+",
                     fnc: "setother",
+                    permission: "master",
+                },
+                {
+                    reg: "^#ap设置百度(appid|apikey|secretkey).+",
+                    fnc: "setBaiduKey",
                     permission: "master",
                 },
                 {
@@ -211,7 +216,7 @@ export class set extends plugin {
         return true
     }
 
-    /* 查看当前ap设置 */
+    /**  查看当前ap设置 */
     async config(e) {
         let policy = await Config.getPolicy()
         let gp = policy.gp
@@ -279,9 +284,6 @@ export class set extends plugin {
     }
 
     async setother(e) {
-        let baidu_appid_reg = /^#ap设置百度appid ?(\d{8})$/
-        let baidu_ak_reg = /^#ap设置百度apikey ?([A-Za-z0-9]+)$/
-        let baidu_sk_reg = /^#ap设置百度secretkey ?([A-Za-z0-9]+)$/
         let jianshang_reg = /^#ap设置鉴赏接口 ?(http.+)$/
         let super_resolution_reg = /^#ap设置大清晰术接口 ?(http.+)$/
         let ai_detect_reg = /^#ap设置检查ai接口 ?(http.+)$/
@@ -290,15 +292,6 @@ export class set extends plugin {
         let img_to_music_reg = /^#ap设置图片转音乐接口 ?(http.+)$/
         let anime_aesthetic_predict_reg = /^#ap设置二次元美学接口 ?(http.+)$/
         let saucenao_reg = /^#ap设置搜图接口 ?[a-z0-9]{40}$/
-
-        let bdappid = baidu_appid_reg.exec(e.msg)
-        if (bdappid) { return this.writecfg(bdappid, 'baidu_appid') }
-
-        let bdkey = baidu_ak_reg.exec(e.msg)
-        if (bdkey) { return this.writecfg(bdkey, 'baidu_apikey') }
-
-        let bdsk = baidu_sk_reg.exec(e.msg)
-        if (bdsk) { return this.writecfg(bdsk, 'baidu_secretkey') }
 
         let jianshang = jianshang_reg.exec(e.msg)
         if (jianshang) { return this.writecfg(jianshang, 'appreciate') }
@@ -349,7 +342,6 @@ export class set extends plugin {
      */
     async writecfg(ret, type) {
         let value = ret[1].trim()
-        if (type == "baidu_appid") value = Number(value)
         if ((type == 'Real_CUGAN') && !value.endsWith('/')) value = value + '/'
         if ((type == 'appreciate' || type == 'ai_detect' || type == 'remove_bg') && value.endsWith('/')) value = value.replace(/\/$/, "").trim()
         if (type == "cartoonization") value = value.replace('/+/', '/').replace(/\/$/, "")
@@ -364,9 +356,7 @@ export class set extends plugin {
 
         // 测试接口连通性
         if (type != 'remove_bg')
-            if (type != "baidu_appid" && type != "baidu_apikey" && type != "baidu_secretkey") {
-                if (!await this.testapi(value, type)) { return false }
-            }
+            if (!await this.testapi(value, type)) { return false }
 
         try {
             let apcfg = await Config.getcfg()
@@ -482,6 +472,45 @@ export class set extends plugin {
             }
         }
         return false
+    }
+
+
+    /** 设置百度图片审核所需key */
+    async setBaiduKey(e) {
+        let baidu_appid_reg = /^#ap设置百度appid ?(\d{8})$/
+        let baidu_ak_reg = /^#ap设置百度apikey ?([A-Za-z0-9]+)$/
+        let baidu_sk_reg = /^#ap设置百度secretkey ?([A-Za-z0-9]+)$/
+
+        let value = null
+        let type = null
+
+        let bdappid = baidu_appid_reg.exec(e.msg)
+        let bdkey = baidu_ak_reg.exec(e.msg)
+        let bdsk = baidu_sk_reg.exec(e.msg)
+        if (bdappid) {
+            value = Number(bdappid[1].trim())
+            type = 'baidu_appid'
+        } else if (bdkey) {
+            value = bdkey[1].trim()
+            type = 'baidu_apikey'
+        } else if (bdsk) {
+            value = bdsk[1].trim()
+            type = 'baidu_secretkey'
+        }
+        if (!value || !type) { return false }
+        console.log(type)
+        console.log(value)
+        try {
+            let apcfg = await Config.getcfg()
+            apcfg[type] = value
+            await Config.setcfg(apcfg)
+        } catch (err) {
+            Log.e(err)
+            Log.e(err.message)
+            return this.e.reply("设置失败。请查看控制台报错", true)
+        }
+        this.e.reply("设置成功，若未生效请重启Bot")
+        return true
     }
 }
 

@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-17 23:05:53
+ * @LastEditTime: 2023-01-30 18:22:00
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.10.3
+ * @Description: 版本：2.11.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -129,17 +129,18 @@ pnpm restart
 <details>
 <summary>展开/收起</summary>
 
-|        需要配置的接口       |                         用途                         |                         配置文档                         |
-| :-------------------------: | :--------------------------------------------------: | :------------------------------------------------------: |
-|     Stable Diffusion接口    | 用于生产图片，相关功能：[绘图](#以文生图)，[以图生图](#以图生图)，[二次元的我](#二次元的我)等 | [文档链接](https://www.wolai.com/rMR9bFJehYhBKdQT6dY3zL) |
-|        Real-CUGAN接口       |           用于图像超分，相关功能：[大清晰术](#大清晰术)           | [文档链接](https://www.wolai.com/22QBzD37qxaTcUKaB2zYRK) |
-|       DeepDanbooru接口      |     用于逆推图片Tags，相关功能：[鉴赏](#鉴赏)，[二次元的我](#二次元的我)     | [文档链接](https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T) |
-|     Anime Ai Detect接口     |    用于检测图像是否是AI制作的，相关功能：[鉴定图片](#鉴定图片)    | [文档链接](https://www.wolai.com/3koPDP8wEne97evw1bjDiL) |
-| Anime Remove Background接口 |          用于去除图片背景，相关功能：[去背景](#去背景)          | [文档链接](https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF) |
-|White Box Cartoonization接口|    用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)    | [文档链接](https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK) |
-|       百度图片审核服务      |         用于检查图像是否合规，相关功能：[图像审核](#图像审核)         | [文档链接](https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw) |
+|        需要配置的接口         |                                             用途                                              |                         配置文档                         |
+| :---------------------------: | :-------------------------------------------------------------------------------------------: | :------------------------------------------------------: |
+|     Stable Diffusion 接口     | 用于生产图片，相关功能：[绘图](#以文生图)，[以图生图](#以图生图)，[二次元的我](#二次元的我)等 | [文档链接](https://www.wolai.com/rMR9bFJehYhBKdQT6dY3zL) |
+|        Real-CUGAN 接口        |                         用于图像超分，相关功能：[大清晰术](#大清晰术)                         | [文档链接](https://www.wolai.com/22QBzD37qxaTcUKaB2zYRK) |
+|       DeepDanbooru 接口       |             用于逆推图片 Tags，相关功能：[鉴赏](#鉴赏)，[二次元的我](#二次元的我)             | [文档链接](https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T) |
+|     Anime Ai Detect 接口      |                 用于检测图像是否是 AI 制作的，相关功能：[鉴定图片](#鉴定图片)                 | [文档链接](https://www.wolai.com/3koPDP8wEne97evw1bjDiL) |
+| Anime Remove Background 接口  |                         用于去除图片背景，相关功能：[去背景](#去背景)                         | [文档链接](https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF) |
+| White Box Cartoonization 接口 |                 用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)                 | [文档链接](https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK) |
+|       百度图片审核服务        |                     用于检查图像是否合规，相关功能：[图像审核](#图像审核)                     | [文档链接](https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw) |
+|        Saucenao apikey        |                             用于以图搜图，相关功能：[搜图](#搜图)                             | [文档链接](https://www.wolai.com/wZpQ1pCV6t51bMPHupYTJA) |
 
-其中，Stable Diffusion接口需要大量算力生成图像，相对来说成本较高，详情信息可查看[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务免费额度用完后是收费的，大约是5元10000次审核次数，总的来说还是比较便宜的；除这两个接口门槛较高外，其他的接口都是免费在[Hugging Face](https://huggingface.co/)上部署的，请自行斟酌，插件开发者不免费提供（也没能力提供）任何接口，不愿意动手的小伙伴劝退
+以上接口中中，Stable Diffusion 接口需要大量算力生成图像，成本相对较高，详见[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务可领取 10000 次免费额度，后续收费标准为 5 元 10000 次；除此二者外，其余接口均可免费部署于[Hugging Face](https://huggingface.co/)。所有接口请自行动手配置，ap-plugin 暂不自带任何接口，敬请谅解。
 
 </details>
 
@@ -151,7 +152,7 @@ pnpm restart
 
 > 首次使用请发送**ap 帮助**查看可用指令
 
-<br> 
+<br>
 
 #### 以文生图
 
@@ -172,7 +173,13 @@ pnpm restart
 
 |     指令      |      回复      |                        示例                        |
 | :-----------: | :------------: | :------------------------------------------------: |
-| #绘图+${参数} | [图片]+${参数} | ![绘图](./resources/readme/%E7%BB%98%E5%9B%BE.jpg) |
+| #绘图+`参数` | `图片`+`参数` | ![绘图](./resources/readme/%E7%BB%98%E5%9B%BE.jpg) |
+
+<!-- |     指令      |      回复      |                        示例                        |
+| :-----------: | :------------: | :------------------------------------------------: |
+| #绘图+${参数} | [图片]+${参数} | ![绘图](./resources/readme/%E7%BB%98%E5%9B%BE.jpg) | -->
+
+<!-- ![绘图](./resources/readme/%E7%BB%98%E5%9B%BE.jpg) -->
 
 </details>
 
@@ -191,9 +198,12 @@ pnpm restart
 - 重绘幅度：强度 0.6（越高越接近 prompt 所描述）
 - [图片]：带上你的图片（附带图片，引用图片与艾特用户均可）
 
+<!-- |         指令         |      回复      |                                   示例                                   |
+| :------------------: | :------------: | :----------------------------------------------------------------------: |
+| #绘图+${参数}+[图片] | [图片]+${参数} | ![以图绘图](./resources/readme/%E4%BB%A5%E5%9B%BE%E7%BB%98%E5%9B%BE.jpg) | -->
 |         指令         |      回复      |                                   示例                                   |
 | :------------------: | :------------: | :----------------------------------------------------------------------: |
-| #绘图+${参数}+[图片] | [图片]+${参数} | ![以图绘图](./resources/readme/%E4%BB%A5%E5%9B%BE%E7%BB%98%E5%9B%BE.jpg) |
+| #绘图+`参数`+`图片` | `图片`+`参数` | ![以图绘图](./resources/readme/%E4%BB%A5%E5%9B%BE%E7%BB%98%E5%9B%BE.jpg) |
 
 </details>
 
@@ -214,9 +224,12 @@ pnpm restart
 - /二次元的我（带/号前缀：使用 DeepDanbooru 接口(若可用，不可用与无前缀相同)对头像进行逆推 Tags，生成图片）
 - (全局)刷新二次元的我：刷新获取到的属性
 
+<!-- |       指令        |      回复      |                                        示例                                         |
+| :---------------: | :------------: | :---------------------------------------------------------------------------------: |
+| ${前缀}二次元的我 | [图片]+${属性} | ![二次元的我](./resources/readme/%E4%BA%8C%E6%AC%A1%E5%85%83%E7%9A%84%E6%88%91.jpg) | -->
 |       指令        |      回复      |                                        示例                                         |
 | :---------------: | :------------: | :---------------------------------------------------------------------------------: |
-| ${前缀}二次元的我 | [图片]+${属性} | ![二次元的我](./resources/readme/%E4%BA%8C%E6%AC%A1%E5%85%83%E7%9A%84%E6%88%91.jpg) |
+| `前缀`二次元的我 | `图片`+`属性` | ![二次元的我](./resources/readme/%E4%BA%8C%E6%AC%A1%E5%85%83%E7%9A%84%E6%88%91.jpg) |
 
 </details>
 
@@ -234,9 +247,12 @@ pnpm restart
 - 超分：二重唱，三重唱，四重唱（对应 2 倍，3 倍，4 倍超分）
 - 降噪：强力术式，中等术式，不变式，原式（等级越高，降噪越强）
 
+<!-- |           指令           |      回复      |                                   示例                                   |
+| :----------------------: | :------------: | :----------------------------------------------------------------------: |
+| #大清晰术+${参数}+[图片] | [图片]+${参数} | ![大清晰术](./resources/readme/%E5%A4%A7%E6%B8%85%E6%99%B0%E6%9C%AF.jpg) |  -->
 |           指令           |      回复      |                                   示例                                   |
 | :----------------------: | :------------: | :----------------------------------------------------------------------: |
-| #大清晰术+${参数}+[图片] | [图片]+${参数} | ![大清晰术](./resources/readme/%E5%A4%A7%E6%B8%85%E6%99%B0%E6%9C%AF.jpg) |
+| #大清晰术+`参数`+`图片` | `图片`+`参数` | ![大清晰术](./resources/readme/%E5%A4%A7%E6%B8%85%E6%99%B0%E6%9C%AF.jpg) | 
 
 </details>
 
@@ -249,9 +265,10 @@ pnpm restart
 <details>
 <summary>展开/收起</summary>
 
-|     指令     |      回复      |                        示例                        |
+<!-- |     指令     |      回复      |                        示例                        |
 | :----------: | :------------: | :------------------------------------------------: |
-| #鉴赏+[图片] | [图片]+${结果} | ![鉴赏](./resources/readme/%E9%89%B4%E8%B5%8F.jpg) |
+| #鉴赏+[图片] | [图片]+${结果} | ![鉴赏](./resources/readme/%E9%89%B4%E8%B5%8F.jpg) | -->
+![鉴赏](./resources/readme/%E9%89%B4%E8%B5%8F.jpg) 
 
 </details>
 
@@ -264,9 +281,10 @@ pnpm restart
 <details>
 <summary>展开/收起</summary>
 
-|       指令       |  回复   |                                   示例                                   |
+<!-- |       指令       |  回复   |                                   示例                                   |
 | :--------------: | :-----: | :----------------------------------------------------------------------: |
-| #鉴定图片+[图片] | ${结果} | ![鉴定图片](./resources/readme/%E9%89%B4%E5%AE%9A%E5%9B%BE%E7%89%87.jpg) |
+| #鉴定图片+[图片] | ${结果} | ![鉴定图片](./resources/readme/%E9%89%B4%E5%AE%9A%E5%9B%BE%E7%89%87.jpg) | -->
+![鉴定图片](./resources/readme/%E9%89%B4%E5%AE%9A%E5%9B%BE%E7%89%87.jpg) 
 
 **※：此功能为 AI 鉴定，结果并不一定精准，请理智辨别，造成任何纠纷与插件作者无关**
 
@@ -281,9 +299,10 @@ pnpm restart
 <details>
 <summary>展开/收起</summary>
 
-|      指令      |  回复  |                             示例                              |
+<!-- |      指令      |  回复  |                             示例                              |
 | :------------: | :----: | :-----------------------------------------------------------: |
-| #去背景+[图片] | [图片] | ![去背景](./resources/readme/%E5%8E%BB%E8%83%8C%E6%99%AF.jpg) |
+| #去背景+[图片] | [图片] | ![去背景](./resources/readme/%E5%8E%BB%E8%83%8C%E6%99%AF.jpg) | -->
+ ![去背景](./resources/readme/%E5%8E%BB%E8%83%8C%E6%99%AF.jpg) 
 
 </details>
 
@@ -296,9 +315,10 @@ pnpm restart
 <details>
 <summary>展开/收起</summary>
 
-|        指令        |  回复  |                                        示例                                         |
+<!-- |        指令        |  回复  |                                        示例                                         |
 | :----------------: | :----: | :---------------------------------------------------------------------------------: |
-| #图片动漫化+[图片] | [图片] | ![图片动漫化](./resources/readme/%E5%9B%BE%E7%89%87%E5%8A%A8%E6%BC%AB%E5%8C%96.jpg) |
+| #图片动漫化+[图片] | [图片] | ![图片动漫化](./resources/readme/%E5%9B%BE%E7%89%87%E5%8A%A8%E6%BC%AB%E5%8C%96.jpg) | -->
+![图片动漫化](./resources/readme/%E5%9B%BE%E7%89%87%E5%8A%A8%E6%BC%AB%E5%8C%96.jpg) 
 
 </details>
 
@@ -317,9 +337,10 @@ pnpm restart
 pnpm add baidu-aip-sdk -w
 ```
 
-|       指令       | 回复 |                        示例                        |
+<!-- |       指令       | 回复 |                        示例                        |
 | :--------------: | :--: | :------------------------------------------------: |
-| #ap 设置审核开启 | 开启 | ![审核](./resources/readme/%E5%AE%A1%E6%A0%B8.jpg) |
+| #ap 设置审核开启 | 开启 | ![审核](./resources/readme/%E5%AE%A1%E6%A0%B8.jpg) | -->
+![审核](./resources/readme/%E5%AE%A1%E6%A0%B8.jpg) 
 
 </details>
 
@@ -327,7 +348,7 @@ pnpm add baidu-aip-sdk -w
 
 #### 卢浮宫
 
-> 使用 Canvas 画板将赛璐珞风格动画截图或插画，转换成One Last Kiss封面风格
+> 使用 Canvas 画板将赛璐珞风格动画截图或插画，转换成 One Last Kiss 封面风格
 
 <details>
 <summary>展开/收起</summary>
@@ -348,9 +369,12 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 - 线迹轻重：80-126 之间
 - 调子数量：20-200 之间
 
-|          指令          |  回复  |                             示例                              |
+<!-- |          指令          |  回复  |                             示例                              |
 | :--------------------: | :----: | :-----------------------------------------------------------: |
-| #卢浮宫+${参数}+[图片] | [图片] | ![卢浮宫](./resources/readme/%E5%8D%A2%E6%B5%AE%E5%AE%AB.jpg) |
+| #卢浮宫+`参数`+[图片] | [图片] | ![卢浮宫](./resources/readme/%E5%8D%A2%E6%B5%AE%E5%AE%AB.jpg) | -->
+|          指令          |                             示例                              |
+| :--------------------: | :-----------------------------------------------------------: |
+| #卢浮宫+`参数`+`图片` |![卢浮宫](./resources/readme/%E5%8D%A2%E6%B5%AE%E5%AE%AB.jpg) |
 
 </details>
 
@@ -369,9 +393,30 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas
 ```
 
-|                  指令                   |  回复  |                                   示例                                   |
+<!-- |                  指令                   |  回复  |                                   示例                                   |
 | :-------------------------------------: | :----: | :----------------------------------------------------------------------: |
-| #局部重绘+${关键词}+[原图]+[涂抹后的图] | [图片] | ![局部重绘](./resources/readme/%E5%B1%80%E9%83%A8%E9%87%8D%E7%BB%98.jpg) |
+| #局部重绘+`关键词`+[原图]+[涂抹后的图片] | [图片] | ![局部重绘](./resources/readme/%E5%B1%80%E9%83%A8%E9%87%8D%E7%BB%98.jpg) | -->
+|                  指令                   |                                   示例                                   |
+| :-------------------------------------: |  :----------------------------------------------------------------------: |
+| #局部重绘+`关键词`+`原图`+`涂抹后的图片` | ![局部重绘](./resources/readme/%E5%B1%80%E9%83%A8%E9%87%8D%E7%BB%98.jpg) |
+
+</details>
+
+<br>
+
+
+#### 搜图
+
+> 使用 Saucenao 搜索相似图片
+
+<details>
+<summary>展开/收起</summary>
+
+可选参数：
+
+- 阈值(50-99): 用于指定相似度
+
+ ![搜图](./resources/readme/%E6%90%9C%E5%9B%BE.jpg)  
 
 </details>
 
@@ -392,13 +437,9 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 
 [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)：stable-diffusion-webui 项目  
 [秋葉 aaaki](https://space.bilibili.com/12566101/)：电子佛祖，赛博菩萨  
-[DianXian/Real-CUGAN](https://huggingface.co/spaces/DianXian/Real-CUGAN)：超级棒的 Real-CUGAN 在线接口  
-[NoCrypt/DeepDanbooru_string](https://huggingface.co/spaces/NoCrypt/DeepDanbooru_string)：超级棒的 DeepDanbooru 在线接口  
-[saltacc/anime-ai-detect](https://huggingface.co/spaces/saltacc/anime-ai-detect)：超级棒的鉴定图片项目  
-[skytnt/anime-remove-background](https://huggingface.co/spaces/skytnt/anime-remove-background)：超级棒的去背景项目  
-[hylee/White-box-Cartoonization](https://huggingface.co/spaces/hylee/White-box-Cartoonization)：超级棒的图片动漫化项目  
-[fffiloni/img-to-music](https://huggingface.co/spaces/fffiloni/img-to-music)：超级棒的图片转音频项目  
-[itorr/one-last-image](https://github.com/itorr/one-last-image)：超级好看的卢浮宫生成器
+[itorr/one-last-image](https://github.com/itorr/one-last-image)：一个优雅的卢浮宫风格化图片生成器
+以及huggingface平台的优秀项目们：
+[Real-CUGAN](https://huggingface.co/spaces/DianXian/Real-CUGAN)、[DeepDanbooru_string](https://huggingface.co/spaces/NoCrypt/DeepDanbooru_string)、[anime-ai-detect](https://huggingface.co/spaces/saltacc/anime-ai-detect)、[anime-remove-background](https://huggingface.co/spaces/skytnt/anime-remove-background) 、[White-box-Cartoonization](https://huggingface.co/spaces/hylee/White-box-Cartoonization)、[img-to-music](https://huggingface.co/spaces/fffiloni/img-to-music)
 
 ## 声明
 

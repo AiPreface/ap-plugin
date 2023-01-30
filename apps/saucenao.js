@@ -1,3 +1,13 @@
+/*
+ * @Author: Su
+ * @Date: 2023-01-30 16:19:27
+ * @LastEditors: 渔火Arcadia
+ * @LastEditTime: 2023-01-30 17:25:28
+ * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\saucenao.js
+ * @Description: Saucenao搜图
+ * 
+ * Copyright (c) 2023 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
+ */
 import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios'
 import {
@@ -34,26 +44,26 @@ export class saucenao extends plugin {
 			/** 优先级，数字越小等级越高 */
 			priority: 5000,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?ap搜图((阈值)?\\d{2})?$',
-					/** 执行方法 */
-					fnc: 'saucenao',
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					/** 关闭日志 */
-					log: false
-				}
+				/** 命令正则匹配 */
+				reg: '^#?ap搜图((阈值)?\\d)?$',
+				/** 执行方法 */
+				fnc: 'saucenao',
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				/** 关闭日志 */
+				log: false
+			}
 			]
 		})
 	}
 
 	async saucenao(e) {
 		if (!APIKEY)
-			return await e.reply("请先配置搜图所需API，配置教程：https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF")
+			return await e.reply("请先配置搜图所需API，配置教程：https://www.wolai.com/wZpQ1pCV6t51bMPHupYTJA")
 		let currentTime = new Date()
 			.getTime();
 		let lastTime = new Date(coolingList[e.user_id])
@@ -65,15 +75,24 @@ export class saucenao extends plugin {
 		}
 		e = await parseImg(e)
 		if (e.img) {
-			let threshold = parseInt(e.msg ? e.msg.replace(/[^0-9]/ig, "") : thresholdList[e.user_id] || 80);
+			let threshold = parseInt((e.msg ? e.msg.replace(/[^0-9]/ig, "") : thresholdList[e.user_id]) || 80);
 			if (threshold < 50) {
 				e.reply(`阈值不能低于50%，已自动调整为50%`);
+				threshold = 50
 			}
-			threshold = Math.max(50, threshold);
+			else if (threshold > 99) {
+				e.reply(`阈值已置为99%`);
+				threshold = 99
+			}
+			// threshold = Math.max(50, threshold);
 			let url = e.img[0];
 			let APIURL = `https://saucenao.com/search.php?output_type=2&numres=30&api_key=${APIKEY[API_USE]}&url=${url}`;
 			try {
-				let res = await axios.get(APIURL);
+				let res = await axios.get(APIURL, {
+					headers: {
+						"Accept-Encoding": "*"
+					},
+				});
 				let data = res.data.results;
 				let ForwardMsg;
 				let data_msg = [];
@@ -100,13 +119,16 @@ export class saucenao extends plugin {
 						continue;
 					}
 					let base64 = await axios.get(thumbnail, {
+						headers: {
+							"Accept-Encoding": "*"
+						},
 						responseType: 'arraybuffer'
 					});
 					base64 = Buffer.from(base64.data, 'binary')
 						.toString('base64');
 					let nsfw = await NsfwCheck.check(base64);
 					if (nsfw.message) {
-						Log.e("【图像审核失败】" + nsfw.message);
+						Log.w("【ap搜图：图像审核失败】" + nsfw.message);
 						nsfw["isnsfw"] = false;
 					}
 					let msg = [
@@ -140,6 +162,7 @@ export class saucenao extends plugin {
 				} else {
 					e.reply('搜索失败，可能是APIKEY达到使用限制或者APIKEY验证错误，请尝试增加APIKEY或检查网络~', true);
 					Log.e(`API已用尽，当前为第${API_USE + 1}个APIKEY，共${APIKEY.length}个APIKEY`);
+					Log.e(err)
 				}
 			}
 			delete getImagetime[e.user_id];
