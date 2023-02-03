@@ -157,7 +157,7 @@ export class saucenao extends plugin {
 			} catch (err) {
 				if (API_USE < APIKEY.length - 1) {
 					API_USE++;
-					saucenao(e);
+					this.saucenao(e);
 					return true;
 				} else {
 					e.reply('搜索失败，可能是APIKEY达到使用限制或者APIKEY验证错误，请尝试增加APIKEY或检查网络~', true);

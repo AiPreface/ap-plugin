@@ -4,7 +4,7 @@
  * @LastEditors: 渔火Arcadia
  * @LastEditTime: 2023-01-31 21:12:11
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.11.2
+ * @Description: 版本：2.11.3
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
