@@ -252,8 +252,13 @@ class Draw {
         fs.writeFile(picPath, base64, "base64", (err) => { if (err) throw err });
     }
 }
-; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
-async function constructRequestOption(param) {
+async function i(paramdata, apiobj) {
+    let options = await constructRequestOption(paramdata.param, apiobj.url);
+    if (apiobj.account_password) { options.headers['Authorization'] = `Basic ${Buffer.from(cfg.masterQQ[0] + ':' + apiobj.account_password, 'utf8').toString('base64')}`; }
+    return await fetch(apiobj.url + `/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
+}
+// ; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
+async function constructRequestOption(param, url) {
     // Log.i(param)                                 /*  */
     let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
     let seed = param.seed
@@ -263,7 +268,7 @@ async function constructRequestOption(param) {
     // 请求接口判断是否存在指定sampler 
     if (param.sampler != 'Euler a') {
         try {
-            let res = await fetch(api + `/sdapi/v1/samplers`)
+            let res = await fetch(url + `/sdapi/v1/samplers`)
             res = await res.json()
             let exist = false
             for (let val of res) {

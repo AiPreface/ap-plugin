@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-16 16:16:27
+ * @LastEditTime: 2023-02-08 16:47:21
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -122,6 +122,7 @@ class Parse {
             'Euler a',
             'Euler',
 
+            'PLMS',
             'LMS Karras',
             'LMS',
 
@@ -136,12 +137,11 @@ class Parse {
             'DPM2',
 
             'DDIM',
-            'PLMS',
 
-            'DMP++ 2S a Karras',
-            'DMP++ 2S a',
-            'DMP++ 2M Karras',
-            'DMP++ 2M',
+            'DPM++ 2S a Karras',
+            'DPM++ 2S a',
+            'DPM++ 2M Karras',
+            'DPM++ 2M',
             'DPM++ SDE Karras',
             'DPM++ SDE',
         ]
