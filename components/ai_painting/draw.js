@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 18:23:45
+ * @LastEditTime: 2023-02-08 17:11:26
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -247,9 +247,14 @@ class Draw {
         if (!policy.isDownload || paramdata.message == "二次元的我") return false
 
         let currentTime = moment(new Date()).format("YYMMDD_HHmmss");
-        let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`.replace('\n', '').replace('\r', '').replace('/', '_').replace("\\", '_')
+        let picname = `${currentTime}_${("Tags=" + param.tags + "&nTags=" + param.ntags).substring(0, 170).trim()}&seed=${seed}&user=${paramdata.user}.png`.replace('\n', '').replace('\r', '').replace('/', '／').replace("\\", '＼').replace("|", '｜').replace(':', '：').replace(':', '：').replace('*', '＊').replace('?', '？').replace('<', '＜').replace('>', '＞')
         let picPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures', picname);
-        fs.writeFile(picPath, base64, "base64", (err) => { if (err) throw err });
+        fs.writeFile(picPath, base64, "base64", (err) => {
+            if (err) {
+                Log.w('下载图片失败：')
+                Log.w(err)
+            }
+        });
     }
 }
 async function i(paramdata, apiobj) {
