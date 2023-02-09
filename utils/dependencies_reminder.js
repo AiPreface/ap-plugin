@@ -10,8 +10,8 @@
  */
 import chalk from 'chalk'
 export const needPackage = [
-    'axios',
-    'image-size',
+    //'axios',
+    //'image-size',
     // "canvas",
 ]
 export async function checkPackage() {
