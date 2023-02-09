@@ -1,4 +1,5 @@
 config/config
 test
 !test/
+node_modules/
 genshin_voice.js
