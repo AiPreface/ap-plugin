@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-02-08 17:11:26
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-02-10 01:02:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -266,6 +266,20 @@ async function i(paramdata, apiobj) {
 async function constructRequestOption(param, url) {
     // Log.i(param)                                 /*  */
     let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+    let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
+    if (size) {
+        size = size.slice(1, 3)
+    }
+    if (size) {
+        size[0] = Math.ceil(size[0] / 64) * 64
+        size[1] = Math.ceil(size[1] / 64) * 64
+    }
+    if (size && (size[0] > 2048 || size[1] > 2048)) {
+        size = null
+    }
+    param.tags = param.tags.replace(/(\d+)\s*[×*]\s*(\d+)/, '').trim()
+    param.width = size ? size[0] : param.width
+    param.height = size ? size[1] : param.height
     let seed = param.seed
     if (seed == -1) {
         seed = Math.floor(Math.random() * 2147483647)
