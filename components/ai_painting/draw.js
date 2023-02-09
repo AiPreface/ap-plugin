@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-10 01:02:17
+ * @LastEditTime: 2023-02-10 02:29:10
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -266,20 +266,43 @@ async function i(paramdata, apiobj) {
 async function constructRequestOption(param, url) {
     // Log.i(param)                                 /*  */
     let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
-    let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
-    if (size) {
-        size = size.slice(1, 3)
+    if (!param.base64) {
+        let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
+        if (size) {
+            size = size.slice(1, 3)
+        }
+        if (size) {
+            size[0] = Math.ceil(size[0] / 64) * 64
+            size[1] = Math.ceil(size[1] / 64) * 64
+        }
+        if (size && (size[0] > 2048 || size[1] > 2048)) {
+            size = null
+        }
+        param.tags = param.tags.replace(/(\d+)\s*[×*]\s*(\d+)/, '').trim()
+        param.width = size ? size[0] : param.width
+        param.height = size ? size[1] : param.height
+        if (param.tags.match(/(H|h)ires(\.?fix)?/)) {
+            let hr_scale = param.tags.match(/(H|h)ires(\.?fix)?\s*(\d+(\.\d+)?)?/)[3]
+            if (hr_scale) {
+                hr_scale = Number(hr_scale).toFixed(2)
+            } else {
+                hr_scale = 2
+            }
+            if (hr_scale < 1 || hr_scale > 4) {
+                hr_scale = 2
+            }
+            param.tags = param.tags.replace(/(H|h)ires(\.?fix)?\s*(\d+(\.\d+)?)?/, '').trim()
+            param.enable_hr = true
+            param.denoising_strength = 0.7
+            param.hr_scale = hr_scale,
+            param.hr_upscaler = 'Latent'
+            param.hr_second_pass_steps = param.steps
+            param.width = Math.ceil(param.width / param.hr_scale)
+            param.height = Math.ceil(param.height / param.hr_scale)
+            param.width = Math.ceil(param.width / 64) * 64
+            param.height = Math.ceil(param.height / 64) * 64
+        }
     }
-    if (size) {
-        size[0] = Math.ceil(size[0] / 64) * 64
-        size[1] = Math.ceil(size[1] / 64) * 64
-    }
-    if (size && (size[0] > 2048 || size[1] > 2048)) {
-        size = null
-    }
-    param.tags = param.tags.replace(/(\d+)\s*[×*]\s*(\d+)/, '').trim()
-    param.width = size ? size[0] : param.width
-    param.height = size ? size[1] : param.height
     let seed = param.seed
     if (seed == -1) {
         seed = Math.floor(Math.random() * 2147483647)
@@ -308,11 +331,13 @@ async function constructRequestOption(param, url) {
     // 文生图
     if (!param.base64) {
         data = {
-            "enable_hr": false,
-            "denoising_strength": 0,
+            "enable_hr": param.enable_hr ? true : false,
+            "denoising_strength": param.denoising_strength ? param.denoising_strength : 0,
             "firstphase_width": 0,
             "firstphase_height": 0,
-            "styles": ["string"],
+            "hr_scale": param.hr_scale ? param.hr_scale : 2,
+            "hr_upscaler": param.hr_upscaler ? param.hr_upscaler : 'Latent',
+            "hr_second_pass_steps": param.hr_second_pass_steps ? param.hr_second_pass_steps : 0,
             // "subseed": -1,
             // "subseed_strength": 0,
             // "seed_resize_from_h": -1,
@@ -356,6 +381,7 @@ async function constructRequestOption(param, url) {
             "inpainting_mask_invert": "inpainting_mask_invert" in param ? param.inpainting_mask_invert : NaN,
         }
     }
+    console.log(data)
     let options = {
         method: 'POST',
         headers: {
