@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-10 02:29:10
+ * @LastEditTime: 2023-02-10 23:22:02
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -264,6 +264,7 @@ async function i(paramdata, apiobj) {
 }
 // ; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
 async function constructRequestOption(param, url) {
+    console.log(param)
     // Log.i(param)                                 /*  */
     let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
     if (!param.base64) {
@@ -332,7 +333,7 @@ async function constructRequestOption(param, url) {
     if (!param.base64) {
         data = {
             "enable_hr": param.enable_hr ? true : false,
-            "denoising_strength": param.denoising_strength ? param.denoising_strength : 0,
+            "denoising_strength": param.strength ? param.strength : 0,
             "firstphase_width": 0,
             "firstphase_height": 0,
             "hr_scale": param.hr_scale ? param.hr_scale : 2,
@@ -381,7 +382,8 @@ async function constructRequestOption(param, url) {
             "inpainting_mask_invert": "inpainting_mask_invert" in param ? param.inpainting_mask_invert : NaN,
         }
     }
-    console.log(data)
+
+    
     let options = {
         method: 'POST',
         headers: {
@@ -389,6 +391,7 @@ async function constructRequestOption(param, url) {
         },
         body: JSON.stringify(data),
     }
+    console.log(data)
     return options
 }
 

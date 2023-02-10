@@ -1,0 +1,11 @@
+default:
+  sampler: Euler a
+  steps: 22
+  width: 512
+  height: 768
+  scale: 7
+  strength: 0.75
+  enable_hr: false
+  hr_upscaler: Latent
+  hr_second_pass_steps: 0
+  hr_scale: 2

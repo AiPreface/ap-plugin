@@ -129,7 +129,21 @@ class Config {
      */
     async setPolicy(policy) { fs.writeFileSync(path.join(cfg_path, 'policy.yaml'), YAML.stringify(policy), "utf8"); }
 
+    /**获取ap默认参数
+     * @return {*}
+        */
+    async getParse() {
+        let parse = await YAML.parse(
+            fs.readFileSync(path.join(cfg_path, 'parse.yaml'), "utf8")
+        );
+        return parse
+    }
 
+    /**写入ap默认参数
+     * @param {*} parse
+     * @return {*}
+     *  */
+    async setParse(parse) { fs.writeFileSync(path.join(cfg_path, 'parse.yaml'), YAML.stringify(parse), "utf8"); }
 
     /**获取违禁词列表
      * @return {*}

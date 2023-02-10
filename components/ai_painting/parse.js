@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-02-08 16:47:21
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-02-11 00:17:32
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -70,8 +70,11 @@ class Parse {
 
         // 解析命令中的参数
         let txtparam = await this.parsetxt(e.msg)
+        // 获取用户默认参数
+        let paramcfg = await Config.getParse()
+        let userparam = e.user_id in paramcfg ? paramcfg[e.user_id] : paramcfg.default
         // 对于没有出现的属性，使用默认值填充
-        txtparam = this.complete_txtparam(txtparam)
+        txtparam = this.complete_txtparam(userparam ,txtparam)
         // 如果指定了不存在的接口
         let config = await Config.getcfg()
         if (txtparam.specifyAPI > config.APIList.length)
@@ -247,8 +250,8 @@ class Parse {
                 seed: seed,
                 scale: Number(scale),
                 steps: Number(steps),
-                width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : 512,
-                height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : 768,
+                width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : NaN,
+                height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : NaN,
                 tags: tags.trim(),
                 ntags: ntags.trim(),
                 pt: pt,
@@ -264,12 +267,18 @@ class Parse {
         return txtparam
     }
     /** 对于没有出现的属性，使用默认值填充 */
-    complete_txtparam(txtparam) {
-        txtparam.param.sampler = txtparam.param.sampler || 'Euler a'
-        txtparam.param.strength = txtparam.param.strength || 0.6
+    complete_txtparam(userparam, txtparam) {
+        txtparam.param.sampler = txtparam.param.sampler || userparam.sampler
+        txtparam.param.strength = txtparam.param.strength || userparam.strength
         txtparam.param.seed = txtparam.param.seed || -1
-        txtparam.param.scale = txtparam.param.scale || 11
-        txtparam.param.steps = txtparam.param.steps || 22
+        txtparam.param.scale = txtparam.param.scale || userparam.scale
+        txtparam.param.steps = txtparam.param.steps || userparam.steps
+        txtparam.param.width = userparam.width
+        txtparam.param.height = userparam.height
+        txtparam.param.enable_hr = userparam.enable_hr
+        txtparam.param.hr_upscaler = userparam.hr_upscaler
+        txtparam.param.hr_second_pass_steps = userparam.hr_second_pass_steps
+        txtparam.param.hr_scale = userparam.hr_scale
         return txtparam
     }
 
