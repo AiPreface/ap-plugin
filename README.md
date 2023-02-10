@@ -1,10 +1,10 @@
 <!--
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-02-08 17:27:42
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-02-11 05:21:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.11.5
+ * @Description: 版本：2.12.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -118,7 +118,7 @@ pnpm add axios -w
 pnpm restart
 ```
 
-首次载入请观察控制台，若载入时提醒需要安装依赖，执行控制台给出的安装命令即可
+首次载入请输入`#ap安装依赖`进行依赖安装
 
 <br><br>
 
@@ -407,7 +407,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 
 #### 搜图
 
-> 使用 Saucenao 搜索相似图片
+> 使用 Ascii2d / SauceNAO / IqDB / TraceMoe / EHentai / Yandex 搜索相似图片
 
 <details>
 <summary>展开/收起</summary>
@@ -432,12 +432,15 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 - [x] 云端同步与共享预设
 - [x] 接入百度，有道翻译（Arcadia）
 - [x] 图片局部重绘
+- [x] 多搜索引擎搜图
+- [x] 设置个人默认绘图参数
+- [x] 动漫人物识别
 
 ## 致谢
 
 [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)：stable-diffusion-webui 项目  
 [秋葉 aaaki](https://space.bilibili.com/12566101/)：电子佛祖，赛博菩萨  
-[itorr/one-last-image](https://github.com/itorr/one-last-image)：一个优雅的卢浮宫风格化图片生成器
+[itorr/one-last-image](https://github.com/itorr/one-last-image)：一个优雅的卢浮宫风格化图片生成器  
 以及huggingface平台的优秀项目们：
 [Real-CUGAN](https://huggingface.co/spaces/DianXian/Real-CUGAN)、[DeepDanbooru_string](https://huggingface.co/spaces/NoCrypt/DeepDanbooru_string)、[anime-ai-detect](https://huggingface.co/spaces/saltacc/anime-ai-detect)、[anime-remove-background](https://huggingface.co/spaces/skytnt/anime-remove-background) 、[White-box-Cartoonization](https://huggingface.co/spaces/hylee/White-box-Cartoonization)、[img-to-music](https://huggingface.co/spaces/fffiloni/img-to-music)
 

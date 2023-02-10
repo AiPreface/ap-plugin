@@ -39,7 +39,7 @@ export class animedb extends plugin {
 			priority: 5000,
 			rule: [{
 					/** 命令正则匹配 */
-					reg: '^#?识别$',
+					reg: '^#?ap识别$',
 					/** 执行方法 */
 					fnc: 'animedb'
 				},

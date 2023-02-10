@@ -1,8 +1,8 @@
 <!--
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 18:51:17
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-02-11 05:37:00
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\Admi_Help.md
  * @Description: 
  * 
@@ -43,6 +43,9 @@
 
 # 配置
 
+* `一键安装依赖`
+  * **#ap检查依赖**: 查看依赖是否安装完成
+  * **#ap安装依赖**: 一键安装所需要的依赖
 * `绘图接口管理`
   * **#ap添加接口**`接口地址`**备注**`我的接口 1`：添加一个接口
   * **#ap接口列表**：查看已添加的接口列表
@@ -65,5 +68,6 @@
   * **#ap设置百度翻译key**`你的key`：配置百度翻译key
   * **#ap设置有道翻译id**`你的id`：配置有道翻译id
   * **#ap设置有道翻译key**`你的key`：配置有道翻译key
-* `搜图`
-  * **#ap设置搜图接口**`apikey`：配置搜图接口
+* `切换分支`
+  * **#ap当前分支**: 查看当前分支
+  * **#ap切换分支**: 在main与dev分支进行切换(dev分支具有不稳定性，小白请勿随意切换)

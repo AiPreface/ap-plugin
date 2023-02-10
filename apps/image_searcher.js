@@ -78,6 +78,7 @@ export class ImageSearcher extends plugin {
 	}
 
 	async ImageSearcher(e) {
+		if (!e.isGroup) return await e.reply([segment.at(e.user_id), '该功能私聊暂时无法使用，请在群聊中使用此功能~'])
 		if (!fs.existsSync(Path)) {
 			fs.mkdirSync(Path)
 		} else {
