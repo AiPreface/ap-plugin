@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-11 05:21:07
+ * @LastEditTime: 2023-02-11 10:11:29
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.12.0
+ * @Description: 版本：2.12.7[Dev]
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->

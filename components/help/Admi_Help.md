@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-11 05:37:00
+ * @LastEditTime: 2023-02-11 10:05:55
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\Admi_Help.md
  * @Description: 
  * 
@@ -51,6 +51,12 @@
   * **#ap接口列表**：查看已添加的接口列表
   * **#ap设置接口**`接口编号`：更换默认接口
   * **#ap删除接口**`接口编号`：删除指定接口
+  * **#服务器状态**: 查看所有接口状态
+* `接口模型切换`
+  * **#模型列表**: 查看当前接口使用和可用的模型
+  * **#切换模型**`模型名称`: 切换当前接口的模型
+  * **#VAE列表**: 查看当前接口使用和可用的VAE
+  * **#切换VAE**`VAE名称`: 切换当前接口的VAE
 * `图片处理接口`
   * **#ap设置大清晰术接口**`接口地址`：配置大清晰术所用接口
   * **#ap设置鉴赏接口**`接口地址`：配置鉴赏(逆推图片tag)所用接口

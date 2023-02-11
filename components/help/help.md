@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-27 01:29:18
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-11 05:45:38
+ * @LastEditTime: 2023-02-11 10:03:29
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\help\help.md
  * @Description: 
  * 
@@ -64,6 +64,7 @@
   * 请同时上传两张图片，第一张需是原图，第二张是涂抹之后的图，请使用黑色(#000000)进行涂抹，误差值在20之内才可正常识别
 * **#图片转音乐** [ `时长`] [ `复杂程度`] [ `曲式`]：将图片转换成音频
 * **#二次元美学** [ `图片`]：为图片打个分
+* **#图片差分** [ `?张` ] [ `图片` ]: 调整重绘幅度达到图片差分效果
 
 # 本地图片管理
 
