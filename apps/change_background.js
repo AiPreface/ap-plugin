@@ -1,8 +1,8 @@
 /*
  * @Author: 0卡苏打水su
  * @Date: 2023-01-11 22:58:18
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-13 01:48:08
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-02-19 01:39:57
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\change_background.js
  * @Description: 图片局部重绘功能
  * 
@@ -17,6 +17,9 @@ import Log from '../utils/Log.js'
 import { createRequire } from "module";
 import Draw from '../components/ai_painting/draw.js'
 import { parseImg } from '../utils/utils.js';
+import { Parse } from "../components/apidx.js";
+import { getuserName } from '../utils/utils.js'
+import Pictools from '../utils/pic_tools.js';
 const require = createRequire(import.meta.url);
 
 let ap_cfg = await Config.getcfg()
@@ -139,7 +142,7 @@ export class example extends plugin {
 			var mask_blur = 1
 		}
 		var msg = e.msg.replace(/^#?更?换(背景|人物)/, '')
-
+		let current_group_policy = await Parse.parsecfg(this.e)
 		let paramdata = {
 			param: {
 				sampler: 'DPM++ 2S a Karras',
@@ -163,11 +166,28 @@ export class example extends plugin {
 			specifyAPI: NaN,     //指定用哪个api 
 			user: e.user_id,   /* 用户qq */
 			code: 0,            //用来反馈构建参数是否成功 
-			JH: false,         /* 审核  */
+			JH: current_group_policy.JH,        /* 审核  */
 			message: ''      //构建参数失败时的描述信息 
 		}
 
 		let resp = await Draw.get_a_pic(paramdata)
+		if (resp.isnsfw) {
+			// 将图片base64转换为基于QQ图床的url
+			let url = await Pictools.base64_to_imgurl(resp.base64)
+			if (current_group_policy.isTellMaster) {
+			  let msg = [
+				"【aiPainting】不合规图片：\n",
+				segment.image(`base64://${res.base64}`),
+				`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+				`\n【Tags】：${paramdata.rawtag.tags}`,
+				`\n【nTags】：${paramdata.rawtag.ntags}`,
+			  ]
+			  Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+			}
+			e.reply(["图片不合规，不予展示", `\n${resp.md5}`], true)
+			return true
+		  }
+
 		delete FiguretypeUser[e.user_id];
 		if (resp.code) {
 			return e.reply(resp.description)
@@ -227,7 +247,7 @@ export class example extends plugin {
 		var MaskImg = await getBlackPixelImage(BlackImgBase64);
 		if (!MaskImg) return e.reply('出错：重绘功能需要安装依赖：canvas\n请在yunzai根目录执行如下命令来安装依赖：\ncnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas\n\n若安装依赖后仍出现此报错，您可查看控制台报错并联系开发者反馈')
 		var msg = e.msg.replace(/^#?局部重绘/, '')
-
+		let current_group_policy = await Parse.parsecfg(this.e)
 		let paramdata = {
 			param: {
 				sampler: 'DPM++ 2S a Karras',
@@ -251,11 +271,28 @@ export class example extends plugin {
 			specifyAPI: NaN,     //指定用哪个api 
 			user: e.user_id,   /* 用户qq */
 			code: 0,            //用来反馈构建参数是否成功 
-			JH: false,         /* 审核  */
+			JH: current_group_policy.JH,        /* 审核  */
 			message: ''      //构建参数失败时的描述信息 
 		}
 
 		let resp = await Draw.get_a_pic(paramdata)
+		if (resp.isnsfw) {
+			// 将图片base64转换为基于QQ图床的url
+			let url = await Pictools.base64_to_imgurl(resp.base64)
+			if (current_group_policy.isTellMaster) {
+			  let msg = [
+				"【aiPainting】不合规图片：\n",
+				segment.image(`base64://${res.base64}`),
+				`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+				`\n【Tags】：${paramdata.rawtag.tags}`,
+				`\n【nTags】：${paramdata.rawtag.ntags}`,
+			  ]
+			  Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+			}
+			e.reply(["图片不合规，不予展示", `\n${resp.md5}`], true)
+			return true
+		  }
+
 		delete FiguretypeUser[e.user_id];
 		if (resp.code) {
 			return e.reply(resp.description)

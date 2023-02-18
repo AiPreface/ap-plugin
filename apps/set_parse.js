@@ -110,7 +110,7 @@ export class set_parse extends plugin {
       }
       parseData[e.user_id].enable_hr = e.msg.match(/两步处理(.*)/)[1] == "开启" ? true : false;
     } else {
-      e.reply("【" + e.msg.replace(/#ap设置默认/, "") + "】为未知参数，可设置的参数有：【采样方法】【迭代次数】【宽度】【高度】【提示词相关性】【重绘幅度】【两步处理】【放大算法】【两步处理步数】【两步处理重绘幅度】【两部处理放大倍数】");
+      e.reply("【" + e.msg.replace(/#ap设置默认/, "") + "】为未知参数，可设置的参数有：【采样方法】【迭代次数】【宽度】【高度】【提示词相关性】【重绘幅度】【两步处理】【放大算法】【两步处理步数】【两步处理重绘幅度】【两步处理放大倍数】");
       return true;
     }
     fs.writeFileSync(parsePath, YAML.stringify(parseData));
