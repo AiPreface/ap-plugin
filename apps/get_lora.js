@@ -2,7 +2,7 @@
  * @Author: 0卡苏打水
  * @Date: 2023-01-03 22:16:25
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-19 12:51:56
+ * @LastEditTime: 2023-02-19 13:09:24
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\get_lora.js
  * @Description: 
  * 
@@ -120,8 +120,9 @@ export class GetLora extends plugin {
         // 处理每一条pt
         let i = 1 + (page - 1) * 99
         for (let val of selected_page) {
+            let filename = val.replace(/\.[^/.]+$/, "")
             data_msg.push({
-                message: `${i++} \n└预设名称：【${val}】`,
+                message: `${i++} \n├预设名称：【${val}】\n└使用手势：<lora:${filename}:1>`,
                 nickname: Bot.nickname,
                 user_id: cfg.qq,
             });
