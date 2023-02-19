@@ -2,7 +2,7 @@
  * @Author: 0卡苏打水su
  * @Date: 2023-01-11 22:58:18
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-19 01:39:57
+ * @LastEditTime: 2023-02-19 12:23:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\change_background.js
  * @Description: 图片局部重绘功能
  * 
@@ -177,7 +177,7 @@ export class example extends plugin {
 			if (current_group_policy.isTellMaster) {
 			  let msg = [
 				"【aiPainting】不合规图片：\n",
-				segment.image(`base64://${res.base64}`),
+				segment.image(`base64://${resp.base64}`),
 				`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
 				`\n【Tags】：${paramdata.rawtag.tags}`,
 				`\n【nTags】：${paramdata.rawtag.ntags}`,
@@ -282,7 +282,7 @@ export class example extends plugin {
 			if (current_group_policy.isTellMaster) {
 			  let msg = [
 				"【aiPainting】不合规图片：\n",
-				segment.image(`base64://${res.base64}`),
+				segment.image(`base64://${resp.base64}`),
 				`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
 				`\n【Tags】：${paramdata.rawtag.tags}`,
 				`\n【nTags】：${paramdata.rawtag.ntags}`,
