@@ -2,7 +2,7 @@
  * @Author: 苏沫柒 3146312184@qq.com
  * @Date: 2023-03-10 20:16:54
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-03-10 22:37:21
+ * @LastEditTime: 2023-03-10 23:05:14
  * @FilePath: \ap-plugin\apps\nat2pmpt.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -39,7 +39,7 @@ export class nat2pmpt extends plugin {
 		let lang = e.msg.replace(/^#处理/, '')
         if (!lang)
         return await e.reply("请输入要处理的自然语言")
-        let len = (lang.split('').length / 3 ).toFixed(0)
+        let len = (lang.split('').length / 2 ).toFixed(0)
         if (len < 10) len = 10
         await e.reply("即将生成至少" + len + "个prompt，请稍后......")
 		try {
@@ -48,7 +48,7 @@ export class nat2pmpt extends plugin {
 					'model': 'gpt-3.5-turbo',
 					'messages': [{
 						'role': 'user',
-						'content': '请为我的描述的画面生成不得少于' + len + '个的prompt，每个prompt用英文逗号分割，不用标注序号，用小括号将prompt与其权重包起来，比如(girls:1.3)，以下是我描述的画面：' + lang
+						'content': '请为我的描述的图像生成不得少于' + len + '个的英文prompt，每个prompt用英文逗号分割，不用标注序号，用小括号将prompt与其权重包起来，比如(girls:1.3)，请不要输出任何中文和额外的解释，以下是我描述的图像：' + lang
 					}],
 					'temperature': 0.7
 				}, {
