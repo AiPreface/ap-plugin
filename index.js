@@ -1,27 +1,92 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:08:51
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2022-12-26 14:25:01
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-03-11 00:58:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\index.js
  * @Description: 
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import fs from 'node:fs'
+import YAML from 'yaml'
 import { checkPackage } from './utils/dependencies_reminder.js'
-
+let catlist = ["😸", "😹", "😺", "😻", "😼", "😽", "😾", "😿", "🙀"]
 logger.info('---------------')
-logger.info(`aiPainting初始化`)
-logger.info('---------------')
-
+logger.mark(logger.green(`[${catlist[Math.floor(Math.random() * catlist.length)]}]AP-Plugin插件自检中......`))
 let passed = await checkPackage()
 if (!passed) {
     throw 'Missing necessary dependencies'
 }
 
 const files = fs.readdirSync('./plugins/ap-plugin/apps').filter(file => file.endsWith('.js'))
-
+const config = YAML.parse(fs.readFileSync('./plugins/ap-plugin/config/config/config.yaml', 'utf8'))
+const preset = JSON.parse(fs.readFileSync('./plugins/ap-plugin/config/config/preset.json', 'utf8'))
+if (config.APIList.length != 0) {
+    logger.mark(logger.green('✅已加载【' + config.APIList.length + '】个绘图API接口'))
+} else {
+    logger.mark(logger.red('⛔未加载任何绘图API接口'))
+}
+if (preset.length != 0) {
+    logger.mark(logger.green('✅已加载【' + preset.length + '】个预设'))
+} else {
+    logger.mark(logger.red('⛔未加载任何预设'))
+}
+if (config.Real_CUGAN != undefined) {
+    logger.mark(logger.green('✅大清晰术接口已配置'))
+} else {
+    logger.mark(logger.red('⛔大清晰术接口未配置'))
+}
+if (config.appreciate != undefined) {
+    logger.mark(logger.green('✅鉴赏接口已配置'))
+} else {
+    logger.mark(logger.red('⛔鉴赏接口未配置'))
+}
+if (config.ai_detect != undefined) {
+    logger.mark(logger.green('✅AI检测接口已配置'))
+} else {
+    logger.mark(logger.red('⛔AI检测接口未配置'))
+}
+if(config.remove_bg != undefined){
+    logger.mark(logger.green('✅去背景接口已配置'))
+} else {
+    logger.mark(logger.red('⛔去背景接口未配置'))
+}
+if(config.cartoonization != undefined){
+    logger.mark(logger.green('✅动漫化化接口已配置'))
+} else {
+    logger.mark(logger.red('⛔动漫化接口未配置'))
+}
+if(config.anime_aesthetic_predict != undefined){
+    logger.mark(logger.green('✅二次元美学接口已配置'))
+} else {
+    logger.mark(logger.red('⛔二次元美学接口未配置'))
+}
+if(config.img_to_music != undefined){
+    logger.mark(logger.green('✅图片转音乐接口已配置'))
+} else {
+    logger.mark(logger.red('⛔图片转音乐接口未配置'))
+}
+if (config.baidu_appid != "Your_App_ID" && config.baidu_apikey != "Your_Api_Key" && config.baidu_secretkey != "Your_Secret_Key") {
+    logger.mark(logger.green('✅百度图片审核已配置'))
+} else {
+    logger.mark(logger.red('⛔百度图片审核未配置'))
+}
+if (config.openai_key != null) {
+    logger.mark(logger.green('✅OpenAI接口已配置'))
+} else {
+    logger.mark(logger.red('⛔OpenAI接口未配置'))
+}
+if(config.baidu_translate.id != null && config.baidu_translate.key != null){
+    logger.mark(logger.green('✅百度翻译接口已配置'))
+} else {
+    logger.mark(logger.red('⛔百度翻译接口未配置'))
+}
+if (config.youdao_translate.id != null && config.youdao_translate.key != null) {
+    logger.mark(logger.green('✅有道翻译接口已配置'))
+} else {
+    logger.mark(logger.red('⛔有道翻译接口未配置'))
+}
 let ret = []
 files.forEach((file) => {
     ret.push(import(`./apps/${file}`))
@@ -41,6 +106,7 @@ for (let i in files) {
     apps[name] = ret[i].value[Object.keys(ret[i].value)[0]]
 }
 export { apps }
+logger.info('---------------')
 
 // logger.info('---------------')
 // logger.info(`aiPainting载入完成`)
