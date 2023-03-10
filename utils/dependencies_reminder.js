@@ -2,14 +2,13 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-26 14:14:46
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-03-11 03:06:48
+ * @LastEditTime: 2023-03-11 03:20:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\dependencies_reminder.js
  * @Description: 缺少依赖时的提醒
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import cfg from '../../../lib/config/config.js'
-import plugin from "../../../lib/plugins/plugin.js";
 import fs from 'node:fs'
 let packageList = JSON.parse(fs.readFileSync("./plugins/ap-plugin/package.json")).dependencies
 export const needPackage = [...Object.keys(packageList)]
