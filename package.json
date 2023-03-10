@@ -16,7 +16,8 @@
     "lodash": "^4.17.21",
     "node-fetch": "^3.3.0",
     "request": "^2.88.2",
-    "cheerio": "^1.0.0-rc.12"
+    "cheerio": "^1.0.0-rc.12",
+    "ws": "^8.12.1"
   },
   "keywords": [
     "Yunzai-Bot",
