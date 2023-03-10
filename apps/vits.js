@@ -52,7 +52,7 @@ export class Say extends plugin {
 	}
 
 	async VITS(e) {
-		if (BAIDU.id && BAIDU.key) {
+		if (!(BAIDU.id && BAIDU.key)) {
 			e.reply("该功能需要配置百度翻译API，详情请查看文档");
 			return false;
 		} else {
