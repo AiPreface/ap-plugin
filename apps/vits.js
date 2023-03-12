@@ -4,14 +4,10 @@ import {
 } from "oicq";
 import ws from 'ws';
 import _ from 'lodash'
+import lodash from 'lodash'
 import md5 from 'md5'
 import fetch from 'node-fetch'
-import config from '../components/ai_painting/config.js'
-let apcfg = await config.getcfg()
-const BAIDU = apcfg.baidu_translate
 const url = "wss://skytnt-moe-tts.hf.space/queue/join"
-let APPID
-let APPKEY
 const model1 = ["綾地寧々", "因幡めぐる", "朝武芳乃", "常陸茉子", "ムラサメ", "鞍馬小春", "在原七海"]
 const model2 = ["和泉妃愛", "常盤華乃", "錦あすみ", "鎌倉詩桜", "竜閑天梨", "和泉里", "新川広夢", "聖莉々子"]
 const model3 = ["四季ナツメ", "明月栞那", "墨染希", "火打谷愛衣", "汐山涼音"]
@@ -52,13 +48,6 @@ export class Say extends plugin {
 	}
 
 	async VITS(e) {
-		if (!(BAIDU.id && BAIDU.key)) {
-			e.reply("该功能需要配置百度翻译API，详情请查看文档");
-			return false;
-		} else {
-			APPID = BAIDU.id
-			APPKEY = BAIDU.key
-		}
 		let speaker = e.msg.match(/合成(.*)语音/)[1];
 		speaker = speaker.replace(/(日语|中文|韩语|梵语|英语)/, "")
 		console.log("用户指定发音人：" + speaker);
@@ -112,20 +101,20 @@ export class Say extends plugin {
 			14: 61
 		}
 		let languagelist = {
-			1: "jp",
-			2: "jp",
-			3: "jp",
-			4: "jp",
-			5: "jp",
-			6: "jp/zh",
-			7: "kor",
-			8: "jp",
-			9: "jp",
-			10: "jp",
-			11: "jp",
-			12: "zh/jp/kor/san/en",
-			13: "zh/jp/kor/en",
-			14: "jp"
+			1: "ja",
+			2: "ja",
+			3: "ja",
+			4: "ja",
+			5: "ja",
+			6: "ja/zh-CHS",
+			7: "ko",
+			8: "ja",
+			9: "ja",
+			10: "ja",
+			11: "ja",
+			12: "zh-CHS/ja/ko/san/en",
+			13: "zh-CHS/ja/ko/en",
+			14: "ja"
 		}
 		console.log("匹配到的模型：" + model);
 		let fn_index = fn_indexlist[model]
@@ -135,15 +124,15 @@ export class Say extends plugin {
 		if (language.includes("/")) {
 			i18n = true
 			if (e.msg.includes("日语")) {
-				language = "jp"
+				language = "ja"
 			} else if (e.msg.includes("中文")) {
-				language = "zh"
+				language = "zh-CHS"
 			} else if (e.msg.includes("韩语")) {
-				if (!language.includes("kor")) {
+				if (!language.includes("ko")) {
 					e.reply("该发音人不支持韩语");
 					return false;
 				}
-				language = "kor"
+				language = "ko"
 			} else if (e.msg.includes("梵语")) {
 				if (!language.includes("san")) {
 					e.reply("该发音人不支持梵语");
@@ -168,17 +157,17 @@ export class Say extends plugin {
 		console.log("翻译后：" + msg);
 		if (i18n) {
 			switch (language) {
-				case "jp":
+				case "ja":
 					{
 						msg = "[JA]" + msg + "[JA]";
 						break;
 					}
-				case "zh":
+				case "zh-CHS":
 					{
 						msg = "[ZH]" + msg + "[ZH]";
 						break;
 					}
-				case "kor":
+				case "ko":
 					{
 						msg = "[KO]" + msg + "[KO]";
 						break;
@@ -257,67 +246,67 @@ export class Say extends plugin {
     let ForwardMsg;
     let data_msg = [];
     data_msg.push({
-      message: "系列名称：サノバウィッチ & 千恋＊万花 & RIDDLE JOKER\n发音人数量：" + model1.length + "\n支持语言：jp\n发音人列表：\n◉" + model1.join("\n◉"),
+      message: "系列名称：サノバウィッチ & 千恋＊万花 & RIDDLE JOKER\n发音人数量：" + model1.length + "\n支持语言：ja\n发音人列表：\n◉" + model1.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：ハミダシクリエイティブ\n发音人数量：" + model2.length + "\n支持语言：jp\n发音人列表：\n◉" + model2.join("\n◉"),
+      message: "系列名称：ハミダシクリエイティブ\n发音人数量：" + model2.length + "\n支持语言：ja\n发音人列表：\n◉" + model2.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：喫茶（カフェ）ステラと死神の蝶\n发音人数量：" + model3.length + "\n支持语言：jp\n发音人列表：\n◉" + model3.join("\n◉"),
+      message: "系列名称：喫茶（カフェ）ステラと死神の蝶\n发音人数量：" + model3.length + "\n支持语言：ja\n发音人列表：\n◉" + model3.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：ヨスガノソラ\n发音人数量：" + model4.length + "\n支持语言：jp\n发音人列表：\n◉" + model4.join("\n◉"),
+      message: "系列名称：ヨスガノソラ\n发音人数量：" + model4.length + "\n支持语言：ja\n发音人列表：\n◉" + model4.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：美少女万華鏡\n发音人数量：" + model5.length + "\n支持语言：jp\n发音人列表：\n◉" + model5.join("\n◉"),
+      message: "系列名称：美少女万華鏡\n发音人数量：" + model5.length + "\n支持语言：ja\n发音人列表：\n◉" + model5.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：綾地寧々+在原七海+小茸+唐乐吟\n发音人数量：" + model6.length + "\n支持语言：jp/zh\n发音人列表：\n◉" + model6.join("\n◉"),
+      message: "系列名称：綾地寧々+在原七海+小茸+唐乐吟\n发音人数量：" + model6.length + "\n支持语言：ja/zh-CHS\n发音人列表：\n◉" + model6.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：당신을 기다리는 여우\n发音人数量：" + model7.length + "\n支持语言：kor\n发音人列表：\n◉" + model7.join("\n◉"),
+      message: "系列名称：당신을 기다리는 여우\n发音人数量：" + model7.length + "\n支持语言：ko\n发音人列表：\n◉" + model7.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：13 Galgame Characters\n发音人数量：" + model8.length + "\n支持语言：jp\n发音人列表：\n◉" + model8.join("\n◉"),
+      message: "系列名称：13 Galgame Characters\n发音人数量：" + model8.length + "\n支持语言：ja\n发音人列表：\n◉" + model8.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：ゼロの使い魔\n发音人数量：" + model9.length + "\n支持语言：jp\n发音人列表：\n◉" + model9.join("\n◉"),
+      message: "系列名称：ゼロの使い魔\n发音人数量：" + model9.length + "\n支持语言：ja\n发音人列表：\n◉" + model9.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：DRACU-RIOT!\n发音人数量：" + model10.length + "\n支持语言：jp\n发音人列表：\n◉" + model10.join("\n◉"),
+      message: "系列名称：DRACU-RIOT!\n发音人数量：" + model10.length + "\n支持语言：ja\n发音人列表：\n◉" + model10.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：To LOVEる\n发音人数量：" + model11.length + "\n支持语言：jp\n发音人列表：\n◉" + model11.join("\n◉"),
+      message: "系列名称：To LOVEる\n发音人数量：" + model11.length + "\n支持语言：ja\n发音人列表：\n◉" + model11.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：CJKS (Multi-Language)\n发音人数量：" + model12.length + "\n支持语言：zh/jp/kor/san/en\n发音人列表：\n◉" + model12.join("\n◉"),
+      message: "系列名称：CJKS (Multi-Language)\n发音人数量：" + model12.length + "\n支持语言：zh-CHS/ja/ko/san/en\n发音人列表：\n◉" + model12.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
     data_msg.push({
-      message: "系列名称：ウマ娘\n发音人数量：" + model14.length + "\n支持语言：jp\n发音人列表：\n◉" + model14.join("\n◉"),
+      message: "系列名称：ウマ娘\n发音人数量：" + model14.length + "\n支持语言：ja\n发音人列表：\n◉" + model14.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
@@ -333,7 +322,7 @@ export class Say extends plugin {
       let model13_10 = model13.slice(i, i + 800);
     data_msg.push({
       // 发音人过多，分四次发送
-      message: "系列名称：Voistock (2891 Anime characters)\n发音人数量：" + model13.length + "\n支持语言：zh/jp/kor/en\n发音人列表：\n◉" + model13_10.join("\n◉"),
+      message: "系列名称：Voistock (2891 Anime characters)\n发音人数量：" + model13.length + "\n支持语言：zh-CHS/ja/ko/en\n发音人列表：\n◉" + model13_10.join("\n◉"),
       nickname: Bot.nickname,
       user_id: Bot.uin
     });
@@ -349,16 +338,50 @@ export class Say extends plugin {
   }
 }
 
-async function Translate(msg, lang) {
-	let TranslateAPI = `http://api.fanyi.baidu.com/api/trans/vip/translate`
-	let salt = Math.floor(Math.random() * 10000000000)
-	let sign = md5(APPID + msg + salt + APPKEY)
-	let url = `${TranslateAPI}?q=${msg}&from=auto&to=${lang}&appid=${APPID}&salt=${salt}&sign=${sign}`
-	let res = await fetch(url)
-	let json = await res.json()
-	if (json.error_code) {
-		return Translate(msg, lang)
-	} else {
-		return json.trans_result[0].dst
-	}
-}
+async function Translate(text, lang) {
+    const qs = obj => Object.entries(obj).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&");
+    const appVersion = "5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4750.0";
+    const headers = {
+      Host: "fanyi.youdao.com",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102",
+      Referer: "https://fanyi.youdao.com/",
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      Cookie: "OUTFOX_SEARCH_USER_ID_NCOO=133190305.98519628; OUTFOX_SEARCH_USER_ID=\"2081065877@10.169.0.102\";",
+    };
+    const api = "https://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule";
+    const key = "Ygy_4c=r#e#4EX^NUGUc5";
+    const lts = Date.now().toString();
+    const salt = `${lts}${Math.floor(10 * Math.random())}`;
+    const sign = md5(`fanyideskweb${text}${salt}${key}`);
+    const data = {
+      i: text,
+      from: "AUTO",
+      to: lang,
+      smartresult: "dict",
+      client: "fanyideskweb",
+      salt,
+      sign,
+      lts,
+      bv: md5(appVersion),
+      doctype: "json",
+      version: "2.1",
+      keyfrom: "fanyi.web",
+      action: "FY_BY_DEFAULT",
+    };
+    try {
+      const res = await fetch(api, {
+        method: "POST",
+        body: qs(data),
+        headers,
+      });
+      const { errorCode, translateResult } = await res.json();
+      if (errorCode !== 0) {
+        return false;
+      }
+      const translated = lodash.flattenDeep(translateResult)?.map(item => item.tgt).join("\n");
+      return translated || false;
+    } catch (e) {
+      console.log("【椰奶有道翻译报错】:", e);
+      return false;
+    }
+  }
