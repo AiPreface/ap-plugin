@@ -106,7 +106,7 @@ export class checkDependencies extends plugin {
         }
       }
       e.reply(`正在为您安装依赖，请稍等...`);
-      let { error, stdout, stderr } = await this.execSync(`cd ./plugins/ap-plugin && pnpm install --filter=ap-plugin`);
+      let { error, stdout, stderr } = await this.execSync(`cd ./plugins/ap-plugin && pnpm install -P`);
       if (error) {
         e.reply(`安装依赖失败，请尝试手动安装：${error.message}`);
         return true;
