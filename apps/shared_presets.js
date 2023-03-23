@@ -10,7 +10,6 @@
  */
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from 'fs'
-import { segment } from 'oicq'
 import { createRequire } from "module";
 import Log from '../utils/Log.js';
 import path from 'path';

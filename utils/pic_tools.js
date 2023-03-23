@@ -17,7 +17,6 @@ import fs from 'fs';
 import { promisify } from "util";
 import { pipeline } from "stream";
 import cfg from '../../../lib/config/config.js'
-import { segment } from "oicq";
 import plugin from '../../../lib/plugins/plugin.js'
 import md5 from "md5";
 import { bs64Size } from "./utils.js";

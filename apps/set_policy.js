@@ -14,7 +14,6 @@ import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import { getuserName } from '../utils/utils.js';
 import cfg from '../../../lib/config/config.js'
-import { segment } from 'oicq';
 
 export class setpolicy extends plugin {
     constructor() {
