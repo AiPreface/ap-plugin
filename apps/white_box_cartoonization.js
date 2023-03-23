@@ -12,7 +12,6 @@ import plugin from '../../../lib/plugins/plugin.js'
 import Config from '../components/ai_painting/config.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
-import { segment } from 'oicq'
 import { parseImg } from '../utils/utils.js'
 import Log from '../utils/Log.js'
 
@@ -29,7 +28,6 @@ export class Cartoonization extends plugin {
       name: '图片动漫化',
       /** 功能描述 */
       dsc: '图片动漫化',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
       priority: 5000,

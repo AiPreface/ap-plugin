@@ -11,6 +11,10 @@
 import fs from 'node:fs'
 import { checkPackage } from './utils/dependencies_reminder.js'
 
+if (!global.segment) {
+  global.segment = (await import("oicq")).segment
+}
+
 logger.info('---------------')
 logger.info(`aiPainting初始化`)
 logger.info('---------------')

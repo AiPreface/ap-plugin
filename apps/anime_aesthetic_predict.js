@@ -29,7 +29,6 @@ export class score extends plugin {
 			name: '动漫审美预测',
 			/** 功能描述 */
 			dsc: '^动漫审美预测',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 0,

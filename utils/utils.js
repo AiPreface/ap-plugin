@@ -103,7 +103,6 @@ export function getgsName(name) {
 /**
  * 获取指定用户的昵称。
  * 优先返回其在群内的名片，其次返回其QQ昵称，二者都空时返回QQ号
- * @param  e oicq传递的事件参数e
  * @param qq  指定的QQ号
  * @return {string} 获取到的昵称
  */

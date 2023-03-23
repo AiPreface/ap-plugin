@@ -14,7 +14,6 @@ import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import { isEqual, chNum2Num } from '../utils/utils.js';
 import cfg from '../../../lib/config/config.js'
-import { segment } from 'oicq';
 import Parse from '../components/ai_painting/parse.js'
 
 

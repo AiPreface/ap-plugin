@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { segment } from "oicq";
 // import { louvre } from '../components/louvre/louvre.js';
 // import Canvas from "canvas";
 import { parseImg } from '../utils/utils.js'

@@ -10,9 +10,6 @@
  */
 import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios'
-import {
-	segment
-} from 'oicq'
 import Config from '../components/ai_painting/config.js'
 import {
 	parseImg
@@ -39,7 +36,6 @@ export class saucenao extends plugin {
 			name: 'Saucenao搜图',
 			/** 功能描述 */
 			dsc: '简单开发示例',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 5000,

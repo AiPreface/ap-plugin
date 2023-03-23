@@ -10,7 +10,6 @@
  */
 
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from "oicq";
 import { parseImg } from '../utils/utils.js';
 import cfg from "../../../lib/config/config.js";
 

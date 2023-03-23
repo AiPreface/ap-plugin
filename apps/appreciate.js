@@ -9,7 +9,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
-import { segment } from "oicq";
 import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
 import { parseImg } from '../utils/utils.js';
@@ -27,7 +26,6 @@ export class appreciate extends plugin {
             name: '鉴赏图片',
             /** 功能描述 */
             dsc: '鉴赏图片',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 5000,
