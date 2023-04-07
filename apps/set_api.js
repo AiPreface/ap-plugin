@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-03-10 20:48:51
+ * @LastEditTime: 2023-04-07 20:08:58
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -82,6 +82,10 @@ export class set extends plugin {
 		let regExp = /^#ap(添加|新增|录入)接口((http|localhost).+)备注(.+)$/
 		let regp = regExp.exec(e.msg)
 
+		if (regp[2].includes('localhost')) {
+			regp[2] = regp[2].replace('localhost', '127.0.0.1')
+		}
+		
 		if (!regp) {
 			e.reply("命令格式：#ap添加接口[接口地址]备注[接口备注]\n例如:\n     #ap添加接口http://example.com:7860备注V100")
 			return true

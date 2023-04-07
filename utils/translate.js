@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2023-01-14 01:47:29
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-14 18:45:51
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-04-07 20:09:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\translate.js
  * @Description: 聚合翻译
  * 
@@ -58,16 +58,16 @@ class Translate {
         }
 
         // 独角兽
-        try {
-            let result = await this.ovooa(text)
-            if (result) {
-                Log.i('[独角兽翻译] ', text, ' ==> ', result)
-                await sleep(1000)
-                return result
-            }
-        } catch (err) {
-            Log.e('【独角兽翻译报错】:', err)
-        }
+        // try {
+        //     let result = await this.ovooa(text)
+        //     if (result) {
+        //         Log.i('[独角兽翻译] ', text, ' ==> ', result)
+        //         await sleep(1000)
+        //         return result
+        //     }
+        // } catch (err) {
+        //     Log.e('【独角兽翻译报错】:', err)
+        // }
 
 
         // 椰奶有道

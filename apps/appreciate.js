@@ -144,20 +144,21 @@ export async function requestAppreciate(base64) {
         let tags_str = '';
         for (let i = 0; i < tags.length; i++) {
             if (tags[i].confidence > 0.98) {
-                tags_str += `{{{${tags[i].label}}}},`;
+                tags_str += `(${tags[i].label}: 1.2), `;
             } else if (tags[i].confidence > 0.95 && tags[i].confidence < 0.98) {
-                tags_str += `{{${tags[i].label}}},`;
+                tags_str += `(${tags[i].label}: 1.1), `;
             } else if (tags[i].confidence > 0.9 && tags[i].confidence < 0.95) {
-                tags_str += `{${tags[i].label}},`;
+                tags_str += `(${tags[i].label}), `;
             } else {
-                tags_str += `${tags[i].label},`;
+                tags_str += `${tags[i].label}, `;
             }
         }
         Log.i('解析成功')
-        return `{{masterpiece}},{{best quality}},{{official art}},{{extremely detailed CG unity 8k wallpaper}},` + tags_str
+        return tags_str
     } catch (err) {
         Log.e(err)
         Log.e('解析失败')
+        e.reply("鉴赏出错，请查看控制台报错" , true)
         return false
     }
 }
