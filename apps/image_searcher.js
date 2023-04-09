@@ -42,7 +42,7 @@ export class ImageSearcher extends plugin {
 			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 1000,
+			priority: 5000,
 			rule: [{
 					/** 命令正则匹配 */
 					reg: '^#?(ap)?搜图$',
