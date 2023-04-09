@@ -3,8 +3,8 @@ import fs from "fs";
 import YAML from "yaml";
 
 const parsePath = process.cwd() + "\/plugins\/ap-plugin\/config\/config\/parse.yaml";
-const samplerList = ['Euler a', 'Euler', 'PLMS', 'LMS Karras', 'LMS', 'Heun', 'DPM fast', 'DPM adaptive', 'DPM2 Karras', 'DPM2 a Karras', 'DPM2 a', 'DPM2', 'DDIM', 'DPM++ 2S a Karras', 'DPM++ 2S a', 'DPM++ 2M Karras', 'DPM++ 2M', 'DPM++ SDE Karras', 'DPM++ SDE'];
-const upscalerList = ['Latent', 'Latent (antialiased)', 'Latent (bicubic)', 'Latent (bicubic antialiased)', 'Latent (nearest)', 'Latent (nearest-exact)', '无', 'Lanczos', '最邻近(整数缩放)', 'ESRGAN_4x', 'LDSR', 'SwinIR 4x'];
+const samplerList = ['Euler a', 'Euler', 'PLMS', 'LMS Karras', 'LMS', 'Heun', 'DPM fast', 'DPM adaptive', 'DPM2 Karras', 'DPM2 a Karras', 'DPM2 a', 'DPM2', 'DDIM', 'DPM++ 2S a Karras', 'DPM++ 2S a', 'DPM++ 2M Karras', 'DPM++ 2M', 'DPM++ SDE Karras', 'DPM++ SDE', 'UniPC'];
+const upscalerList = ['Latent', 'Latent (antialiased)', 'Latent (bicubic)', 'Latent (bicubic antialiased)', 'Latent (nearest)', 'Latent (nearest-exact)', '无', 'Lanczos', '最邻近(整数缩放)', 'BSRGAN', 'ESRGAN_4x', 'LDSR', 'R-ESRGAN 4x+', 'R-ESRGAN 4x+ Anime6B', 'SwinIR 4x'];
 
 export class set_parse extends plugin {
   constructor() {
@@ -47,16 +47,16 @@ export class set_parse extends plugin {
       }
       parseData[e.user_id].steps = Number(e.msg.match(/迭代次数(.*)/)[1]);
     } else if (e.msg.match(/宽度/)) {
-      // 宽度，1-2048，64的倍数，计算时需要消除浮点误差
-      if (e.msg.match(/宽度(.*)/)[1] < 1 || e.msg.match(/宽度(.*)/)[1] > 2048 || !Number.isInteger(Number(e.msg.match(/宽度(.*)/)[1])) || (e.msg.match(/宽度(.*)/)[1] % 64).toFixed(0) != 0) {
-        e.reply("宽度【" + e.msg.match(/宽度(.*)/)[1] + "】不在正确的范围内(1~2048)，或不是整数，或不是64的倍数" + "\n请重新输入", true);
+      // 宽度，1-2048，8的倍数，计算时需要消除浮点误差
+      if (e.msg.match(/宽度(.*)/)[1] < 1 || e.msg.match(/宽度(.*)/)[1] > 2048 || !Number.isInteger(Number(e.msg.match(/宽度(.*)/)[1])) || (e.msg.match(/宽度(.*)/)[1] % 8).toFixed(0) != 0) {
+        e.reply("宽度【" + e.msg.match(/宽度(.*)/)[1] + "】不在正确的范围内(1~2048)，或不是整数，或不是8的倍数" + "\n请重新输入", true);
         return true;
       }
       parseData[e.user_id].width = Number(e.msg.match(/宽度(.*)/)[1]);
     } else if (e.msg.match(/高度/)) {
-      // 高度，1-2048，64的倍数
-      if (e.msg.match(/高度(.*)/)[1] < 1 || e.msg.match(/高度(.*)/)[1] > 2048 || !Number.isInteger(Number(e.msg.match(/高度(.*)/)[1])) || (e.msg.match(/高度(.*)/)[1] % 64).toFixed(0) != 0) {
-        e.reply("高度【" + e.msg.match(/高度(.*)/)[1] + "】不在正确的范围内(1~2048)，或不是整数，或不是64的倍数" + "\n请重新输入", true);
+      // 高度，1-2048，8的倍数
+      if (e.msg.match(/高度(.*)/)[1] < 1 || e.msg.match(/高度(.*)/)[1] > 2048 || !Number.isInteger(Number(e.msg.match(/高度(.*)/)[1])) || (e.msg.match(/高度(.*)/)[1] % 8).toFixed(0) != 0) {
+        e.reply("高度【" + e.msg.match(/高度(.*)/)[1] + "】不在正确的范围内(1~2048)，或不是整数，或不是8的倍数" + "\n请重新输入", true);
         return true;
       }
       parseData[e.user_id].height = Number(e.msg.match(/高度(.*)/)[1]);

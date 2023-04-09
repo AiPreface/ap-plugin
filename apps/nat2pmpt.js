@@ -63,7 +63,7 @@ export class nat2pmpt extends plugin {
 			e.reply(msg, true)
 		} catch (error) {
 			console.error(error);
-			e.reply('出错了，请检查APIKEY是否正确')
+			e.reply('出错了，可能是AP服务器出现问题，也可能是APIKEY失效')
 		}
 	}
 }

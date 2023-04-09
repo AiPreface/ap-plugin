@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-10 23:22:02
+ * @LastEditTime: 2023-04-09 17:06:29
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -266,16 +266,16 @@ async function i(paramdata, apiobj) {
 async function constructRequestOption(param, url) {
     console.log(param)
     // Log.i(param)                                 /*  */
-    let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+    let ntags = param.ntags + "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
     if (!param.base64) {
         let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
         if (size) {
             size = size.slice(1, 3)
         }
         if (size) {
-            size[0] = Math.ceil(size[0] / 64) * 64
-            size[1] = Math.ceil(size[1] / 64) * 64
-        }
+            size[0] = Math.ceil(size[0] / 8) * 8;
+            size[1] = Math.ceil(size[1] / 8) * 8;
+        }        
         if (size && (size[0] > 2048 || size[1] > 2048)) {
             size = null
         }

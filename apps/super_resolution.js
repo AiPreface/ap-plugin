@@ -49,8 +49,7 @@ export class SR extends plugin {
         }
 
         if (res.height * res.width > 1310 * 1410) {
-            // e.reply("好、好大(//// ^ ////)……不、不行了啦o(≧口≦)o");
-            return await e.reply("图片太大啦", true);
+            e.reply("好、好大(//// ^ ////)……等我一下下哦！~");
         }
 
 

@@ -45,7 +45,7 @@ export class ImageSearcher extends plugin {
 			priority: 1000,
 			rule: [{
 					/** 命令正则匹配 */
-					reg: '^#?(ap)搜图$',
+					reg: '^#?(ap)?搜图$',
 					/** 执行方法 */
 					fnc: 'ImageSearcher'
 				},

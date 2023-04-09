@@ -2,7 +2,7 @@
  * @Author: 0卡苏打水
  * @Date: 2023-01-04 01:03:58
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-11 03:42:07
+ * @LastEditTime: 2023-04-09 17:14:42
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\animedb.js
  * @Description: 
  * 
@@ -39,7 +39,7 @@ export class animedb extends plugin {
 			priority: 5000,
 			rule: [{
 					/** 命令正则匹配 */
-					reg: '^#?ap识别$',
+					reg: '^#?(ap)?识别$',
 					/** 执行方法 */
 					fnc: 'animedb'
 				},

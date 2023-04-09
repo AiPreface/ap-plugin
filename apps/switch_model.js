@@ -73,6 +73,7 @@ export class ChangeModel extends plugin {
   }
 
   async VAEList(e) {
+    try {
     let apiurl = await get_apiurl();
     let url = apiurl + '/sdapi/v1/options';
     const headers = {
@@ -95,6 +96,11 @@ export class ChangeModel extends plugin {
     }
     e.reply(msg, true);
     return true;
+    } catch (error) {
+      Log.e(error);
+      e.reply("获取VAE列表失败", true);
+      return true;
+    }
   }
 
   async changeModel(e) {
@@ -143,6 +149,7 @@ export class ChangeModel extends plugin {
   }
 
   async changeVAE(e) {
+    try {
     let apiurl = await get_apiurl();
     let VAE = e.msg.replace(/^#?切换(VAE|vae|Vae)/, '');
     VAE = VAE.trim();
@@ -189,6 +196,10 @@ export class ChangeModel extends plugin {
       }
     }
     return true;
+    } catch (error) {
+      e.reply("VAE切换失败", true);
+      return true;
+    }
   }
 }
 

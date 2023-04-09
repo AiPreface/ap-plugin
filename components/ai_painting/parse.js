@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-11 00:17:32
+ * @LastEditTime: 2023-04-09 17:01:53
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -121,33 +121,7 @@ class Parse {
      * @return {*}  txtparam 绘图参数
      */
     async parsetxt(msg, is_check_preset = true) {
-        const samplerList = [
-            'Euler a',
-            'Euler',
-
-            'PLMS',
-            'LMS Karras',
-            'LMS',
-
-            'Heun',
-
-            'DPM fast',
-            'DPM adaptive',
-
-            'DPM2 Karras',
-            'DPM2 a Karras',
-            'DPM2 a',
-            'DPM2',
-
-            'DDIM',
-
-            'DPM++ 2S a Karras',
-            'DPM++ 2S a',
-            'DPM++ 2M Karras',
-            'DPM++ 2M',
-            'DPM++ SDE Karras',
-            'DPM++ SDE',
-        ]
+        const samplerList = ['Euler a', 'Euler', 'PLMS', 'LMS Karras', 'LMS', 'Heun', 'DPM fast', 'DPM adaptive', 'DPM2 Karras', 'DPM2 a Karras', 'DPM2 a', 'DPM2', 'DDIM', 'DPM++ 2S a Karras', 'DPM++ 2S a', 'DPM++ 2M Karras', 'DPM++ 2M', 'DPM++ SDE Karras', 'DPM++ SDE', 'UniPC'];
 
         let sampler = ""
 

@@ -35,7 +35,7 @@ export class AiDetect extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#?(检查|鉴定)(图|画)(片|像)$',
+                    reg: '^#?(检查|鉴定)((图|画)(片|像))?$',
                     /** 执行方法 */
                     fnc: 'anime_ai_detect'
                 },

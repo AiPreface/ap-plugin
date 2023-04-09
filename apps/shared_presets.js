@@ -1,8 +1,8 @@
 /*
  * @Author: 0卡苏打水
  * @Date: 2023-01-15 02:34:55
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-15 23:03:27
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-04-09 17:10:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\share_presets.js
  * @Description: 云端共享预设
  * 
@@ -82,7 +82,7 @@ export class example extends plugin {
 			}
 		}
 		e.msg = e.msg.replace(/#?导入预设/, "");
-		e.msg = e.msg.match(/[a-zA-Z0-9]{4}/g);
+		e.msg = e.msg.match(/([a-zA-Z0-9-]{4})/g)
 		if (e.msg) {
 			e.msg = e.msg[0];
 		}
