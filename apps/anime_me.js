@@ -55,7 +55,7 @@ export class Anime_me extends plugin {
         if (cdCheck)
             return await e.reply(cdCheck, true, { recallMsg: 15 });
 
-
+        e.reply("正在生成您的二次元形象，马上就好...", true)
         this.qq = e.at || e.user_id
         // 二次元的@bot
         if (e.atBot && !e.msg.includes("我")) this.qq = cfg.qq
