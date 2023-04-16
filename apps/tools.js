@@ -38,6 +38,10 @@ export class Tools extends plugin {
                     reg: "^#?撤回$",
                     fnc: "WithDraw",
                 },
+                {
+                    reg: "^#?ap文档$",
+                    fnc: "apDoc",
+                }
             ]
         })
     }
@@ -60,7 +64,7 @@ export class Tools extends plugin {
     }
 
     async image_template(e) {
-        e.reply('https://gchat.qpic.cn/gchatpic_new/0000000000/0000000000-0000000000-替换/0?term=3&is_origin=0')
+        e.reply('https://gchat.qpic.cn/gchatpic_new/0/0-0-替换/0?term=3&is_origin=0')
         return true
     }
 
@@ -120,5 +124,10 @@ export class Tools extends plugin {
             e.group.recallMsg(e.source.seq, e.source.rand);
             e.group.recallMsg(e.message_id); 
         } catch (err) { }
+    }
+
+    async apDoc(e) {
+        e.reply("https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE", true)
+        return true
     }
 }

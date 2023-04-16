@@ -32,7 +32,7 @@ export class set_parse extends plugin {
     if (!parseData[e.user_id]) {
       parseData[e.user_id] = {};
     }
-    // 可设置的参数有【采样方法】【迭代次数】【宽度】【高度】【提示词相关性】【重绘幅度】【两步处理】【放大算法】【两步处理步数】【两步处理重绘幅度】【两部处理放大倍数】
+    // 可设置的参数有【采样方法】【迭代次数】【宽度】【高度】【提示词相关性】【重绘幅度】【高清修复】【放大算法】【高清修复步数】【高清修复重绘幅度】【高清修复放大倍数】
     if (e.msg.match(/采样方法/)) {
       // 采样方法，需要判断是否在列表中
       if (samplerList.indexOf(e.msg.match(/采样方法(.*)/)[1]) == -1) {
@@ -145,71 +145,71 @@ export class set_parse extends plugin {
       } else {
         parseData[e.user_id].hr_upscaler = e.msg.match(/放大算法(.*)/)[1];
       }
-    } else if (e.msg.match(/两步处理步数/)) {
-      // 两步处理步数，0-150整数
-      if (e.msg.match(/两步处理步数(.*)/)[1] < 0 || e.msg.match(/两步处理步数(.*)/)[1] > 150 || !Number.isInteger(Number(e.msg.match(/两步处理步数(.*)/)[1]))) {
-        e.reply("两步处理步数【" + e.msg.match(/两步处理步数(.*)/)[1] + "】不在正确的范围内(0~150)，或不是整数" + "\n请重新输入", true);
+    } else if (e.msg.match(/高清修复步数/)) {
+      // 高清修复步数，0-150整数
+      if (e.msg.match(/高清修复步数(.*)/)[1] < 0 || e.msg.match(/高清修复步数(.*)/)[1] > 150 || !Number.isInteger(Number(e.msg.match(/高清修复步数(.*)/)[1]))) {
+        e.reply("高清修复步数【" + e.msg.match(/高清修复步数(.*)/)[1] + "】不在正确的范围内(0~150)，或不是整数" + "\n请重新输入", true);
         return true;
       }
       if (e.msg.match(/全局/)) {
         if(cfg.masterQQ.includes(e.user_id)) {
-          parseData["default"].hr_second_pass_steps = Number(e.msg.match(/两步处理步数(.*)/)[1]);
+          parseData["default"].hr_second_pass_steps = Number(e.msg.match(/高清修复步数(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
           return true;
         }
       } else {
-        parseData[e.user_id].hr_second_pass_steps = Number(e.msg.match(/两步处理步数(.*)/)[1]);
+        parseData[e.user_id].hr_second_pass_steps = Number(e.msg.match(/高清修复步数(.*)/)[1]);
       }
-    } else if (e.msg.match(/两步处理重绘幅度/)) {
-      // 两步处理重绘幅度，0-1，最小差值0.01
-      if (e.msg.match(/两步处理重绘幅度(.*)/)[1] < 0 || e.msg.match(/两步处理重绘幅度(.*)/)[1] > 1 || (e.msg.match(/两步处理重绘幅度(.*)/)[1] % 0.01).toFixed(0) != 0) {
-        e.reply("两步处理重绘幅度【" + e.msg.match(/两步处理重绘幅度(.*)/)[1] + "】不在正确的范围内(0~1)，或不是0.01的倍数" + "\n请重新输入", true);
+    } else if (e.msg.match(/高清修复重绘幅度/)) {
+      // 高清修复重绘幅度，0-1，最小差值0.01
+      if (e.msg.match(/高清修复重绘幅度(.*)/)[1] < 0 || e.msg.match(/高清修复重绘幅度(.*)/)[1] > 1 || (e.msg.match(/高清修复重绘幅度(.*)/)[1] % 0.01).toFixed(0) != 0) {
+        e.reply("高清修复重绘幅度【" + e.msg.match(/高清修复重绘幅度(.*)/)[1] + "】不在正确的范围内(0~1)，或不是0.01的倍数" + "\n请重新输入", true);
         return true;
       }
       if (e.msg.match(/全局/)) {
         if(cfg.masterQQ.includes(e.user_id)) {
-          parseData["default"].hr_second_pass_strength = Number(e.msg.match(/两步处理重绘幅度(.*)/)[1]);
+          parseData["default"].hr_second_pass_strength = Number(e.msg.match(/高清修复重绘幅度(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
           return true;
         }
       } else {
-        parseData[e.user_id].strength = Number(e.msg.match(/两步处理重绘幅度(.*)/)[1]);
+        parseData[e.user_id].strength = Number(e.msg.match(/高清修复重绘幅度(.*)/)[1]);
       }
-    } else if (e.msg.match(/两步处理放大倍数/)) {
-      // 两步处理放大倍数，0-4，最小差值0.25
-      if (e.msg.match(/两步处理放大倍数(.*)/)[1] < 0 || e.msg.match(/两步处理放大倍数(.*)/)[1] > 4 || (e.msg.match(/两步处理放大倍数(.*)/)[1] % 0.25).toFixed(0) != 0) {
-        e.reply("两步处理放大倍数【" + e.msg.match(/两步处理放大倍数(.*)/)[1] + "】不在正确的范围内(0~4)，或不是0.25的倍数" + "\n请重新输入", true);
+    } else if (e.msg.match(/高清修复放大倍数/)) {
+      // 高清修复放大倍数，0-4，最小差值0.25
+      if (e.msg.match(/高清修复放大倍数(.*)/)[1] < 0 || e.msg.match(/高清修复放大倍数(.*)/)[1] > 4 || (e.msg.match(/高清修复放大倍数(.*)/)[1] % 0.25).toFixed(0) != 0) {
+        e.reply("高清修复放大倍数【" + e.msg.match(/高清修复放大倍数(.*)/)[1] + "】不在正确的范围内(0~4)，或不是0.25的倍数" + "\n请重新输入", true);
         return true;
       }
       if (e.msg.match(/全局/)) {
         if(cfg.masterQQ.includes(e.user_id)) {
-          parseData["default"].hr_scale = Number(e.msg.match(/两步处理放大倍数(.*)/)[1]);
+          parseData["default"].hr_scale = Number(e.msg.match(/高清修复放大倍数(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
           return true;
         }
-        parseData[e.user_id].hr_scale = Number(e.msg.match(/两步处理放大倍数(.*)/)[1]);
+        parseData[e.user_id].hr_scale = Number(e.msg.match(/高清修复放大倍数(.*)/)[1]);
       }
-    } else if (e.msg.match(/两步处理/)) {
-      // 两步处理，结果为开启则为true，关闭则为false
-      if (e.msg.match(/两步处理(.*)/)[1] != "开启" && e.msg.match(/两步处理(.*)/)[1] != "关闭") {
-        e.reply("两步处理【" + e.msg.match(/两步处理(.*)/)[1] + "】不在正确的范围内(开启/关闭)" + "\n请重新输入", true);
+    } else if (e.msg.match(/高清修复/)) {
+      // 高清修复，结果为开启则为true，关闭则为false
+      if (e.msg.match(/高清修复(.*)/)[1] != "开启" && e.msg.match(/高清修复(.*)/)[1] != "关闭") {
+        e.reply("高清修复【" + e.msg.match(/高清修复(.*)/)[1] + "】不在正确的范围内(开启/关闭)" + "\n请重新输入", true);
         return true;
       }
       if (e.msg.match(/全局/)) {
         if(cfg.masterQQ.includes(e.user_id)) {
-          parseData["default"].enable_hr = e.msg.match(/两步处理(.*)/)[1] == "开启" ? true : false;
+          parseData["default"].enable_hr = e.msg.match(/高清修复(.*)/)[1] == "开启" ? true : false;
         } else {
           e.reply("您没有权限设置全局默认参数", true);
           return true;
         }
       } else {
-        parseData[e.user_id].enable_hr = e.msg.match(/两步处理(.*)/)[1] == "开启" ? true : false;
+        parseData[e.user_id].enable_hr = e.msg.match(/高清修复(.*)/)[1] == "开启" ? true : false;
       }
     } else {
-      e.reply("【" + e.msg.replace(/#ap设置默认/, "") + "】为未知参数，可设置的参数有：【采样方法】【迭代次数】【宽度】【高度】【提示词相关性】【重绘幅度】【两步处理】【放大算法】【两步处理步数】【两步处理重绘幅度】【两步处理放大倍数】");
+      e.reply("【" + e.msg.replace(/#ap设置默认/, "") + "】为未知参数，可设置的参数有：【采样方法】【迭代次数】【宽度】【高度】【提示词相关性】【重绘幅度】【高清修复】【放大算法】【高清修复步数】【高清修复重绘幅度】【高清修复放大倍数】");
       return true;
     }
     fs.writeFileSync(parsePath, YAML.stringify(parseData));
@@ -237,11 +237,11 @@ export class set_parse extends plugin {
     msg += "【宽度】：" + parseDataUser.width + "\n";
     msg += "【高度】：" + parseDataUser.height + "\n";
     msg += "【提示词相关性】：" + parseDataUser.scale + "\n";
-    msg += "【(两步处理)重绘幅度】：" + parseDataUser.strength + "\n";
-    msg += "【两步处理】：" + (parseDataUser.enable_hr ? "开启" : "关闭") + "\n";
+    msg += "【(高清修复)重绘幅度】：" + parseDataUser.strength + "\n";
+    msg += "【高清修复】：" + (parseDataUser.enable_hr ? "开启" : "关闭") + "\n";
     msg += "【放大算法】：" + parseDataUser.hr_upscaler + "\n";
-    msg += "【两步处理步数】：" + parseDataUser.hr_second_pass_steps + "\n";
-    msg += "【两步处理放大倍数】：" + parseDataUser.hr_scale
+    msg += "【高清修复步数】：" + parseDataUser.hr_second_pass_steps + "\n";
+    msg += "【高清修复放大倍数】：" + parseDataUser.hr_scale
     e.reply(msg);
   }
 }

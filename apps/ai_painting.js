@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-16 16:16:03
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-04-16 14:18:06
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -30,7 +30,7 @@ export class Ai_Painting extends plugin {
       priority: 5000,
       rule: [
         {
-          reg: "^#绘图([\\s\\S]*)$",
+          reg: "^#?绘图([\\s\\S]*)$",
           fnc: "aiPainting",
         },
       ],

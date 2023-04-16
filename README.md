@@ -2,9 +2,9 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-02-11 10:11:29
+ * @LastEditTime: 2023-04-16 14:10:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.12.7[Dev]
+ * @Description: 版本：3.0.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -119,6 +119,7 @@ pnpm restart
 ```
 
 首次载入请输入`#ap安装依赖`进行依赖安装
+或进入ap-plugin目录输入`pnpm i`进行依赖安装
 
 <br><br>
 
