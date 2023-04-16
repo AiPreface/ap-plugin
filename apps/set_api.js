@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-07 20:08:58
+ * @LastEditTime: 2023-04-17 03:08:52
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -69,7 +69,7 @@ export class set extends plugin {
 					permission: "master",
 				},
 				{
-					reg: "^#ap采样器列表$",
+					reg: "^#采样器列表$",
 					fnc: "samplerlist",
 					// permission: "master",
 				},

@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 16:04:14
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-04-17 03:07:56
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -129,13 +129,13 @@ export class Anime_me extends plugin {
         }
         let paramdata = {
             param: {
-                sampler: 'Euler a',
+                sampler: 'DPM++ 2S a Karras',
                 strength: 0.6,
                 seed: -1,
                 scale: 11,
-                steps: 25,
-                width: txdsc ? 384 : base64 ? 512 : 384,
-                height: 512,
+                steps: 20,
+                width: txdsc ? 512 : base64 ? 768 : 512,
+                height: 768,
                 tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en,
                 ntags: "",
                 base64: txdsc ? null : base64,
@@ -143,7 +143,7 @@ export class Anime_me extends plugin {
             num: 1,
             rawtag: {
                 tags: dsc.en,
-                ntags: ""
+                ntags: "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
             },
             specifyAPI: NaN,
             user: Number(this.qq),
