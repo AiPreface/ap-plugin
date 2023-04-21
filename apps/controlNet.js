@@ -64,8 +64,8 @@ export class ControlNet extends plugin {
     const parseData = YAML.parse(fs.readFileSync(process.cwd() + '/plugins/ap-plugin/config/config/parse.yaml', 'utf8'));
     if (!config[e.user_id]) {
       config[e.user_id] = {
-        "module": "openpose",
-        "model": "control_openpose-fp16 [9ca67cc5]"
+        "module": "none",
+        "model": "none"
       };
     }
 

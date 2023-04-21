@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 22:18:54
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-17 03:08:52
+ * @LastEditTime: 2023-04-22 03:16:48
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\set_api.js
  * @Description: 设置接口
  * 
@@ -34,7 +34,7 @@ export class set extends plugin {
 					permission: "master",
 				},
 				{
-					reg: "^#ap设置接口(\\d{1,3})密码(.+)$",
+					reg: "^#ap设置接口(\\d{1,3})账号(.+)密码(.+)$",
 					fnc: "set_sd_info",
 					permission: "master",
 				},
@@ -147,10 +147,11 @@ export class set extends plugin {
 
 	/**设置接口密码 */
 	async set_sd_info(e) {
-		let ret = /^#ap设置接口(\d{1,3})密码(.+)$/.exec(e.msg)
+		let ret = /^#ap设置接口(\d{1,3})账号(.+)密码(.+)$/.exec(e.msg)
 		let num = ret[1]
-		let account_password = ret[2]
-		Log.w(num, account_password)
+		let account_id = ret[2]
+		let account_password = ret[3]
+		Log.w(num, account_id, account_password)
 		let apcfg = await Config.getcfg()
 		if (num > apcfg.APIList.length || num < 1) {
 			let li = []
@@ -162,9 +163,10 @@ export class set extends plugin {
 			e.reply(`接口${num}不存在,当前可选接口为：\n${li.join('\n')}`)
 			return true
 		}
+		apcfg.APIList[num - 1].account_id = account_id
 		apcfg.APIList[num - 1].account_password = account_password
 		Config.setcfg(apcfg)
-		e.reply(`接口${num}：${apcfg.APIList[num - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}\n密码已设置为：${account_password}`)
+		e.reply(`接口${num}：${apcfg.APIList[num - 1].remark}${e.isPrivate && e.isMaster ? `\n  ${apcfg.APIList[num - 1].url}` : ''}\n账号已设置为：${account_id}\n密码已设置为：${account_password}`)
 		return true
 	}
 

@@ -2,6 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch';
 import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
+import cfg from "../../../lib/config/config.js";
 
 export class ChangeModel extends plugin {
   constructor () {
@@ -49,26 +50,43 @@ export class ChangeModel extends plugin {
 
   async modelList(e) {
     let apiurl = await get_apiurl();
+    let config = await Config.getcfg()
+    let apiobj = config.APIList[config.usingAPI - 1]
     let url = apiurl + '/sdapi/v1/options';
     const headers = {
       "Content-Type": "application/json"
     };
+    if (apiobj.account_password) {
+      headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+    }
     const response = await fetch(url, {
       method: 'GET',
       headers: headers
     });
     const optionsdata = await response.json();
-    let msg = ["正在使用的模型：\n" + optionsdata['sd_model_checkpoint'] + "\n\n可用模型列表："];
+    let msg = "正在使用的模型：\n" + optionsdata['sd_model_checkpoint'] + "\n\n可用模型列表：";
     let modelList = await get_model_list();
     if (modelList.length == 0) {
       msg.push("\n模型列表为空");
     } else {
       for (var i = 0; i < modelList.length; i++) {
         modelList[i] = modelList[i].replace(/^.*\//, '');
-        msg.push("\n" + modelList[i]);
+        msg = msg + "\n" + modelList[i];
       }
     }
-    e.reply(msg, true);
+    let data_msg = []
+    data_msg.push({
+      message: msg,
+      nickname: Bot.nickname,
+      user_id: cfg.qq,
+    });
+    let send_res = null;
+    if (e.isGroup)
+        send_res = await e.reply(await e.group.makeForwardMsg(data_msg));
+    else send_res = await e.reply(await e.friend.makeForwardMsg(data_msg));
+    if (!send_res) {
+        e.reply("消息发送失败，可能被风控~");
+    }
     return true;
   }
 
@@ -105,6 +123,8 @@ export class ChangeModel extends plugin {
 
   async changeModel(e) {
     let apiurl = await get_apiurl();
+    let config = await Config.getcfg()
+    let apiobj = config.APIList[config.usingAPI - 1]
     let model = e.msg.replace(/^#?切换模型/, '');
     model = model.trim();
     if (model == "") {
@@ -133,6 +153,9 @@ export class ChangeModel extends plugin {
       const headers = {
         "Content-Type": "application/json"
       };
+      if (apiobj.account_password) {
+        headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+      }
       let response = await fetch(url, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -207,10 +230,15 @@ export class ChangeModel extends plugin {
 
 async function get_model_list() {
   let apiurl = await get_apiurl();
+  let config = await Config.getcfg()
+  let apiobj = config.APIList[config.usingAPI - 1]
   let url = apiurl + '/sdapi/v1/sd-models';
   const headers = {
     "Content-Type": "application/json"
   };
+  if (apiobj.account_password) {
+    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+  }
   const response = await fetch(url, {
     method: 'GET',
     headers: headers

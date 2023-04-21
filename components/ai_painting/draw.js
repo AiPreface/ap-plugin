@@ -107,7 +107,7 @@ class Draw {
                     code: response.status,
                     info: "无访问权限",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`
+                    description: `接口${index}：${remark} ：该接口已开启API鉴权模式。请发送\n#ap设置接口${index}账号xxx密码xxx\n以配置账号密码，或尝试使用其他接口`
                 }
             else if (response.status == 402) {
                 let msg = await response.text()
@@ -259,7 +259,7 @@ class Draw {
 }
 async function i(paramdata, apiobj) {
     let options = await constructRequestOption(paramdata.param, apiobj.url);
-    if (apiobj.account_password) { options.headers['Authorization'] = `Basic ${Buffer.from(cfg.masterQQ[0] + ':' + apiobj.account_password, 'utf8').toString('base64')}`; }
+    if (apiobj.account_password) { options.headers['Authorization'] = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')}`; }
     return await fetch(apiobj.url + `/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
 }
 // ; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
