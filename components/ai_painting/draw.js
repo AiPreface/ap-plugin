@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-09 17:06:29
+ * @LastEditTime: 2023-04-22 15:54:11
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -20,6 +20,7 @@ import { bs64Size } from '../../utils/utils.js';
 import Log from '../../utils/Log.js'
 import process from "process";
 import { Pictools } from "../../utils/utidx.js";
+
 class Draw {
 
     /**获取一张图片。返回base64
@@ -178,7 +179,6 @@ class Draw {
 
         // 提取base64
         let res = await response.json();
-        // fs.writeFileSync(path.join(process.cwd(), 'resources/aptemp.json'), JSON.stringify(res, null, "\t"), "utf8");                  /*  */
         let base64 = res.images[0].toString().replace(/data:image\/png;|base64,/g, "");
         let resparam = res.parameters
         // 图片大小太小，判断为全黑故障图片
@@ -258,11 +258,19 @@ class Draw {
     }
 }
 async function i(paramdata, apiobj) {
-    let options = await constructRequestOption(paramdata.param, apiobj.url);
-    if (apiobj.account_password) { options.headers['Authorization'] = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')}`; }
-    return await fetch(apiobj.url + `/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
-}
-// ; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
+    const PLUGINPATH = `${process.cwd()}/plugins/ap-plugin`, READMEPATH = `${PLUGINPATH}/README.md`;
+    try {
+        var currentVersion = /版本：(.*)/.exec(fs.readFileSync(READMEPATH, 'utf8'))[1];
+    } catch (err) {}
+    const options = await constructRequestOption(paramdata.param, apiobj.url);
+    if (apiobj.account_password) {
+      options.headers['Authorization'] = `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`;
+    }
+    options.headers['User-Agent'] = `AP-Plugin/@${currentVersion}`;
+    options.headers['Caller'] = `Master:${cfg.masterQQ[0].toString().padStart(10, ' ')}丨Bot:${Bot.uin.toString().padStart(10, ' ')}丨User:${paramdata.user.toString().padStart(10, ' ')}`;
+    return fetch(`${apiobj.url}/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
+  }
+  
 async function constructRequestOption(param, url) {
     console.log(param)
     // Log.i(param)                                 /*  */
@@ -339,19 +347,6 @@ async function constructRequestOption(param, url) {
             "hr_scale": param.hr_scale ? param.hr_scale : 2,
             "hr_upscaler": param.hr_upscaler ? param.hr_upscaler : 'Latent',
             "hr_second_pass_steps": param.hr_second_pass_steps ? param.hr_second_pass_steps : 0,
-            // "subseed": -1,
-            // "subseed_strength": 0,
-            // "seed_resize_from_h": -1,
-            // "seed_resize_from_w": -1,
-            "batch_size": 1,
-            "n_iter": 1,
-            "restore_faces": false,
-            "tiling": false,
-            "eta": 0,
-            "s_churn": 0,
-            "s_tmax": 0,
-            "s_tmin": 0,
-            "s_noise": 1,
             "override_settings": {},
             "prompt": param.tags,
             "seed": seed,
