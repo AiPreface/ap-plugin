@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-22 15:54:11
+ * @LastEditTime: 2023-04-22 16:35:16
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -267,7 +267,7 @@ async function i(paramdata, apiobj) {
       options.headers['Authorization'] = `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`;
     }
     options.headers['User-Agent'] = `AP-Plugin/@${currentVersion}`;
-    options.headers['Caller'] = `Master:${cfg.masterQQ[0].toString().padStart(10, ' ')}丨Bot:${Bot.uin.toString().padStart(10, ' ')}丨User:${paramdata.user.toString().padStart(10, ' ')}`;
+    options.headers['Caller'] = `Master:${cfg.masterQQ[0].toString()}|Bot:${Bot.uin.toString()}|User:${paramdata.user.toString()}`;
     return fetch(`${apiobj.url}/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
   }
   
