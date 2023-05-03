@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-17 03:07:56
+ * @LastEditTime: 2023-05-02 14:32:34
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -14,10 +14,9 @@ import Log from "../utils/Log.js";
 import { Pictools } from "../utils/utidx.js";
 import { getdsc } from "../components/anime_me/getdes.js";
 import { segment } from "oicq";
-import { requestAppreciate } from './appreciate.js'
+import { requestAppreciate } from './appreciation.js'
 import cfg from '../../../lib/config/config.js'
 import moment from "moment";
-import NsfwCheck from "../components/ai_painting/nsfwcheck.js";
 export class Anime_me extends plugin {
     constructor() {
         super({
