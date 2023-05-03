@@ -17,7 +17,7 @@ import cfg from "../../../lib/config/config.js";
 export class Tools extends plugin {
     constructor() {
         super({
-            name: 'ap_tools',
+            name: 'AP-小工具',
             dsc: 'ap-plugin提供的一些小工具',
             event: 'message',
             priority: 4000,

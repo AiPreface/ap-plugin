@@ -10,7 +10,7 @@ const api = apcfg.Real_CUGAN
 export class SR extends plugin {
     constructor() {
         super({
-            name: "大清晰术",
+            name: "AP-大清晰术",
             dsc: "图片超分",
             event: "message",
             priority: 5000,

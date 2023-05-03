@@ -18,10 +18,10 @@ import { segment } from 'oicq';
 import Parse from '../components/ai_painting/parse.js'
 
 
-export class setpolicy extends plugin {
+export class setpreset extends plugin {
     constructor() {
         super({
-            name: "AiPainting策略",
+            name: "AP-预设",
             dsc: "更改AiPainting策略",
             event: "message",
             priority: 5000,

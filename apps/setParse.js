@@ -10,7 +10,7 @@ const upscalerList = ['Latent', 'Latent (antialiased)', 'Latent (bicubic)', 'Lat
 export class set_parse extends plugin {
   constructor() {
     super({
-      name: "设置默认参数",
+      name: "AP-设置默认参数",
       event: "message",
       priority: 1000,
       rule: [

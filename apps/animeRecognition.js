@@ -30,7 +30,7 @@ export class animedb extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '识别动漫人物',
+			name: 'AP-识别动漫人物',
 			/** 功能描述 */
 			dsc: '识别动漫人物',
 			/** https://oicqjs.github.io/oicq/#events */

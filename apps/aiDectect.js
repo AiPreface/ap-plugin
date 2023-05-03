@@ -25,7 +25,7 @@ export class AiDetect extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '鉴定图片',
+            name: 'AP-鉴定图片',
             /** 功能描述 */
             dsc: '简单开发示例',
             /** https://oicqjs.github.io/oicq/#events */

@@ -14,7 +14,7 @@ import render from "../components/help/render.js";
 export class help extends plugin {
     constructor() {
         super({
-            name: "AiPainting帮助",
+            name: "AP-帮助",
             dsc: "AiPainting帮助",
             event: "message",
             priority: 5000,

@@ -24,7 +24,7 @@ let confirm_clear = false
 export class LocalImg extends plugin {
     constructor() {
         super({
-            name: "本地图片管理",
+            name: "AP-本地图片管理",
             dsc: "本地图片管理",
             event: "message",
             priority: 5000,

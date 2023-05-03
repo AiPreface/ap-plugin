@@ -13,7 +13,7 @@ const { exec, execSync } = require("child_process");
 export class branch extends plugin {
   constructor() {
     super({
-      name: "切换版本",
+      name: "AP-切换版本",
       event: "message",
       priority: 1000,
       rule: [

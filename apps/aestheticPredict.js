@@ -27,7 +27,7 @@ export class score extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '动漫审美预测',
+			name: 'AP-审美预测',
 			/** 功能描述 */
 			dsc: '^动漫审美预测',
 			/** https://oicqjs.github.io/oicq/#events */

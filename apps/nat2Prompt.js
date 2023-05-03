@@ -19,7 +19,7 @@ export class nat2pmpt extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '自然语言处理',
+			name: 'AP-自然语言处理',
 			/** 功能描述 */
 			dsc: '自然语言转prompt',
 			/** https://oicqjs.github.io/oicq/#events */

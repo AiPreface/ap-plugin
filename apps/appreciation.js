@@ -24,7 +24,7 @@ export class appreciate extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '鉴赏图片',
+            name: 'AP-鉴赏图片',
             /** 功能描述 */
             dsc: '鉴赏图片',
             /** https://oicqjs.github.io/oicq/#events */

@@ -22,7 +22,7 @@ if (fs.existsSync(configPath)) {
 export class ControlNet extends plugin {
   constructor() {
     super({
-      name: '控制网',
+      name: 'AP-控制网',
       dsc: '控制网',
       event: 'message',
       priority: 50,

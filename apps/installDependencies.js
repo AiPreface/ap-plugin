@@ -22,7 +22,7 @@ const { exec, execSync } = require("child_process");
 export class checkDependencies extends plugin {
   constructor() {
     super({
-      name: "安装依赖",
+      name: "AP-安装依赖",
       event: "message",
       priority: 1000,
       rule: [

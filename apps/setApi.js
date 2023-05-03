@@ -18,7 +18,7 @@ import translate from '../utils/translate.js';
 export class set extends plugin {
 	constructor() {
 		super({
-			name: "AiPainting设置",
+			name: "AP-设置",
 			dsc: "更改AiPainting设置",
 			event: "message",
 			priority: 5000,

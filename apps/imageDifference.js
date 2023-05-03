@@ -14,7 +14,7 @@ export class Difference extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '图像差分',
+			name: 'AP-图像差分',
 			/** 功能描述 */
 			dsc: '图像差分',
 			/** https://oicqjs.github.io/oicq/#events */

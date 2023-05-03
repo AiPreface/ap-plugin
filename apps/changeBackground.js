@@ -35,7 +35,7 @@ export class example extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '图像蒙版处理',
+			name: 'AP-蒙版处理',
 			/** 功能描述 */
 			dsc: '简单开发示例',
 			/** https://oicqjs.github.io/oicq/#events */

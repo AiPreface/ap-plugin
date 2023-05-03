@@ -16,7 +16,7 @@ import Log from "../utils/Log.js";
 export class Intercept extends plugin {
     constructor() {
         super({
-            name: "ap-plugin拦截指令",
+            name: "AP-拦截指令",
             dsc: "拦截特定指令",
             event: "message",
             priority: 1,

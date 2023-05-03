@@ -46,7 +46,7 @@ var style = {
 export class louvreimg extends plugin {
 	constructor() {
 		super({
-			name: "louvreImg",
+			name: "AP-卢浮宫",
 			dsc: "louvreImg",
 			event: "message",
 			priority: 5000,

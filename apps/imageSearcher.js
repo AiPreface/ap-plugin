@@ -36,7 +36,7 @@ export class ImageSearcher extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '搜图',
+			name: 'AP-搜图',
 			/** 功能描述 */
 			dsc: '简单开发示例',
 			/** https://oicqjs.github.io/oicq/#events */

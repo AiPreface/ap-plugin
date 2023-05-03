@@ -20,7 +20,7 @@ import moment from "moment";
 export class Anime_me extends plugin {
     constructor() {
         super({
-            name: '二次元的我',
+            name: 'AP-二次元的我',
             dsc: '二次元的我',
             event: 'message',
             priority: 4999,

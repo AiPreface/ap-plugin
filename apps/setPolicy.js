@@ -19,7 +19,7 @@ import { segment } from 'oicq';
 export class setpolicy extends plugin {
     constructor() {
         super({
-            name: "AiPainting策略",
+            name: "AP-策略",
             dsc: "更改AiPainting策略",
             event: "message",
             priority: 5000,

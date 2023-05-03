@@ -21,7 +21,7 @@ export class GetLora extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '查看预设',
+            name: 'AP-查看预设',
             /** 功能描述 */
             dsc: '查看预设',
             /** https://oicqjs.github.io/oicq/#events */

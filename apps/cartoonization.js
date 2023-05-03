@@ -26,7 +26,7 @@ export class Cartoonization extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: '图片动漫化',
+      name: 'AP-图片动漫化',
       /** 功能描述 */
       dsc: '图片动漫化',
       /** https://oicqjs.github.io/oicq/#events */

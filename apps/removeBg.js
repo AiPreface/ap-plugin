@@ -25,7 +25,7 @@ export class RemoveBackground extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '图像去背景',
+            name: 'AP-图像去背景',
             /** 功能描述 */
             dsc: '图像去背景',
             /** https://oicqjs.github.io/oicq/#events */

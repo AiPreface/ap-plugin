@@ -29,7 +29,7 @@ export class Say extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: 'VITS语音合成',
+			name: 'AP-语音合成',
 			/** 功能描述 */
 			dsc: 'VITS语音合成',
 			/** https://oicqjs.github.io/oicq/#events */

@@ -16,7 +16,7 @@ export class associate extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: 'Tags联想',
+			name: 'AP-联想',
 			/** 功能描述 */
 			dsc: 'Tags联想',
 			/** https://oicqjs.github.io/oicq/#events */

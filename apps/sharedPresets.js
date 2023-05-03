@@ -22,7 +22,7 @@ const text = "请先安装依赖：pnpm add request -w"
 export class example extends plugin {
 	constructor() {
 		super({
-			name: '共享预设',
+			name: 'AP-共享预设',
 			dsc: '简单开发示例',
 			event: 'message',
 			priority: 5000,

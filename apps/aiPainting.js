@@ -24,7 +24,7 @@ let remaining_tasks = 0;
 export class Ai_Painting extends plugin {
   constructor() {
     super({
-      name: "AiPainting",
+      name: "AP-AI绘图",
       dsc: "根据输入的文案AI作画",
       event: "message",
       priority: 5000,

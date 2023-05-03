@@ -27,7 +27,7 @@ export class ImgToMusic extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '图像转音频',
+			name: 'AP-图像转音频',
 			/** 功能描述 */
 			dsc: '简单开发示例',
 			/** https://oicqjs.github.io/oicq/#events */
