@@ -1,6 +1,6 @@
 import lodash from 'lodash'
 import fs from 'fs'
-import Log from '../utils/Log.js';
+import Log from '../../utils/Log.js';
 
 const _path = process.cwd()
 const plugin = 'ap-plugin'
