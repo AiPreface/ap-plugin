@@ -12,7 +12,6 @@ import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import axios from 'axios';
-import common from '../../../lib/common/common.js'
 import fetch from 'node-fetch';
 import translate from '../utils/translate.js';
 
@@ -127,7 +126,6 @@ export class set extends plugin {
 	/**选择默认接口 */
 	async selectapi(e) {
 		let num = e.msg.replace('#ap设置接口', "")
-		console.log(num)
 		let apcfg = await Config.getcfg()
 		if (num > apcfg.APIList.length || num < 1) {
 			let li = []
@@ -173,7 +171,6 @@ export class set extends plugin {
 	/**删除指定绘图接口  */
 	async delapi(e) {
 		let num = e.msg.replace('#ap删除接口', "")
-		console.log(num)
 		let apcfg = await Config.getcfg()
 		if (num > apcfg.APIList.length || num < 1) {
 			let li = []
@@ -193,7 +190,6 @@ export class set extends plugin {
 			apcfg.usingAPI--
 
 		apcfg.APIList.splice(num - 1, 1)
-		// console.log(apcfg.APIList)
 
 		Config.setcfg(apcfg)
 
@@ -257,7 +253,6 @@ export class set extends plugin {
 				let gname = '未知群聊'
 				try {
 					let ginfo = await Bot.getGroupInfo(Number(gid))
-					console.log(ginfo)
 					gname = ginfo ? ginfo.group_name : '未知群聊'
 				} catch (err) {}
 				msg_.push(`\n\n[${gname}]` + (e.isPrivate && e.isMaster ? `(${gid})` : '') + '：')
@@ -357,8 +352,6 @@ export class set extends plugin {
 		if ((type == "anime_aesthetic_predict") && !value.endsWith('/')) value = value + '/'
         if (type == "openai_key") value = value.replace(/\/$/, "")
 
-		console.log(type)
-		console.log(value)
 		// if (type == 'appreciate' || type == 'ai_detect')
 		//     if (!value.endsWith('predict'))
 		//         return this.e.reply('鉴赏接口和检查ai接口应当以“predict”结尾')
@@ -422,7 +415,7 @@ export class set extends plugin {
 				samplerList.push(val.name)
 			e.reply(`当前接口[${remark}]支持如下采样器：\n` + samplerList.join('\n'))
 		} catch (err) {
-			console.log(err)
+			Log.e(err)
 			return e.reply('拉取列表失败')
 		}
 		return true
@@ -520,8 +513,6 @@ export class set extends plugin {
 		if (!value || !type) {
 			return false
 		}
-		console.log(type)
-		console.log(value)
 		try {
 			let apcfg = await Config.getcfg()
 			apcfg[type] = value
@@ -545,12 +536,11 @@ export async function test_api(api) {
 			timeout: 5000
 		})
 		res = await res.json()
-		console.log(res.data);
 		if (!res.data.detail == 'Method Not Allowed') {
 			return false
 		}
 	} catch (err) {
-		console.log(err.message);
+		Log.e(err)
 		if (err.message == 'Request failed with status code 405')
 			return true
 		else

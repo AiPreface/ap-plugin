@@ -87,7 +87,6 @@ export class RemoveBackground extends plugin {
             },
             )
             let statushash = response.data.hash
-            console.log(`本次请求hash为${statushash}`)
             let res = await axios.post(
                 API + 'status/',
                 {
@@ -95,7 +94,6 @@ export class RemoveBackground extends plugin {
                 },
             )
             let status = res.data.status
-            console.log(`本次请求状态为${status}`)
             while (status != 'COMPLETE') {
                 res = await axios.post(
                     API + 'status/',
@@ -104,10 +102,8 @@ export class RemoveBackground extends plugin {
                     },
                 )
                 status = res.data.status
-                console.log(`本次请求状态为${status}`)
                 await new Promise((resolve) => setTimeout(resolve, 1000));
             }
-            console.log(`本次请求完成`)
             let end = new Date()
             let time = ((end.getTime() - start.getTime()) / 1000).toFixed(2)
             e.reply(`耗时${time}s，正在发送结果...`, false, { at: true, recallMsg: 5 })

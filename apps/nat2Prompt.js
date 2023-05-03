@@ -10,6 +10,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
+import Log from '../utils/Log.js';
 
 let ap_cfg = await Config.getcfg()
 const API = ap_cfg.openai_key
@@ -62,7 +63,7 @@ export class nat2pmpt extends plugin {
 			msg = msg.replace(/\n/g, '')
 			e.reply(msg, true)
 		} catch (error) {
-			console.error(error);
+			Log.e(error)
 			e.reply('出错了，可能是AP服务器出现问题，也可能是APIKEY失效')
 		}
 	}

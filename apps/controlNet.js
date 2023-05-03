@@ -7,6 +7,7 @@ import picTool from '../utils/pic_tools.js';
 import cfg from '../../../lib/config/config.js'
 import { parseImg } from '../utils/utils.js';
 import Config from '../components/ai_painting/config.js';
+import Log from '../utils/Log.js';
 
 const configPath = process.cwd() + '/plugins/ap-plugin/config/config/controlnet.yaml';
 
@@ -140,14 +141,14 @@ export class ControlNet extends plugin {
     };
 
     try {
-      console.log(data);
       const response = await axios.post(url, data);
       await e.reply(segment.image(`base64://${response.data.images[0]}`), true);
       sendMsg(e, [`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 使用的模型：${config[e.user_id].model}\n◎ 蒙版图片：`,segment.image(`base64://${response.data.images[1]}`)]);
       return true;
     } catch (error) {
       e.reply('生成失败', true);
-      console.log(error);
+      Log.e(error);
+      return true;
     }
 
     return true;
@@ -190,12 +191,12 @@ export class ControlNet extends plugin {
     }
     try {
       const res = await axios.post(api + '/controlnet/detect', data);
-      console.log(res.data);
       e.reply([`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 蒙版图片：`,segment.image(`base64://${res.data.images[0]}`)]);
       return true;
     } catch (error) {
       e.reply('生成失败', true);
-      console.log(error);
+      Log.e(error);
+      return true;
     }
   }
 

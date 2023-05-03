@@ -361,7 +361,6 @@ async function louvre({
 	outputCanvas.width = parseInt(_width);
 	outputCanvas.height = parseInt(_height);
 	outputCtx.fillStyle = '#FFF';
-	console.log(_width, _height)
 	outputCtx.fillRect(0, 0, _width, _height);
 	outputCtx.drawImage(
 		canvas,

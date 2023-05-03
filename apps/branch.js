@@ -41,7 +41,6 @@ export class branch extends plugin {
       await this.reply("切换分支失败，请查看控制台报错");
       return;
     } else {
-      console.log(ret.stdout);
       if (ret.stdout.includes("* dev")) {
         await this.execSync("git -C ./plugins/ap-plugin/ checkout main");
         await this.reply("已将AP-Plugin切换到稳定分支");
@@ -61,7 +60,6 @@ export class branch extends plugin {
       await this.reply("切换分支失败");
       return;
     } else {
-      console.log(ret.stdout);
       let commitId = await this.getcommitId("ap-plugin");
       let time = await this.getTime("ap-plugin");
       if (ret.stdout.includes("* dev")) {

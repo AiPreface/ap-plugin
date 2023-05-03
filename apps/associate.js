@@ -10,6 +10,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import _ from 'lodash'
 import axios from 'axios'
+import Log from '../utils/Log.js';
 
 export class associate extends plugin {
 	constructor() {
@@ -60,7 +61,7 @@ export class associate extends plugin {
 			ForwardMsg = e.isGroup ? await e.group.makeForwardMsg(data_msg) : await e.friend.makeForwardMsg(data_msg);
 			e.reply(ForwardMsg)
 		} catch (error) {
-			console.error(error);
+			Log.e(error)
 			e.reply('出错了，可能是无法连接官方服务器\n error:' + error, true);
 		}
 	}

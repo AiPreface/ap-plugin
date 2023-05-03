@@ -53,7 +53,6 @@ export class LocalImg extends plugin {
     async searchLocalImg(e) {
         // 获取本群策略
         let current_group_policy = await Parse.parsecfg(e)
-        // console.log('【aiPainting】本群ap策略：\n',gpolicy)                    /*  */  
         // 判断功能是否开启
         if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1) {
             // 判断群友权限

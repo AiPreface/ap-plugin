@@ -272,7 +272,6 @@ async function i(paramdata, apiobj) {
   }
   
 async function constructRequestOption(param, url) {
-    console.log(param)
     // Log.i(param)                                 /*  */
     let ntags = param.ntags + "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
     if (!param.base64) {
@@ -386,7 +385,6 @@ async function constructRequestOption(param, url) {
         },
         body: JSON.stringify(data),
     }
-    console.log(data)
     return options
 }
 

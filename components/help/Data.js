@@ -1,5 +1,6 @@
 import lodash from 'lodash'
 import fs from 'fs'
+import Log from '../utils/Log.js';
 
 const _path = process.cwd()
 const plugin = 'ap-plugin'
@@ -43,7 +44,7 @@ let Data = {
       try {
         return JSON.parse(fs.readFileSync(`${root}/${file}`, 'utf8'))
       } catch (e) {
-        console.log(e)
+        Log.e(e)
       }
     }
     return {}
@@ -67,7 +68,7 @@ let Data = {
         return JSON.parse(txt)
       }
     } catch (e) {
-      console.log(e)
+      Log.e(e)
     }
     return {}
   },
@@ -86,7 +87,7 @@ let Data = {
         let data = await import(`file://${root}/${file}?t=${new Date() * 1}`)
         return data || {}
       } catch (e) {
-        console.log(e)
+        Log.e(e)
       }
     }
     return {}
@@ -105,8 +106,8 @@ let Data = {
     let sysCfg = await Data.importModule(`config/system/${key}_system.js`)
     let diyCfg = await Data.importModule(`config/${key}.js`)
     if (diyCfg.isSys) {
-      console.error(`ap-plugin: config/${key}.js无效，已忽略`)
-      console.error(`如需配置请复制config/${key}_default.js为config/${key}.js，请勿复制config/system下的系统文件`)
+      Log.e(`AP-Plugin: config/${key}.js无效，已忽略`)
+      Log.e(`如需配置请复制config/${key}_default.js为config/${key}.js，请勿复制config/system下的系统文件`)
       diyCfg = {}
     }
     return {

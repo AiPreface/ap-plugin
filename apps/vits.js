@@ -2,6 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import {
 	segment
 } from "oicq";
+import Log from '../utils/Log.js';
 import ws from 'ws';
 import _ from 'lodash'
 import lodash from 'lodash'
@@ -50,7 +51,6 @@ export class Say extends plugin {
 	async VITS(e) {
 		let speaker = e.msg.match(/合成(.*)语音/)[1];
 		speaker = speaker.replace(/(日语|中文|韩语|梵语|英语)/, "")
-		console.log("用户指定发音人：" + speaker);
 		let model
 		if (model1.includes(speaker)) {
 			model = 1
@@ -116,10 +116,8 @@ export class Say extends plugin {
 			13: "zh-CHS/ja/ko/en",
 			14: "ja"
 		}
-		console.log("匹配到的模型：" + model);
 		let fn_index = fn_indexlist[model]
 		let language = languagelist[model]
-		console.log("匹配到的fn_index：" + fn_index);
 		let i18n = false
 		if (language.includes("/")) {
 			i18n = true
@@ -149,12 +147,9 @@ export class Say extends plugin {
 				e.reply("该发音人支持多语种，请指定语种，例如“合成" + speaker + "日语语音”");
 				return false;
 			}
-			console.log("匹配到的语言：" + language);
 		}
 		let msg = e.msg.match(/语音(.*)/)[1];
-		console.log("翻译前：" + msg);
 		msg = await Translate(msg, language);
-		console.log("翻译后：" + msg);
 		if (i18n) {
 			switch (language) {
 				case "ja":
@@ -194,7 +189,6 @@ export class Say extends plugin {
 			switch (event.msg) { //根据消息类型执行不同的操作
 				case "send_hash":
 					{
-						console.log("发送哈希....");
 						ws_client.send(JSON.stringify({
 							session_hash: hash,
 							fn_index: fn_index
@@ -203,12 +197,10 @@ export class Say extends plugin {
 					}
 				case "estimation":
 					{ //估算时间
-						console.log("估算时间....");
 						break;
 					};
 				case "send_data":
 					{ //发送数据
-						console.log("发送数据....");
 						ws_client.send(JSON.stringify({
 							fn_index: fn_index,
 							data: [
@@ -223,12 +215,10 @@ export class Say extends plugin {
 					}
 				case "process_starts":
 					{ //开始处理
-						console.log("生成开始....");
 						break;
 					}
 				case "process_completed":
 					{ //处理完成
-						console.log("生成完成....");
 						let audiobase64 = event.output.data[1]
 						audiobase64 = audiobase64.replace(/^data:audio\/wav;base64,/, "");
 						e.reply(segment.record(`base64://${audiobase64}`));
@@ -381,7 +371,7 @@ async function Translate(text, lang) {
       const translated = lodash.flattenDeep(translateResult)?.map(item => item.tgt).join("\n");
       return translated || false;
     } catch (e) {
-      console.log("【椰奶有道翻译报错】:", e);
+      Log.e("【椰奶有道翻译报错】:", e);
       return false;
     }
   }

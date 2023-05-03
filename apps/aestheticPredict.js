@@ -16,6 +16,7 @@ import {
 import fetch from 'node-fetch'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
+import Log from '../utils/Log.js';
 
 let FiguretypeUser = {}
 let getImagetime = {}
@@ -94,7 +95,7 @@ export class score extends plugin {
 						e.reply(`预测结果：${score}分，耗时：${time}秒`, true)
 						delete FiguretypeUser[e.user_id]
 					}, ).catch(error => {
-						console.log(error)
+						Log.e(error)
 						e.reply('预测失败，请重试')
 						delete FiguretypeUser[e.user_id]
 					})

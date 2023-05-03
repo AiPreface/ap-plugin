@@ -115,14 +115,12 @@ export class example extends plugin {
 		},
 		)
 		let statushash = response.data.hash
-		console.log(`本次请求hash为${statushash}`)
 		let res = await axios.post(
 			API + 'status/', {
 			'hash': statushash
 		},
 		)
 		let status = res.data.status
-		console.log(`本次请求状态为${status}`)
 		while (status != 'COMPLETE') {
 			res = await axios.post(
 				API + 'status/', {
@@ -130,7 +128,6 @@ export class example extends plugin {
 			},
 			)
 			status = res.data.status
-			console.log(`本次请求状态为${status}`)
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 		}
 		var mask = res.data.data.data[0]

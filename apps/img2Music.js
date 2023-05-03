@@ -14,6 +14,7 @@ import axios from 'axios'
 import { segment } from 'oicq'
 import Config from '../components/ai_painting/config.js';
 import { parseImg } from '../utils/utils.js';
+import Log from '../utils/Log.js';
 
 const _path = process.cwd();
 let ap_cfg = await Config.getcfg()
@@ -93,7 +94,6 @@ export class ImgToMusic extends plugin {
 					type = "loop";
 				}
 			}
-			console.log(time, level, type)
 			await fetch(API, {
 					method: "POST",
 					headers: {
@@ -111,7 +111,6 @@ export class ImgToMusic extends plugin {
 				.then(r => r.json())
 				.then(
 					r => {
-						console.log(r)
 						let data = r.data;
 						let end = new Date()
 						let time = (end - start) / 1000
@@ -123,7 +122,7 @@ export class ImgToMusic extends plugin {
 				)
 				.catch(
 					r => {
-						console.log(r)
+						Log.e(r)
 						e.reply('转换失败，请稍后再试~', true)
 					}
 				)

@@ -82,7 +82,6 @@ class Config {
         for (let i = 0; i < apcfg.APIList.length; i++) {
             if (Object.keys(apcfg.APIList[i]).length == 1) {
                 let api = Object.keys(apcfg.APIList[i])[0]
-                console.log(`刷新接口格式：${api}`)
                 apcfg.APIList[i] = {
                     url: api,
                     remark: apcfg.APIList[i][api],

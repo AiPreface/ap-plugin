@@ -10,7 +10,6 @@
  */
 import plugin from '../../../lib/plugins/plugin.js'
 import fs from 'fs'
-import { segment } from 'oicq'
 import { createRequire } from "module";
 import Log from '../utils/Log.js';
 import path from 'path';
@@ -107,11 +106,9 @@ export class example extends plugin {
 		for (let val in res_data) {
 			if (!res_data[val].keywords) {
 				e.reply("远程预设文件第" + (val + 1) + "个数据keywords参数错误，无法导入")
-				console.log(res_data[val])
 				return true
 			} else if (!res_data[val].tags && res_data[val].tags != "") {
 				e.reply("远程预设文件第" + (val + 1) + "个数据tags参数错误，无法导入")
-				console.log(res_data[val])
 				return true
 			}
 		}
@@ -131,7 +128,7 @@ export class example extends plugin {
 					try {
 						data[val2].keywords = keywords
 					} catch (err) {
-						console.log("出现不合法的预设数据：" + JSON.stringify(data[val]))
+						Log.e("出现不合法的预设数据：" + JSON.stringify(data[val]))
 					}
 					splicelist.push(val)
 					merge++

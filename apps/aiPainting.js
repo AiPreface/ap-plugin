@@ -41,7 +41,6 @@ export class Ai_Painting extends plugin {
 
     // 获取本群策略
     let current_group_policy = await Parse.parsecfg(e)
-    // console.log('【aiPainting】本群ap策略：\n',gpolicy)                    /*  */  
 
 
     // 判断功能是否开启

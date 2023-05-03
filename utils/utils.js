@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-16 18:41:12
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-03 16:30:13
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -210,8 +210,6 @@ export function chNum2Num(text, data = {}) {
     else {
         regExp = new RegExp(data.l_text + '(\[一二三四五六七八九十零百千万亿\]\+)' + data.r_text)
     }
-    // console.log(regExp)
-    // console.log(regExp.exec(text))
     let ret = regExp.exec(text)
     if (!ret) return text
     let chNum = ret[1].trim()

@@ -137,10 +137,8 @@ export async function requestAppreciate(base64) {
                 ]
             })
         })
-        console.log(res)
         res = await res.json()
         let tags = res.data[2].confidences;
-        console.log(tags)
         let tags_str = '';
         for (let i = 0; i < tags.length; i++) {
             if (tags[i].confidence > 0.98) {

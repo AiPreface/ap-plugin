@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 14:54:18
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-16 19:21:32
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-03 16:29:55
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\Log.js
  * @Description: 快捷logger 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
@@ -15,7 +15,6 @@ try {
     if (fs.existsSync(README_path)) {
         let README = fs.readFileSync(README_path) || ''
         let reg = /版本：(.*)/.exec(README)
-        // console.log(reg)
         if (reg) {
             currentVersion = reg[1]
         }
@@ -26,7 +25,7 @@ try {
  */
 class Log {
     constructor() {
-        this.header = `【ap-plugin v${currentVersion}】`
+        this.header = `【AP-Plugin v${currentVersion}】`
     }
     /**快捷执行logger.info( )  */
     i(...msg) { logger.info(this.header, ...msg); }

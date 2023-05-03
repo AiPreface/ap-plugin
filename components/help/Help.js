@@ -32,7 +32,6 @@ try {
             // if (versionCount <= -1) {
             //     return false
             // }
-            // console.log(line)
             let versionRet = /^#(.*)$/.exec(line.trim())
             if (versionRet && versionRet[1]) {
                 let v = versionRet[1].trim()

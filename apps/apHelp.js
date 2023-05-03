@@ -2,13 +2,14 @@
  * @Author: 苏沫柒 3146312184@qq.com
  * @Date: 2023-05-02 13:05:50
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-05-02 15:01:23
+ * @LastEditTime: 2023-05-03 16:21:50
  * @FilePath: \ap-plugin\apps\apHelp.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
 import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios';
 import FormData from 'form-data';
+import Log from '../utils/Log.js';
 
 const _path = process.cwd();
 
@@ -133,7 +134,7 @@ export class apHelp extends plugin {
                     }
                 }, { timeout: 10000
                 }).catch(err => {
-                    console.log(err);
+                    Log.e(err)
                     if (err.response == undefined) {
                         e.reply(`下载失败，连接超时`, true)
                     } else if (err.response.status == 404) {
@@ -181,7 +182,6 @@ export class apHelp extends plugin {
             }
         });
         if (response) {
-            console.log(response.data);
             if (response.data.length == 0) {
                 e.reply(`暂无下载任务`, true);
                 return true;

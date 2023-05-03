@@ -429,7 +429,6 @@ export class setpolicy extends plugin {
         })
         rawList = rawList.filter(x => { return x })
         rawList = [...new Set(rawList)]
-        console.log(rawList)
         let pblist = await Config.getProhibitedWords()
         let a = []
         let b = []
@@ -508,7 +507,6 @@ export class setpolicy extends plugin {
      * @param {*} value 属性值 
      */
     async gp_Property(gid, key, value) {
-        console.log(gid, key, value)
         let policy = await Config.getPolicy()
         if (key != 'enable' && !this.e.isMaster) {
             this.e.reply('暂无权限，只有主人才能操作')
