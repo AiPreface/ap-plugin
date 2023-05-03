@@ -43,11 +43,11 @@ export class ControlNet extends plugin {
           fnc: 'controlNetModuleList'
         },
         {
-          reg: '^#?控制网设置模型 (.*)$',
+          reg: '^#?控制网设置模型(.*)$',
           fnc: 'controlNetSetModel'
         },
         {
-          reg: '^#?控制网设置预处理器 (.*)$',
+          reg: '^#?控制网设置预处理器(.*)$',
           fnc: 'controlNetSetModule'
         },
         {
