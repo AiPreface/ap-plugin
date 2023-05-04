@@ -190,6 +190,7 @@ export class set_parse extends plugin {
           e.reply("您没有权限设置全局默认参数", true);
           return true;
         }
+       } else {
         parseData[e.user_id].hr_scale = Number(e.msg.match(/高清修复放大倍数(.*)/)[1]);
       }
     } else if (e.msg.match(/高清修复/)) {
