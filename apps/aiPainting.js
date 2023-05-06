@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-18 23:34:10
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-16 14:18:06
+ * @LastEditTime: 2023-05-06 22:10:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\ai_painting.js
  * @Description: #绘图
  * 
@@ -16,6 +16,7 @@ import { getuserName } from '../utils/utils.js'
 import Pictools from '../utils/pic_tools.js';
 import Log from '../utils/Log.js'
 import { Parse, CD, Policy, Draw } from '../components/apidx.js';
+import Config from '../components/ai_painting/config.js';
 
 
 // 批量绘图的剩余张数
@@ -38,6 +39,8 @@ export class Ai_Painting extends plugin {
   }
 
   async aiPainting(e) {
+    // 获取设置
+    let setting = await Config.getSetting()
 
     // 获取本群策略
     let current_group_policy = await Parse.parsecfg(e)
@@ -45,13 +48,13 @@ export class Ai_Painting extends plugin {
 
     // 判断功能是否开启
     if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1)
-      if (!current_group_policy.enable) return await e.reply("aiPainting功能未开启", false, { recallMsg: 15 });
+      if (!current_group_policy.enable) return await e.reply("AI绘图功能未开启", false, { recallMsg: 15 });
 
 
     // 判断是否禁用用户
     if (current_group_policy.isBan)
       if (current_group_policy.prohibitedUserList.indexOf(e.user_id) != -1)
-        return await e.reply(["你的账号因违规使用屏蔽词绘图已被封禁"], true);
+        return await e.reply(["你的账号因违规使用屏蔽词绘图已被封禁或被管理员封禁"], true);
 
 
     // 判断cd
@@ -97,7 +100,7 @@ export class Ai_Painting extends plugin {
     // 翻译中文
     let chReg = /(?:[\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/
     if (chReg.test(paramdata.rawtag.tags + paramdata.rawtag.ntags)) {
-      e.reply('翻译中，请稍候', true, { recallMsg: 15 })
+      e.reply('检测到中文Prompt，进行翻译......', true, { recallMsg: 15 })
       paramdata = await Parse.transtag(paramdata)
       if (paramdata.param.tags == '寄' || paramdata.param.ntags == '寄') {
         CD.clearCD(e)
@@ -123,8 +126,8 @@ export class Ai_Painting extends plugin {
 
 
     e.reply([
-      prohibitedWords.length ? `已去除关键词中包含的屏蔽词：${prohibitedWords.join('、')}\n正在` : "",
-      paramdata.param.base64 ? "以图生图" : "绘制", "中，请稍候。",
+      prohibitedWords.length ? `已去除关键词中包含的屏蔽词：${prohibitedWords.join('、')}\n已收到绘图请求，正在` : "已收到绘图请求，正在",
+      paramdata.param.base64 ? "以图生图" : "绘制", "中，请稍候......",
       paramdata.num > 1 ? "绘制多张图片所需时间较长，请耐心等待" : "",
       remaining_tasks ? "\n\n※当前有进行中的批量绘图任务，您可能需要等待较长时间，请见谅" : "",
     ], false, { at: true, recallMsg: 20 });
@@ -162,54 +165,63 @@ export class Ai_Painting extends plugin {
         return true
       }
 
-      // 构建消息
-      // Log.w(paramdata.param)
-      let info = [
-        `seed=${res.seed}`,
-        paramdata.param.sampler != 'Euler a' ? `\nsampler=${paramdata.param.sampler}` : '',
-        paramdata.param.steps != 22 ? `\nsteps=${paramdata.param.steps}` : '',
-        paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
-        paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
-        paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
-        paramdata.param.ntags ? `\n\nNTAGS=${paramdata.param.ntags}` : "",
-      ].join('')
-      let msg = [
-        usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
-        segment.image(`base64://${res.base64}`),
-      ]
-      // Log.i(info.length)                                           /*  */
-      if (info.length < 500) {
-        msg.push('\n' + info);
-        info = null;
-      }
+      let concise_mode = setting.concise_mode
 
-      // 发送消息，发送失败清除CD，发送成功记录一次使用
-      let sendRes = await e.reply(msg, true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
-      if (!sendRes) {
-        e.reply(["图片发送失败，可能被风控"], true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
-        CD.clearCD(e)
+      // 如果简洁模式开启，则只发送图片
+      if (concise_mode) {
+        e.reply(segment.image(`base64://${res.base64}`), true)
+        return true
       } else {
-        this.addUsage(e.user_id, 1);
-        if (info) {
-          await common.sleep(350)
-          let data_msg = [{
-            message: [info],
-            nickname: Bot.nickname,
-            user_id: cfg.qq,
-          }]
-          if (e.isGroup) {
-            e.reply(
-              await e.group.makeForwardMsg(data_msg),
-              false,
-              { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
-            );
-          }
-          else {
-            e.reply(
-              await e.friend.makeForwardMsg(data_msg),
-              false,
-              { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
-            );
+        // 构建消息
+        // Log.w(paramdata.param)
+        let info = [
+          `seed=${res.seed}`,
+          paramdata.param.sampler != 'Euler a' ? `\nsampler=${paramdata.param.sampler}` : '',
+          paramdata.param.steps != 22 ? `\nsteps=${paramdata.param.steps}` : '',
+          paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
+          paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
+          paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
+          paramdata.param.ntags ? `\n\nNTAGS=${paramdata.param.ntags}` : "",
+        ].join('')
+        let msg = [
+          usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
+          segment.image(`base64://${res.base64}`),
+        ]
+        // Log.i(info.length)                                           /*  */
+        let max_fold = setting.max_fold
+        if (info.length < max_fold) {
+          msg.push('\n' + info);
+          info = null;
+        }
+  
+        // 发送消息，发送失败清除CD，发送成功记录一次使用
+        let sendRes = await e.reply(msg, true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
+        if (!sendRes) {
+          e.reply(["图片发送失败，可能被风控"], true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
+          CD.clearCD(e)
+        } else {
+          this.addUsage(e.user_id, 1);
+          if (info) {
+            await common.sleep(350)
+            let data_msg = [{
+              message: [info],
+              nickname: Bot.nickname,
+              user_id: cfg.qq,
+            }]
+            if (e.isGroup) {
+              e.reply(
+                await e.group.makeForwardMsg(data_msg),
+                false,
+                { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
+              );
+            }
+            else {
+              e.reply(
+                await e.friend.makeForwardMsg(data_msg),
+                false,
+                { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 }
+              );
+            }
           }
         }
       }

@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-22 16:35:16
+ * @LastEditTime: 2023-05-06 22:33:03
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -273,7 +273,7 @@ async function i(paramdata, apiobj) {
   
 async function constructRequestOption(param, url) {
     // Log.i(param)                                 /*  */
-    let ntags = param.ntags + "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+    let ntags = param.ntags ? param.ntags : ''
     if (!param.base64) {
         let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
         if (size) {
@@ -335,6 +335,8 @@ async function constructRequestOption(param, url) {
         }
     }
 
+    let setting = await Config.getSetting()
+
     let data;
     // 文生图
     if (!param.base64) {
@@ -347,13 +349,13 @@ async function constructRequestOption(param, url) {
             "hr_upscaler": param.hr_upscaler ? param.hr_upscaler : 'Latent',
             "hr_second_pass_steps": param.hr_second_pass_steps ? param.hr_second_pass_steps : 0,
             "override_settings": {},
-            "prompt": param.tags,
+            "prompt": param.tags + setting.def_prompt,
             "seed": seed,
             "steps": param.steps,
             "cfg_scale": param.scale,
             "height": param.height,
             "width": param.width,
-            "negative_prompt": ntags,
+            "negative_prompt": ntags + setting.def_negativeprompt,
             "sampler_index": param.sampler,
         }
     }
@@ -363,13 +365,13 @@ async function constructRequestOption(param, url) {
             "init_images": ['data:image/jpeg;base64,' + param.base64],
             "sampler_index": param.sampler,
             "denoising_strength": param.strength,
-            "prompt": param.tags,
+            "prompt": param.tags + setting.def_prompt,
             "seed": seed,
             "steps": param.steps,
             "cfg_scale": param.scale,
             "width": param.width,
             "height": param.height,
-            "negative_prompt": ntags,
+            "negative_prompt": ntags + setting.def_negativeprompt,
             "styles": ["string"],
             "mask": "mask" in param ? param.mask : null,
             "mask_blur": "mask_blur" in param ? param.mask_blur : NaN,

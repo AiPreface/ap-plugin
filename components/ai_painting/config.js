@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-05-03 11:27:14
+ * @LastEditTime: 2023-05-06 22:01:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -93,6 +93,35 @@ class Config {
             }
         }
     }
+
+        /**获取设置
+     * @return {*}
+     */
+        async getSetting() {
+            let apcfg = await YAML.parse(
+                fs.readFileSync(path.join(cfg_path, 'setting.yaml'), "utf8")
+            );
+            return apcfg
+        }
+    
+        /**写入配置
+         * @param {*} apcfg
+         * @return {*}
+         */
+        async setSetting(apcfg) { fs.writeFileSync(path.join(cfg_path, 'setting.yaml'), YAML.stringify(apcfg), "utf8"); }
+    
+        /**同步获取配置
+         * @param {*} apcfg
+         * @return {*}
+         */
+        mergeSetting() {
+            let apcfg = YAML.parse(fs.readFileSync(path.join(cfg_path, 'setting.yaml'), "utf8"));
+            let apcfgobj = {}
+            for (let key in apcfg) {
+                apcfgobj[key] = apcfg[key]
+            }
+            return apcfgobj
+        }
 
     /**获取配置
      * @return {*}
