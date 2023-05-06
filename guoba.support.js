@@ -23,6 +23,56 @@ export function supportGuoba() {
       schemas: [
         {
           component: "Divider",
+          label: "Stable Diffusion接口配置",
+          componentProps: {
+            orientation: "left",
+            plain: true,
+          },
+        },
+        {
+          field: "config.APIList",
+          label: "绘图接口",
+          bottomHelpMessage:
+            "用于生成图片等一系列功能，是本插件主要功能",
+          component: "GSubForm",
+          componentProps: {
+            multiple: true,
+            schemas: [
+              {
+                field: "url",
+                label: "接口地址",
+                component: "Input",
+                required: true,
+              },
+              {
+                field: "remark",
+                label: "接口备注",
+                component: "Input",
+                required: true,
+              },
+              {
+                field: "account_id",
+                label: "接口账号",
+                component: "Input",
+              },
+              {
+                field: "account_password",
+                label: "接口密码",
+                component: "InputPassword",
+              },
+            ],
+          },
+        },
+        {
+          field: 'config.usingAPI',
+          label: '使用的接口',
+          component: 'Select',
+          componentProps: {
+            options: Config.mergeConfig().APIList.map((item, index) => { return { label: item.remark, value: index + 1 } })
+          },
+        },
+        {
+          component: "Divider",
           label: "百度图片审核配置",
           componentProps: {
             orientation: "left",
@@ -31,7 +81,7 @@ export function supportGuoba() {
         },
         {
           field: "config.baidu_appid",
-          label: "百度审核ID",
+          label: "ID",
           bottomHelpMessage:
             "用于图片审核服务，请在百度云图片审核应用列表中查看",
           component: "Input",
@@ -44,7 +94,7 @@ export function supportGuoba() {
         },
         {
           field: "config.baidu_apikey",
-          label: "百度审核APIKEY",
+          label: "APIKEY",
           bottomHelpMessage:
             "用于图片审核服务，请在百度云图片审核应用列表中查看",
           component: "Input",
@@ -57,7 +107,7 @@ export function supportGuoba() {
         },
         {
           field: "config.baidu_secretkey",
-          label: "百度审核SECRETKEY",
+          label: "SECRETKEY",
           bottomHelpMessage:
             "用于图片审核服务，请在百度云图片审核应用列表中查看",
           component: "Input",
@@ -101,7 +151,7 @@ export function supportGuoba() {
 
         {
           field: "config.ai_detect",
-          label: "AI检测接口",
+          label: "图片鉴定接口",
           bottomHelpMessage: "用于检测图片是否为AI所作，如：",
           component: "Input",
           required: false,
@@ -134,8 +184,8 @@ export function supportGuoba() {
         },
         {
           field: "config.img_to_music",
-          label: "图片去背景接口",
-          bottomHelpMessage: "用于去除图片背景",
+          label: "图片转音乐接口",
+          bottomHelpMessage: "用于图片转音乐",
           component: "Input",
           required: false,
           componentProps: {
@@ -145,8 +195,8 @@ export function supportGuoba() {
         },
         {
           field: "config.anime_aesthetic_predict",
-          label: "图片去背景接口",
-          bottomHelpMessage: "用于去除图片背景",
+          label: "图片美学评分接口",
+          bottomHelpMessage: "用于图片美学评分",
           component: "Input",
           required: false,
           componentProps: {
@@ -158,13 +208,12 @@ export function supportGuoba() {
           field: "config.openai_key",
           label: "OpenAI密钥",
           bottomHelpMessage: "用于自然语言处理",
-          component: "Input",
+          component: "InputPassword",
           required: false,
           componentProps: {
             placeholder:
               "请输入密钥，如sk-tZgIILD1th6DqMiBM3VZH3BlbkFJnyEYu9t9kfQEzC6ocBOS",
-            addonBefore: "sk-",
-            maxlength: 48,
+            maxlength: 51,
             showCount: true,
           },
         },
@@ -277,13 +326,13 @@ export function supportGuoba() {
           label: "禁止使用的用户",
           bottomHelpMessage:
             "封禁的用户QQ号，封禁的用户无法绘图，用英文逗号隔开",
-          component: "InputTextArea",
+          component: "GSelectFriend",
         },
         {
           field: "policy.apMaster",
           label: "AP管理员QQ号",
           bottomHelpMessage: "AP管理员QQ号，用于更改相关设置，用英文逗号隔开",
-          component: "InputTextArea",
+          component: "GSelectFriend",
         },
         {
           component: "Divider",
@@ -436,9 +485,6 @@ export function supportGuoba() {
       ],
       getConfigData() {
         let config = Config.mergeConfig();
-        if (config.openai_key) {
-          config.openai_key = config.openai_key.replace("sk-", "");
-        }
         let policy = Config.mergePolicy();
         return {
           config: config,
@@ -463,24 +509,6 @@ export function supportGuoba() {
               lodash.set({}, keyPath.replace("policy.", ""), value)
             );
           }
-        }
-        if (policy.prohibitedUserList == "") {
-          policy.prohibitedUserList = [];
-        } else if (typeof policy.prohibitedUserList == "string") {
-          policy.prohibitedUserList = policy.prohibitedUserList.split(",");
-          policy.prohibitedUserList = policy.prohibitedUserList.map(function (
-            item
-          ) {
-            return parseInt(item);
-          });
-        }
-        if (policy.apMaster == "") {
-          policy.apMaster = [];
-        } else if (typeof policy.apMaster == "string") {
-          policy.apMaster = policy.apMaster.split(",");
-          policy.apMaster = policy.apMaster.map(function (item) {
-            return parseInt(item);
-          });
         }
         config.baidu_appid = parseInt(config.baidu_appid);
         Config.setcfg(lodash.merge(Config.mergeConfig(), config));

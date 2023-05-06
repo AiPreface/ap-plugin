@@ -41,7 +41,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置合并字数(d+)',
+                    reg: '^#ap设置合并字数.*',
                     /** 执行方法 */
                     fnc: 'setMerge',
                     /** 主人权限 */
@@ -79,7 +79,6 @@ export class setSetting extends plugin {
     }
     async setMerge(e) {
         let setting = await Config.getSetting();
-        // 判断是否为数字，且在1-800之间
         let merge = e.msg.replace('#ap设置合并字数', '').trim();
         if (isNaN(merge) || merge < 1 || merge > 800) {
             e.reply(`合并字数必须为1-800之间的数字`);
