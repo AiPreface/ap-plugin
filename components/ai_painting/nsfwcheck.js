@@ -82,13 +82,13 @@ class NsfwCheck {
             data = await baiduJianhuangClient.imageCensorUserDefined(base64, "base64")
         } catch (err) {
             if (err.code == "ESOCKETTIMEDOUT")
-                return { message: "【aiPainting图片审核】本次百度图片审核超时" }
+                return { message: "【AP-Plugin图片审核】本次百度图片审核超时" }
             else if (err.code == "ENOENT")
-                return { message: "【aiPainting图片审核】图片获取失败" }
+                return { message: "【AP-Plugin图片审核】图片获取失败" }
             else {
                 Log.e('【百度图片审核报错】:', err.message)
                 Log.e('【百度图片审核报错】:', err)
-                return { message: '【aiPainting图片审核】遇到未知错误，建议查看控制台报错，向开发者反馈' }
+                return { message: '【AP-Plugin图片审核】遇到未知错误，建议查看控制台报错，向开发者反馈' }
             }
         }
         // 处理结果

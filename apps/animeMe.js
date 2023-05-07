@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-05-07 10:44:12
+ * @LastEditTime: 2023-05-07 12:09:10
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -73,8 +73,10 @@ export class Anime_me extends plugin {
 
         // 构造绘图参数
         let paramdata = await this.construct_param(dsc)
-        Log.i("二次元的", `${name}：`, (e.msg.startsWith('%') || e.msg.startsWith('/')) ? paramdata.param.tags : dsc);
-        // 根据描述获取图片
+        let logMessage = (e.msg.startsWith('%') || e.msg.startsWith('/')) 
+                    ? "\n英文提示词：" + paramdata.param.tags 
+                    : "\n中文关键词：" + dsc.ch + "\n英文提示词：" + dsc.en;
+                    Log.i(logMessage);
         let res = await Draw.get_a_pic(paramdata)
         if (res.code) {
             CD.clearCD(e)
@@ -125,23 +127,28 @@ export class Anime_me extends plugin {
         let current_group_policy = await Parse.parsecfg(this.e)
         if (!current_group_policy.JH) {
             JH = false
+        } else {
+            JH = true
         }
         let paramdata = {
             param: {
+                enable_hr: true,
+                hr_scale: 1.5,
+                hr_upscaler: 'Latent (nearest-exact)',
                 sampler: 'DDIM',
-                strength: 0.6,
+                strength: 0.5,
                 seed: -1,
                 scale: 11,
                 steps: 20,
-                width: txdsc ? 768 : base64 ? 512 : 768,
-                height: 512,
-                tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en,
+                width: txdsc ? 768 : base64 ? 640 : 768,
+                height: txdsc ? 512 : base64 ? 640 : 512,
+                tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en + "(upper body: 1.8), (solo: 1.5)",
                 ntags: "",
                 base64: txdsc ? null : base64,
             },
             num: 1,
             rawtag: {
-                tags: dsc.en + ", (solo: 1.5)",
+                tags: dsc.en + "(upper body: 1.8), (solo: 1.5)",
                 ntags: "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
             },
             specifyAPI: NaN,

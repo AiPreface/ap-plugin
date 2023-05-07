@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-05-06 22:33:03
+ * @LastEditTime: 2023-05-07 12:15:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -106,67 +106,65 @@ class Draw {
             if (response.status == 401)
                 return {
                     code: response.status,
-                    info: "无访问权限",
+                    info: "未授权",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} ：该接口已开启API鉴权模式。请发送\n#ap设置接口${index}账号xxx密码xxx\n以配置账号密码，或尝试使用其他接口`
+                    description: `接口${index}：${remark} ：401 Unauthorized  \n请发送\n#ap设置接口${index}账号xxx密码xxx\n以配置账号密码`
                 }
-            else if (response.status == 402) {
-                let msg = await response.text()
+            else if (response.status == 403)
                 return {
                     code: response.status,
-                    info: "需认证token",
-                    msg: msg,
-                    description: `接口${index}：${remark} ${msg}`
+                    info: "禁止访问",
+                    msg: response.statusText,
+                    description: `接口${index}：${remark} ：403 Forbidden  \n请发送\n#ap设置接口${index}账号xxx密码xxx\n以配置账号密码`
                 }
-            }
             else if (response.status == 404)
                 return {
                     code: response.status,
                     info: "NotFound",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 访问失败：404 NotFound。\n请检查接口连通性，或更换接口`
+                    description: `接口${index}：${remark} ：404 Not Found  \n请检查接口是否填写正确，或尝试使用其他接口`
                 }
             else if (response.status == 413)
                 return {
                     code: response.status,
                     info: "请求体过大",
                     msg: response.statusText,
-                    description: `错误：Request Entity Too Large\n请尝试使用其他图片`
+                    description: `接口${index}：${remark} ：413 Payload Too Large  \n请求实体过大，超出服务器的处理能力，请检查图片是否过大，或更改服务器端请求体大小限制`
                 }
             else if (response.status == 500)
                 return {
                     code: response.status,
                     info: "服务器内部错误",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 服务器内部错误：Internal Server Error\n服务器可能崩溃，也可能是暂时性故障。请稍后尝试，或检查服务器状态。\n若确认服务器状态正常后依然持续出现此错误，您也可以向开发者反馈。`
+                    description: `接口${index}：${remark} ：500 Internal Server Error  \n服务器内部错误，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else if (response.status == 502)
                 return {
                     code: response.status,
                     info: "Bad Gateway",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 错误：502 Bad Gateway\n若持续出现此错误，请检查stable diffusion是否添加了启动参数--api，或其他服务器错误\nhttps://product.pconline.com.cn/itbk/software/dnwt/1609/8402861.html`
+                    description: `接口${index}：${remark} ：502 Bad Gateway  \n作为网关或代理角色的服务器，从上游服务器收到无效响应，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else if (response.status == 503)
                 return {
                     code: response.status,
                     info: "服务不可用",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 服务不可用，可能触发了频率限制，请稍后重试或使用其他接口。`
+                    description: `接口${index}：${remark} ：503 Service Unavailable  \n由于超载或停机维护，服务不可用，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else if (response.status == 504)
                 return {
                     code: response.status,
                     info: "超时",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 超时：504 Gateway Time-out。\n如果频繁出现此错误，请检查绘图服务器状态，或更换接口`
+                    description: `接口${index}：${remark} ：504 Gateway Timeout  \n作为网关或代理角色的服务器，未及时从上游服务器接收请求，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else {
                 let msg = {
                     code: response.status,
                     info: "未知错误",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
+                    description: `接口${index}：${remark} ：${response.status} ${response.statusText}  \n出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
                 Log.e('【response_err】：', response)
                 Log.e('【response_err_status】：' + response.status)
@@ -200,7 +198,7 @@ class Draw {
         if (paramdata.JH) {
             let jh = await NsfwCheck.check(base64)
             if (jh.message) {
-                if (jh.message == "【aiPainting图片审核】本次百度图片审核超时")
+                if (jh.message == "【AP-Plugin图片审核】本次百度图片审核超时")
                     return {
                         code: 32,
                         info: '百度图片审核超时',
@@ -262,7 +260,7 @@ async function i(paramdata, apiobj) {
     try {
         var currentVersion = /版本：(.*)/.exec(fs.readFileSync(READMEPATH, 'utf8'))[1];
     } catch (err) {}
-    const options = await constructRequestOption(paramdata.param, apiobj.url);
+    const options = await constructRequestOption(paramdata.param, apiobj);
     if (apiobj.account_password) {
       options.headers['Authorization'] = `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`;
     }
@@ -271,8 +269,8 @@ async function i(paramdata, apiobj) {
     return fetch(`${apiobj.url}/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
   }
   
-async function constructRequestOption(param, url) {
-    // Log.i(param)                                 /*  */
+async function constructRequestOption(param, apiobj) {
+    //Log.i(param)
     let ntags = param.ntags ? param.ntags : ''
     if (!param.base64) {
         let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
@@ -317,8 +315,17 @@ async function constructRequestOption(param, url) {
     }
     // 请求接口判断是否存在指定sampler 
     if (param.sampler != 'Euler a') {
+        const PLUGINPATH = `${process.cwd()}/plugins/ap-plugin`, READMEPATH = `${PLUGINPATH}/README.md`;
         try {
-            let res = await fetch(url + `/sdapi/v1/samplers`)
+            var currentVersion = /版本：(.*)/.exec(fs.readFileSync(READMEPATH, 'utf8'))[1];
+        } catch (err) {}
+        try {
+            let res = await fetch(apiobj.url + `/sdapi/v1/samplers`, {
+                headers: {
+                    'User-Agent': 'AP-Plugin/@' + currentVersion,
+                    'Authorization': `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`,
+                }
+            })
             res = await res.json()
             let exist = false
             for (let val of res) {
@@ -330,8 +337,10 @@ async function constructRequestOption(param, url) {
             Log.i(`指定的采样器${param.sampler}：${exist ? '存在' : '不存在'}`)
             if (!exist)
                 param.sampler = 'Euler a'
+                Log.i(`接口不存在该采样器，默认使用Euler a`)
         } catch (err) {
             param.sampler = 'Euler a'
+            Log.i(`采样器列表请求出错，默认使用Euler a`)
         }
     }
 

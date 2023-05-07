@@ -496,9 +496,6 @@ export function supportGuoba() {
         let policy = {};
         for (let [keyPath, value] of Object.entries(data)) {
           if (keyPath.startsWith("config.")) {
-            if (keyPath === "config.openai_key") {
-              value = "sk-" + value;
-            }
             lodash.merge(
               config,
               lodash.set({}, keyPath.replace("config.", ""), value)
