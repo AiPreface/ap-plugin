@@ -12,7 +12,6 @@ import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
-import { segment } from 'oicq'
 import Log from '../utils/Log.js'
 import { createRequire } from "module";
 import Draw from '../components/ai_painting/draw.js'
@@ -38,7 +37,6 @@ export class example extends plugin {
 			name: 'AP-蒙版处理',
 			/** 功能描述 */
 			dsc: '简单开发示例',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 50,

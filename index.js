@@ -13,6 +13,10 @@ import { initialize } from './utils/start.js'
 import {
 	checkPackage
 } from './utils/dependencies_reminder.js'
+if (!global.segment) {
+	global.segment = (await import("oicq")).segment
+  }
+
 let catlist = ["😸", "😹", "😺", "😻", "😼", "😽", "😾", "😿", "🙀"]
 logger.info('---------------')
 logger.mark(logger.green(`[${catlist[Math.floor(Math.random() * catlist.length)]}]AP-Plugin插件自检中......`))

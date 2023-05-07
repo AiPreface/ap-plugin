@@ -13,7 +13,6 @@ import { Draw, Parse, CD } from "../components/apidx.js";
 import Log from "../utils/Log.js";
 import { Pictools } from "../utils/utidx.js";
 import { getdsc } from "../components/anime_me/getdes.js";
-import { segment } from "oicq";
 import { requestAppreciate } from './appreciation.js'
 import cfg from '../../../lib/config/config.js'
 import moment from "moment";

@@ -1,7 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import axios from 'axios';
 import fs from 'fs';
-import { segment } from 'oicq';
 import YAML from 'yaml';
 import picTool from '../utils/pic_tools.js';
 import cfg from '../../../lib/config/config.js'

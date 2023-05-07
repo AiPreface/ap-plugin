@@ -10,7 +10,6 @@
  */
 
 import moment from 'moment';
-import { segment } from "oicq";
 import cfg from '../../../lib/config/config.js'
 import Config from '../components/ai_painting/config.js'
 import Parse from '../components/ai_painting/parse.js';

@@ -10,7 +10,6 @@
  */
 import moment from 'moment';
 import common from '../../../lib/common/common.js'
-import { segment } from "oicq";
 import cfg from '../../../lib/config/config.js'
 import { getuserName } from '../utils/utils.js'
 import Pictools from '../utils/pic_tools.js';

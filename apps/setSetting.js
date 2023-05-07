@@ -10,7 +10,6 @@ export class setSetting extends plugin {
             name: 'AP-设置设置',
             /** 功能描述 */
             dsc: '设置设置',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 999,

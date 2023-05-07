@@ -19,7 +19,6 @@ class Parse {
     }
 
     /**获取指定群的ap策略
-     * @param {*} e OICQ事件参数e
      * @return {object} gpolicy：此群的ap策略
      */
     async parsecfg(e) {
@@ -50,7 +49,6 @@ class Parse {
 
 
     /**整合绘图所用参数
-     * @param {*} e OICQ事件参数e
      * @return {object}  paramdata 整合的参数
      */
     async mergeParam(e) {

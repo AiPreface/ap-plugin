@@ -1,7 +1,4 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import {
-	segment
-} from 'oicq'
 import Draw from '../components/ai_painting/draw.js'
 import {
 	parseImg
@@ -17,7 +14,6 @@ export class Difference extends plugin {
 			name: 'AP-图像差分',
 			/** 功能描述 */
 			dsc: '图像差分',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 50,

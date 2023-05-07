@@ -1,7 +1,4 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import {
-	segment
-} from "oicq";
 import Log from '../utils/Log.js';
 import ws from 'ws';
 import _ from 'lodash'
@@ -32,7 +29,6 @@ export class Say extends plugin {
 			name: 'AP-语音合成',
 			/** 功能描述 */
 			dsc: 'VITS语音合成',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 100,

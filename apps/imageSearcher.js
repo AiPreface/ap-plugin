@@ -10,9 +10,6 @@ import {
 import {
 	parseImg
 } from '../utils/utils.js';
-import {
-	segment
-} from 'oicq'
 import Log from "../utils/Log.js";
 import fs from 'fs';
 import axios from 'axios';
@@ -39,7 +36,6 @@ export class ImageSearcher extends plugin {
 			name: 'AP-搜图',
 			/** 功能描述 */
 			dsc: '简单开发示例',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 5000,

@@ -22,7 +22,6 @@ export class nat2pmpt extends plugin {
 			name: 'AP-自然语言处理',
 			/** 功能描述 */
 			dsc: '自然语言转prompt',
-			/** https://oicqjs.github.io/oicq/#events */
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
 			priority: 1000,

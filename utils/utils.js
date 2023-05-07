@@ -17,7 +17,6 @@ import Log from "./Log.js";
 
 /**
  * 处理消息中的图片：当消息引用了图片，或者消息有@对象，则将对应图片放入e.img ，优先级==> e.source.img > e.img > e.at的头像 > bot头像
- * @param {*} e OICQ事件参数e
  * @return {*} 处理过后的e
  */
 export async function parseImg(e) {
@@ -103,7 +102,6 @@ export function getgsName(name) {
 /**
  * 获取指定用户的昵称。
  * 优先返回其在群内的名片，其次返回其QQ昵称，二者都空时返回QQ号
- * @param  e oicq传递的事件参数e
  * @param qq  指定的QQ号
  * @return {string} 获取到的昵称
  */

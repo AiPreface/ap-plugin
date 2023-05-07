@@ -1,15 +1,14 @@
 /*
  * @Author: 0卡苏打水
  * @Date: 2022-12-23 22:19:02
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-02 22:01:54
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-07 16:47:41
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\appreciate.js
  * @Description: 鉴赏图片获取tags
  */
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
-import { segment } from "oicq";
 import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
 import { parseImg } from '../utils/utils.js';
@@ -27,7 +26,6 @@ export class appreciate extends plugin {
             name: 'AP-鉴赏图片',
             /** 功能描述 */
             dsc: '鉴赏图片',
-            /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */
             priority: 5000,
