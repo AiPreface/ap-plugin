@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-09 17:01:53
+ * @LastEditTime: 2023-05-07 10:36:53
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -185,20 +185,27 @@ class Parse {
             param = tres.param
         }
 
-        // 取tags中的pt
-        let pt_reg = /(【.+?】)/
+        let pt_reg = /(【.+?】|<[^<>]+?>)/
         let pt = []
         let npt = []
         while (pt_reg.test(tags)) {
             let check_pt = pt_reg.exec(tags)
-            // Log.i(check_pt)  //
-            pt.push(check_pt[0].replace(/^【/, '').replace(/】$/, '').trim())
+            let pt_content = check_pt[0].replace(/^【|】$|<|>$/g, '').trim()
+            if (check_pt[0].startsWith('【')) {
+                pt.push(pt_content)
+            } else {
+                pt.push(`<${pt_content}>`)
+            }
             tags = tags.replace(check_pt[0], '')
         }
         while (pt_reg.test(ntags)) {
             let check_pt = pt_reg.exec(ntags)
-            // Log.i(check_pt)  //
-            npt.push(check_pt[0].replace(/^【/, '').replace(/】$/, '').trim())
+            let pt_content = check_pt[0].replace(/^【|】$|<|>$/g, '').trim()
+            if (check_pt[0].startsWith('【')) {
+                npt.push(pt_content)
+            } else {
+                npt.push(`<${pt_content}>`)
+            }
             ntags = ntags.replace(check_pt[0], '')
         }
         // Log.i(pt)

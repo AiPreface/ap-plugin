@@ -32,7 +32,7 @@ export class checkDependencies extends plugin {
           permission: "master",
         },
         {
-          reg: "^#ap安装(强制)?依赖$",
+          reg: "^#ap(强制)?安装依赖$",
           fnc: "installDependencies",
           permission: "master",
         },

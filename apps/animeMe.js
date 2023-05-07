@@ -2,7 +2,7 @@
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
  * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-05-02 14:32:34
+ * @LastEditTime: 2023-05-07 10:44:12
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
@@ -128,20 +128,20 @@ export class Anime_me extends plugin {
         }
         let paramdata = {
             param: {
-                sampler: 'DPM++ 2S a Karras',
+                sampler: 'DDIM',
                 strength: 0.6,
                 seed: -1,
                 scale: 11,
                 steps: 20,
-                width: txdsc ? 512 : base64 ? 768 : 512,
-                height: 768,
+                width: txdsc ? 768 : base64 ? 512 : 768,
+                height: 512,
                 tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en,
                 ntags: "",
                 base64: txdsc ? null : base64,
             },
             num: 1,
             rawtag: {
-                tags: dsc.en,
+                tags: dsc.en + ", (solo: 1.5)",
                 ntags: "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
             },
             specifyAPI: NaN,
