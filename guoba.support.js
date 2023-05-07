@@ -325,13 +325,31 @@ export function supportGuoba() {
           field: "policy.prohibitedUserList",
           label: "禁止使用的用户",
           bottomHelpMessage:
-            "封禁的用户QQ号，封禁的用户无法绘图，用英文逗号隔开",
-          component: "GSelectFriend",
+            "封禁的用户QQ号，封禁的用户无法绘图",
+          component: "GTags",
+          componentProps: {
+            placeholder: '请输入黑名单QQ',
+            allowAdd: true,
+            allowDel: true,
+            showPrompt: true,
+            promptProps: {
+              content: '请输入QQ号：',
+              placeholder: '请输入QQ号',
+              okText: '添加',
+              rules: [
+                {required: true, message: 'QQ号得填上才行哦~'},
+                {pattern: '^\\d+$', message: 'QQ号应该是纯数字的吧'},
+                {min: 5, message: '真的有这么短的QQ号吗？'},
+                {max: 10, message: '太…太长了……'},
+              ],
+            },
+            valueFormatter: ((value) => Number.parseInt(value)).toString(),
+          },
         },
         {
           field: "policy.apMaster",
           label: "AP管理员QQ号",
-          bottomHelpMessage: "AP管理员QQ号，用于更改相关设置，用英文逗号隔开",
+          bottomHelpMessage: "AP管理员QQ号，用于更改相关设置",
           component: "GSelectFriend",
         },
         {
