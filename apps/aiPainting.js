@@ -168,7 +168,8 @@ export class Ai_Painting extends plugin {
 
       // 如果简洁模式开启，则只发送图片
       if (concise_mode) {
-        e.reply(segment.image(`base64://${res.base64}`), true)
+        e.reply([segment.at(e.user_id),segment.image(`base64://${res.base64}`)])
+        this.addUsage(e.user_id, 1)
         return true
       } else {
         // 构建消息
