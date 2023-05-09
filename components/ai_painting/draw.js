@@ -335,9 +335,10 @@ async function constructRequestOption(param, apiobj) {
                 }
             }
             Log.i(`指定的采样器${param.sampler}：${exist ? '存在' : '不存在'}`)
-            if (!exist)
+            if (!exist) {
                 param.sampler = 'Euler a'
                 Log.i(`接口不存在该采样器，默认使用Euler a`)
+                }
         } catch (err) {
             param.sampler = 'Euler a'
             Log.i(`采样器列表请求出错，默认使用Euler a`)
