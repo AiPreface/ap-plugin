@@ -525,9 +525,17 @@ export function supportGuoba() {
             );
           }
         }
+        config = lodash.merge(Config.mergeConfig(), config);
         config.baidu_appid = parseInt(config.baidu_appid);
-        Config.setcfg(lodash.merge(Config.mergeConfig(), config));
-        Config.setPolicy(lodash.merge(Config.mergePolicy(), policy));
+        // 特殊处理数组
+        // 由于 lodash.merge 会将数组也合并，所以会导致删除的数据也被合并进去了，就删不掉了，所以这里数组需要直接赋值
+        config.APIList = data['config.APIList'];
+        Config.setcfg(config);
+
+        policy = lodash.merge(Config.mergePolicy(), policy);
+        // 特殊处理数组
+        policy.prohibitedUserList = data['policy.prohibitedUserList'];
+        Config.setPolicy(policy);
         return Result.ok({}, "保存成功~");
       },
     },
