@@ -107,7 +107,6 @@ export function getgsName(name) {
  */
 export async function getuserName(e, qq = null) {
     qq = qq || e.user_id
-    qq = Number(qq)
     if (e && e.isGroup) {
         try {
             let member = await Bot.getGroupMemberInfo(e.group_id, qq);
@@ -119,8 +118,7 @@ export async function getuserName(e, qq = null) {
             logger.error("[getuserName]", err);
         }
     }
-    let user = await Bot.pickUser(qq).getSimpleInfo();
-    return String(user.nickname || qq);
+    return String(e.sender.nickname || qq);
 }
 
 
