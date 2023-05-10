@@ -235,7 +235,7 @@ export class ControlNet extends plugin {
 
   async controlNetSetModel(e) {
     const api = await getAPI(e);
-    const model = e.msg.replace(/^#?控制网设置模型 /, '');
+    const model = e.msg.replace(/^#?控制网设置模型/, '');
     const res = await axios.get(api + '/controlnet/model_list');
     const data = res.data;
     let flag = false;
@@ -257,7 +257,7 @@ export class ControlNet extends plugin {
 
   async controlNetSetModule(e) {
     const api = await getAPI(e);
-    const module = e.msg.replace(/^#?控制网设置预处理器 /, '');
+    const module = e.msg.replace(/^#?控制网设置预处理器/, '');
     const res = await axios.get(api + '/controlnet/module_list');
     const data = res.data;
     let flag = false;
