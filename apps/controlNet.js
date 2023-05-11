@@ -69,7 +69,7 @@ export class ControlNet extends plugin {
       };
     }
 
-    const url = api + '/controlnet/txt2img';
+    const url = api + '/sdapi/v1/txt2img';
     let tags;
     if (e.msg) {
       tags = e.msg.replace(/^#?以图绘图/, '');
@@ -120,25 +120,17 @@ export class ControlNet extends plugin {
       "height": height,
       "width": width,
       "negative_prompt": "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry",
-      "sampler_index": paramData.sampler,
-      "controlnet_units": [{
-        "input_image": `data:image/png;base64,${base64}`,
-        "mask": "",
-        "module": config[e.user_id].module,
-        "model": config[e.user_id].model,
-        "weight": 1,
-        "resize_mode": "Scale to Fit (Inner Fit)",
-        "lowvram": false,
-        "processor_res": 64,
-        "threshold_a": 64,
-        "threshold_b": 64,
-        "guidance": 1,
-        "guidance_start": 0,
-        "guidance_end": 1,
-        "guessmode": false
-      }]
+      "sampler_name": paramData.sampler,
+      "alwayson_scripts": {
+        "controlnet": {
+          "args": [{
+            "input_image": ["data:image/png;base64," + base64],
+            "module": config[e.user_id].module,
+            "model": config[e.user_id].model,
+          }]
+        }
+      }
     };
-
     try {
       const response = await axios.post(url, data);
       await e.reply(segment.image(`base64://${response.data.images[0]}`), true);
