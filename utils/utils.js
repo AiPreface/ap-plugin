@@ -118,7 +118,13 @@ export async function getuserName(e, qq = null) {
             logger.error("[getuserName]", err);
         }
     }
-    return String(e.sender.nickname || qq);
+    let user
+    try {
+        user = await Bot.pickUser(qq).getSimpleInfo();
+    } catch (error) { 
+        user = (await e.bot.pickUser(user_id).getInfo()).nickname
+    }
+    return String(user || qq);
 }
 
 
