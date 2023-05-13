@@ -12,10 +12,11 @@ import moment from 'moment';
 import common from '../../../lib/common/common.js'
 import cfg from '../../../lib/config/config.js'
 import { getuserName } from '../utils/utils.js'
-import Pictools from '../utils/pic_tools.js';
+import { parseImg } from '../utils/utils.js';
 import Log from '../utils/Log.js'
 import { Parse, CD, Policy, Draw } from '../components/apidx.js';
 import Config from '../components/ai_painting/config.js';
+import _ from 'lodash';
 
 
 // 批量绘图的剩余张数
@@ -27,17 +28,30 @@ export class Ai_Painting extends plugin {
       name: "AP-AI绘图",
       dsc: "根据输入的文案AI作画",
       event: "message",
-      priority: 5000,
+      priority: 1009,
       rule: [
         {
           reg: "^#?绘图([\\s\\S]*)$",
           fnc: "aiPainting",
         },
+        {
+          reg: "^#?(再来一张|重画|重绘)$",
+          fnc: "again",
+        }
       ],
     });
   }
 
   async aiPainting(e) {
+    e = await parseImg(e)
+
+    const data = {
+      msg: e.msg,
+      img: e.img || null,
+    };
+    
+    await redis.set(`Yz:AiPainting:Again:${e.user_id}`, JSON.stringify(data));
+
     // 获取设置
     let setting = await Config.getSetting()
 
@@ -353,6 +367,19 @@ export class Ai_Painting extends plugin {
       return true
     }
   }
+
+async again(e) {
+  const usageData = await redis.get(`Yz:AiPainting:Again:${e.user_id}`);
+  if (!usageData) {
+    e.reply("太久远了，我也忘记上一次绘的图是什么了");
+    return false;
+  }
+  const { msg, img } = JSON.parse(usageData);
+  if (msg) e.msg = msg;
+  if (img) e.img = img;
+  await this.aiPainting(e);
+  return true;
+}
 
 
   /**指定用户使用次数加num次  
