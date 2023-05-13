@@ -15,7 +15,6 @@ import Config from '../components/ai_painting/config.js'
 import Parse from '../components/ai_painting/parse.js';
 import { chNum2Num, getuserName, parseImg } from '../utils/utils.js'
 import common from '../../../lib/common/common.js'
-import Log from '../utils/Log.js';
 import path from 'path';
 import fs from 'fs'
 const dirPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures');
@@ -46,6 +45,11 @@ export class LocalImg extends plugin {
                     reg: "^#?ap查水表(第(.*)页)?$",
                     fnc: "FBI",
                 },
+                {
+                    reg: "^#?ap(储存|存储)状态$",
+                    fnc: "checkLocalImg",
+                    permission: "master",
+                }
             ],
         });
     };
@@ -267,5 +271,27 @@ export class LocalImg extends plugin {
         }
         e.msg = `#ap检索图片${e.at}第${page}页`
         return this.searchLocalImg(e)
+    }
+
+    async checkLocalImg(e) {
+        let imageCount = 0;
+        let totalSize = 0;
+        function traverseFolder(currentPath) {
+            const files = fs.readdirSync(currentPath);
+            files.forEach(file => {
+                const filePath = path.join(currentPath, file);
+                const stats = fs.statSync(filePath);
+                if (stats.isDirectory()) {
+                    traverseFolder(filePath);
+                } else if (/\.(jpg|jpeg|png|gif)$/i.test(filePath)) {
+                    imageCount++;
+                    totalSize += stats.size;
+                }
+            });
+        }
+        traverseFolder(dirPath);
+        const sizeInMB = (totalSize / 1024 / 1024).toFixed(2);
+        e.reply(`本地共有${imageCount}张图片，总大小为${sizeInMB}MB。`);
+        return true;
     }
 }
