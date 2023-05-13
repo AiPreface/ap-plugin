@@ -72,7 +72,7 @@ class Parse {
         let paramcfg = await Config.getParse()
         let userparam = e.user_id in paramcfg ? paramcfg[e.user_id] : paramcfg.default
         // 对于没有出现的属性，使用默认值填充
-        txtparam = this.complete_txtparam(userparam ,txtparam)
+        txtparam = this.complete_txtparam(userparam, txtparam)
         // 如果指定了不存在的接口
         let config = await Config.getcfg()
         if (txtparam.specifyAPI > config.APIList.length)
@@ -182,29 +182,35 @@ class Parse {
             ntags = tres.ntags
             param = tres.param
         }
-
         let pt_reg = /(【.+?】|<[^<>]+?>)/
         let pt = []
         let npt = []
-        while (pt_reg.test(tags)) {
-            let check_pt = pt_reg.exec(tags)
-            let pt_content = check_pt[0].replace(/^【|】$|<|>$/g, '').trim()
-            if (check_pt[0].startsWith('【')) {
-                pt.push(pt_content)
-            } else {
-                pt.push(`<${pt_content}>`)
+        while (true) {
+            const check_tag = pt_reg.exec(tags)
+            if (!check_tag) {
+                break
             }
-            tags = tags.replace(check_pt[0], '')
+            const tag_content = check_tag[0].replace(/[【】<>]/g, '');
+            if (/<[^<>]+>/g.test(check_tag[0])) {
+                pt.push(`<${tag_content}>`)
+            } else if (/\【[^【\】]+\】/g.test(check_tag[0])) {
+                pt.push(tag_content)
+            }
+            tags = tags.replace(check_tag[0], '')
         }
-        while (pt_reg.test(ntags)) {
-            let check_pt = pt_reg.exec(ntags)
-            let pt_content = check_pt[0].replace(/^【|】$|<|>$/g, '').trim()
-            if (check_pt[0].startsWith('【')) {
-                npt.push(pt_content)
-            } else {
-                npt.push(`<${pt_content}>`)
+
+        while (true) {
+            const check_tag = pt_reg.exec(ntags)
+            if (!check_tag) {
+                break
             }
-            ntags = ntags.replace(check_pt[0], '')
+            const tag_content = check_tag[0].replace(/^【|】$|<|>$/g, '').trim()
+            if (/<[^<>]+>/g.test(check_tag[0])) {
+                npt.push(`<${tag_content}>`)
+            } else if (/\【[^【\】]+\】/g.test(check_tag[0])) {
+                npt.push(tag_content)
+            }
+            ntags = ntags.replace(check_tag[0], '')
         }
         // Log.i(pt)
         // Log.i(npt)
