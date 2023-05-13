@@ -19,7 +19,7 @@ export class Tools extends plugin {
             name: 'AP-小工具',
             dsc: 'ap-plugin提供的一些小工具',
             event: 'message',
-            priority: 4000,
+            priority: 1009,
             rule: [
                 {
                     reg: '^#?看?看头像$',
@@ -121,7 +121,7 @@ export class Tools extends plugin {
     async withdrawFn(e) {
         try {
             e.group.recallMsg(e.source.seq, e.source.rand);
-            e.group.recallMsg(e.message_id); 
+            e.group.recallMsg(e.message_id);
         } catch (err) { }
     }
 

@@ -39,7 +39,7 @@ export class example extends plugin {
 			dsc: '简单开发示例',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 50,
+			priority: 1009,
 			rule: [
 				{
 					/** 命令正则匹配 */
@@ -170,18 +170,18 @@ export class example extends plugin {
 			// 将图片base64转换为基于QQ图床的url
 			let url = await Pictools.base64_to_imgurl(resp.base64)
 			if (current_group_policy.isTellMaster) {
-			  let msg = [
-				"【aiPainting】不合规图片：\n",
-				segment.image(`base64://${resp.base64}`),
-				`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
-				`\n【Tags】：${paramdata.rawtag.tags}`,
-				`\n【nTags】：${paramdata.rawtag.ntags}`,
-			  ]
-			  Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+				let msg = [
+					"【aiPainting】不合规图片：\n",
+					segment.image(`base64://${resp.base64}`),
+					`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+					`\n【Tags】：${paramdata.rawtag.tags}`,
+					`\n【nTags】：${paramdata.rawtag.ntags}`,
+				]
+				Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
 			}
 			e.reply(["图片不合规，不予展示", `\n${resp.md5}`], true)
 			return true
-		  }
+		}
 
 		delete FiguretypeUser[e.user_id];
 		if (resp.code) {
@@ -275,18 +275,18 @@ export class example extends plugin {
 			// 将图片base64转换为基于QQ图床的url
 			let url = await Pictools.base64_to_imgurl(resp.base64)
 			if (current_group_policy.isTellMaster) {
-			  let msg = [
-				"【aiPainting】不合规图片：\n",
-				segment.image(`base64://${resp.base64}`),
-				`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
-				`\n【Tags】：${paramdata.rawtag.tags}`,
-				`\n【nTags】：${paramdata.rawtag.ntags}`,
-			  ]
-			  Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
+				let msg = [
+					"【aiPainting】不合规图片：\n",
+					segment.image(`base64://${resp.base64}`),
+					`\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
+					`\n【Tags】：${paramdata.rawtag.tags}`,
+					`\n【nTags】：${paramdata.rawtag.ntags}`,
+				]
+				Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
 			}
 			e.reply(["图片不合规，不予展示", `\n${resp.md5}`], true)
 			return true
-		  }
+		}
 
 		delete FiguretypeUser[e.user_id];
 		if (resp.code) {

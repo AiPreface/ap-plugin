@@ -29,7 +29,7 @@ export class RemoveBackground extends plugin {
             dsc: '图像去背景',
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     /** 命令正则匹配 */
@@ -59,7 +59,7 @@ export class RemoveBackground extends plugin {
             return true
         }
         e = await parseImg(e)
-        
+
         if (this.e.img) {
             e.reply('正在为图像去背景，请稍候...', false, { at: true, recallMsg: 15 })
             FiguretypeUser[e.user_id] = setTimeout(() => {

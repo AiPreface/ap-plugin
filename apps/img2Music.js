@@ -31,20 +31,20 @@ export class ImgToMusic extends plugin {
 			dsc: '简单开发示例',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 5000,
+			priority: 1009,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?(图像|图片)?(生成|转)音(频|乐).*$',
-					/** 执行方法 */
-					fnc: 'img_to_music'
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					log: false
-				}
+				/** 命令正则匹配 */
+				reg: '^#?(图像|图片)?(生成|转)音(频|乐).*$',
+				/** 执行方法 */
+				fnc: 'img_to_music'
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				log: false
+			}
 			]
 		})
 	}
@@ -93,19 +93,19 @@ export class ImgToMusic extends plugin {
 				}
 			}
 			await fetch(API, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						data: [
-							"data:image/png;base64," + base64,
-							time,
-							level,
-							type
-						]
-					})
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					data: [
+						"data:image/png;base64," + base64,
+						time,
+						level,
+						type
+					]
 				})
+			})
 				.then(r => r.json())
 				.then(
 					r => {

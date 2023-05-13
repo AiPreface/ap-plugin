@@ -15,7 +15,7 @@ export class branch extends plugin {
     super({
       name: "AP-切换版本",
       event: "message",
-      priority: 1000,
+      priority: 1009,
       rule: [
         {
           reg: "^#ap切换分支$",
@@ -94,36 +94,36 @@ export class branch extends plugin {
     }
     return true;
   }
-    /**
-   * 获取上次提交的commitId
+  /**
+ * 获取上次提交的commitId
+ * @param {string} plugin 插件名称
+ * @returns
+ */
+  async getcommitId(plugin = "") {
+    let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`;
+
+    let commitId = await execSync(cm, { encoding: "utf-8" });
+    commitId = lodash.trim(commitId);
+
+    return commitId;
+  }
+
+  /**
+   * 获取本次更新插件的最后一次提交时间
    * @param {string} plugin 插件名称
    * @returns
    */
-    async getcommitId(plugin = "") {
-      let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`;
-  
-      let commitId = await execSync(cm, { encoding: "utf-8" });
-      commitId = lodash.trim(commitId);
-  
-      return commitId;
+  async getTime(plugin = "") {
+    let cm = `cd ./plugins/${plugin}/ && git log -1 --oneline --pretty=format:"%cd" --date=format:"%m-%d %H:%M"`;
+
+    let time = "";
+    try {
+      time = await execSync(cm, { encoding: "utf-8" });
+      time = lodash.trim(time);
+    } catch (error) {
+      logger.error(error.toString());
+      time = "获取时间失败";
     }
-  
-    /**
-     * 获取本次更新插件的最后一次提交时间
-     * @param {string} plugin 插件名称
-     * @returns
-     */
-    async getTime(plugin = "") {
-      let cm = `cd ./plugins/${plugin}/ && git log -1 --oneline --pretty=format:"%cd" --date=format:"%m-%d %H:%M"`;
-  
-      let time = "";
-      try {
-        time = await execSync(cm, { encoding: "utf-8" });
-        time = lodash.trim(time);
-      } catch (error) {
-        logger.error(error.toString());
-        time = "获取时间失败";
-      }
-      return time;
-    }
+    return time;
+  }
 }

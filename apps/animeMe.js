@@ -22,7 +22,7 @@ export class Anime_me extends plugin {
             name: 'AP-二次元的我',
             dsc: '二次元的我',
             event: 'message',
-            priority: 4999,
+            priority: 1009,
             rule: [
                 {
                     reg: "^(#|%|/)?二次元的我?$", //匹配消息正则，命令正则
@@ -72,10 +72,10 @@ export class Anime_me extends plugin {
 
         // 构造绘图参数
         let paramdata = await this.construct_param(dsc)
-        let logMessage = (e.msg.startsWith('%') || e.msg.startsWith('/')) 
-                    ? "\n英文提示词：" + paramdata.param.tags 
-                    : "\n中文关键词：" + dsc.ch + "\n英文提示词：" + dsc.en;
-                    Log.i(logMessage);
+        let logMessage = (e.msg.startsWith('%') || e.msg.startsWith('/'))
+            ? "\n英文提示词：" + paramdata.param.tags
+            : "\n中文关键词：" + dsc.ch + "\n英文提示词：" + dsc.en;
+        Log.i(logMessage);
         let res = await Draw.get_a_pic(paramdata)
         if (res.code) {
             CD.clearCD(e)
@@ -186,7 +186,7 @@ export class Anime_me extends plugin {
         }
         else {
             e.reply('命令格式：\n#刷新二次元的我@用户\n或\n#全局刷新二次元的我')
-        } 
+        }
         return true
     }
 }

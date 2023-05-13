@@ -38,37 +38,37 @@ export class ImageSearcher extends plugin {
 			dsc: '简单开发示例',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 5000,
+			priority: 1009,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?(ap)?搜图$',
-					/** 执行方法 */
-					fnc: 'ImageSearcher'
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^[1-6]$',
-					/** 执行方法 */
-					fnc: 'ChooseImageSearcher',
-					/** 关闭日志 */
-					log: false
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^[A-D]$',
-					/** 执行方法 */
-					fnc: 'ChooseSetting',
-					/** 关闭日志 */
-					log: false
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					/** 关闭日志 */
-					log: false
-				}
+				/** 命令正则匹配 */
+				reg: '^#?(ap)?搜图$',
+				/** 执行方法 */
+				fnc: 'ImageSearcher'
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^[1-6]$',
+				/** 执行方法 */
+				fnc: 'ChooseImageSearcher',
+				/** 关闭日志 */
+				log: false
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^[A-D]$',
+				/** 执行方法 */
+				fnc: 'ChooseSetting',
+				/** 关闭日志 */
+				log: false
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				/** 关闭日志 */
+				log: false
+			}
 			]
 		})
 	}
@@ -79,7 +79,7 @@ export class ImageSearcher extends plugin {
 			fs.mkdirSync(Path)
 		} else {
 			let files = fs.readdirSync(Path)
-			files.forEach(function(file, index) {
+			files.forEach(function (file, index) {
 				let DelPath = Path + '/' + file
 				fs.unlinkSync(DelPath)
 			})
@@ -799,13 +799,13 @@ export class ImageSearcher extends plugin {
 }
 async function ImageBed(filename) {
 	return new Promise((resolve, reject) => {
-		request.post('https://0x0.st', function(err, resp, body) {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(body);
-				}
-			})
+		request.post('https://0x0.st', function (err, resp, body) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(body);
+			}
+		})
 			.form()
 			.append('file', fs.createReadStream(filename));
 	});

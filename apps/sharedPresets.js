@@ -25,7 +25,7 @@ export class example extends plugin {
 			name: 'AP-共享预设',
 			dsc: '简单开发示例',
 			event: 'message',
-			priority: 5000,
+			priority: 1009,
 			rule: [{
 				reg: '^#?导出预设$',
 				fnc: 'Share_preset',

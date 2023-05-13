@@ -12,7 +12,7 @@ export class SR extends plugin {
             name: "AP-大清晰术",
             dsc: "图片超分",
             event: "message",
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     reg: "^#?大清晰术([234二三四双]重吟?唱?)?(强力术式|中等术式|弱术式|不变式|原式)?$",

@@ -12,7 +12,7 @@ export class setSetting extends plugin {
             dsc: '设置设置',
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 999,
+            priority: 1009,
             rule: [
                 {
                     /** 命令正则匹配 */

@@ -5,7 +5,7 @@ import Log from '../utils/Log.js';
 import cfg from "../../../lib/config/config.js";
 
 export class ChangeModel extends plugin {
-  constructor () {
+  constructor() {
     super({
       /** 功能名称 */
       name: 'AP-模型切换',
@@ -13,7 +13,7 @@ export class ChangeModel extends plugin {
       dsc: '^模型切换',
       event: 'message',
       /** 优先级，数字越小等级越高 */
-      priority: 5000,
+      priority: 1009,
       rule: [
         {
           /** 命令正则匹配 */
@@ -81,38 +81,38 @@ export class ChangeModel extends plugin {
     });
     let send_res = null;
     if (e.isGroup)
-        send_res = await e.reply(await e.group.makeForwardMsg(data_msg));
+      send_res = await e.reply(await e.group.makeForwardMsg(data_msg));
     else send_res = await e.reply(await e.friend.makeForwardMsg(data_msg));
     if (!send_res) {
-        e.reply("消息发送失败，可能被风控~");
+      e.reply("消息发送失败，可能被风控~");
     }
     return true;
   }
 
   async VAEList(e) {
     try {
-    let apiurl = await get_apiurl();
-    let url = apiurl + '/sdapi/v1/options';
-    const headers = {
-      "Content-Type": "application/json"
-    };
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: headers
-    });
-    const optionsdata = await response.json();
-    let msg = ["正在使用的VAE：\n" + optionsdata['sd_vae'] + "\n\n可用VAE列表："];
-    let VAEList = await get_vae_list();
-    if (VAEList.length == 0) {
-      msg.push("\nVAE列表为空");
-    } else {
-      for (var i = 0; i < VAEList.length; i++) {
-        VAEList[i] = VAEList[i].replace(/^.*\//, '');
-        msg.push("\n" + VAEList[i]);
+      let apiurl = await get_apiurl();
+      let url = apiurl + '/sdapi/v1/options';
+      const headers = {
+        "Content-Type": "application/json"
+      };
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: headers
+      });
+      const optionsdata = await response.json();
+      let msg = ["正在使用的VAE：\n" + optionsdata['sd_vae'] + "\n\n可用VAE列表："];
+      let VAEList = await get_vae_list();
+      if (VAEList.length == 0) {
+        msg.push("\nVAE列表为空");
+      } else {
+        for (var i = 0; i < VAEList.length; i++) {
+          VAEList[i] = VAEList[i].replace(/^.*\//, '');
+          msg.push("\n" + VAEList[i]);
+        }
       }
-    }
-    e.reply(msg, true);
-    return true;
+      e.reply(msg, true);
+      return true;
     } catch (error) {
       Log.e(error);
       e.reply("获取VAE列表失败", true);
@@ -161,7 +161,7 @@ export class ChangeModel extends plugin {
         headers: headers
       });
       const optionsdata = await response.json();
-      if (optionsdata){
+      if (optionsdata) {
         e.reply("模型切换失败", true);
       } else {
         e.reply("模型切换成功", true);
@@ -172,52 +172,52 @@ export class ChangeModel extends plugin {
 
   async changeVAE(e) {
     try {
-    let apiurl = await get_apiurl();
-    let VAE = e.msg.replace(/^#?切换(VAE|vae|Vae)/, '');
-    VAE = VAE.trim();
-    if (VAE == "") {
-      e.reply("VAE不能为空", true);
-      return true;
-    }
-    let VAEList = await get_vae_list();
-    if (VAEList == ["当前接口WebUI设置了密码，无法获取VAE列表"]) {
-      e.reply("当前接口WebUI设置了密码，无法获取VAE列表并切换", true);
-      return true;
-    }
-    Log.i("模型列表是" + VAEList);
-    Log.i("要切换的模型是" + VAE);
-    let VAEPrefix = VAEList.filter(function (item) {
-      return item.indexOf(VAE) == 0;
-    });
-    Log.i("匹配的模型是" + VAEPrefix);
-    if (VAEPrefix.length == 0) {
-      e.reply("模型不存在", true);
-      return false;
-    } else if (VAEPrefix.length > 1) {
-      e.reply("模型名不唯一", true);
-      return false;
-    } else {
-      e.reply("正在切换模型，请耐心等待\n请不要随意切换不属于自己的接口，这会导致该接口所有用户的模型被切换！！！", true)
-      let url = apiurl + '/sdapi/v1/options';
-      let data = {
-        "sd_vae": VAEPrefix[0]
-      };
-      const headers = {
-        "Content-Type": "application/json"
-      };
-      let response = await fetch(url, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: headers
-      });
-      const optionsdata = await response.json();
-      if (optionsdata){
-        e.reply("VAE切换失败", true);
-      } else {
-        e.reply("VAE切换成功", true);
+      let apiurl = await get_apiurl();
+      let VAE = e.msg.replace(/^#?切换(VAE|vae|Vae)/, '');
+      VAE = VAE.trim();
+      if (VAE == "") {
+        e.reply("VAE不能为空", true);
+        return true;
       }
-    }
-    return true;
+      let VAEList = await get_vae_list();
+      if (VAEList == ["当前接口WebUI设置了密码，无法获取VAE列表"]) {
+        e.reply("当前接口WebUI设置了密码，无法获取VAE列表并切换", true);
+        return true;
+      }
+      Log.i("模型列表是" + VAEList);
+      Log.i("要切换的模型是" + VAE);
+      let VAEPrefix = VAEList.filter(function (item) {
+        return item.indexOf(VAE) == 0;
+      });
+      Log.i("匹配的模型是" + VAEPrefix);
+      if (VAEPrefix.length == 0) {
+        e.reply("模型不存在", true);
+        return false;
+      } else if (VAEPrefix.length > 1) {
+        e.reply("模型名不唯一", true);
+        return false;
+      } else {
+        e.reply("正在切换模型，请耐心等待\n请不要随意切换不属于自己的接口，这会导致该接口所有用户的模型被切换！！！", true)
+        let url = apiurl + '/sdapi/v1/options';
+        let data = {
+          "sd_vae": VAEPrefix[0]
+        };
+        const headers = {
+          "Content-Type": "application/json"
+        };
+        let response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: headers
+        });
+        const optionsdata = await response.json();
+        if (optionsdata) {
+          e.reply("VAE切换失败", true);
+        } else {
+          e.reply("VAE切换成功", true);
+        }
+      }
+      return true;
     } catch (error) {
       e.reply("VAE切换失败", true);
       return true;

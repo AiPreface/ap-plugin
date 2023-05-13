@@ -35,20 +35,20 @@ export class animedb extends plugin {
 			dsc: '识别动漫人物',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 5000,
+			priority: 1009,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?(ap)?识别$',
-					/** 执行方法 */
-					fnc: 'animedb'
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					log: false
-				}
+				/** 命令正则匹配 */
+				reg: '^#?(ap)?识别$',
+				/** 执行方法 */
+				fnc: 'animedb'
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				log: false
+			}
 			]
 		})
 	}
@@ -60,7 +60,7 @@ export class animedb extends plugin {
 				fs.mkdirSync(Path)
 			} else {
 				let files = fs.readdirSync(Path)
-				files.forEach(function(file, index) {
+				files.forEach(function (file, index) {
 					let DelPath = Path + '/' + file
 					fs.unlinkSync(DelPath)
 				})

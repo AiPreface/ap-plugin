@@ -24,7 +24,7 @@ export class ControlNet extends plugin {
       name: 'AP-控制网',
       dsc: '控制网',
       event: 'message',
-      priority: 50,
+      priority: 1009,
       rule: [
         {
           reg: '^#?以图绘图(.*)$',

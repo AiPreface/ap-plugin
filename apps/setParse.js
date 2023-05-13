@@ -12,7 +12,7 @@ export class set_parse extends plugin {
     super({
       name: "AP-设置默认参数",
       event: "message",
-      priority: 1000,
+      priority: 1009,
       rule: [
         {
           reg: "^#ap设置(全局)?默认(.*)$",
@@ -40,7 +40,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].sampler = e.msg.match(/采样方法(.*)/)[1];
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -56,7 +56,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].steps = Number(e.msg.match(/迭代次数(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -72,7 +72,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].width = Number(e.msg.match(/宽度(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -88,7 +88,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].height = Number(e.msg.match(/高度(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -104,7 +104,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].scale = Number(e.msg.match(/提示词相关性(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -120,7 +120,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].strength = Number(e.msg.match(/重绘幅度(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -136,7 +136,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].hr_upscaler = e.msg.match(/放大算法(.*)/)[1];
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -152,7 +152,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].hr_second_pass_steps = Number(e.msg.match(/高清修复步数(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -168,7 +168,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].hr_second_pass_strength = Number(e.msg.match(/高清修复重绘幅度(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -184,13 +184,13 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].hr_scale = Number(e.msg.match(/高清修复放大倍数(.*)/)[1]);
         } else {
           e.reply("您没有权限设置全局默认参数", true);
           return true;
         }
-       } else {
+      } else {
         parseData[e.user_id].hr_scale = Number(e.msg.match(/高清修复放大倍数(.*)/)[1]);
       }
     } else if (e.msg.match(/高清修复/)) {
@@ -200,7 +200,7 @@ export class set_parse extends plugin {
         return true;
       }
       if (e.msg.match(/全局/)) {
-        if(cfg.masterQQ.includes(e.user_id)) {
+        if (cfg.masterQQ.includes(e.user_id)) {
           parseData["default"].enable_hr = e.msg.match(/高清修复(.*)/)[1] == "开启" ? true : false;
         } else {
           e.reply("您没有权限设置全局默认参数", true);
@@ -223,7 +223,7 @@ export class set_parse extends plugin {
     let parseDataUser;
     let msg = "";
     if (e.msg.match(/全局/)) {
-      if(cfg.masterQQ.includes(e.user_id)) {
+      if (cfg.masterQQ.includes(e.user_id)) {
         parseDataUser = parseData["default"];
       } else {
         e.reply("您没有权限查看全局默认参数", true);
@@ -264,5 +264,5 @@ async function initialization(e) {
       hr_scale: 2
     };
   }
-fs.writeFileSync(parsePath, YAML.stringify(parseData));
+  fs.writeFileSync(parsePath, YAML.stringify(parseData));
 }

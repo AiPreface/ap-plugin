@@ -22,7 +22,7 @@ export class apHelp extends plugin {
             dsc: 'AP助手，对服务器进行额外操作',
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 4999,
+            priority: 1009,
             rule: [
                 {
                     /** 命令正则匹配 */
@@ -90,7 +90,8 @@ export class apHelp extends plugin {
                 headers: {
                     Authorization: key
                 }
-            }, { timeout: 10000
+            }, {
+                timeout: 10000
             }).catch(err => {
                 if (err.response == undefined) {
                     e.reply(`设置失败，连接超时`, true)
@@ -127,11 +128,12 @@ export class apHelp extends plugin {
                 form.append('type', type);
                 form.append('file_url', file_url);
                 let response = await axios.post(`${server}/download`, form,
-                {
-                    headers: {
-                        Authorization: key
-                    }
-                }, { timeout: 10000
+                    {
+                        headers: {
+                            Authorization: key
+                        }
+                    }, {
+                        timeout: 10000
                 }).catch(err => {
                     Log.e(err)
                     if (err.response == undefined) {
@@ -168,7 +170,8 @@ export class apHelp extends plugin {
             headers: {
                 Authorization: key
             }
-        }, { timeout: 10000
+        }, {
+            timeout: 10000
         }).catch(err => {
             if (err.response == undefined) {
                 e.reply(`查询失败，连接超时`, true)
@@ -207,7 +210,8 @@ export class apHelp extends plugin {
                 headers: {
                     Authorization: key
                 }
-            }, { timeout: 10000
+            }, {
+                timeout: 10000
             }).catch(err => {
                 if (err.response == undefined) {
                     e.reply(`停止失败，连接超时`, true)

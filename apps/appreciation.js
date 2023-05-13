@@ -28,7 +28,7 @@ export class appreciate extends plugin {
             dsc: '鉴赏图片',
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     /** 命令正则匹配 */
@@ -154,7 +154,7 @@ export async function requestAppreciate(base64) {
     } catch (err) {
         Log.e(err)
         Log.e('解析失败')
-        e.reply("鉴赏出错，请查看控制台报错" , true)
+        e.reply("鉴赏出错，请查看控制台报错", true)
         return false
     }
 }

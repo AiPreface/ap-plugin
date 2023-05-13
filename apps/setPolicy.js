@@ -21,7 +21,7 @@ export class setpolicy extends plugin {
             name: "AP-策略",
             dsc: "更改AiPainting策略",
             event: "message",
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     reg: "^#ap设置全局(cd|CD)(\\d{1,5})$",

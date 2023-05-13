@@ -21,7 +21,7 @@ export class associate extends plugin {
 			dsc: 'Tags联想',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 1000,
+			priority: 1009,
 			rule: [{
 				/** 命令正则匹配 */
 				reg: '^#联想.*$',
@@ -36,11 +36,11 @@ export class associate extends plugin {
 			const response = await axios.get(`https://tags.ap-plugin.com/index/listTags?chineseTags=${msg}`, {
 				timeout: 10000
 			});
-            const data = response.data;
+			const data = response.data;
 			let str = ''
 			let num = 1
 			let data_msg = []
-            let ForwardMsg
+			let ForwardMsg
 			for (let i in data) {
 				str += '╓ 结果' + num + '\n';
 				str += '╟ 中文：' + i + '\n';

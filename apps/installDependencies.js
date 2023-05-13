@@ -24,7 +24,7 @@ export class checkDependencies extends plugin {
     super({
       name: "AP-安装依赖",
       event: "message",
-      priority: 1000,
+      priority: 1009,
       rule: [
         {
           reg: "^#ap检查依赖$",

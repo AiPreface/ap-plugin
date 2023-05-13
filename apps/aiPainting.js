@@ -49,7 +49,7 @@ export class Ai_Painting extends plugin {
       msg: e.msg,
       img: e.img || null,
     };
-    
+
     await redis.set(`Yz:AiPainting:Again:${e.user_id}`, JSON.stringify(data));
 
     // 获取设置
@@ -368,18 +368,18 @@ export class Ai_Painting extends plugin {
     }
   }
 
-async again(e) {
-  const usageData = await redis.get(`Yz:AiPainting:Again:${e.user_id}`);
-  if (!usageData) {
-    e.reply("太久远了，我也忘记上一次绘的图是什么了");
-    return false;
+  async again(e) {
+    const usageData = await redis.get(`Yz:AiPainting:Again:${e.user_id}`);
+    if (!usageData) {
+      e.reply("太久远了，我也忘记上一次绘的图是什么了");
+      return false;
+    }
+    const { msg, img } = JSON.parse(usageData);
+    if (msg) e.msg = msg;
+    if (img) e.img = img;
+    await this.aiPainting(e);
+    return true;
   }
-  const { msg, img } = JSON.parse(usageData);
-  if (msg) e.msg = msg;
-  if (img) e.img = img;
-  await this.aiPainting(e);
-  return true;
-}
 
 
   /**指定用户使用次数加num次  

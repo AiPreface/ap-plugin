@@ -26,7 +26,7 @@ export class LocalImg extends plugin {
             name: "AP-本地图片管理",
             dsc: "本地图片管理",
             event: "message",
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     reg: "^#?ap检索(本地)?图片([\\s\\S]*)(第(.*)页)?$",

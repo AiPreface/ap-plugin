@@ -31,16 +31,16 @@ export class Say extends plugin {
 			dsc: 'VITS语音合成',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 100,
+			priority: 1009,
 			rule: [{
 				/** 命令正则匹配 */
 				reg: '^合成.*语音.*$',
 				/** 执行方法 */
 				fnc: 'VITS',
-			},{
-        reg: '^发音人列表$',
-        fnc: 'LIST'
-      } ]
+			}, {
+				reg: '^发音人列表$',
+				fnc: 'LIST'
+			}]
 		})
 	}
 
@@ -74,8 +74,8 @@ export class Say extends plugin {
 			model = 12
 		} else if (model13.includes(speaker)) {
 			model = 13
-    } else if (model14.includes(speaker)) {
-      model = 14
+		} else if (model14.includes(speaker)) {
+			model = 14
 		} else {
 			e.reply("没有这个发音人哦！请发送“发音人列表”查看发音人列表");
 			return false;
@@ -228,146 +228,146 @@ export class Say extends plugin {
 			}
 		});
 	}
-  async LIST(e) {
-    let ForwardMsg;
-    let data_msg = [];
-    data_msg.push({
-      message: "系列名称：サノバウィッチ & 千恋＊万花 & RIDDLE JOKER\n发音人数量：" + model1.length + "\n支持语言：ja\n发音人列表：\n◉" + model1.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：ハミダシクリエイティブ\n发音人数量：" + model2.length + "\n支持语言：ja\n发音人列表：\n◉" + model2.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：喫茶（カフェ）ステラと死神の蝶\n发音人数量：" + model3.length + "\n支持语言：ja\n发音人列表：\n◉" + model3.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：ヨスガノソラ\n发音人数量：" + model4.length + "\n支持语言：ja\n发音人列表：\n◉" + model4.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：美少女万華鏡\n发音人数量：" + model5.length + "\n支持语言：ja\n发音人列表：\n◉" + model5.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：綾地寧々+在原七海+小茸+唐乐吟\n发音人数量：" + model6.length + "\n支持语言：ja/zh-CHS\n发音人列表：\n◉" + model6.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：당신을 기다리는 여우\n发音人数量：" + model7.length + "\n支持语言：ko\n发音人列表：\n◉" + model7.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：13 Galgame Characters\n发音人数量：" + model8.length + "\n支持语言：ja\n发音人列表：\n◉" + model8.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：ゼロの使い魔\n发音人数量：" + model9.length + "\n支持语言：ja\n发音人列表：\n◉" + model9.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：DRACU-RIOT!\n发音人数量：" + model10.length + "\n支持语言：ja\n发音人列表：\n◉" + model10.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：To LOVEる\n发音人数量：" + model11.length + "\n支持语言：ja\n发音人列表：\n◉" + model11.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：CJKS (Multi-Language)\n发音人数量：" + model12.length + "\n支持语言：zh-CHS/ja/ko/san/en\n发音人列表：\n◉" + model12.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    data_msg.push({
-      message: "系列名称：ウマ娘\n发音人数量：" + model14.length + "\n支持语言：ja\n发音人列表：\n◉" + model14.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    if (e.isGroup) {
-      ForwardMsg = await e.group.makeForwardMsg(data_msg);
-    }
-    else {
-      ForwardMsg = await e.friend.makeForwardMsg(data_msg);
-    }
-    e.reply(ForwardMsg);
-    data_msg = [];
-    for (let i = 0; i < model13.length; i += 800) {
-      let model13_10 = model13.slice(i, i + 800);
-    data_msg.push({
-      // 发音人过多，分四次发送
-      message: "系列名称：Voistock (2891 Anime characters)\n发音人数量：" + model13.length + "\n支持语言：zh-CHS/ja/ko/en\n发音人列表：\n◉" + model13_10.join("\n◉"),
-      nickname: Bot.nickname,
-      user_id: Bot.uin
-    });
-    if (e.isGroup) {
-      ForwardMsg = await e.group.makeForwardMsg(data_msg);
-    }
-    else {
-      ForwardMsg = await e.friend.makeForwardMsg(data_msg);
-    }
-    e.reply(ForwardMsg);
-    data_msg = [];
-  }
-  }
+	async LIST(e) {
+		let ForwardMsg;
+		let data_msg = [];
+		data_msg.push({
+			message: "系列名称：サノバウィッチ & 千恋＊万花 & RIDDLE JOKER\n发音人数量：" + model1.length + "\n支持语言：ja\n发音人列表：\n◉" + model1.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：ハミダシクリエイティブ\n发音人数量：" + model2.length + "\n支持语言：ja\n发音人列表：\n◉" + model2.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：喫茶（カフェ）ステラと死神の蝶\n发音人数量：" + model3.length + "\n支持语言：ja\n发音人列表：\n◉" + model3.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：ヨスガノソラ\n发音人数量：" + model4.length + "\n支持语言：ja\n发音人列表：\n◉" + model4.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：美少女万華鏡\n发音人数量：" + model5.length + "\n支持语言：ja\n发音人列表：\n◉" + model5.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：綾地寧々+在原七海+小茸+唐乐吟\n发音人数量：" + model6.length + "\n支持语言：ja/zh-CHS\n发音人列表：\n◉" + model6.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：당신을 기다리는 여우\n发音人数量：" + model7.length + "\n支持语言：ko\n发音人列表：\n◉" + model7.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：13 Galgame Characters\n发音人数量：" + model8.length + "\n支持语言：ja\n发音人列表：\n◉" + model8.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：ゼロの使い魔\n发音人数量：" + model9.length + "\n支持语言：ja\n发音人列表：\n◉" + model9.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：DRACU-RIOT!\n发音人数量：" + model10.length + "\n支持语言：ja\n发音人列表：\n◉" + model10.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：To LOVEる\n发音人数量：" + model11.length + "\n支持语言：ja\n发音人列表：\n◉" + model11.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：CJKS (Multi-Language)\n发音人数量：" + model12.length + "\n支持语言：zh-CHS/ja/ko/san/en\n发音人列表：\n◉" + model12.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		data_msg.push({
+			message: "系列名称：ウマ娘\n发音人数量：" + model14.length + "\n支持语言：ja\n发音人列表：\n◉" + model14.join("\n◉"),
+			nickname: Bot.nickname,
+			user_id: Bot.uin
+		});
+		if (e.isGroup) {
+			ForwardMsg = await e.group.makeForwardMsg(data_msg);
+		}
+		else {
+			ForwardMsg = await e.friend.makeForwardMsg(data_msg);
+		}
+		e.reply(ForwardMsg);
+		data_msg = [];
+		for (let i = 0; i < model13.length; i += 800) {
+			let model13_10 = model13.slice(i, i + 800);
+			data_msg.push({
+				// 发音人过多，分四次发送
+				message: "系列名称：Voistock (2891 Anime characters)\n发音人数量：" + model13.length + "\n支持语言：zh-CHS/ja/ko/en\n发音人列表：\n◉" + model13_10.join("\n◉"),
+				nickname: Bot.nickname,
+				user_id: Bot.uin
+			});
+			if (e.isGroup) {
+				ForwardMsg = await e.group.makeForwardMsg(data_msg);
+			}
+			else {
+				ForwardMsg = await e.friend.makeForwardMsg(data_msg);
+			}
+			e.reply(ForwardMsg);
+			data_msg = [];
+		}
+	}
 }
 
 async function Translate(text, lang) {
-    const qs = obj => Object.entries(obj).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&");
-    const appVersion = "5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4750.0";
-    const headers = {
-      Host: "fanyi.youdao.com",
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102",
-      Referer: "https://fanyi.youdao.com/",
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      Cookie: "OUTFOX_SEARCH_USER_ID_NCOO=133190305.98519628; OUTFOX_SEARCH_USER_ID=\"2081065877@10.169.0.102\";",
-    };
-    const api = "https://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule";
-    const key = "Ygy_4c=r#e#4EX^NUGUc5";
-    const lts = Date.now().toString();
-    const salt = `${lts}${Math.floor(10 * Math.random())}`;
-    const sign = md5(`fanyideskweb${text}${salt}${key}`);
-    const data = {
-      i: text,
-      from: "AUTO",
-      to: lang,
-      smartresult: "dict",
-      client: "fanyideskweb",
-      salt,
-      sign,
-      lts,
-      bv: md5(appVersion),
-      doctype: "json",
-      version: "2.1",
-      keyfrom: "fanyi.web",
-      action: "FY_BY_DEFAULT",
-    };
-    try {
-      const res = await fetch(api, {
-        method: "POST",
-        body: qs(data),
-        headers,
-      });
-      const { errorCode, translateResult } = await res.json();
-      if (errorCode !== 0) {
-        return false;
-      }
-      const translated = lodash.flattenDeep(translateResult)?.map(item => item.tgt).join("\n");
-      return translated || false;
-    } catch (e) {
-      Log.e("【椰奶有道翻译报错】:", e);
-      return false;
-    }
-  }
+	const qs = obj => Object.entries(obj).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join("&");
+	const appVersion = "5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4750.0";
+	const headers = {
+		Host: "fanyi.youdao.com",
+		"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102",
+		Referer: "https://fanyi.youdao.com/",
+		"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+		Cookie: "OUTFOX_SEARCH_USER_ID_NCOO=133190305.98519628; OUTFOX_SEARCH_USER_ID=\"2081065877@10.169.0.102\";",
+	};
+	const api = "https://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule";
+	const key = "Ygy_4c=r#e#4EX^NUGUc5";
+	const lts = Date.now().toString();
+	const salt = `${lts}${Math.floor(10 * Math.random())}`;
+	const sign = md5(`fanyideskweb${text}${salt}${key}`);
+	const data = {
+		i: text,
+		from: "AUTO",
+		to: lang,
+		smartresult: "dict",
+		client: "fanyideskweb",
+		salt,
+		sign,
+		lts,
+		bv: md5(appVersion),
+		doctype: "json",
+		version: "2.1",
+		keyfrom: "fanyi.web",
+		action: "FY_BY_DEFAULT",
+	};
+	try {
+		const res = await fetch(api, {
+			method: "POST",
+			body: qs(data),
+			headers,
+		});
+		const { errorCode, translateResult } = await res.json();
+		if (errorCode !== 0) {
+			return false;
+		}
+		const translated = lodash.flattenDeep(translateResult)?.map(item => item.tgt).join("\n");
+		return translated || false;
+	} catch (e) {
+		Log.e("【椰奶有道翻译报错】:", e);
+		return false;
+	}
+}

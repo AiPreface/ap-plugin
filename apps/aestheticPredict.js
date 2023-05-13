@@ -32,21 +32,21 @@ export class score extends plugin {
 			dsc: '^动漫审美预测',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 0,
+			priority: 1009,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?(二次元美学|动漫审美预测)$',
-					/** 执行方法 */
-					fnc: 'score',
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					/** 日志 */
-					log: false,
-				}
+				/** 命令正则匹配 */
+				reg: '^#?(二次元美学|动漫审美预测)$',
+				/** 执行方法 */
+				fnc: 'score',
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				/** 日志 */
+				log: false,
+			}
 			]
 		})
 	}
@@ -73,16 +73,16 @@ export class score extends plugin {
 			let base64 = Buffer.from(img.data, 'binary')
 				.toString('base64');
 			await fetch(API, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						data: [
-							"data:image/png;base64," + base64
-						]
-					})
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					data: [
+						"data:image/png;base64," + base64
+					]
 				})
+			})
 				.then(r => r.json())
 				.then(
 					r => {
@@ -93,7 +93,7 @@ export class score extends plugin {
 							.toFixed(2)
 						e.reply(`预测结果：${score}分，耗时：${time}秒`, true)
 						delete FiguretypeUser[e.user_id]
-					}, ).catch(error => {
+					},).catch(error => {
 						Log.e(error)
 						e.reply('预测失败，请重试')
 						delete FiguretypeUser[e.user_id]

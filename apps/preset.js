@@ -23,7 +23,7 @@ export class setpreset extends plugin {
             name: "AP-预设",
             dsc: "更改AiPainting策略",
             event: "message",
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     reg: "^#ap添加预设([\\s\\S]+)$",

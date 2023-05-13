@@ -17,7 +17,7 @@ export class update extends plugin {
     super({
       name: "AP-更新插件",
       event: "message",
-      priority: 1000,
+      priority: 1009,
       rule: [
         {
           reg: "^#ap(插件)?(强制)?更新$",

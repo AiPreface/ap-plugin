@@ -21,57 +21,57 @@ export class set extends plugin {
 			name: "AP-设置",
 			dsc: "更改AiPainting设置",
 			event: "message",
-			priority: 5000,
+			priority: 1009,
 			rule: [{
-					reg: "^#ap(添加|新增|录入)接口",
-					fnc: "addapi",
-					permission: "master",
-				},
-				{
-					reg: "^#ap设置接口(\\d{1,3})$",
-					fnc: "selectapi",
-					permission: "master",
-				},
-				{
-					reg: "^#ap设置接口(\\d{1,3})账号(.+)密码(.+)$",
-					fnc: "set_sd_info",
-					permission: "master",
-				},
-				{
-					reg: "^#ap删除接口(\\d{1,3})$",
-					fnc: "delapi",
-					permission: "master",
-				},
-				{
-					reg: "^#ap设置(鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口|OpenAI密钥).+",
-					fnc: "setother",
-					permission: "master",
-				},
-				{
-					reg: "^#ap设置百度(appid|apikey|secretkey).+",
-					fnc: "setBaiduKey",
-					permission: "master",
-				},
-				{
-					reg: "^#ap设置(百度|有道)翻译(id|key).+",
-					fnc: "setTranslateToken",
-					permission: "master",
-				},
-				{
-					reg: "^#ap接口列表$",
-					fnc: "apilist",
-					// permission: "master",
-				},
-				{
-					reg: "^#ap设置$",
-					fnc: "config",
-					permission: "master",
-				},
-				{
-					reg: "^#采样器列表$",
-					fnc: "samplerlist",
-					// permission: "master",
-				},
+				reg: "^#ap(添加|新增|录入)接口",
+				fnc: "addapi",
+				permission: "master",
+			},
+			{
+				reg: "^#ap设置接口(\\d{1,3})$",
+				fnc: "selectapi",
+				permission: "master",
+			},
+			{
+				reg: "^#ap设置接口(\\d{1,3})账号(.+)密码(.+)$",
+				fnc: "set_sd_info",
+				permission: "master",
+			},
+			{
+				reg: "^#ap删除接口(\\d{1,3})$",
+				fnc: "delapi",
+				permission: "master",
+			},
+			{
+				reg: "^#ap设置(鉴赏接口|大清晰术接口|检查ai接口|去背景接口|动漫化接口|图片转音乐接口|二次元美学接口|OpenAI密钥).+",
+				fnc: "setother",
+				permission: "master",
+			},
+			{
+				reg: "^#ap设置百度(appid|apikey|secretkey).+",
+				fnc: "setBaiduKey",
+				permission: "master",
+			},
+			{
+				reg: "^#ap设置(百度|有道)翻译(id|key).+",
+				fnc: "setTranslateToken",
+				permission: "master",
+			},
+			{
+				reg: "^#ap接口列表$",
+				fnc: "apilist",
+				// permission: "master",
+			},
+			{
+				reg: "^#ap设置$",
+				fnc: "config",
+				permission: "master",
+			},
+			{
+				reg: "^#采样器列表$",
+				fnc: "samplerlist",
+				// permission: "master",
+			},
 
 			],
 		});
@@ -84,7 +84,7 @@ export class set extends plugin {
 		if (regp[2].includes('localhost')) {
 			regp[2] = regp[2].replace('localhost', '127.0.0.1')
 		}
-		
+
 		if (!regp) {
 			e.reply("命令格式：#ap添加接口[接口地址]备注[接口备注]\n例如:\n     #ap添加接口http://example.com:7860备注V100")
 			return true
@@ -95,7 +95,7 @@ export class set extends plugin {
 
 		if (api.endsWith('/'))
 			api = api.replace(/\/$/, "")
-			.trim()
+				.trim()
 
 		if (/hf.space/.test(api))
 			return e.reply("大清晰术和鉴赏的接口无法用于绘图哦，详见https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE")
@@ -254,15 +254,15 @@ export class set extends plugin {
 				try {
 					let ginfo = await Bot.getGroupInfo(Number(gid))
 					gname = ginfo ? ginfo.group_name : '未知群聊'
-				} catch (err) {}
+				} catch (err) { }
 				msg_.push(`\n\n[${gname}]` + (e.isPrivate && e.isMaster ? `(${gid})` : '') + '：')
 			}
 			for (let val of Object.keys(gp[gid])) {
 				let opt = val == 'enable' ? "\n      启用ap：" :
 					val == 'JH' ? "\n      启用图片审核：" :
-					val == 'isRecall' ? "\n      自动撤回图片：" :
-					val == 'isBan' ? "\n      封禁使用屏蔽词绘图的用户：" :
-					''
+						val == 'isRecall' ? "\n      自动撤回图片：" :
+							val == 'isBan' ? "\n      封禁使用屏蔽词绘图的用户：" :
+								''
 				if (opt) {
 					msg_.push(opt + `${gp[gid][val] ? '是' : '否'}`)
 					continue
@@ -270,8 +270,8 @@ export class set extends plugin {
 
 				opt = val == 'gcd' ? "\n      群聊内共享CD：" :
 					val == 'pcd' ? "\n      个人CD：" :
-					val == 'recallDelay' ? "\n      自动撤回延时：" :
-					''
+						val == 'recallDelay' ? "\n      自动撤回延时：" :
+							''
 				if (opt) {
 					msg_.push(opt + `${gp[gid][val]}秒`)
 					continue
@@ -329,10 +329,10 @@ export class set extends plugin {
 			return this.writecfg(anime_aesthetic_predict, 'anime_aesthetic_predict')
 		}
 
-        let openai_key = openai_key_reg.exec(e.msg)
-        if (openai_key) {
-            return this.writecfg(openai_key, 'openai_key')
-        }
+		let openai_key = openai_key_reg.exec(e.msg)
+		if (openai_key) {
+			return this.writecfg(openai_key, 'openai_key')
+		}
 		return false
 	}
 
@@ -350,7 +350,7 @@ export class set extends plugin {
 			.replace(/\/$/, "")
 		if ((type == "img_to_music") && !value.endsWith('/')) value = value + '/'
 		if ((type == "anime_aesthetic_predict") && !value.endsWith('/')) value = value + '/'
-        if (type == "openai_key") value = value.replace(/\/$/, "")
+		if (type == "openai_key") value = value.replace(/\/$/, "")
 
 		// if (type == 'appreciate' || type == 'ai_detect')
 		//     if (!value.endsWith('predict'))
