@@ -149,7 +149,6 @@ export class Ai_Painting extends plugin {
       // 图片违规
       if (res.isnsfw) {
         // 将图片base64转换为基于QQ图床的url
-        let url = await Pictools.base64_to_imgurl(res.base64)
         if (current_group_policy.isTellMaster) {
           let msg = [
             "【aiPainting】不合规图片：\n",
@@ -169,21 +168,24 @@ export class Ai_Painting extends plugin {
       // 如果简洁模式开启，则只发送图片
       if (concise_mode) {
         const elapsed = (end - start) / 1000;
-        e.reply([segment.at(e.user_id),segment.image(`base64://${res.base64}`), `生成总耗时${elapsed.toFixed(2)}秒`])
+        e.reply([segment.at(e.user_id), segment.image(`base64://${res.base64}`), `生成总耗时${elapsed.toFixed(2)}秒`])
         this.addUsage(e.user_id, 1)
         return true
       } else {
         // 构建消息
         // Log.w(paramdata.param)
         let info = [
-          `seed=${res.seed}`,
-          paramdata.param.sampler != 'Euler a' ? `\nsampler=${paramdata.param.sampler}` : '',
-          paramdata.param.steps != 22 ? `\nsteps=${paramdata.param.steps}` : '',
-          paramdata.param.scale != 11 ? `\nscale=${paramdata.param.scale}` : '',
-          paramdata.param.strength != 0.6 ? `\nstrength=${paramdata.param.strength}` : '',
-          paramdata.param.tags ? `\n${paramdata.param.tags}` : '',
-          paramdata.param.ntags ? `\n\nNTAGS=${paramdata.param.ntags}` : "",
-        ].join('')
+          `迭代步数：${res.info.steps}`,
+          res.info.denoising_strength ? `重绘幅度：${res.info.denoising_strength}` : "",
+          `采样方法：${res.info.sampler_index == null ? res.info.sampler_name : res.info.sampler_index}`,
+          `分辨率：${res.info.enable_hr ? `${res.info.width * res.info.hr_scale} x ${res.info.height * res.info.hr_scale}` : `${res.info.width} x ${res.info.height}`}`,
+          `提示词引导系数：${res.info.cfg_scale}`,
+          `随机种子：${res.info.seed}`,
+          res.info.enable_hr ? `高清修复算法：${res.info.hr_upscaler}` : "",
+          res.info.enable_hr ? `高清修复步数：${res.info.hr_second_pass_steps}` : "",
+          `正面：${res.info.prompt}`,
+          `反面：${res.info.negative_prompt}`,
+        ].join('\n')
         let msg = [
           usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
           segment.image(`base64://${res.base64}`),
@@ -194,7 +196,7 @@ export class Ai_Painting extends plugin {
           msg.push('\n' + info);
           info = null;
         }
-  
+
         // 发送消息，发送失败清除CD，发送成功记录一次使用
         let sendRes = await e.reply(msg, true, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
         if (!sendRes) {
@@ -247,7 +249,7 @@ export class Ai_Painting extends plugin {
         }
 
         // 获取一张图片
-        let res = await Draw.get_a_pic(paramdata)
+        var res = await Draw.get_a_pic(paramdata)
 
         // 图片损坏或审核超时或响应超时
         if (res.code == 21 || res.code == 32 || res.code == 504) {
@@ -293,18 +295,20 @@ export class Ai_Painting extends plugin {
 
         remaining_tasks--;
       }
-
       // 在合并消息中加入图片信息 
       data_msg.push({
         message: [
-          paramdata.param.seed == -1 ? '' : `seed=${paramdata.param.seed}\n`,
-          `sampler=${paramdata.param.sampler}\n`,
-          `steps=${paramdata.param.steps}\n`,
-          `scale=${paramdata.param.scale}\n`,
-          `strength=${paramdata.param.strength}\n`,
-          paramdata.param.tags ? `${paramdata.param.tags}` : '',
-          paramdata.param.ntags ? `\nNTAGS=${paramdata.param.ntags}` : "",
-        ],
+          `迭代步数：${res.info.steps}`,
+          res.info.denoising_strength ? `重绘幅度：${res.info.denoising_strength}` : "",
+          `采样方法：${res.info.sampler_index == null ? res.info.sampler_name : res.info.sampler_index}`,
+          `分辨率：${res.info.enable_hr ? `${res.info.width * res.info.hr_scale} x ${res.info.height * res.info.hr_scale}` : `${res.info.width} x ${res.info.height}`}`,
+          `提示词引导系数：${res.info.cfg_scale}`,
+          `随机种子：${res.info.seed}`,
+          res.info.enable_hr ? `高清修复算法：${res.info.hr_upscaler}` : "",
+          res.info.enable_hr ? `高清修复步数：${res.info.hr_second_pass_steps}` : "",
+          `正面：${res.info.prompt}`,
+          `反面：${res.info.negative_prompt}`,
+        ].join("\n"),
         nickname: Bot.nickname,
         user_id: cfg.qq,
       });

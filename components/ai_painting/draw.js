@@ -230,7 +230,8 @@ class Draw {
             seed: resparam.seed,
             size: picinfo.size,
             md5: picinfo.md5,
-            base64: base64
+            base64: base64,
+            info: res.parameters,
         }
     }
 
