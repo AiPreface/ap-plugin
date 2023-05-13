@@ -120,9 +120,9 @@ export async function getuserName(e, qq = null) {
     }
     let user
     try {
-        user = await Bot.pickUser(qq).getSimpleInfo();
+        user = (await Bot.pickUser(qq).getSimpleInfo()).nickname
     } catch (error) { 
-        user = (await e.bot.pickUser(user_id).getInfo()).nickname
+        user = (await e.bot.pickUser(qq).getInfo()).nickname
     }
     return String(user || qq);
 }
