@@ -138,4 +138,18 @@ export class GetLora extends plugin {
         return true;
     }
 }
-; async function _(BIh1) { let API = BIh1['\x75\x72\x6c']; if (!API['\x65\x6e\x64\x73\x57\x69\x74\x68']('\x2f')) { API = API + '\x2f' } let options = { '\x68\x65\x61\x64\x65\x72\x73': { '\x61\x63\x63\x65\x70\x74': '\x61\x70\x70\x6c\x69\x63\x61\x74\x69\x6f\x6e\x2f\x6a\x73\x6f\x6e' } }; if (BIh1['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + BIh1['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await axios['\x67\x65\x74'](API + `sdapi/v1/Lora`, options) };
+async function _(BIh1) {
+    let API = BIh1['url'];
+    if (!API.endsWith('/')) {
+        API += '/';
+    }
+    let options = {
+        headers: {
+            'accept': 'application/json'
+        }
+    };
+    if (BIh1['account_password'] && BIh1['account_id']) {
+        options.headers['Authorization'] = `Basic ${Buffer.from(BIh1['account_id'] + ':' + BIh1['account_password'], 'utf8').toString('base64')}`
+    }
+    return await axios.get(API + `sdapi/v1/Lora`, options);
+};
