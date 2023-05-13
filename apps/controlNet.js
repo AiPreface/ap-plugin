@@ -51,10 +51,10 @@ export class ControlNet extends plugin {
           fnc: 'controlNetSetModule'
         },
         {
-					reg: '^.*$',
-					fnc: 'getImage',
-					log: false
-				}
+          reg: '^.*$',
+          fnc: 'getImage',
+          log: false
+        }
       ]
     });
   }
@@ -89,13 +89,13 @@ export class ControlNet extends plugin {
     } else {
       e.reply('请在60s内发送的图片~', true);
       msgList[e.user_id] = e.msg.replace(/^#?以图绘图/, '');
-			getImagetime[e.user_id] = setTimeout(() => {
-				if (getImagetime[e.user_id]) {
-					e.reply('已超时，请再次发送命令~', true);
-					delete getImagetime[e.user_id];
-				}
-			}, 60000);
-			return false;
+      getImagetime[e.user_id] = setTimeout(() => {
+        if (getImagetime[e.user_id]) {
+          e.reply('已超时，请再次发送命令~', true);
+          delete getImagetime[e.user_id];
+        }
+      }, 60000);
+      return false;
     }
 
     if (height > 2048 || width > 2048) {
@@ -106,6 +106,7 @@ export class ControlNet extends plugin {
     e.reply(`● 正在使用ControlNet生成图片\n◎ 使用预处理器：${config[e.user_id].module}\n◎ 使用模型：${config[e.user_id].model}`);
 
     let paramData = parseData[e.user_id] || parseData.default;
+    let setting = await Config.getSetting()
 
     const data = {
       "enable_hr": paramData.enable_hr,
@@ -113,20 +114,26 @@ export class ControlNet extends plugin {
       "hr_scale": paramData.hr_scale,
       "hr_upscaler": paramData.hr_upscaler,
       "hr_second_pass_steps": paramData.hr_second_pass_steps,
-      "prompt": tags,
+      "prompt": tags + setting.def_prompt,
       "seed": -1,
       "steps": paramData.steps,
       "cfg_scale": paramData.scale,
       "height": height,
       "width": width,
-      "negative_prompt": "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry",
+      "negative_prompt": setting.def_negativeprompt,
       "sampler_name": paramData.sampler,
       "alwayson_scripts": {
         "controlnet": {
           "args": [{
-            "input_image": ["data:image/png;base64," + base64],
+            "input_image": "data:image/png;base64," + base64,
             "module": config[e.user_id].module,
             "model": config[e.user_id].model,
+            "weight": 1,
+            "resize_mode": "Scale to Fit (Inner Fit)",
+            "lowvram": false,
+            "processor_res": Math.sqrt(height * width),
+            "threshold_a": 100,
+            "threshold_b": 250,
           }]
         }
       }
@@ -134,7 +141,7 @@ export class ControlNet extends plugin {
     try {
       const response = await axios.post(url, data);
       await e.reply(segment.image(`base64://${response.data.images[0]}`), true);
-      sendMsg(e, [`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 使用的模型：${config[e.user_id].model}\n◎ 蒙版图片：`,segment.image(`base64://${response.data.images[1]}`)]);
+      sendMsg(e, [`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 使用的模型：${config[e.user_id].model}\n◎ 蒙版图片：`, segment.image(`base64://${response.data.images[1]}`)]);
       return true;
     } catch (error) {
       e.reply('生成失败', true);
@@ -165,7 +172,7 @@ export class ControlNet extends plugin {
       width = picInfo.width;
     } else {
       e.reply('请携带图片使用该功能', true);
-			return true;
+      return true;
     }
 
     if (height > 2048 || width > 2048) {
@@ -182,7 +189,7 @@ export class ControlNet extends plugin {
     }
     try {
       const res = await axios.post(api + '/controlnet/detect', data);
-      e.reply([`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 蒙版图片：`,segment.image(`base64://${res.data.images[0]}`)]);
+      e.reply([`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 蒙版图片：`, segment.image(`base64://${res.data.images[0]}`)]);
       return true;
     } catch (error) {
       e.reply('生成失败', true);
@@ -269,20 +276,20 @@ export class ControlNet extends plugin {
     }
   }
   async getImage(e) {
-		if (!this.e.img) {
-			return false;
-		}
-		if (getImagetime[e.user_id]) {
-			clearTimeout(getImagetime[e.user_id]);
-			delete getImagetime[e.user_id];
-		} else {
-			return false;
-		}
-		let result = await this.controlNet(e);
-		if (result) {
-			return true;
-		}
-	}
+    if (!this.e.img) {
+      return false;
+    }
+    if (getImagetime[e.user_id]) {
+      clearTimeout(getImagetime[e.user_id]);
+      delete getImagetime[e.user_id];
+    } else {
+      return false;
+    }
+    let result = await this.controlNet(e);
+    if (result) {
+      return true;
+    }
+  }
 }
 
 async function sendMsg(e, msg) {
@@ -305,7 +312,7 @@ async function getAPI(e) {
   let config = await Config.getcfg()
   if (config.APIList.length == 0) {
     e.reply(`当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明`)
-      return true
+    return true
   }
   let api = config.APIList[config.usingAPI - 1].url
   return api
