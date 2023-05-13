@@ -57,14 +57,14 @@ export class GetLora extends plugin {
             //     return e.reply(`接口${index}：${apiobj.remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`)
             // }
             if (err.response.data.detail == 'Not Found') {
-                return e.reply(`接口${index}：${apiobj.remark} ：未安装Dreambooth插件，无法获取Lora列表`)
+                return e.reply(`接口${index}：${apiobj.remark} ：没有可用的Lora接口`)
             }
             return e.reply('拉取失败')
         }
         if (response.status != 200) {
             return e.reply('拉取失败')
         }
-        let data = response.data
+        let data = response.data.Loras
         if (!data) {
             e.reply('拉取失败')
             return false
@@ -92,12 +92,12 @@ export class GetLora extends plugin {
         }
 
         if (lora_list.length == 0)
-            return e.reply(`当前接口还没有添加${keyword ? `包含关键词【${keyword}】的` : ""}lora文件哦`)
+            return e.reply(`当前接口还没有添加${keyword ? `包含关键词【${keyword}】的` : ""}Lora文件哦`)
 
         // 计算预设页数（99条每页）
         let page_count = Math.ceil(lora_list.length / 99);
         if (page > page_count)
-            return e.reply(`当前接口中${keyword ? `包含关键词【${keyword}】` : ""}的lora共${page_count}页哦`);
+            return e.reply(`当前接口中${keyword ? `包含关键词【${keyword}】` : ""}的Lora共${page_count}页哦`);
 
         // 取出指定的一页预设
         let selected_page = [];
@@ -107,9 +107,9 @@ export class GetLora extends plugin {
         // 构建合并消息数组
         let data_msg = [];
         // 首条说明信息
-        let first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}lora列表，共${lora_list.length}条`]
+        let first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}Lora列表，共${lora_list.length}条`]
         if (page_count > 1)
-            first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}lora列表，第${page}/${page_count}页，共${lora_list.length}条。您可发送\n#pt列表${keyword}第1页\n#pt列表${keyword}第2页\n……\n来查看对应页\n\n※pt使用方式：直接作为tag使用即可。若pt包含中文，请连同【中括号】一同复制，以避免被翻译`]
+            first_message = [`${keyword ? `包含关键词【${keyword}】的` : ""}Lora列表，第${page}/${page_count}页，共${lora_list.length}条。您可发送\n#Lora列表${keyword}第1页\n#Lora列表${keyword}第2页\n……\n来查看对应页\n`]
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,
@@ -138,4 +138,4 @@ export class GetLora extends plugin {
         return true;
     }
 }
-;async function _(BIh1){let API=BIh1['\x75\x72\x6c'];if(!API['\x65\x6e\x64\x73\x57\x69\x74\x68']('\x2f')){API=API+'\x2f'}let options={'\x68\x65\x61\x64\x65\x72\x73':{'\x61\x63\x63\x65\x70\x74':'\x61\x70\x70\x6c\x69\x63\x61\x74\x69\x6f\x6e\x2f\x6a\x73\x6f\x6e'}};if(BIh1['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']){options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e']=`Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0]+'\x3a'+BIh1['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'],'\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}`}return await axios['\x67\x65\x74'](API+`dreambooth/models_lora`,options)};
+;async function _(BIh1){let API=BIh1['\x75\x72\x6c'];if(!API['\x65\x6e\x64\x73\x57\x69\x74\x68']('\x2f')){API=API+'\x2f'}let options={'\x68\x65\x61\x64\x65\x72\x73':{'\x61\x63\x63\x65\x70\x74':'\x61\x70\x70\x6c\x69\x63\x61\x74\x69\x6f\x6e\x2f\x6a\x73\x6f\x6e'}};if(BIh1['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']){options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e']=`Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0]+'\x3a'+BIh1['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'],'\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}`}return await axios['\x67\x65\x74'](API+`sdapi/v1/Lora`,options)};
