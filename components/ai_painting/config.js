@@ -23,6 +23,7 @@ class Config {
         this.initCfg()
         this.synccfg()
         this.syncplc()
+        this.syncset()
         this.sync_api_format()
     }
 
@@ -61,6 +62,15 @@ class Config {
         policy.gp.global = await this.syncobj(policy.gp.global, defpolicy.gp.global)
         // policy.gp.private = await this.syncobj(policy.gp.private, defpolicy.gp.private)
         this.setPolicy(policy)
+    }
+    // 同步设置
+    async syncset() {
+        let setting = await this.getSetting()
+        let defsetting = await YAML.parse(
+            fs.readFileSync(path.join(`${Plugin_Path}/config/default_config/`, 'setting.yaml'), "utf8")
+        );
+        setting = await this.syncobj(setting, defsetting)
+        this.setSetting(setting)
     }
     // 同步/config和/default_config中的属性
     async syncobj(config, defconfig) {

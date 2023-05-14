@@ -12,6 +12,9 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { parseImg } from '../utils/utils.js';
 import cfg from "../../../lib/config/config.js";
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+
+const _path = process.cwd();
 
 export class Tools extends plugin {
     constructor() {
@@ -40,6 +43,10 @@ export class Tools extends plugin {
                 {
                     reg: "^#?ap文档$",
                     fnc: "apDoc",
+                },
+                {
+                    reg: "^#?ap(全局|本群|我的)词云$",
+                    fnc: "apWordCloud",
                 }
             ]
         })
@@ -127,6 +134,31 @@ export class Tools extends plugin {
 
     async apDoc(e) {
         e.reply("https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE", true)
+        return true
+    }
+    async apWordCloud(e) {
+        if (e.at) e.user_id = e.at
+        let type = e.msg.match(/(全局|本群|我的)/)[1]
+        if (!e.group_id && type == '本群') return e.reply('请在相应群聊使用本指令', true)
+        let tags = await redis.get(`Yz:AiPainting:TagsUsage:${type == '我的' ? e.user_id : type == '本群' ? e.group_id : 'Global'}`)
+        if (!tags) return e.reply('暂无数据', true)
+        tags = JSON.parse(tags)
+        let tagCloud = []
+        for (let tag in tags) {
+            tagCloud.push({
+                word: tag,
+                weight: tags[tag]
+            })
+        }
+        tagCloud.sort((a, b) => b.value - a.value)
+        let data = {
+            quality: 90,
+            tplFile: `./plugins/ap-plugin/resources/textrank/textrank.html`,
+            pluResPath: `${_path}/plugins/ap-plugin/resources/`,
+            chartData: JSON.stringify(tagCloud)
+        }
+        let img = await puppeteer.screenshot('textrank', data)
+        e.reply(img)
         return true
     }
 }

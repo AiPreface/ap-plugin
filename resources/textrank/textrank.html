@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<link rel="shortcut icon" href="#" />
+	<link rel="stylesheet" type="text/css" href="{{pluResPath}}textrank/textrank.css" />
+	<link rel="preload" href="https://unpkg.com/@antv/g2plot@latest/dist/g2plot.min.js" as="script" />
+</head>
+
+<body>
+	<div class="container" id="container">
+		<div class="data_box">
+			<div id="chartContainer"></div>
+		</div>
+
+		<div class="logo">Created By Yunzai-Bot & AP-Plugin</div>
+
+	</div>
+</body>
+<script type="text/javascript" src="https://unpkg.com/@antv/g2plot@latest/dist/g2plot.min.js"></script>
+<script>
+	const { WordCloud } = G2Plot;
+
+	const chartData = JSON.parse(`{{@ chartData}}`);
+
+	const wc = new WordCloud("chartContainer", {
+		data: chartData,
+		wordField: 'word',
+		weightField: 'weight',
+		colorField: 'word',
+		animation: false,
+		autoFit:true,
+		wordStyle: {
+			fontFamily: 'Verdana',
+			fontSize: [18, 50],
+		},
+	});
+	wc.render();
+
+</script>
+
+</html>

@@ -127,6 +127,41 @@ export class Ai_Painting extends plugin {
     if (paramdata.param.npt.length)
       paramdata.param.ntags = `${paramdata.param.npt.join(',')},` + paramdata.param.ntags
 
+    // 记录使用Tags与次数
+    try {
+      const userId = String(e.user_id).trim()
+      const groupId = e.group_id ? String(e.group_id).trim() : null
+      const tags = paramdata.param.tags.replace(/[\(\)\[\]\{\}\s]|:\d(\.\d)?/g, '').split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tag.length > 0)
+      const tagUsages = {
+        user: await redis.get(`Yz:AiPainting:TagsUsage:${userId}`) || '{}',
+        group: groupId ? await redis.get(`Yz:AiPainting:TagsUsage:${groupId}`) || '{}' : '{}',
+        global: await redis.get(`Yz:AiPainting:TagsUsage:Global`) || '{}'
+      }
+      tagUsages.user = JSON.parse(tagUsages.user)
+      tagUsages.group = JSON.parse(tagUsages.group)
+      tagUsages.global = JSON.parse(tagUsages.global)
+      tags.forEach(tag => {
+        tagUsages.user[tag] = (tagUsages.user[tag] || 0) + 1
+        tagUsages.group[tag] = (tagUsages.group[tag] || 0) + 1
+        tagUsages.global[tag] = (tagUsages.global[tag] || 0) + 1
+      })
+      tagUsages.user = JSON.stringify(tagUsages.user)
+      tagUsages.group = JSON.stringify(tagUsages.group)
+      tagUsages.global = JSON.stringify(tagUsages.global)
+      const multi = redis.multi()
+      multi.set(`Yz:AiPainting:TagsUsage:${userId}`, tagUsages.user)
+      if (groupId) {
+        multi.set(`Yz:AiPainting:TagsUsage:${groupId}`, tagUsages.group)
+      }
+      multi.set(`Yz:AiPainting:TagsUsage:Global`, tagUsages.global)
+      await multi.exec()
+    } catch (err) {
+      Log.w(err)
+    }
+    
+    
     // 检测屏蔽词
     let prohibitedWords = []
     if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1) {
