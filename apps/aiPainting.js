@@ -213,10 +213,10 @@ export class Ai_Painting extends plugin {
       }
 
       let concise_mode = setting.concise_mode
-
+      const elapsed = (end - start) / 1000;
+      
       // 如果简洁模式开启，则只发送图片
       if (concise_mode) {
-        const elapsed = (end - start) / 1000;
         e.reply([segment.at(e.user_id), segment.image(`base64://${res.base64}`), `生成总耗时${elapsed.toFixed(2)}秒`])
         this.addUsage(e.user_id, 1)
         return true
@@ -234,7 +234,8 @@ export class Ai_Painting extends plugin {
           res.info.enable_hr ? `高清修复步数：${res.info.hr_second_pass_steps}` : "",
           `正面：${res.info.prompt}`,
           `反面：${res.info.negative_prompt}`,
-        ].join('\n')
+          `耗时：${elapsed.toFixed(2)}秒`,
+        ].filter(Boolean).join('\n');
         let msg = [
           usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
           segment.image(`base64://${res.base64}`),
