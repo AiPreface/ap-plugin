@@ -16,7 +16,7 @@ export class setSetting extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置默认负面.*',
+                    reg: '^#ap设置负面.*',
                     /** 执行方法 */
                     fnc: 'setNegative',
                     /** 主人权限 */
@@ -24,7 +24,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置默认正面.*',
+                    reg: '^#ap设置正面.*',
                     /** 执行方法 */
                     fnc: 'setPositive',
                     /** 主人权限 */
@@ -52,7 +52,7 @@ export class setSetting extends plugin {
 
     async setNegative(e) {
         let setting = await Config.getSetting();
-        let negativePrompt = e.msg.replace('#ap设置默认负面', '').trim();
+        let negativePrompt = e.msg.replace('#ap设置负面', '').trim();
         setting.def_negativeprompt = negativePrompt;
         Config.setSetting(setting);
         e.reply(`全局负面已设置为：${negativePrompt}，每次绘画时会自动使用该负面Prompt`);
@@ -61,7 +61,7 @@ export class setSetting extends plugin {
 
     async setPositive(e) {
         let setting = await Config.getSetting();
-        let positivePrompt = e.msg.replace('#ap设置默认正面', '').trim();
+        let positivePrompt = e.msg.replace('#ap设置正面', '').trim();
         setting.def_prompt = positivePrompt;
         Config.setSetting(setting);
         e.reply(`全局正面已设置为：${positivePrompt}，每次绘画时会自动使用该正面Prompt`);
