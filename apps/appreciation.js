@@ -48,9 +48,14 @@ export class appreciate extends plugin {
     }
 
     async appreciate(e) {
-        if (!API)
-            return await e.reply("请先配置鉴赏图片所需API，配置教程：https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T")
-        await AppreciatePictures(e)
+        let setting = await Config.getSetting()
+        if (!setting.appreciation.useSD) {
+            if (!API)
+                return await e.reply("请先配置鉴赏图片所需API，配置教程：https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T")
+            await AppreciatePictures(e)
+        } else {
+            await AppreciatePictures(e)
+        }
     }
     async getImage(e) {
         if (!this.e.img) {
@@ -84,11 +89,16 @@ async function AppreciatePictures(e) {
             }
         }, 60000);
 
-        await e.reply([segment.at(e.user_id), '少女鉴赏中~（*/∇＼*）', true])
-
         let base64 = await pic_tools.url_to_base64(e.img[0])
-
-        let msg = await requestAppreciate(base64)
+        let setting = await Config.getSetting()
+        let model = setting.appreciation.model
+        if (setting.appreciation.useSD) {
+            await e.reply([segment.at(e.user_id), `少女使用标签器${model}鉴赏中~（*/∇＼*）`, true])
+            var msg = await requestAppreciateSD(base64)
+        } else {
+            await e.reply([segment.at(e.user_id), '少女使用DeepDanbooru鉴赏中~（*/∇＼*）', true])
+            var msg = await requestAppreciate(base64)
+        }
         if (!msg) {
             e.reply("鉴赏出错，请查看控制台报错")
             return true
@@ -154,7 +164,54 @@ export async function requestAppreciate(base64) {
     } catch (err) {
         Log.e(err)
         Log.e('解析失败')
-        e.reply("鉴赏出错，请查看控制台报错", true)
+        return false
+    }
+}
+
+/**使用图片base64来逆向解析tags，返回整理后的tags
+ * @param {*} base64 图片base64
+ * @return {*}  解析的tags
+ */
+export async function requestAppreciateSD(base64) {
+    let setting = await Config.getSetting()
+    let config = await Config.getcfg()
+    let apiobj = config.APIList[config.usingAPI - 1]
+    let url = apiobj.url + '/tagger/v1/interrogate';
+    const headers = {
+        "Content-Type": "application/json"
+    };
+    if (apiobj.account_password) {
+        headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+    }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                "image": "data:image/png;base64," + base64,
+                "model": setting.appreciation.model,
+                "threshold": 0.3,
+            })
+        });
+        const json = await response.json();
+        console.log(json)
+        let tags_str = '';
+        for (let i in json.caption) {
+            if (json.caption[i] > 0.98) {
+                tags_str += `(${i}: 1.2), `;
+            } else if (json.caption[i] > 0.95 && json.caption[i] < 0.98) {
+                tags_str += `(${i}: 1.1), `;
+            } else if (json.caption[i] > 0.9 && json.caption[i] < 0.95) {
+                tags_str += `(${i}), `;
+            } else {
+                tags_str += `${i}, `;
+            }
+        }
+        Log.i('解析成功')
+        return tags_str
+    } catch (err) {
+        Log.e(err)
+        Log.e('解析失败')
         return false
     }
 }

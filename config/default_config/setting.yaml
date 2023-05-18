@@ -6,3 +6,9 @@ def_negativeprompt: EasyNegative, nsfw, lowres, bad anatomy, bad hands, text,
   quality, normal quality, jpeg artifacts, signature, watermark, username,
   blurry
 debug: false
+appreciation:
+  useSD: false
+  model: wd14-vit-v2-git
+realesrgan:
+  model1: R-ESRGAN 4x+ Anime6B
+  model2: R-ESRGAN 4x+ Photo2K

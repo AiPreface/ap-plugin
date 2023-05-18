@@ -2,10 +2,11 @@ import plugin from "../../../lib/plugins/plugin.js";
 import fs from "fs";
 import YAML from "yaml";
 import cfg from "../../../lib/config/config.js";
+import Config from '../components/ai_painting/config.js';
+import Log from '../utils/Log.js';
+import axios from "axios";
 
 const parsePath = process.cwd() + "\/plugins\/ap-plugin\/config\/config\/parse.yaml";
-const samplerList = ['Euler a', 'Euler', 'PLMS', 'LMS Karras', 'LMS', 'Heun', 'DPM fast', 'DPM adaptive', 'DPM2 Karras', 'DPM2 a Karras', 'DPM2 a', 'DPM2', 'DDIM', 'DPM++ 2S a Karras', 'DPM++ 2S a', 'DPM++ 2M Karras', 'DPM++ 2M', 'DPM++ SDE Karras', 'DPM++ SDE', 'UniPC'];
-const upscalerList = ['Latent', 'Latent (antialiased)', 'Latent (bicubic)', 'Latent (bicubic antialiased)', 'Latent (nearest)', 'Latent (nearest-exact)', '无', 'Lanczos', '最邻近(整数缩放)', 'BSRGAN', 'ESRGAN_4x', 'LDSR', 'R-ESRGAN 4x+', 'R-ESRGAN 4x+ Anime6B', 'SwinIR_4x'];
 
 export class set_parse extends plugin {
   constructor() {
@@ -15,7 +16,7 @@ export class set_parse extends plugin {
       priority: 1009,
       rule: [
         {
-          reg: "^#ap设置(全局)?默认(.*)$",
+          reg: "^#ap设置(全局)?默认(采样方法|迭代次数|宽度|高度|提示词相关性|重绘幅度|高清修复|放大算法|高清修复步数|高清修复重绘幅度|高清修复放大倍数).*",
           fnc: "set_parse",
         },
         {
@@ -27,6 +28,8 @@ export class set_parse extends plugin {
   }
 
   async set_parse(e) {
+    const samplerList = await getSamplers();
+    const upscalerList = await getUpscalers();
     initialization(e);
     let parseData = YAML.parse(fs.readFileSync(parsePath, "utf8"));
     if (!parseData[e.user_id]) {
@@ -265,4 +268,56 @@ async function initialization(e) {
     };
   }
   fs.writeFileSync(parsePath, YAML.stringify(parseData));
+}
+
+async function getSamplers() {
+  let config = await Config.getcfg()
+  let apiobj = config.APIList[config.usingAPI - 1]
+  let url = apiobj.url + '/sdapi/v1/samplers';
+  const headers = {
+    "Content-Type": "application/json"
+  };
+  if (apiobj.account_password) {
+    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+  }
+  try {
+    let res = await axios.get(url, {
+      headers: headers
+    });
+    res = res.data
+    let samplerlist = []
+    for (let i = 0; i < res.length; i++) {
+      samplerlist.push(res[i].name)
+    }
+    return samplerlist
+  } catch (err) {
+    Log.w("获取采样器列表失败，使用默认采样器列表", err)
+    return ['Euler a', 'Euler', 'PLMS', 'LMS Karras', 'LMS', 'Heun', 'DPM fast', 'DPM adaptive', 'DPM2 Karras', 'DPM2 a Karras', 'DPM2 a', 'DPM2', 'DDIM', 'DPM++ 2S a Karras', 'DPM++ 2S a', 'DPM++ 2M Karras', 'DPM++ 2M', 'DPM++ SDE Karras', 'DPM++ SDE', 'UniPC'];
+  }
+}
+
+async function getUpscalers() {
+  let config = await Config.getcfg()
+  let apiobj = config.APIList[config.usingAPI - 1]
+  let url = apiobj.url + '/sdapi/v1/upscalers';
+  const headers = {
+    "Content-Type": "application/json"
+  };
+  if (apiobj.account_password) {
+    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+  }
+  try {
+    let res = await axios.get(url, {
+      headers: headers
+    });
+    res = res.data
+    let upscalerlist = []
+    for (let i = 0; i < res.length; i++) {
+      upscalerlist.push(res[i].name)
+    }
+    return upscalerlist
+  } catch (err) {
+    Log.w("获取放大算法列表失败，使用默认列表", err)
+    return ['Latent', 'Latent (antialiased)', 'Latent (bicubic)', 'Latent (bicubic antialiased)', 'Latent (nearest)', 'Latent (nearest-exact)', '无', 'Lanczos', '最邻近(整数缩放)', 'BSRGAN', 'ESRGAN_4x', 'LDSR', 'R-ESRGAN 4x+', 'R-ESRGAN 4x+ Anime6B', 'SwinIR_4x'];
+  }
 }
