@@ -161,7 +161,6 @@ export class SR extends plugin {
         let strength = e.msg.match(/强度([0-1](\.[0-9]{1,3})?)/);
         if (!strength) strength = 0.6;
         else strength = parseFloat(strength[4]);
-        console.log(setting.realesrgan)
         await e.reply([`源图${res.width}x${res.height}，使用${setting.realesrgan.model1}算法与${setting.realesrgan.model2}算法，${scale}倍放大，强度${strength}，大清晰术！`], false, { recallMsg: 30, at: true });
         let config = await Config.getcfg()
         let apiobj = config.APIList[config.usingAPI - 1]
@@ -194,7 +193,6 @@ export class SR extends plugin {
             });
             await e.reply(segment.image(`base64://${response.data.image.replace(/data:image\/png;|base64,/g, "")}`), true)
         } catch (error) {
-            console.log(error);
             e.reply('大清晰术失败了呢(っ °Д °;)っ', true)
         }
         return true

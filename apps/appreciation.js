@@ -194,7 +194,6 @@ export async function requestAppreciateSD(base64) {
             })
         });
         const json = await response.json();
-        console.log(json)
         let tags_str = '';
         for (let i in json.caption) {
             if (json.caption[i] > 0.98) {
