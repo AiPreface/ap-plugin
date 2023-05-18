@@ -16,6 +16,8 @@ import { getdsc } from "../components/anime_me/getdes.js";
 import { requestAppreciate } from './appreciation.js'
 import cfg from '../../../lib/config/config.js'
 import moment from "moment";
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+
 export class Anime_me extends plugin {
     constructor() {
         super({
@@ -87,8 +89,18 @@ export class Anime_me extends plugin {
             return true
         }
         // 发送图片 
-        return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
+        // return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
+        let data = {
+            quality: 90,
+            tplFile: `./plugins/ap-plugin/resources/animeme/animeMe.html`,
+            imgBase64: res.base64,
+            text: this.e.msg.startsWith('/') ? "" : dsc.ch.replace("_name_", name)
+        }
+        let img = await puppeteer.screenshot('animeMe', data)
+        e.reply(img)
+
     }
+
 
 
     /**根据描述构造绘图的参数
