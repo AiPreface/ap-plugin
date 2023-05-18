@@ -43,6 +43,14 @@ export class ChangeModel extends plugin {
           /** 主人权限 */
           permission: "master",
         },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?刷新模型$',
+          /** 执行方法 */
+          fnc: 'refreshModel',
+          /** 主人权限 */
+          permission: "master",
+        }
       ]
     })
   }
@@ -144,7 +152,7 @@ export class ChangeModel extends plugin {
       e.reply("模型名不唯一", true);
       return false;
     } else {
-      e.reply("正在切换模型，请耐心等待\n请不要随意切换不属于自己的接口，这会导致该接口所有用户的模型被切换！！！", true)
+      e.reply("正在切换模型，请耐心等待", true)
       let url = apiurl + '/sdapi/v1/options';
       let data = {
         "sd_model_checkpoint": modelPrefix[0]
@@ -197,7 +205,7 @@ export class ChangeModel extends plugin {
         e.reply("模型名不唯一", true);
         return false;
       } else {
-        e.reply("正在切换模型，请耐心等待\n请不要随意切换不属于自己的接口，这会导致该接口所有用户的模型被切换！！！", true)
+        e.reply("正在切换模型，请耐心等待", true)
         let url = apiurl + '/sdapi/v1/options';
         let data = {
           "sd_vae": VAEPrefix[0]
@@ -222,6 +230,29 @@ export class ChangeModel extends plugin {
       e.reply("VAE切换失败", true);
       return true;
     }
+  }
+
+  async refreshModel(e) {
+    let apiurl = await get_apiurl();
+    let config = await Config.getcfg()
+    let apiobj = config.APIList[config.usingAPI - 1]
+    let url = apiurl + '/sdapi/v1/refresh-checkpoints';
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    if (apiobj.account_password) {
+      headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+    }
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: headers
+    });
+    if (response.status == 200) {
+      e.reply("模型刷新成功", true);
+    } else {
+      e.reply("模型刷新失败", true);
+    }
+    return true;
   }
 }
 
