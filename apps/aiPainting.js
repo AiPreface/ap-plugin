@@ -31,7 +31,7 @@ export class Ai_Painting extends plugin {
       priority: 1009,
       rule: [
         {
-          reg: "^#?绘图([\\s\\S]*)$",
+          reg: "^#?(绘图|咏唱|绘画|绘世)([\\s\\S]*)$",
           fnc: "aiPainting",
         },
         {

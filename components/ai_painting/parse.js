@@ -156,7 +156,7 @@ class Parse {
 
         // 移除命令中的自定义参数
         msg = msg
-            .replace(/^(＃|#)?绘图/, "")
+            .replace(/^(＃|#)?(绘图|绘画|咏唱|绘世)/, "")
             .replace(/(\d{1,5})张/g, "")
             .replace(/(竖图|横图|方图|(&shape=)?Landscape|(&shape=)?Square)/gi, "")
             .replace(reg.scale, "")
