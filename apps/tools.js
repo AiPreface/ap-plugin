@@ -13,6 +13,8 @@ import plugin from '../../../lib/plugins/plugin.js'
 import { parseImg } from '../utils/utils.js';
 import cfg from "../../../lib/config/config.js";
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+import Config from '../components/ai_painting/config.js';
+import axios from 'axios';
 
 const _path = process.cwd();
 
@@ -47,6 +49,10 @@ export class Tools extends plugin {
                 {
                     reg: "^#?ap(全局|本群|我的)词云$",
                     fnc: "apWordCloud",
+                },
+                {
+                    reg: "^#?ap接口状态$",
+                    fnc: "apStatus",
                 }
             ]
         })
@@ -159,6 +165,43 @@ export class Tools extends plugin {
         }
         let img = await puppeteer.screenshot('textrank', data)
         e.reply(img)
+        return true
+    }
+
+    async apStatus(e) {
+        let apcfg = await Config.getcfg()
+        if (apcfg.APIList.length == 0) {
+            e.reply('当前暂无可用接口')
+            return true
+        }
+        let msg = '共有' + apcfg.APIList.length + '个接口'
+        let res = await Promise.all(apcfg.APIList.map(async (item) => {
+            let res = await axios.get(item.url, { timeout: 5000 }).catch(() => { })
+            return res
+        }))
+        for (let i = 0; i < res.length; i++) {
+            if (res[i]) {
+                let header = {}
+                if (apcfg.APIList[i].account_id && apcfg.APIList[i].account_password) {
+                    header = {
+                        'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[i].account_id}:${apcfg.APIList[i].account_password}`).toString('base64')
+                    }
+                }
+                let progress = await axios.get(`${apcfg.APIList[i].url}/sdapi/v1/progress`, { headers: header, timeout: 5000 }).catch(() => { })
+                if (progress) {
+                    if (progress.data.eta_relative == '0') {
+                    msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 服务器很寂寞...`
+                    } else {
+                        msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} [${(progress.data.progress).toFixed(2)}%]预计剩余${(progress.data.eta_relative).toFixed(2)}秒完成`
+                    }
+                } else {
+                    msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 未能获取进度`
+                }
+            } else {
+                msg += `\n🚫接口${i + 1}[超时]：${apcfg.APIList[i].remark}`
+            }
+        }
+        e.reply(msg)
         return true
     }
 }

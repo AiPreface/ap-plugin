@@ -146,7 +146,7 @@ export class Anime_me extends plugin {
                 enable_hr: true,
                 hr_scale: 1.5,
                 hr_upscaler: 'Latent (nearest-exact)',
-                sampler: 'DDIM',
+                sampler: 'DPM++ 2M Karras',
                 strength: 0.5,
                 seed: -1,
                 scale: 11,
