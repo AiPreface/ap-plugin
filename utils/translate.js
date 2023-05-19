@@ -17,6 +17,7 @@ import config from '../components/ai_painting/config.js'
 import md5 from 'md5'
 import lodash from 'lodash'
 import { sleep } from './utils.js'
+import axios from 'axios'
 
 let apcfg = await config.getcfg()
 const BAIDU = apcfg.baidu_translate
@@ -57,17 +58,17 @@ class Translate {
             }
         }
 
-        // 独角兽
-        // try {
-        //     let result = await this.ovooa(text)
-        //     if (result) {
-        //         Log.i('[独角兽翻译] ', text, ' ==> ', result)
-        //         await sleep(1000)
-        //         return result
-        //     }
-        // } catch (err) {
-        //     Log.e('【独角兽翻译报错】:', err)
-        // }
+        // Google
+        try {
+            let result = await this.googleTran(text)
+            if (result) {
+                Log.i('[Google翻译] ', text, ' ==> ', result)
+                await sleep(1000)
+                return result
+            }
+        } catch (err) {
+            Log.e('【Google翻译报错】:', err)
+        }
 
 
         // 椰奶有道
@@ -85,22 +86,32 @@ class Translate {
         return false
     }
 
-    /**独角兽翻译
+    /**Google翻译
      * @param {string} text 待翻译文本 
      * @return {string} 翻译后的文本 
      */
-    async ovooa(text) {
-        let res = await fetch(`http://ovooa.com/API/qqfy/api.php?msg=${encodeURI(text)}`)
-        res = await res.text()
-        // Log.w(res)                         /*  */
-        if (res.includes('请勿频繁请求本站')) {
-            Log.i('【独角兽翻译报错】:', res)
+    async googleTran(text) {
+        try {
+            let resp = await axios({
+                method: "POST",
+                url: "https://mikeee-gradio-gtr.hf.space/api/predict",
+                data: {
+                    "data": [
+                        text,
+                        "zh",
+                        "en"
+                    ]
+                }
+            })
+            console.log(resp.data.data[0])
+            return resp.data.data[0]
+        } catch (err) {
+            Log.e('【Google翻译报错】:', err)
             return false
         }
-        let en = /翻译内容：(.+)$/.exec(res)[1]
-        en = en.split('/')
-        return en[0]
     }
+
+
 
 
     /**椰奶有道翻译 */
