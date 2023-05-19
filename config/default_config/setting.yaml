@@ -10,5 +10,5 @@ appreciation:
   useSD: false
   model: wd14-vit-v2-git
 realesrgan:
-  model1: R-ESRGAN 4x+ Anime6B
-  model2: R-ESRGAN 4x+ Photo2K
+  model1: ScuNET PSNR
+  model2: R-ESRGAN 4x+ Anime6B

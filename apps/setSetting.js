@@ -75,14 +75,6 @@ export class setSetting extends plugin {
                     fnc: 'setSuperResolutionModel',
                     /** 主人权限 */
                     permission: "master"
-                },
-                {
-                    /** 命令正则匹配 */
-                    reg: '^#ap设置大清晰术算法2强度.*',
-                    /** 执行方法 */
-                    fnc: 'setSuperResolutionStrength',
-                    /** 主人权限 */
-                    permission: "master"
                 }
             ]
         })
@@ -217,33 +209,13 @@ export class setSetting extends plugin {
             return true;
         }
         if (e.msg.indexOf('#ap设置大清晰术算法1') != -1) {
-            setting.superResolution.model1 = superResolutionModel;
+            setting.realesrgan.model1 = superResolutionModel;
             e.reply(`大清晰术算法1已设置为：${superResolutionModel}`);
         } else {
-            setting.superResolution.model2 = superResolutionModel;
+            setting.realesrgan.model2 = superResolutionModel;
             e.reply(`大清晰术算法2已设置为：${superResolutionModel}`);
         }
         Config.setSetting(setting);
-        return true;
-    }
-    async setSuperResolutionStrength(e) {
-        let setting = await Config.getSetting();
-        let superResolutionStrength = e.msg.replace('#ap设置大清晰术算法2强度', '').trim();
-        if (superResolutionStrength == '') {
-            e.reply(`大清晰术强度不能为空`);
-            return true;
-        }
-        if (isNaN(superResolutionStrength)) {
-            e.reply(`大清晰术强度必须为数字`);
-            return true;
-        }
-        if (superResolutionStrength < 0 || superResolutionStrength > 1) {
-            e.reply(`大清晰术强度必须在0到1之间`);
-            return true;
-        }
-        setting.superResolution.strength = superResolutionStrength.toiFixed(3);
-        Config.setSetting(setting);
-        e.reply(`大清晰术强度已设置为：${superResolutionStrength.toiFixed(3)}`);
         return true;
     }
 }
