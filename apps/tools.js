@@ -192,7 +192,7 @@ export class Tools extends plugin {
                     if (progress.data.eta_relative == '0') {
                     msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 服务器很寂寞...`
                     } else {
-                        msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} [${(progress.data.progress).toFixed(2)}%]预计剩余${(progress.data.eta_relative).toFixed(2)}秒完成`
+                        msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} [${(progress.data.progress * 100).toFixed(0)}%]预计剩余${(progress.data.eta_relative).toFixed(2)}秒完成`
                     }
                 } else {
                     msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 未能获取进度`
