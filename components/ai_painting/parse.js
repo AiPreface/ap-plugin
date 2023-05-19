@@ -82,9 +82,9 @@ class Parse {
             // 计算640*640像素下所对应的宽高
             let w = Math.round(Math.sqrt(640 * 640 * picInfo.width / picInfo.height))
             let h = Math.round(Math.sqrt(640 * 640 / picInfo.width * picInfo.height))
-            // 置为64的整数倍
-            h = h % 64 < 32 ? h - h % 64 : h + 64 - h % 64
-            w = w % 64 < 32 ? w - w % 64 : w + 64 - w % 64
+            // 置为8的整数倍
+            h = h % 8 < 4 ? h - h % 8 : h + 8 - h % 8
+            w = w % 8 < 4 ? w - w % 8 : w + 8 - w % 8
 
             txtparam.param.width = w
             txtparam.param.height = h

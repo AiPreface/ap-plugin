@@ -12,7 +12,6 @@ import Config from "./config.js";
 import cfg from '../../../../lib/config/config.js'
 import NsfwCheck from "./nsfwcheck.js"
 import moment from "moment";
-import YAML from 'yaml'
 import path from 'path';
 import fs from 'fs';
 import fetch from "node-fetch";
@@ -295,7 +294,7 @@ async function constructRequestOption(param, apiobj) {
             } else {
                 hr_scale = 2
             }
-            if (hr_scale < 1 || hr_scale > 4) {
+            if (hr_scale >= 1 && hr_scale <= 4) {
                 hr_scale = 2
             }
             param.tags = param.tags.replace(/(H|h)ires(\.?fix)?\s*(\d+(\.\d+)?)?/, '').trim()
@@ -306,8 +305,8 @@ async function constructRequestOption(param, apiobj) {
             param.hr_second_pass_steps = param.steps
             param.width = Math.ceil(param.width / param.hr_scale)
             param.height = Math.ceil(param.height / param.hr_scale)
-            param.width = Math.ceil(param.width / 64) * 64
-            param.height = Math.ceil(param.height / 64) * 64
+            param.width = Math.ceil(param.width / 8) * 8
+            param.height = Math.ceil(param.height / 8) * 8
         }
     }
     let seed = param.seed

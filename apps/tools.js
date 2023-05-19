@@ -53,6 +53,10 @@ export class Tools extends plugin {
                 {
                     reg: "^#?ap接口状态$",
                     fnc: "apStatus",
+                },
+                {
+                    reg: "^#?(取消|停止)(绘图|咏唱|绘画|绘世|绘制).*$",
+                    fnc: "apCancel",
                 }
             ]
         })
@@ -190,7 +194,7 @@ export class Tools extends plugin {
                 let progress = await axios.get(`${apcfg.APIList[i].url}/sdapi/v1/progress`, { headers: header, timeout: 5000 }).catch(() => { })
                 if (progress) {
                     if (progress.data.eta_relative == '0') {
-                    msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 服务器很寂寞...`
+                        msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 服务器很寂寞...`
                     } else {
                         msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} [${(progress.data.progress * 100).toFixed(0)}%]预计剩余${(progress.data.eta_relative).toFixed(2)}秒完成`
                     }
@@ -202,6 +206,39 @@ export class Tools extends plugin {
             }
         }
         e.reply(msg)
+        return true
+    }
+
+    async apCancel(e) {
+        let apcfg = await Config.getcfg()
+        if (apcfg.APIList.length == 0) {
+            e.reply('当前暂无可用接口')
+            return true
+        }
+        let num = e.msg.match(/接口(\d+)/)
+        if (num) {
+            num = parseInt(num[1]) - 1
+            if (num > apcfg.APIList.length) return e.reply('接口不存在')
+        } else {
+            num = apcfg.usingAPI - 1
+        }
+        let url = apcfg.APIList[num].url + '/sdapi/v1/interrupt'
+        let header = {}
+        if (apcfg.APIList[num].account_id && apcfg.APIList[num].account_password) {
+            header = {
+                'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[num].account_id}:${apcfg.APIList[num].account_password}`).toString('base64')
+            }
+        }
+        try {
+            let res = await axios.post(url, { headers: header, timeout: 5000 })
+            if (res) {
+                e.reply(`接口${num + 1}：${apcfg.APIList[num].remark}已取消当前绘制任务`)
+            } else {
+                e.reply(`接口${num + 1}：${apcfg.APIList[num].remark}取消任务失败`)
+            }
+        } catch (err) {
+            e.reply(`接口${num + 1}：${apcfg.APIList[num].remark}取消任务失败`)
+        }
         return true
     }
 }

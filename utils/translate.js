@@ -103,7 +103,6 @@ class Translate {
                     ]
                 }
             })
-            console.log(resp.data.data[0])
             return resp.data.data[0]
         } catch (err) {
             Log.e('【Google翻译报错】:', err)
