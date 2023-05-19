@@ -64,12 +64,14 @@ export class ControlNet extends plugin {
     const parseData = YAML.parse(fs.readFileSync(process.cwd() + '/plugins/ap-plugin/config/config/parse.yaml', 'utf8'));
     if (!config[e.user_id]) {
       config[e.user_id] = {
-        "module": "none",
-        "model": "none"
+        "module": "lineart_anime",
+        "model": "control_v11p_sd15s2_lineart_anime [3825e83e]"
       };
+      e.reply('未配置预处理器与模型，已自动设置为lineart_anime', true);
     }
 
     const url = api + '/sdapi/v1/txt2img';
+    const anurl = api + '/controlnet/txt2img';
     let tags;
     if (e.msg) {
       tags = e.msg.replace(/^#?以图绘图/, '');
@@ -138,17 +140,57 @@ export class ControlNet extends plugin {
         }
       }
     };
+    const andata = {
+      "enable_hr": paramData.enable_hr,
+      "denoising_strength": paramData.strength,
+      "hr_scale": paramData.hr_scale,
+      "hr_upscaler": paramData.hr_upscaler,
+      "hr_second_pass_steps": paramData.hr_second_pass_steps,
+      "prompt": tags + setting.def_prompt,
+      "seed": -1,
+      "steps": paramData.steps,
+      "cfg_scale": paramData.scale,
+      "height": height,
+      "width": width,
+      "negative_prompt": setting.def_negativeprompt,
+      "sampler_name": paramData.sampler,
+      "alwayson_scripts": {},
+      "controlnet_units": [{
+        "input_image": "data:image/png;base64," + base64,
+        "module": config[e.user_id].module,
+        "model": config[e.user_id].model,
+        "weight": 1,
+        "resize_mode": "Scale to Fit (Inner Fit)",
+        "lowvram": false,
+        "processor_res": Math.sqrt(height * width),
+        "threshold_a": 100,
+        "threshold_b": 250,
+      }]
+    };
+    let useUrl = anurl;
+    let useData = andata;
+    await axios.get(useUrl).catch(async (error) => {
+      if (error.response.status === 404) {
+        useUrl = url;
+        useData = data;
+        Log.w(`ControlNet找不到旧版接口，已切换为新版接口`)
+      }
+    });
+    let apcfg = await Config.getcfg()
+    let header = {}
+    if (apcfg.APIList[apcfg.usingAPI - 1].account_id && apcfg.APIList[apcfg.usingAPI - 1].account_password) {
+      header = {
+        'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[apcfg.usingAPI - 1].account_id}:${apcfg.APIList[apcfg.usingAPI - 1].account_password}`).toString('base64')
+      }
+    }
     try {
-      const response = await axios.post(url, data);
+      const response = await axios.post(useUrl, useData, { headers: header });
       await e.reply(segment.image(`base64://${response.data.images[0]}`), true);
       sendMsg(e, [`● 图片生成成功\n◎ 使用的预处理器：${config[e.user_id].module}\n◎ 使用的模型：${config[e.user_id].model}\n◎ 蒙版图片：`, segment.image(`base64://${response.data.images[1]}`)]);
-      return true;
     } catch (error) {
       e.reply('生成失败', true);
       Log.e(error);
-      return true;
     }
-
     return true;
   }
 
@@ -156,9 +198,10 @@ export class ControlNet extends plugin {
     const api = await getAPI(e);
     if (!config[e.user_id]) {
       config[e.user_id] = {
-        "module": "openpose",
-        "model": "control_openpose-fp16 [9ca67cc5]"
+        "module": "lineart_anime",
+        "model": "control_v11p_sd15s2_lineart_anime [3825e83e]"
       };
+      e.reply('未配置预处理器与模型，已自动设置为lineart_anime', true);
     }
 
     let base64;
