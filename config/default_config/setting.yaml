@@ -1,4 +1,5 @@
 concise_mode: false
+anime_me_card: true
 max_fold: 500
 def_prompt: ""
 def_negativeprompt: EasyNegative, nsfw, lowres, bad anatomy, bad hands, text,

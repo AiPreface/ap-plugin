@@ -32,7 +32,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap(开启|关闭)简洁模式',
+                    reg: '^#ap(开启|关闭)简洁模式$',
                     /** 执行方法 */
                     fnc: 'setSimple',
                     /** 主人权限 */
@@ -48,13 +48,13 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置调试模式(开启|关闭)',
+                    reg: '^#ap设置调试模式(开启|关闭)$',
                     /** 执行方法 */
                     fnc: 'setDebug',
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置使用(sd|db)鉴赏图片',
+                    reg: '^#ap设置使用(sd|db)鉴赏图片$',
                     /** 执行方法 */
                     fnc: 'setAppreciation',
                     /** 主人权限 */
@@ -73,6 +73,14 @@ export class setSetting extends plugin {
                     reg: '^#ap设置大清晰术算法(1|2).*',
                     /** 执行方法 */
                     fnc: 'setSuperResolutionModel',
+                    /** 主人权限 */
+                    permission: "master"
+                },
+                {
+                    /** 命令正则匹配 */
+                    reg: '^#ap设置二次元的我卡片(开启|关闭)$',
+                    /** 执行方法 */
+                    fnc: 'setCard',
                     /** 主人权限 */
                     permission: "master"
                 }
@@ -214,6 +222,19 @@ export class setSetting extends plugin {
         } else {
             setting.realesrgan.model2 = superResolutionModel;
             e.reply(`大清晰术算法2已设置为：${superResolutionModel}`);
+        }
+        Config.setSetting(setting);
+        return true;
+    }
+    async setCard(e) {
+        let setting = await Config.getSetting();
+        let card = e.msg.replace('#ap设置二次元的我卡片', '').trim();
+        if (card == '开启') {
+            setting.anime_me_card = true;
+            e.reply(`二次元的我卡片已开启，将会在每次发送图片时发送图片卡片`);
+        } else if (card == '关闭') {
+            setting.anime_me_card = false;
+            e.reply(`二次元的我卡片已关闭，将直接发送原图`);
         }
         Config.setSetting(setting);
         return true;

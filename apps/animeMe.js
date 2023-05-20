@@ -9,6 +9,7 @@
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import { getuserName } from "../utils/utils.js";
+import Config from '../components/ai_painting/config.js';
 import { Draw, Parse, CD } from "../components/apidx.js";
 import Log from "../utils/Log.js";
 import { Pictools } from "../utils/utidx.js";
@@ -88,17 +89,19 @@ export class Anime_me extends plugin {
             e.reply('图片不合规，不予展示', true)
             return true
         }
-        // 发送图片 
-        // return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
-        let data = {
-            quality: 90,
-            tplFile: `./plugins/ap-plugin/resources/animeme/animeMe.html`,
-            imgBase64: res.base64,
-            text: this.e.msg.startsWith('/') ? "" : dsc.ch.replace("_name_", name)
+        let setting = await Config.getSetting()
+        if (!setting.anime_me_card) {
+            return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
+        } else {
+            let data = {
+                quality: 90,
+                tplFile: `./plugins/ap-plugin/resources/animeme/animeMe.html`,
+                imgBase64: res.base64,
+                text: this.e.msg.startsWith('/') ? "" : dsc.ch.replace("_name_", name)
+            }
+            let img = await puppeteer.screenshot('animeMe', data)
+            e.reply(img, true)
         }
-        let img = await puppeteer.screenshot('animeMe', data)
-        e.reply(img)
-
     }
 
 

@@ -217,7 +217,7 @@ export class Ai_Painting extends plugin {
       
       // 如果简洁模式开启，则只发送图片
       if (concise_mode) {
-        e.reply([segment.at(e.user_id), segment.image(`base64://${res.base64}`), `生成总耗时${elapsed.toFixed(2)}秒`])
+        e.reply([segment.at(e.user_id), segment.image(`base64://${res.base64}`), `生成总耗时${elapsed.toFixed(2)}秒`] , false, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
         this.addUsage(e.user_id, 1)
         return true
       } else {
