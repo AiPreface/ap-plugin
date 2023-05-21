@@ -261,6 +261,7 @@ async function i(paramdata, apiobj) {
         var currentVersion = /版本：(.*)/.exec(fs.readFileSync(READMEPATH, 'utf8'))[1];
     } catch (err) {}
     const options = await constructRequestOption(paramdata.param, apiobj);
+    options.method = 'POST';
     if (apiobj.account_password) {
       options.headers['Authorization'] = `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`;
     }
