@@ -1,6 +1,7 @@
 concise_mode: false
 anime_me_card: true
 max_fold: 500
+nsfw_show: 1
 def_prompt: ""
 def_negativeprompt: EasyNegative, nsfw, lowres, bad anatomy, bad hands, text,
   error, missing fingers, extra digit, fewer digits, cropped, worst quality, low

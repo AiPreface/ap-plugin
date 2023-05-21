@@ -83,6 +83,14 @@ export class setSetting extends plugin {
                     fnc: 'setCard',
                     /** 主人权限 */
                     permission: "master"
+                },
+                {
+                    /** 命令正则匹配 */
+                    reg: '^#ap设置违规图片展示方式(1|2|3)$',
+                    /** 执行方法 */
+                    fnc: 'setViolation',
+                    /** 主人权限 */
+                    permission: "master"
                 }
             ]
         })
@@ -237,6 +245,14 @@ export class setSetting extends plugin {
             e.reply(`二次元的我卡片已关闭，将直接发送原图`);
         }
         Config.setSetting(setting);
+        return true;
+    }
+    async setViolation(e) {
+        let setting = await Config.getSetting();
+        let violation = e.msg.replace('#ap设置违规图片展示方式', '').trim();
+        setting.nsfw_show = Number(violation);
+        Config.setSetting(setting);
+        e.reply(`违规图片展示方式已设置为：${violation == '1' ? '展示MD5' : violation == '2' ? '展示图链二维码' : '展示图床链接'}`);
         return true;
     }
 }

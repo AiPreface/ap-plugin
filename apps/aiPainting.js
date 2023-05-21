@@ -17,7 +17,7 @@ import Log from '../utils/Log.js'
 import { Parse, CD, Policy, Draw } from '../components/apidx.js';
 import Config from '../components/ai_painting/config.js';
 import _ from 'lodash';
-
+import Pictools from '../utils/pic_tools.js';
 
 // 批量绘图的剩余张数
 let remaining_tasks = 0;
@@ -53,7 +53,7 @@ export class Ai_Painting extends plugin {
     await redis.set(`Yz:AiPainting:Again:${e.user_id}`, JSON.stringify(data));
 
     // 获取设置
-    let setting = await Config.getSetting()
+    let setting = await Config.getSetting();
 
     // 获取本群策略
     let current_group_policy = await Parse.parsecfg(e)
@@ -208,7 +208,16 @@ export class Ai_Painting extends plugin {
           ]
           Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
         }
-        e.reply(["图片不合规，不予展示", `\n${res.md5}`], true)
+        if (setting.nsfw_show == 1) {// 展示MD5
+          await e.reply(["图片不合规，不予展示", `\nMD5:${res.md5}`], true)
+        } else if (setting.nsfw_show == 2) {// 展示图链二维码
+          let qrcode = await Pictools.text_to_qrcode(`https://c2cpicdw.qpic.cn/offpic_new/0//0000000000-0000000000-${res.md5}/0?term=2`)
+          await e.reply(["图片不合规，不予展示\n",segment.image(`base64://${qrcode.replace('data:image/png;base64,', '')}`)], true)
+        } else if (setting.nsfw_show == 3) {// 展示图床链接
+          let img = Buffer.from(res.base64, 'base64')
+          let url = await Pictools.upload(img)
+          await e.reply(["图片不合规，不予展示\n", url], true)
+        }
         return true
       }
 
