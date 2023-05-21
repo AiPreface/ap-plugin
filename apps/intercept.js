@@ -25,11 +25,15 @@ export class Intercept extends plugin {
                     reg: "^https://gchat.qpic.cn/gchatpic_new.+",
                     fnc: "interceptQpic",
                 },
+                {
+                    reg: "^https://postimg.cc/.+",
+                    fnc: "interceptQpic",
+                }
             ],
         });
     }
     interceptQpic(e) {
-        Log.w(`监测到qpic图链，已拦截指令，以避免图片被网页截图捕获\n${e.msg}`)
+        Log.w(`监测到危险图链，已拦截指令，以避免图片被网页截图捕获\n${e.msg}`)
         return true
     }
 }

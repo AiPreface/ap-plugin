@@ -192,7 +192,7 @@ class Pictools extends plugin {
         }
         const html = response3.data;
         const $2 = cheerio.load(html);
-        const imageUrl = $2('meta[property="og:image"]').attr('content');
+        const imageUrl = $2('meta[property="og:url"]').attr('content');
         if (!imageUrl) {
           return false;
         }
