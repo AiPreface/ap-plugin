@@ -291,7 +291,7 @@ export class ControlNet extends plugin {
     if (flag) {
       config[e.user_id].model = model;
       fs.writeFileSync(configPath, YAML.stringify(config));
-      e.reply('设置成功', true);
+      e.reply('已将模型设置为' + model, true);
     } else {
       e.reply('不存在该模型', true);
     }
@@ -313,7 +313,16 @@ export class ControlNet extends plugin {
     if (flag) {
       config[e.user_id].module = module;
       fs.writeFileSync(configPath, YAML.stringify(config));
-      e.reply('设置成功', true);
+      e.reply('已将预处理器设置为' + module, true);
+      // 匹配模型
+      let modulelist = await axios.get(api + '/controlnet/model_list');
+      modulelist = modulelist.data.model_list;
+      let model = findSimilar(module, modulelist);
+      if (model) {
+        config[e.user_id].model = model;
+        fs.writeFileSync(configPath, YAML.stringify(config));
+        e.reply(`已自动设置模型为${model}`, true);
+      }
     } else {
       e.reply('不存在该预处理器', true);
     }
@@ -359,4 +368,14 @@ async function getAPI(e) {
   }
   let api = config.APIList[config.usingAPI - 1].url
   return api
+}
+
+function findSimilar(str, arr) {
+  const tokens = str.split('_');
+  for (let word of arr) {
+    if (tokens.some(token => word.includes(token))) {
+      return word;
+    }
+  }
+  return null;
 }
