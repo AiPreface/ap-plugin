@@ -51,7 +51,7 @@ class CD {
       }秒后再使用`;
     }
     // 全局CD--------------
-    lastTime = await redis.get(`Yz:AiPainting`);
+    lastTime = await redis.get("Yz:AiPainting");
     if (lastTime && !e.isMaster && gpolicy.apMaster.indexOf(e.user_id) == -1) {
       let seconds = moment(currentTime).diff(moment(lastTime), "seconds");
       return `${gpolicy.cd}秒全局cd，请等待${gpolicy.cd - seconds}秒后再使用`;
@@ -59,7 +59,7 @@ class CD {
 
     // 写入cd---------------------------------------------------------
     currentTime = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    redis.set(`Yz:AiPainting`, currentTime, { EX: gpolicy.cd });
+    redis.set("Yz:AiPainting", currentTime, { EX: gpolicy.cd });
     redis.set(`Yz:AiPainting:${e.group_id}`, currentTime, {
       EX: gpolicy.gcd,
     });
@@ -74,7 +74,7 @@ class CD {
    * @return {*}
    */
   async clearCD(e) {
-    await redis.del(`Yz:AiPainting`);
+    await redis.del("Yz:AiPainting");
     await redis.del(`Yz:AiPainting:${e.group_id}`);
     await redis.del(`Yz:AiPainting:${e.group_id}:${e.user_id}`);
     await redis.del(`Yz:AiPainting:multiPic:${e.user_id}`);

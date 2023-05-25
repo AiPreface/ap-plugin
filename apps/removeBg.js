@@ -85,7 +85,7 @@ export class RemoveBackground extends plugin {
       });
       let base64 = Buffer.from(img.data, "binary").toString("base64");
       let hash = await getHash(e);
-      let response = await axios.post(API + `push/`, {
+      let response = await axios.post(API + "push/", {
         fn_index: 1,
         data: ["data:image/jpeg;base64," + base64],
         action: "predict",

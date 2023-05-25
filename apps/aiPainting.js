@@ -154,7 +154,7 @@ export class Ai_Painting extends plugin {
         group: groupId
           ? (await redis.get(`Yz:AiPainting:TagsUsage:${groupId}`)) || "{}"
           : "{}",
-        global: (await redis.get(`Yz:AiPainting:TagsUsage:Global`)) || "{}",
+        global: (await redis.get("Yz:AiPainting:TagsUsage:Global")) || "{}",
       };
       tagUsages.user = JSON.parse(tagUsages.user);
       tagUsages.group = JSON.parse(tagUsages.group);
@@ -172,7 +172,7 @@ export class Ai_Painting extends plugin {
       if (groupId) {
         multi.set(`Yz:AiPainting:TagsUsage:${groupId}`, tagUsages.group);
       }
-      multi.set(`Yz:AiPainting:TagsUsage:Global`, tagUsages.global);
+      multi.set("Yz:AiPainting:TagsUsage:Global", tagUsages.global);
       await multi.exec();
     } catch (err) {
       Log.w(err);
