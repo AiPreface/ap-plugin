@@ -32,7 +32,8 @@ export function supportGuoba() {
         {
           field: "config.APIList",
           label: "绘图接口",
-          bottomHelpMessage: "用于生成图片等一系列功能，是本插件主要功能",
+          bottomHelpMessage:
+            "用于生成图片等一系列功能，是本插件主要功能",
           component: "GSubForm",
           componentProps: {
             multiple: true,
@@ -63,13 +64,11 @@ export function supportGuoba() {
           },
         },
         {
-          field: "config.usingAPI",
-          label: "使用的接口",
-          component: "Select",
+          field: 'config.usingAPI',
+          label: '使用的接口',
+          component: 'Select',
           componentProps: {
-            options: Config.mergeConfig().APIList.map((item, index) => {
-              return { label: item.remark, value: index + 1 };
-            }),
+            options: Config.mergeConfig().APIList.map((item, index) => { return { label: item.remark, value: index + 1 } })
           },
         },
         {
@@ -325,22 +324,23 @@ export function supportGuoba() {
         {
           field: "policy.prohibitedUserList",
           label: "禁止使用的用户",
-          bottomHelpMessage: "封禁的用户QQ号，封禁的用户无法绘图",
+          bottomHelpMessage:
+            "封禁的用户QQ号，封禁的用户无法绘图",
           component: "GTags",
           componentProps: {
-            placeholder: "请输入黑名单QQ",
+            placeholder: '请输入黑名单QQ',
             allowAdd: true,
             allowDel: true,
             showPrompt: true,
             promptProps: {
-              content: "请输入QQ号：",
-              placeholder: "请输入QQ号",
-              okText: "添加",
+              content: '请输入QQ号：',
+              placeholder: '请输入QQ号',
+              okText: '添加',
               rules: [
-                { required: true, message: "QQ号得填上才行哦~" },
-                { pattern: "^\\d+$", message: "QQ号应该是纯数字的吧" },
-                { min: 5, message: "真的有这么短的QQ号吗？" },
-                { max: 10, message: "太…太长了……" },
+                {required: true, message: 'QQ号得填上才行哦~'},
+                {pattern: '^\\d+$', message: 'QQ号应该是纯数字的吧'},
+                {min: 5, message: '真的有这么短的QQ号吗？'},
+                {max: 10, message: '太…太长了……'},
               ],
             },
             valueFormatter: ((value) => Number.parseInt(value)).toString(),
@@ -529,12 +529,12 @@ export function supportGuoba() {
         config.baidu_appid = parseInt(config.baidu_appid);
         // 特殊处理数组
         // 由于 lodash.merge 会将数组也合并，所以会导致删除的数据也被合并进去了，就删不掉了，所以这里数组需要直接赋值
-        config.APIList = data["config.APIList"];
+        config.APIList = data['config.APIList'];
         Config.setcfg(config);
 
         policy = lodash.merge(Config.mergePolicy(), policy);
         // 特殊处理数组
-        policy.prohibitedUserList = data["policy.prohibitedUserList"];
+        policy.prohibitedUserList = data['policy.prohibitedUserList'];
         Config.setPolicy(policy);
         return Result.ok({}, "保存成功~");
       },

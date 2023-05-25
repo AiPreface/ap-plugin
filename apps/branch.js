@@ -1,6 +1,6 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import { createRequire } from "module";
-import { Restart } from "../../other/restart.js";
+import { Restart } from '../../other/restart.js'
 import lodash from "lodash";
 import common from "../../../lib/common/common.js";
 
@@ -25,7 +25,7 @@ export class branch extends plugin {
         {
           reg: "^#ap当前分支$",
           fnc: "checkBranch",
-        },
+        }
       ],
     });
   }
@@ -46,13 +46,11 @@ export class branch extends plugin {
         await this.reply("已将AP-Plugin切换到稳定分支");
       } else {
         await this.execSync("git -C ./plugins/ap-plugin/ checkout dev");
-        await this.reply(
-          "已将AP-Plugin切换到测试分支，测试分支可能存在Bug，用户自行承担风险"
-        );
+        await this.reply("已将AP-Plugin切换到测试分支，测试分支可能存在Bug，用户自行承担风险");
       }
-      common.sleep(1000);
+      common.sleep(1000)
       // 重启
-      await new Restart(this.e).restart();
+      await new Restart(this.e).restart()
     }
   }
   async checkBranch(e) {
@@ -65,19 +63,9 @@ export class branch extends plugin {
       let commitId = await this.getcommitId("ap-plugin");
       let time = await this.getTime("ap-plugin");
       if (ret.stdout.includes("* dev")) {
-        await this.reply(
-          "当前分支为测试分支[dev]\n最后一次提交时间：" +
-            time +
-            "\n最后一次提交commitID：" +
-            commitId
-        );
+        await this.reply("当前分支为测试分支[dev]\n最后一次提交时间：" + time + "\n最后一次提交commitID：" + commitId);
       } else {
-        await this.reply(
-          "当前分支为稳定分支[main]\n最后一次提交时间：" +
-            time +
-            "\n最后一次提交commitID：" +
-            commitId
-        );
+        await this.reply("当前分支为稳定分支[main]\n最后一次提交时间：" + time + "\n最后一次提交commitID：" + commitId);
       }
     }
   }
@@ -107,10 +95,10 @@ export class branch extends plugin {
     return true;
   }
   /**
-   * 获取上次提交的commitId
-   * @param {string} plugin 插件名称
-   * @returns
-   */
+ * 获取上次提交的commitId
+ * @param {string} plugin 插件名称
+ * @returns
+ */
   async getcommitId(plugin = "") {
     let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`;
 
