@@ -93,15 +93,15 @@ export async function initialize() {
       logger.mark(logger.red("⛔百度图片审核未配置"));
     }
 
-    if (config.openai_key !== null) {
+    if (config.openai_key != null) {
       logger.mark(logger.green("✅OpenAI接口已配置"));
     } else {
       logger.mark(logger.red("⛔OpenAI接口未配置"));
     }
 
     if (
-      config.baidu_translate.id !== null &&
-      config.baidu_translate.key !== null
+      config.baidu_translate.id != null &&
+      config.baidu_translate.key != null
     ) {
       logger.mark(logger.green("✅百度翻译接口已配置"));
     } else {
@@ -109,8 +109,8 @@ export async function initialize() {
     }
 
     if (
-      config.youdao_translate.id !== null &&
-      config.youdao_translate.key !== null
+      config.youdao_translate.id != null &&
+      config.youdao_translate.key != null
     ) {
       logger.mark(logger.green("✅有道翻译接口已配置"));
     } else {

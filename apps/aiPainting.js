@@ -300,7 +300,7 @@ export class Ai_Painting extends plugin {
             ? `重绘幅度：${res.info.denoising_strength}`
             : "",
           `采样方法：${
-            res.info.sampler_index === null
+            res.info.sampler_index == null
               ? res.info.sampler_name
               : res.info.sampler_index
           }`,
@@ -458,7 +458,7 @@ export class Ai_Painting extends plugin {
             ? `重绘幅度：${res.info.denoising_strength}`
             : "",
           `采样方法：${
-            res.info.sampler_index === null
+            res.info.sampler_index == null
               ? res.info.sampler_name
               : res.info.sampler_index
           }`,
