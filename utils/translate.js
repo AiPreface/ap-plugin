@@ -127,7 +127,8 @@ class Translate {
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/98.0.4758.102",
       Referer: "https://fanyi.youdao.com/",
       "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      Cookie: 'OUTFOX_SEARCH_USER_ID_NCOO=133190305.98519628; OUTFOX_SEARCH_USER_ID="2081065877@10.169.0.102";',
+      Cookie:
+        'OUTFOX_SEARCH_USER_ID_NCOO=133190305.98519628; OUTFOX_SEARCH_USER_ID="2081065877@10.169.0.102";',
     };
     const api =
       "https://fanyi.youdao.com/translate_o?smartresult=dict&smartresult=rule";
