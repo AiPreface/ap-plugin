@@ -116,8 +116,6 @@ export class SR extends plugin {
           "ECONNRESET：大清晰术施放失败，服务器遭不住啦！(っ °Д °;)っ",
           true
         );
-      } else if (err.code == "ECONNABORTED") {
-        e.reply("ECONNABORTED(code 504)：大清晰术施放失败(っ °Д °;)っ", true);
       } else if (err.code == "ERR_BAD_RESPONSE") {
         e.reply(
           "ERR_BAD_RESPONSE(code 502)：大清晰术施放失败，尝试小一点的分辨率，或者低一层的吟唱重数吧(っ °Д °;)っ",
