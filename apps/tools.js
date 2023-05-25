@@ -171,7 +171,7 @@ export class Tools extends plugin {
     tagCloud.sort((a, b) => b.value - a.value);
     let data = {
       quality: 90,
-      tplFile: `./plugins/ap-plugin/resources/textrank/textrank.html`,
+      tplFile: "./plugins/ap-plugin/resources/textrank/textrank.html",
       pluResPath: `${_path}/plugins/ap-plugin/resources/`,
       chartData: JSON.stringify(tagCloud),
     };

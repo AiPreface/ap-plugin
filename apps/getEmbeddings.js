@@ -170,5 +170,5 @@ async function _(BIh1) {
       "utf8"
     ).toString("base64")}`;
   }
-  return await axios.get(API + `sdapi/v1/embeddings`, options);
+  return await axios.get(API + "sdapi/v1/embeddings", options);
 }

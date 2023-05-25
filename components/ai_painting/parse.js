@@ -452,7 +452,7 @@ class Parse {
 
     let prohibitedWords = [];
     for (let val of list) {
-      var re = new RegExp(val, `i`);
+      var re = new RegExp(val, "i");
       while (re.exec(paramdata.param.tags)) {
         prohibitedWords.push(re.exec(paramdata.param.tags)[0]);
         paramdata.param.tags = await paramdata.param.tags.replace(

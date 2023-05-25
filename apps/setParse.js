@@ -43,7 +43,7 @@ export class set_parse extends plugin {
           "采样方法【" +
             e.msg.match(/采样方法(.*)/)[1] +
             "】不在列表中，可用的采样方法有：\n" +
-            samplerList.join(`\n`) +
+            samplerList.join("\n") +
             "\n请重新输入",
           true
         );

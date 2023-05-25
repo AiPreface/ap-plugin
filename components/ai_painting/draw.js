@@ -34,7 +34,8 @@ class Draw {
         code: 41,
         info: "未配置接口",
         msg: "",
-        description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明`,
+        description:
+          "当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明",
       };
     let index = paramdata.specifyAPI || config.usingAPI;
     let apiobj = config.APIList[index - 1];
@@ -185,7 +186,7 @@ class Draw {
         code: 21,
         info: "黑图",
         msg: "",
-        description: `图片损坏，请重试。`,
+        description: "图片损坏，请重试。",
       };
     }
 
@@ -355,7 +356,7 @@ async function constructRequestOption(param, apiobj) {
       )[1];
     } catch (err) {}
     try {
-      let res = await fetch(apiobj.url + `/sdapi/v1/samplers`, {
+      let res = await fetch(apiobj.url + "/sdapi/v1/samplers", {
         headers: {
           "User-Agent": "AP-Plugin/@" + currentVersion,
           Authorization: `Basic ${Buffer.from(
@@ -375,11 +376,11 @@ async function constructRequestOption(param, apiobj) {
       Log.i(`指定的采样器${param.sampler}：${exist ? "存在" : "不存在"}`);
       if (!exist) {
         param.sampler = "Euler a";
-        Log.i(`接口不存在该采样器，默认使用Euler a`);
+        Log.i("接口不存在该采样器，默认使用Euler a");
       }
     } catch (err) {
       param.sampler = "Euler a";
-      Log.i(`采样器列表请求出错，默认使用Euler a`);
+      Log.i("采样器列表请求出错，默认使用Euler a");
     }
   }
 
