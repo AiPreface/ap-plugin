@@ -187,7 +187,7 @@ export class ControlNet extends plugin {
       if (error.response.status === 404) {
         useUrl = url;
         useData = data;
-        Log.w("ControlNet找不到旧版接口，已切换为新版接口");
+        Log.w(`ControlNet找不到旧版接口，已切换为新版接口`);
       }
     });
     let apcfg = await Config.getcfg();
@@ -401,7 +401,7 @@ async function getAPI(e) {
   let config = await Config.getcfg();
   if (config.APIList.length == 0) {
     e.reply(
-      "当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明"
+      `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明`
     );
     return true;
   }

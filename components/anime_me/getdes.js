@@ -670,7 +670,7 @@ export function getdsc(qq) {
         "\u0033\u0031\u0034\u0036\u0033\u0031\u0032\u0031\u0038\u0034"
     ) {
       ch = ch.replace(
-        "[\u80F8]",
+        `[\u80F8]`,
         Math.random() > 0.5 ? "\u5E73\u80F8" : "\u5C0F\u80F8"
       );
       en.push(

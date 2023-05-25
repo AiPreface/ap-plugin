@@ -267,11 +267,11 @@ export class set extends plugin {
       `保存图片至本地：${policy.isDownload ? "是" : "否"}\n`,
       `有人绘制违规图片时通知主人：${policy.isTellMaster ? "是" : "否"}\n`,
 
-      "\n=========ap策略=========\n",
+      `\n=========ap策略=========\n`,
 
-      "\n[全局]：",
+      `\n[全局]：`,
       `\n      启用ap：${gp.global.enable ? "是" : "否"}`,
-      "\n      每日用量限制：" +
+      `\n      每日用量限制：` +
         (gp.global.usageLimit ? `${gp.global.usageLimit}张` : "不限"),
       `\n      启用图片审核：${gp.global.JH ? "是" : "否"}`,
       `\n      群聊内共享CD：${gp.global.gcd}秒`,
@@ -285,7 +285,7 @@ export class set extends plugin {
     for (let gid in gp) {
       if (gid == "global") continue;
       if (gid == "private") {
-        msg_.push("\n\n[私聊]：");
+        msg_.push(`\n\n[私聊]：`);
       } else {
         let gname = "未知群聊";
         try {
@@ -327,7 +327,7 @@ export class set extends plugin {
           continue;
         }
         msg_.push(
-          "\n      每日用量限制：" +
+          `\n      每日用量限制：` +
             (gp[gid][val] ? `${gp[gid][val]}张` : "不限")
         );
       }
@@ -440,12 +440,12 @@ export class set extends plugin {
    */
   async testapi(api, type = "") {
     if (type == "绘图") {
-      api = api + "/sdapi/v1/txt2img";
+      api = api + `/sdapi/v1/txt2img`;
     }
     this.e.reply("正在测试接口连通性，请稍候");
     let testres = await test_api(api);
     this.e.reply(
-      testres ? "接口可用" : "接口未正确响应，您可能配置了错误的接口",
+      testres ? `接口可用` : `接口未正确响应，您可能配置了错误的接口`,
       true
     );
     return testres;
@@ -464,7 +464,7 @@ export class set extends plugin {
     let api = apiobj.url; //接口
     let remark = apiobj.remark; //接口备注
     try {
-      let res = await fetch(api + "/sdapi/v1/samplers");
+      let res = await fetch(api + `/sdapi/v1/samplers`);
       if (res.status == 404) {
         return e.reply("拉取列表失败");
       }
