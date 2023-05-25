@@ -134,7 +134,7 @@ export class setSetting extends plugin {
     let setting = await Config.getSetting();
     let merge = e.msg.replace("#ap设置合并字数", "").trim();
     if (isNaN(merge) || merge < 1 || merge > 800) {
-      e.reply("合并字数必须为1-800之间的数字");
+      e.reply(`合并字数必须为1-800之间的数字`);
       return true;
     }
     setting.merge = merge;
@@ -207,7 +207,7 @@ export class setSetting extends plugin {
     let setting = await Config.getSetting();
     let appreciationModel = e.msg.replace("#ap设置鉴赏模型", "").trim();
     if (appreciationModel == "") {
-      e.reply("鉴赏模型不能为空");
+      e.reply(`鉴赏模型不能为空`);
       return true;
     }
     if (!modelList.includes(appreciationModel)) {
@@ -259,7 +259,7 @@ export class setSetting extends plugin {
       .replace("#ap设置大清晰术算法2", "")
       .trim();
     if (superResolutionModel == "") {
-      e.reply("大清晰术算法不能为空");
+      e.reply(`大清晰术算法不能为空`);
       return true;
     }
     if (!modelList.includes(superResolutionModel)) {
@@ -281,10 +281,10 @@ export class setSetting extends plugin {
     let card = e.msg.replace("#ap设置二次元的我卡片", "").trim();
     if (card == "开启") {
       setting.anime_me_card = true;
-      e.reply("二次元的我卡片已开启，将会在每次发送图片时发送图片卡片");
+      e.reply(`二次元的我卡片已开启，将会在每次发送图片时发送图片卡片`);
     } else if (card == "关闭") {
       setting.anime_me_card = false;
-      e.reply("二次元的我卡片已关闭，将直接发送原图");
+      e.reply(`二次元的我卡片已关闭，将直接发送原图`);
     }
     Config.setSetting(setting);
     return true;

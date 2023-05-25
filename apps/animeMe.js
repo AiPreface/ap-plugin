@@ -109,7 +109,7 @@ export class Anime_me extends plugin {
     } else {
       let data = {
         quality: 90,
-        tplFile: "./plugins/ap-plugin/resources/animeme/animeMe.html",
+        tplFile: `./plugins/ap-plugin/resources/animeme/animeMe.html`,
         imgBase64: res.base64,
         text: this.e.msg.startsWith("/") ? "" : dsc.ch.replace("_name_", name),
       };

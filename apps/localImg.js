@@ -94,7 +94,7 @@ export class LocalImg extends plugin {
     let policy = await Config.getPolicy();
     if (fileList.length == 0) {
       return e.reply([
-        "没有检索到",
+        `没有检索到`,
         key_word ? `包含【${key_word}】的` : "",
         "本地图片哦",
         policy.isDownload
@@ -245,7 +245,7 @@ export class LocalImg extends plugin {
     if (fileList.length == 0) {
       let policy = await Config.getPolicy();
       return e.reply([
-        "未在本地检索到",
+        `未在本地检索到`,
         key_word ? `包含【${key_word}】的` : "",
         "图片哦",
         policy.isDownload
@@ -285,7 +285,7 @@ export class LocalImg extends plugin {
     if (fileList.length == 0) {
       let policy = await Config.getPolicy();
       return e.reply([
-        "未在本地检索到图片哦",
+        `未在本地检索到图片哦`,
         policy.isDownload
           ? ""
           : "\n当前存本地未开启，绘制的图片不会保存至本地。如需开启，请发送#ap设置存本地开启",

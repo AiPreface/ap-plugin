@@ -98,23 +98,23 @@ export class apHelp extends plugin {
         )
         .catch((err) => {
           if (err.response == undefined) {
-            e.reply("设置失败，连接超时", true);
+            e.reply(`设置失败，连接超时`, true);
           } else if (err.response.status == 404) {
             redis.set("ap_server", server);
             redis.set("ap_key", key);
             e.reply(`设置成功\n监听地址为${server}\n密钥为${key}`, true);
           } else if (err.response.status == 401 || err.response.status == 403) {
             e.reply(
-              "设置失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥",
+              `设置失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥`,
               true
             );
           } else {
-            e.reply("设置失败，这个接口似乎不是AP助手的接口", true);
+            e.reply(`设置失败，这个接口似乎不是AP助手的接口`, true);
           }
         });
     } else {
       e.reply(
-        "设置失败，格式错误，正确格式为：#ap设置ap助手<AP助手监听地址>密钥<密钥>",
+        `设置失败，格式错误，正确格式为：#ap设置ap助手<AP助手监听地址>密钥<密钥>`,
         true
       );
     }
@@ -128,7 +128,7 @@ export class apHelp extends plugin {
     let server = await redis.get("ap_server");
     let key = await redis.get("ap_key");
     if (!server || !key) {
-      e.reply("查询失败，未设置AP助手监听地址或密钥", true);
+      e.reply(`查询失败，未设置AP助手监听地址或密钥`, true);
     }
     if (type && file_url) {
       if (type == "ckpt" || type == "vae" || type == "emb" || type == "lora") {
@@ -153,16 +153,16 @@ export class apHelp extends plugin {
           .catch((err) => {
             Log.e(err);
             if (err.response == undefined) {
-              e.reply("下载失败，连接超时", true);
+              e.reply(`下载失败，连接超时`, true);
             } else if (err.response.status == 404) {
-              e.reply("下载失败，AP助手监听地址失效", true);
+              e.reply(`下载失败，AP助手监听地址失效`, true);
             } else if (err.response.status == 401) {
               e.reply(
-                "下载失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥",
+                `下载失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥`,
                 true
               );
             } else {
-              e.reply("下载失败，未知错误", true);
+              e.reply(`下载失败，未知错误`, true);
             }
           });
         if (response) {
@@ -175,12 +175,12 @@ export class apHelp extends plugin {
               true
             );
           } else {
-            e.reply("下载失败，AP助手内部错误", true);
+            e.reply(`下载失败，AP助手内部错误`, true);
           }
         }
       } else {
         e.reply(
-          "下载失败，格式错误，正确格式为：#ap下载<ckpt|vae|emb|lora>模型<下载地址>",
+          `下载失败，格式错误，正确格式为：#ap下载<ckpt|vae|emb|lora>模型<下载地址>`,
           true
         );
       }
@@ -191,7 +191,7 @@ export class apHelp extends plugin {
     let server = await redis.get("ap_server");
     let key = await redis.get("ap_key");
     if (!server || !key) {
-      e.reply("查询失败，未设置AP助手监听地址或密钥", true);
+      e.reply(`查询失败，未设置AP助手监听地址或密钥`, true);
     }
     let response = await axios
       .get(
@@ -207,21 +207,21 @@ export class apHelp extends plugin {
       )
       .catch((err) => {
         if (err.response == undefined) {
-          e.reply("查询失败，连接超时", true);
+          e.reply(`查询失败，连接超时`, true);
         } else if (err.response.status == 404) {
-          e.reply("查询失败，AP助手监听地址失效", true);
+          e.reply(`查询失败，AP助手监听地址失效`, true);
         } else if (err.response.status == 401) {
           e.reply(
-            "查询失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥",
+            `查询失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥`,
             true
           );
         } else {
-          e.reply("查询失败，未知错误", true);
+          e.reply(`查询失败，未知错误`, true);
         }
       });
     if (response) {
       if (response.data.length == 0) {
-        e.reply("暂无下载任务", true);
+        e.reply(`暂无下载任务`, true);
         return true;
       }
       let msg = "[下载状态]文件名   下载速度   已下载/总大小   gid";
@@ -245,7 +245,7 @@ export class apHelp extends plugin {
     let server = await redis.get("ap_server");
     let key = await redis.get("ap_key");
     if (!server || !key) {
-      e.reply("查询失败，未设置AP助手监听地址或密钥", true);
+      e.reply(`查询失败，未设置AP助手监听地址或密钥`, true);
     }
     let gid = e.msg.match(/(?<=#ap停止下载).*?(?=$)/g);
     gid = gid.toString();
@@ -264,27 +264,27 @@ export class apHelp extends plugin {
         )
         .catch((err) => {
           if (err.response == undefined) {
-            e.reply("停止失败，连接超时", true);
+            e.reply(`停止失败，连接超时`, true);
           } else if (err.response.status == 404) {
-            e.reply("停止失败，AP助手监听地址失效", true);
+            e.reply(`停止失败，AP助手监听地址失效`, true);
           } else if (err.response.status == 401) {
             e.reply(
-              "停止失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥",
+              `停止失败，密钥错误，请在服务端打开server_config.ini查看或更改密钥`,
               true
             );
           } else {
-            e.reply("停止失败，未知错误", true);
+            e.reply(`停止失败，未知错误`, true);
           }
         });
       if (response) {
         if (response.data.status == "ok") {
-          e.reply("停止成功", true);
+          e.reply(`停止成功`, true);
         } else {
-          e.reply("停止失败，请检查gid是否正确", true);
+          e.reply(`停止失败，请检查gid是否正确`, true);
         }
       }
     } else {
-      e.reply("停止失败，格式错误，正确格式为：#ap停止下载<gid>", true);
+      e.reply(`停止失败，格式错误，正确格式为：#ap停止下载<gid>`, true);
     }
     return true;
   }

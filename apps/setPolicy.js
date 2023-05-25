@@ -574,7 +574,7 @@ export class setpolicy extends plugin {
         : key == "usageLimit"
         ? "每人每日用量限制"
         : "???",
-      "已设为",
+      `已设为`,
       key == "enable" || key == "JH" || key == "isRecall" || key == "isBan"
         ? value
           ? "开启"
