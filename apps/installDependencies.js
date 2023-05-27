@@ -93,9 +93,9 @@ export class checkDependencies extends plugin {
   }
   async installDependencies(e) {
     if (e.msg.match("强制")) {
-      e.reply(`正在为您安装依赖，请稍等...`);
+      e.reply(`正在为您安装依赖，请稍等...\n如果等待一定时间后没有反应，请进入ap-plugin目录手动执行【pnpm install】`);
       let { error, stdout, stderr } = await this.execSync(
-        `cd ./plugins/ap-plugin && pnpm install -P`
+        `cd ./plugins/ap-plugin && pnpm install`
       );
       if (error) {
         e.reply(`安装依赖失败，请尝试手动安装：${error.message}`);
@@ -139,9 +139,9 @@ export class checkDependencies extends plugin {
             return true;
           }
         }
-        e.reply(`正在为您安装依赖，请稍等...`);
+        e.reply(`正在为您安装依赖，请稍等...\n如果等待一定时间后没有反应，请进入ap-plugin目录手动执行【pnpm install】`);
         let { error, stdout, stderr } = await this.execSync(
-          `cd ./plugins/ap-plugin && pnpm install -P`
+          `cd ./plugins/ap-plugin && pnpm install`
         );
         if (error) {
           e.reply(`安装依赖失败，请尝试手动安装：${error.message}`);

@@ -188,7 +188,8 @@ export class Tools extends plugin {
                 let header = {}
                 if (apcfg.APIList[i].account_id && apcfg.APIList[i].account_password) {
                     header = {
-                        'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[i].account_id}:${apcfg.APIList[i].account_password}`).toString('base64')
+                        'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[i].account_id}:${apcfg.APIList[i].account_password}`).toString('base64'),
+                        'User-Agent': `AP-Plugin`
                     }
                 }
                 let progress = await axios.get(`${apcfg.APIList[i].url}/sdapi/v1/progress`, { headers: header, timeout: 5000 }).catch(() => { })
@@ -226,7 +227,8 @@ export class Tools extends plugin {
         let header = {}
         if (apcfg.APIList[num].account_id && apcfg.APIList[num].account_password) {
             header = {
-                'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[num].account_id}:${apcfg.APIList[num].account_password}`).toString('base64')
+                'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[num].account_id}:${apcfg.APIList[num].account_password}`).toString('base64'),
+                'User-Agent': `AP-Plugin`
             }
         }
         try {

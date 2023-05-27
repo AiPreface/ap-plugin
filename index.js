@@ -20,6 +20,7 @@ if (!global.segment) {
 let catlist = ["😸", "😹", "😺", "😻", "😼", "😽", "😾", "😿", "🙀"]
 logger.info('---------------')
 logger.mark(logger.green(`[${catlist[Math.floor(Math.random() * catlist.length)]}]AP-Plugin插件自检中......`))
+logger.mark(logger.green(`AP插件交流群：璃月621069204，稻妻646582537，群内有官方绘图机器人`))
 let passed = await checkPackage()
 if (!passed) {
 	throw 'Missing necessary dependencies'

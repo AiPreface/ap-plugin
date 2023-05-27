@@ -198,6 +198,7 @@ export class Ai_Painting extends plugin {
       // 图片违规
       if (res.isnsfw) {
         // 将图片base64转换为基于QQ图床的url
+        await Pictools.upload_image(res.base64)
         if (current_group_policy.isTellMaster) {
           let msg = [
             "【aiPainting】不合规图片：\n",

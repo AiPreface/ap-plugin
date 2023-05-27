@@ -159,6 +159,7 @@ export class setSetting extends plugin {
         };
         if (apiobj.account_password) {
             headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+            headers.User_Agent = 'AP-Plugin'
         }
         let response;
         try {
@@ -204,6 +205,7 @@ export class setSetting extends plugin {
         };
         if (apiobj.account_password) {
             headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+            headers.User_Agent = 'AP-Plugin'
         }
         let modelList;
         try {

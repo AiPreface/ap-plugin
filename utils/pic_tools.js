@@ -138,6 +138,14 @@ class Pictools extends plugin {
             return this.base64_to_imgurl(base64)
     }
 
+    /**将图片提交进QQ图床，返回图片url
+     * @param {string} base64 图片的base64
+     * @return {string} 图片url
+     */
+    async upload_image(base64) {
+        return (await Bot.pickFriend(Bot.uin)._preprocess(segment.image(`base64://${base64}`))).imgs[0];
+    }
+
 
 
     /**将图片提交进图床，返回图片url

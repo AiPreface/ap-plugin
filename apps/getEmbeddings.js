@@ -142,7 +142,8 @@ async function _(BIh1) {
         }
     };
     if (BIh1['account_password'] && BIh1['account_id']) {
-        options.headers['Authorization'] = `Basic ${Buffer.from(BIh1['account_id'] + ':' + BIh1['account_password'], 'utf8').toString('base64')}`
+        options.headers['Authorization'] = `Basic ${Buffer.from(BIh1['account_id'] + ':' + BIh1['account_password'], 'utf8').toString('base64')}`;
+        options.headers['User-Agent'] = `AP-Plugin`;
     }
     return await axios.get(API + `sdapi/v1/embeddings`, options);
 };

@@ -278,7 +278,8 @@ async function getSamplers() {
     "Content-Type": "application/json"
   };
   if (apiobj.account_password) {
-    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `,
+    headers.User_Agent = `AP-Plugin`
   }
   try {
     let res = await axios.get(url, {
@@ -305,6 +306,7 @@ async function getUpscalers() {
   };
   if (apiobj.account_password) {
     headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+    headers.User_Agent = `AP-Plugin`
   }
   try {
     let res = await axios.get(url, {
