@@ -64,7 +64,7 @@ export class GetLora extends plugin {
         if (response.status != 200) {
             return e.reply('拉取失败')
         }
-        let data = response.data.Loras
+        let data = response.data
         if (!data) {
             e.reply('拉取失败')
             return false
@@ -84,7 +84,11 @@ export class GetLora extends plugin {
         keyword = ret[1] || ''
         Log.i(page, keyword)
 
-        let lora_list = data
+        // 遍历data中的元素，将data[i].name存入
+        let lora_list = []
+        for (let val of data) {
+            lora_list.push(val.name)
+        }
 
         // 筛选出包含关键词的lora
         if (keyword) {
@@ -152,5 +156,5 @@ async function _(BIh1) {
         options.headers['Authorization'] = `Basic ${Buffer.from(BIh1['account_id'] + ':' + BIh1['account_password'], 'utf8').toString('base64')}`
         options.headers['User-Agent'] = `AP-Plugin`
     }
-    return await axios.get(API + `sdapi/v1/Lora`, options);
+    return await axios.get(API + `sdapi/v1/loras`, options);
 };
