@@ -221,6 +221,7 @@ export class Ai_Painting extends plugin {
         } else if (setting.nsfw_show == 4) {// 展示卡片
             await e.reply(segment.share(`https://c2cpicdw.qpic.cn/offpic_new/0//0000000000-0000000000-${res.md5}/0?term=2`, '图片不合规，不予展示', 'https://i.postimg.cc/wBSf50bC/1.png', '啾咪啊，这里有人涩涩啊！！！'))
         }
+        this.addUsage(e.user_id, 1);
         return true
       }
 
@@ -333,8 +334,8 @@ export class Ai_Painting extends plugin {
               "【aiPainting】不合规图片：\n",
               segment.image(`base64://${res.base64}`),
               `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
-              `\n【Tags】：${paramdata.rawtag.tags}`,
-              `\n【nTags】：${paramdata.rawtag.ntags}`,
+              `\n正面：${res.info.prompt}`,
+              `\n反面：${res.info.negative_prompt}`,
             ]
             Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
           }
@@ -365,7 +366,6 @@ export class Ai_Painting extends plugin {
           `采样方法：${res.info.sampler_index == null ? res.info.sampler_name : res.info.sampler_index}`,
           `分辨率：${res.info.enable_hr ? `${res.info.width * res.info.hr_scale} x ${res.info.height * res.info.hr_scale}` : `${res.info.width} x ${res.info.height}`}`,
           `提示词引导系数：${res.info.cfg_scale}`,
-          `随机种子：${res.info.seed}`,
           res.info.enable_hr ? `高清修复算法：${res.info.hr_upscaler}` : "",
           res.info.enable_hr ? `高清修复步数：${res.info.hr_second_pass_steps}` : "",
           `正面：${res.info.prompt}`,
