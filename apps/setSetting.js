@@ -54,7 +54,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置使用(sd|db)鉴赏图片$',
+                    reg: '^#(ap)?设置使用(sd|db)鉴赏图片$',
                     /** 执行方法 */
                     fnc: 'setAppreciation',
                     /** 主人权限 */
@@ -62,7 +62,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置鉴赏模型.*',
+                    reg: '^#(ap)?设置鉴赏模型.*',
                     /** 执行方法 */
                     fnc: 'setAppreciationModel',
                     /** 主人权限 */
@@ -70,7 +70,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置大清晰术算法(1|2).*',
+                    reg: '^#(ap)?设置大清晰术算法(1|2).*',
                     /** 执行方法 */
                     fnc: 'setSuperResolutionModel',
                     /** 主人权限 */
@@ -78,7 +78,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置二次元的我卡片(开启|关闭)$',
+                    reg: '^#(ap)?设置二次元的我卡片(开启|关闭)$',
                     /** 执行方法 */
                     fnc: 'setCard',
                     /** 主人权限 */
@@ -86,7 +86,7 @@ export class setSetting extends plugin {
                 },
                 {
                     /** 命令正则匹配 */
-                    reg: '^#ap设置违规图片展示方式(1|2|3)$',
+                    reg: '^#(ap)?设置违规图片展示方式(1|2|3|4)$',
                     /** 执行方法 */
                     fnc: 'setViolation',
                     /** 主人权限 */
@@ -144,7 +144,7 @@ export class setSetting extends plugin {
     }
     async setAppreciation(e) {
         let setting = await Config.getSetting();
-        let appreciation = e.msg.replace('#ap设置使用', '').replace('鉴赏图片', '').trim();
+        let appreciation = e.msg.replace(/#(ap)?设置使用/, '').replace('鉴赏图片', '').trim();
         setting.appreciation.useSD = appreciation == 'sd' ? true : false;
         Config.setSetting(setting);
         e.reply(`鉴赏图片接口已设置为：${appreciation == 'sd' ? 'Stable Diffusion' : 'DeepDanbooru'}`);
@@ -182,7 +182,7 @@ export class setSetting extends plugin {
         }
         let modelList = response.data.models;
         let setting = await Config.getSetting();
-        let appreciationModel = e.msg.replace('#ap设置鉴赏模型', '').trim();
+        let appreciationModel = e.msg.replace(/#(ap)?设置鉴赏模型/, '').trim();
         if (appreciationModel == '') {
             e.reply(`鉴赏模型不能为空`);
             return true;
@@ -217,7 +217,7 @@ export class setSetting extends plugin {
             modelList = ['None', 'Lanczos', 'Nearest', 'BSRGAN', 'ESRGAN_4x', 'LDSR', 'R-ESRGAN 4x+', 'R-ESRGAN 4x+ Anime6B', 'ScuNET', 'ScuNET PSNR', 'SwinIR_4x']
         }
         let setting = await Config.getSetting();
-        let superResolutionModel = e.msg.replace('#ap设置大清晰术算法1', '').replace('#ap设置大清晰术算法2', '').trim();
+        let superResolutionModel = e.msg.replace(/#(ap)?设置大清晰术算法(1|2)/, '').trim();
         if (superResolutionModel == '') {
             e.reply(`大清晰术算法不能为空`);
             return true;
@@ -238,7 +238,7 @@ export class setSetting extends plugin {
     }
     async setCard(e) {
         let setting = await Config.getSetting();
-        let card = e.msg.replace('#ap设置二次元的我卡片', '').trim();
+        let card = e.msg.replace(/#(ap)?设置二次元的我卡片/, '').trim();
         if (card == '开启') {
             setting.anime_me_card = true;
             e.reply(`二次元的我卡片已开启，将会在每次发送图片时发送图片卡片`);
@@ -251,10 +251,10 @@ export class setSetting extends plugin {
     }
     async setViolation(e) {
         let setting = await Config.getSetting();
-        let violation = e.msg.replace('#ap设置违规图片展示方式', '').trim();
+        let violation = e.msg.replace(/#(ap)?设置违规图片展示方式/, '').trim();
         setting.nsfw_show = Number(violation);
         Config.setSetting(setting);
-        e.reply(`违规图片展示方式已设置为：${violation == '1' ? '展示MD5' : violation == '2' ? '展示图链二维码' : '展示图床链接'}`);
+        e.reply(`违规图片展示方式已设置为：${violation == '1' ? '展示MD5' : violation == '2' ? '展示图链二维码' : violation == '3' ? '展示图床链接' : '分享卡片'}`);
         return true;
     }
 }

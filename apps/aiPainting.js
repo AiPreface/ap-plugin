@@ -210,7 +210,7 @@ export class Ai_Painting extends plugin {
           Bot.pickUser(cfg.masterQQ[0]).sendMsg(msg);
         }
         if (setting.nsfw_show == 1) {// 展示MD5
-          await e.reply(["图片不合规，不予展示", `\nMD5:${res.md5}`], true)
+          await e.reply(["图片不合规，不予展示", `\nMD5：${res.md5}`], true)
         } else if (setting.nsfw_show == 2) {// 展示图链二维码
           let qrcode = await Pictools.text_to_qrcode(`https://c2cpicdw.qpic.cn/offpic_new/0//0000000000-0000000000-${res.md5}/0?term=2`)
           await e.reply(["图片不合规，不予展示\n",segment.image(`base64://${qrcode.replace('data:image/png;base64,', '')}`)], true)
@@ -218,6 +218,8 @@ export class Ai_Painting extends plugin {
           let img = Buffer.from(res.base64, 'base64')
           let url = await Pictools.upload(img)
           await e.reply(["图片不合规，不予展示\n", url], true)
+        } else if (setting.nsfw_show == 4) {// 展示卡片
+            await e.reply(segment.share(`https://c2cpicdw.qpic.cn/offpic_new/0//0000000000-0000000000-${res.md5}/0?term=2`, '图片不合规，不予展示', 'https://i.postimg.cc/wBSf50bC/1.png', '啾咪啊，这里有人涩涩啊！！！'))
         }
         return true
       }

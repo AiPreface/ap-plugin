@@ -58,19 +58,7 @@ class Translate {
             }
         }
 
-        // Google
-        try {
-            let result = await this.googleTran(text)
-            if (result) {
-                Log.i('[Google翻译] ', text, ' ==> ', result)
-                await sleep(1000)
-                return result
-            }
-        } catch (err) {
-            Log.e('【Google翻译报错】:', err)
-        }
-
-
+        
         // 椰奶有道
         try {
             let result = await this.yenai_youdao(text)
@@ -81,6 +69,18 @@ class Translate {
             }
         } catch (err) {
             Log.e('【椰奶有道翻译报错】:', err)
+        }
+
+        // Google
+        try {
+            let result = await this.googleTran(text)
+            if (result) {
+                Log.i('[Google翻译] ', text, ' ==> ', result)
+                await sleep(1000)
+                return result
+            }
+        } catch (err) {
+            Log.e('【Google翻译报错】:', err)
         }
 
         return false
