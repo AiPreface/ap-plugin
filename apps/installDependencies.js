@@ -11,7 +11,7 @@ import { createRequire } from "module";
 import { Restart } from "../../other/restart.js";
 import common from "../../../lib/common/common.js";
 import fs from "fs";
-import Log from '../utils/Log.js';
+import Log from "../utils/Log.js";
 
 const require = createRequire(import.meta.url);
 const { exec, execSync } = require("child_process");
@@ -93,7 +93,9 @@ export class checkDependencies extends plugin {
   }
   async installDependencies(e) {
     if (e.msg.match("强制")) {
-      e.reply(`正在为您安装依赖，请稍等...\n如果等待一定时间后没有反应，请进入ap-plugin目录手动执行【pnpm install】`);
+      e.reply(
+        `正在为您安装依赖，请稍等...\n如果等待一定时间后没有反应，请进入ap-plugin目录手动执行【pnpm install】`
+      );
       let { error, stdout, stderr } = await this.execSync(
         `cd ./plugins/ap-plugin && pnpm install`
       );
@@ -139,7 +141,9 @@ export class checkDependencies extends plugin {
             return true;
           }
         }
-        e.reply(`正在为您安装依赖，请稍等...\n如果等待一定时间后没有反应，请进入ap-plugin目录手动执行【pnpm install】`);
+        e.reply(
+          `正在为您安装依赖，请稍等...\n如果等待一定时间后没有反应，请进入ap-plugin目录手动执行【pnpm install】`
+        );
         let { error, stdout, stderr } = await this.execSync(
           `cd ./plugins/ap-plugin && pnpm install`
         );
