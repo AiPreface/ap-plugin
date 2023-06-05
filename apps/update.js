@@ -1,7 +1,7 @@
 import plugin from "../../../lib/plugins/plugin.js";
 import { createRequire } from "module";
 import lodash from "lodash";
-import { Restart } from '../../other/restart.js'
+import { Restart } from "../../other/restart.js";
 
 const require = createRequire(import.meta.url);
 const { exec, execSync } = require("child_process");
@@ -50,13 +50,13 @@ export class update extends plugin {
 
     /** 是否需要重启 */
     if (this.isUp) {
-      await this.reply("更新完毕，正在重启云崽以应用更新")
-      setTimeout(() => this.restart(), 2000)
+      await this.reply("更新完毕，正在重启云崽以应用更新");
+      setTimeout(() => this.restart(), 2000);
     }
   }
 
   restart() {
-    new Restart(this.e).restart()
+    new Restart(this.e).restart();
   }
 
   /**
@@ -254,8 +254,8 @@ export class update extends plugin {
     if (errMsg.includes("be overwritten by merge")) {
       await this.reply(
         msg +
-        `存在冲突：\n${errMsg}\n` +
-        "请解决冲突后再更新，或者执行#强制更新，放弃本地修改"
+          `存在冲突：\n${errMsg}\n` +
+          "请解决冲突后再更新，或者执行#强制更新，放弃本地修改"
       );
       return;
     }

@@ -5,17 +5,17 @@
  * @LastEditTime: 2023-01-13 02:14:41
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\test.js
  * @Description: 测试模块
- * 
- * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
+ *
+ * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
  */
-import { Parse, Policy } from '../components/apidx.js'
-import { bs64Size } from './utils.js'
-import Pictools from "./pic_tools.js"
-import YAML from "yaml"
-import fs from 'fs'
-import path from 'path'
-import { getdsc } from '../components/anime_me/getdes.js'
-import { isEqual, chNum2Num } from './utils.js'
+import { Parse, Policy } from "../components/apidx.js";
+import { bs64Size } from "./utils.js";
+import Pictools from "./pic_tools.js";
+import YAML from "yaml";
+import fs from "fs";
+import path from "path";
+import { getdsc } from "../components/anime_me/getdes.js";
+import { isEqual, chNum2Num } from "./utils.js";
 
 // console.log(await Pictools.url_to_base64('https://gchat.qpic.cn/gchatpic_new/1761869682/637615159-2678354508-E361F9DF207F178A532955E0677414AB/0'))
 
@@ -51,6 +51,11 @@ import { isEqual, chNum2Num } from './utils.js'
 // console.log(chNum2Num('非人非第十八页aa','第(\[一二三四五六七八九十零百千万亿\]\+)页'))
 // console.log(chNum2Num('打发十六第十八页aa', { l_text: '第' }))
 
-let chReg = /([\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/g
+let chReg =
+  /([\u3400-\u4DB5\u4E00-\u9FEA\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\uD840-\uD868\uD86A-\uD86C\uD86F-\uD872\uD874-\uD879][\uDC00-\uDFFF]|\uD869[\uDC00-\uDED6\uDF00-\uDFFF]|\uD86D[\uDC00-\uDF34\uDF40-\uDFFF]|\uD86E[\uDC00-\uDC1D\uDC20-\uDFFF]|\uD873[\uDC00-\uDEA1\uDEB0-\uDFFF]|\uD87A[\uDC00-\uDFE0])+/g;
 
-console.log('i疏忽和六位48536返回鹿茸jiosjfh 时uf 654是客服那使得否esfr 边肉丝jsnserdgf客服什么呢'.match(chReg))
+console.log(
+  "i疏忽和六位48536返回鹿茸jiosjfh 时uf 654是客服那使得否esfr 边肉丝jsnserdgf客服什么呢".match(
+    chReg
+  )
+);

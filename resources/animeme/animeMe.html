@@ -1,161 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>二次元的我</title>
     <style>
-        @font-face {
-            font-family: tttgbnumber;
-            src: url(fonts/tttgbnumber.ttf);
-            font-weight: 400;
-            font-style: normal;
-        }
+      @font-face {
+        font-family: tttgbnumber;
+        src: url(fonts/tttgbnumber.ttf);
+        font-weight: 400;
+        font-style: normal;
+      }
 
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: tttgbnumber;
-            color: #FFFFFF;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: tttgbnumber;
+        color: #ffffff;
+      }
 
-        #background_img {
-            /*background-image: url("D9QLV[DB1TXG60M~A9G7{G7_tmb.gif");*/
-            background-image: url("data:image/png;base64,{{imgBase64}}");
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background-size: cover;
-        }
+      #background_img {
+        /*background-image: url("D9QLV[DB1TXG60M~A9G7{G7_tmb.gif");*/
+        background-image: url("data:image/png;base64,{{imgBase64}}");
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background-size: cover;
+      }
 
-        #background_filter {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background-color: transparent;
-            backdrop-filter: blur(5px);
-        }
+      #background_filter {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background-color: transparent;
+        backdrop-filter: blur(5px);
+      }
 
-        #content,
-        #aigc_img {
-            display: block;
-            float: left;
-        }
+      #content,
+      #aigc_img {
+        display: block;
+        float: left;
+      }
 
-        #content {
-            /*width: 24%;*/
-            height: auto;
-            /*padding: 0 3%;*/
-        }
+      #content {
+        /*width: 24%;*/
+        height: auto;
+        /*padding: 0 3%;*/
+      }
 
-        #aigc_img {
-            /*width: 66%;
+      #aigc_img {
+        /*width: 66%;
             aspect-ratio: 3/2;
             margin: 6% 4% 6% 0;
             display: flex;
             justify-content: center;
             box-shadow: 0 0 6px 2px rgb(0, 0, 0, 0.6);*/
-            border-radius: 5%;
-            display: flex;
-            justify-content: center;
-            box-shadow: 0 0 6px 2px rgb(0, 0, 0, 0.6);
-        }
+        border-radius: 5%;
+        display: flex;
+        justify-content: center;
+        box-shadow: 0 0 6px 2px rgb(0, 0, 0, 0.6);
+      }
 
-        img {
-            border-radius: 5%;
-            width: 100%;
-            height: 100%;
-        }
+      img {
+        border-radius: 5%;
+        width: 100%;
+        height: 100%;
+      }
 
-        #content p:first-child {
-            color: #fff;
-            text-align: center;
-            letter-spacing: 0.1rem;
-            font-size: clamp(1.8rem, 0.5rem + 3.44vw, 5rem);
-            font-weight: bolder;
-            font-family: tttgbnumber;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-            margin-top: 65px;
-        }
+      #content p:first-child {
+        color: #fff;
+        text-align: center;
+        letter-spacing: 0.1rem;
+        font-size: clamp(1.8rem, 0.5rem + 3.44vw, 5rem);
+        font-weight: bolder;
+        font-family: tttgbnumber;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        margin-top: 65px;
+      }
 
-        #content p:last-child {
-            color: #fff;
-            text-indent: 3rem;
-            font-size: clamp(1.2rem, 0.4rem + 1.75vw, 3.2rem);
-            font-weight: bolder;
-            text-align: center;
-            letter-spacing: 0.1rem;
-            line-height: 1.3;
-            font-family: tttgbnumber;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-            margin-top: 35px;
-        }
+      #content p:last-child {
+        color: #fff;
+        text-indent: 3rem;
+        font-size: clamp(1.2rem, 0.4rem + 1.75vw, 3.2rem);
+        font-weight: bolder;
+        text-align: center;
+        letter-spacing: 0.1rem;
+        line-height: 1.3;
+        font-family: tttgbnumber;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        margin-top: 35px;
+      }
 
-        #bottom_text {
-            width: 100%;
-            text-align: center;
-            font-size: clamp(0.625rem, 0.489rem + 0.68vw, 1rem);
-            float: left;
-            font-family: tttgbnumber;
-            font-weight: bolder;
-        }
+      #bottom_text {
+        width: 100%;
+        text-align: center;
+        font-size: clamp(0.625rem, 0.489rem + 0.68vw, 1rem);
+        float: left;
+        font-family: tttgbnumber;
+        font-weight: bolder;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="background_img">
-        <div id="background_filter">
-            <div id="content">
-                <p>二次元的我</p>
-                <p id="aigc_text">{{text}}</p>
-            </div>
-            <div id="aigc_img"><img src="data:image/png;base64,{{imgBase64}}" alt="图图,我的图图呢"></div>
-            <p id="bottom_text">Created By Yunzai-Bot & AP-Plugin</p>
+      <div id="background_filter">
+        <div id="content">
+          <p>二次元的我</p>
+          <p id="aigc_text">{{text}}</p>
         </div>
+        <div id="aigc_img">
+          <img
+            src="data:image/png;base64,{{imgBase64}}"
+            alt="图图,我的图图呢"
+          />
+        </div>
+        <p id="bottom_text">Created By Yunzai-Bot & AP-Plugin</p>
+      </div>
     </div>
-</body>
-<script type="text/javascript">
+  </body>
+  <script type="text/javascript">
     //图片阴影大小自适应
     function handleResize() {
-        const image = document.getElementsByTagName('img')[0];
-        const horizontalOffset = 10 * (image.offsetWidth / 760);
-        const verticalOffset = 10 * (image.offsetWidth / 760);
-        const blurRadius = 6;
-        const spreadRadius = 5 * (image.offsetWidth / 1080);
-        image.style.boxShadow = `${horizontalOffset}px ${verticalOffset}px ${blurRadius}px ${spreadRadius}px rgba(0, 0, 0, 0.4)`;
+      const image = document.getElementsByTagName("img")[0];
+      const horizontalOffset = 10 * (image.offsetWidth / 760);
+      const verticalOffset = 10 * (image.offsetWidth / 760);
+      const blurRadius = 6;
+      const spreadRadius = 5 * (image.offsetWidth / 1080);
+      image.style.boxShadow = `${horizontalOffset}px ${verticalOffset}px ${blurRadius}px ${spreadRadius}px rgba(0, 0, 0, 0.4)`;
     }
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('load', function () {
-        window.dispatchEvent(new Event('resize'));
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("load", function () {
+      window.dispatchEvent(new Event("resize"));
     });
 
     //传入图片
     function getImgStyle() {
-        //自适应图片长宽比
-        const img = document.getElementsByTagName("img")[0];
-        const aigcImg = document.getElementById("aigc_img");
-        const content = document.getElementById("content");
-        const bottomText = document.getElementById('bottom_text');
-        if (img.naturalWidth === img.naturalHeight) {
-            aigcImg.style.aspectRatio = '1/1';
-            aigcImg.style.width = '50%';
-            aigcImg.style.margin = '3% 0% 0% 4%';
-            content.style.width = '32%';
-            content.style.padding = '0 0 0 6%';
-            bottomText.style.marginTop = '0.7%';
-        }
-        if (img.naturalWidth / img.naturalHeight === 3 / 2) {
-            aigcImg.style.aspectRatio = "3/2";
-            aigcImg.style.width = '66%';
-            aigcImg.style.margin = '6% 4% 0% 0%';
-            content.style.width = '24%';
-            content.style.padding = '0 3%';
-            bottomText.style.marginTop = '2%';
-        }
+      //自适应图片长宽比
+      const img = document.getElementsByTagName("img")[0];
+      const aigcImg = document.getElementById("aigc_img");
+      const content = document.getElementById("content");
+      const bottomText = document.getElementById("bottom_text");
+      if (img.naturalWidth === img.naturalHeight) {
+        aigcImg.style.aspectRatio = "1/1";
+        aigcImg.style.width = "50%";
+        aigcImg.style.margin = "3% 0% 0% 4%";
+        content.style.width = "32%";
+        content.style.padding = "0 0 0 6%";
+        bottomText.style.marginTop = "0.7%";
+      }
+      if (img.naturalWidth / img.naturalHeight === 3 / 2) {
+        aigcImg.style.aspectRatio = "3/2";
+        aigcImg.style.width = "66%";
+        aigcImg.style.margin = "6% 4% 0% 0%";
+        content.style.width = "24%";
+        content.style.padding = "0 3%";
+        bottomText.style.marginTop = "2%";
+      }
     }
-    const myImg = document.getElementsByTagName('img')[0];
+    const myImg = document.getElementsByTagName("img")[0];
     // 检查 src 属性是否存在或者非空
-    if (myImg.src && myImg.src !== '') {
-        getImgStyle();
+    if (myImg.src && myImg.src !== "") {
+      getImgStyle();
     }
-</script>
-
+  </script>
 </html>
