@@ -1,5 +1,7 @@
 version = 1
 
+test_patterns = ["/**/*.js"]
+
 [[analyzers]]
 name = "javascript"
 
