@@ -6,16 +6,16 @@ import { getRangeCode, downloadFile } from './download.js'
 
 export const BASE_URL = 'https://api.trace.moe'
 
-const _path = process.cwd();
+const _path = process.cwd()
 
-export async function TraceMoe(req) {
+export async function TraceMoe (req) {
   const { cutBorders, imagePath, url } = req
   const form = new FormData()
   if (imagePath) {
     form.append('image', await fileFromPath(imagePath))
     return await request(form, cutBorders)
   } else if (url) {
-    //download image
+    // download image
     const fileName = getRangeCode(10) + '.temp'
     const outPath = _path + '/data/temp'
     const fullPath = `${outPath}/${fileName}`
@@ -25,25 +25,25 @@ export async function TraceMoe(req) {
     fs.unlinkSync(fullPath)
     return data
   } else if (!imagePath) {
-    throw Error("please input file or url")
+    throw Error('please input file or url')
   }
 }
 
-export async function request(form, cutBorders) {
+export async function request (form, cutBorders) {
   const response = await fetch(
     `${BASE_URL}/search?anilistInfo=1${cutBorders ? '&&cutBorders=1' : ''}`,
     {
       method: 'POST',
       body: form
     }
-  ).then(res => res.text())
+  ).then((res) => res.text())
   return parse(response)
 }
 
-export function parse(res) {
+export function parse (res) {
   const { result } = JSON.parse(res)
   return result
-    .map(result => ({
+    .map((result) => ({
       preview: result.image,
       similarity: result.similarity * 100,
       name: result.anilist?.title,
