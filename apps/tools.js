@@ -143,7 +143,7 @@ export class Tools extends plugin {
     }
 
     async apDoc(e) {
-        e.reply("https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE", true)
+        e.reply("https://ap-plugin.com/Config/", true)
         return true
     }
     async apWordCloud(e) {

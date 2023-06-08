@@ -51,7 +51,7 @@ export class appreciate extends plugin {
         let setting = await Config.getSetting()
         if (!setting.appreciation.useSD) {
             if (!API)
-                return await e.reply("请先配置鉴赏图片所需API，配置教程：https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T")
+                return await e.reply("请先配置鉴赏图片所需API，配置教程：https://ap-plugin.com/Config/docs4")
             await AppreciatePictures(e)
         } else {
             await AppreciatePictures(e)

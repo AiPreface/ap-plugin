@@ -51,7 +51,7 @@ export class ImgToMusic extends plugin {
 
 	async img_to_music(e) {
 		if (!API)
-			return await e.reply('请先配置图片转音频所需API，配置教程：https://www.wolai.com/jhofgb2jy1U4qgo2HRKhE7')
+			return await e.reply('请先配置图片转音频所需API，配置教程：https://ap-plugin.com/Config/docs8')
 		if (FiguretypeUser[e.user_id]) {
 			e.reply('当前有任务在列表中排队，请不要重复发送，转换完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
 			return true

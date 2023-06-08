@@ -132,16 +132,15 @@ pnpm restart
 
 |        需要配置的接口         |                                             用途                                              |                         配置文档                         |
 | :---------------------------: | :-------------------------------------------------------------------------------------------: | :------------------------------------------------------: |
-|     Stable Diffusion 接口     | 用于生产图片，相关功能：[绘图](#以文生图)，[以图生图](#以图生图)，[二次元的我](#二次元的我)等 | [文档链接](https://www.wolai.com/rMR9bFJehYhBKdQT6dY3zL) |
-|        Real-CUGAN 接口        |                         用于图像超分，相关功能：[大清晰术](#大清晰术)                         | [文档链接](https://www.wolai.com/22QBzD37qxaTcUKaB2zYRK) |
-|       DeepDanbooru 接口       |             用于逆推图片 Tags，相关功能：[鉴赏](#鉴赏)，[二次元的我](#二次元的我)             | [文档链接](https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T) |
-|     Anime Ai Detect 接口      |                 用于检测图像是否是 AI 制作的，相关功能：[鉴定图片](#鉴定图片)                 | [文档链接](https://www.wolai.com/3koPDP8wEne97evw1bjDiL) |
-| Anime Remove Background 接口  |                         用于去除图片背景，相关功能：[去背景](#去背景)                         | [文档链接](https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF) |
-| White Box Cartoonization 接口 |                 用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)                 | [文档链接](https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK) |
-|       百度图片审核服务        |                     用于检查图像是否合规，相关功能：[图像审核](#图像审核)                     | [文档链接](https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw) |
-|        Saucenao apikey        |                             用于以图搜图，相关功能：[搜图](#搜图)                             | [文档链接](https://www.wolai.com/wZpQ1pCV6t51bMPHupYTJA) |
+|     Stable Diffusion 接口     | 用于生产图片，相关功能：[绘图](#以文生图)，[以图生图](#以图生图)，[二次元的我](#二次元的我)等 | [文档链接](https://ap-plugin.com/Config/docs2) |
+|        Real-CUGAN 接口        |                         用于图像超分，相关功能：[大清晰术](#大清晰术)                         | [文档链接](https://ap-plugin.com/Config/docs3) |
+|       DeepDanbooru 接口       |             用于逆推图片 Tags，相关功能：[鉴赏](#鉴赏)，[二次元的我](#二次元的我)             | [文档链接](https://ap-plugin.com/Config/docs4) |
+|     Anime Ai Detect 接口      |                 用于检测图像是否是 AI 制作的，相关功能：[鉴定图片](#鉴定图片)                 | [文档链接](https://ap-plugin.com/Config/docs5) |
+| Anime Remove Background 接口  |                         用于去除图片背景，相关功能：[去背景](#去背景)                         | [文档链接](https://ap-plugin.com/Config/docs6) |
+| White Box Cartoonization 接口 |                 用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)                 | [文档链接](https://ap-plugin.com/Config/docs7) |
+|       百度图片审核服务        |                     用于检查图像是否合规，相关功能：[图像审核](#图像审核)                     | [文档链接](https://ap-plugin.com/Config/docs12) |
 
-以上接口中中，Stable Diffusion 接口需要大量算力生成图像，成本相对较高，详见[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务可领取 10000 次免费额度，后续收费标准为 5 元 10000 次；除此二者外，其余接口均可免费部署于[Hugging Face](https://huggingface.co/)。所有接口请自行动手配置，ap-plugin 暂不自带任何接口，敬请谅解。
+以上接口中中，Stable Diffusion 接口需要大量算力生成图像，成本相对较高，详见[关于绘图接口的相关说明](https://ap-plugin.com/Config/docs1)；百度图片审核服务可领取 10000 次免费额度，后续收费标准为 5 元 10000 次；除此二者外，其余接口均可免费部署于[Hugging Face](https://huggingface.co/)。所有接口请自行动手配置，ap-plugin 暂不自带任何接口，敬请谅解。
 
 </details>
 

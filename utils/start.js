@@ -18,7 +18,7 @@ export async function initialize() {
   ) {
     logger.mark(logger.red("⛔未找到配置文件，将自动生成配置文件"));
     Bot.pickUser(cfg.masterQQ[0]).sendMsg(
-      `[AP-Plugin自检]检测到您是首次安装，我们建议您花点时间看一看我们的配置文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE，\n为了更好的使用本插件，我们建议您使用【#ap安装依赖】进行一键安装必要依赖`
+      `[AP-Plugin自检]检测到您是首次安装，我们建议您花点时间看一看我们的配置文档：https://ap-plugin.com/Config/，\n为了更好的使用本插件，我们建议您使用【#ap安装依赖】进行一键安装必要依赖`
     );
   } else {
     const config = YAML.parse(
