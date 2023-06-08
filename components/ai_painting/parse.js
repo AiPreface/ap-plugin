@@ -140,9 +140,9 @@ class Parse {
             Landscape: /(横图|(&shape=)?Landscape)/i,
             Square: /(方图|(&shape=)?Square)/i,
             steps: /(步数|&?steps=)(\d{1,2})/i,
-            scale: /(自由度|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i,
+            scale: /(提示词相关性|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i,
             seed: /(种子|&?seed=)(\d{1,10})/i,
-            strength: /(强度|&?strength=)(0.(\d{1,5}))/i,
+            strength: /(重绘幅度|&?strength=)(0.(\d{1,5}))/i,
             specifyAPI: /接口(\d{1,2})/,
         }
         let shape = reg.Landscape.test(msg) ? "Landscape" : reg.Square.test(msg) ? "Square" : "";
