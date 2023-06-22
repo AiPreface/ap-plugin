@@ -1,10 +1,10 @@
 <!--
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-22 00:38:21
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-02-08 17:27:42
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-04-16 14:10:08
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：2.11.5
+ * @Description: 版本：3.0.0
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
 -->
@@ -118,7 +118,8 @@ pnpm add axios -w
 pnpm restart
 ```
 
-首次载入请观察控制台，若载入时提醒需要安装依赖，执行控制台给出的安装命令即可
+首次载入请输入`#ap安装依赖`进行依赖安装
+或进入ap-plugin目录输入`pnpm i`进行依赖安装
 
 <br><br>
 
@@ -131,16 +132,15 @@ pnpm restart
 
 |        需要配置的接口         |                                             用途                                              |                         配置文档                         |
 | :---------------------------: | :-------------------------------------------------------------------------------------------: | :------------------------------------------------------: |
-|     Stable Diffusion 接口     | 用于生产图片，相关功能：[绘图](#以文生图)，[以图生图](#以图生图)，[二次元的我](#二次元的我)等 | [文档链接](https://www.wolai.com/rMR9bFJehYhBKdQT6dY3zL) |
-|        Real-CUGAN 接口        |                         用于图像超分，相关功能：[大清晰术](#大清晰术)                         | [文档链接](https://www.wolai.com/22QBzD37qxaTcUKaB2zYRK) |
-|       DeepDanbooru 接口       |             用于逆推图片 Tags，相关功能：[鉴赏](#鉴赏)，[二次元的我](#二次元的我)             | [文档链接](https://www.wolai.com/jRW3wLMn53vpf9wc9JCo6T) |
-|     Anime Ai Detect 接口      |                 用于检测图像是否是 AI 制作的，相关功能：[鉴定图片](#鉴定图片)                 | [文档链接](https://www.wolai.com/3koPDP8wEne97evw1bjDiL) |
-| Anime Remove Background 接口  |                         用于去除图片背景，相关功能：[去背景](#去背景)                         | [文档链接](https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF) |
-| White Box Cartoonization 接口 |                 用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)                 | [文档链接](https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK) |
-|       百度图片审核服务        |                     用于检查图像是否合规，相关功能：[图像审核](#图像审核)                     | [文档链接](https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw) |
-|        Saucenao apikey        |                             用于以图搜图，相关功能：[搜图](#搜图)                             | [文档链接](https://www.wolai.com/wZpQ1pCV6t51bMPHupYTJA) |
+|     Stable Diffusion 接口     | 用于生产图片，相关功能：[绘图](#以文生图)，[以图生图](#以图生图)，[二次元的我](#二次元的我)等 | [文档链接](https://ap-plugin.com/Config/docs2) |
+|        Real-CUGAN 接口        |                         用于图像超分，相关功能：[大清晰术](#大清晰术)                         | [文档链接](https://ap-plugin.com/Config/docs3) |
+|       DeepDanbooru 接口       |             用于逆推图片 Tags，相关功能：[鉴赏](#鉴赏)，[二次元的我](#二次元的我)             | [文档链接](https://ap-plugin.com/Config/docs4) |
+|     Anime Ai Detect 接口      |                 用于检测图像是否是 AI 制作的，相关功能：[鉴定图片](#鉴定图片)                 | [文档链接](https://ap-plugin.com/Config/docs5) |
+| Anime Remove Background 接口  |                         用于去除图片背景，相关功能：[去背景](#去背景)                         | [文档链接](https://ap-plugin.com/Config/docs6) |
+| White Box Cartoonization 接口 |                 用于将图片转换成动漫风格，相关功能：[图片动漫化](#图片动漫化)                 | [文档链接](https://ap-plugin.com/Config/docs7) |
+|       百度图片审核服务        |                     用于检查图像是否合规，相关功能：[图像审核](#图像审核)                     | [文档链接](https://ap-plugin.com/Config/docs12) |
 
-以上接口中中，Stable Diffusion 接口需要大量算力生成图像，成本相对较高，详见[关于绘图接口的相关说明](https://www.wolai.com/k6qBiSdjzRmGZRk6cygNCk)；百度图片审核服务可领取 10000 次免费额度，后续收费标准为 5 元 10000 次；除此二者外，其余接口均可免费部署于[Hugging Face](https://huggingface.co/)。所有接口请自行动手配置，ap-plugin 暂不自带任何接口，敬请谅解。
+以上接口中中，Stable Diffusion 接口需要大量算力生成图像，成本相对较高，详见[关于绘图接口的相关说明](https://ap-plugin.com/Config/docs1)；百度图片审核服务可领取 10000 次免费额度，后续收费标准为 5 元 10000 次；除此二者外，其余接口均可免费部署于[Hugging Face](https://huggingface.co/)。所有接口请自行动手配置，ap-plugin 暂不自带任何接口，敬请谅解。
 
 </details>
 
@@ -167,7 +167,7 @@ pnpm restart
 - 采样方法：采样器 Euler a（指定采样器）
 - 采样迭代步数：步数 60（值越高图像越精细）
 - 种子：种子 468751975（用于生成相似图）
-- 提示词相关性：自由度 11（越高越自 ♂ 由）
+- 提示词相关性：提示词相关性 11（越高越自 ♂ 由）
 - 指定接口：接口 2（如果你有多接口，指定接口作图）
 - 批量绘制：5 张（批量绘制图片）
 
@@ -195,7 +195,7 @@ pnpm restart
 可选参数：
 
 - 继承[以文生图](#以文生图)的所有参数
-- 重绘幅度：强度 0.6（越高越接近 prompt 所描述）
+- 重绘幅度：重绘幅度 0.6（越高越接近 prompt 所描述）
 - [图片]：带上你的图片（附带图片，引用图片与艾特用户均可）
 
 <!-- |         指令         |      回复      |                                   示例                                   |
@@ -407,7 +407,7 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 
 #### 搜图
 
-> 使用 Saucenao 搜索相似图片
+> 使用 Ascii2d / SauceNAO / IqDB / TraceMoe / EHentai / Yandex 搜索相似图片
 
 <details>
 <summary>展开/收起</summary>
@@ -432,12 +432,15 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 - [x] 云端同步与共享预设
 - [x] 接入百度，有道翻译（Arcadia）
 - [x] 图片局部重绘
+- [x] 多搜索引擎搜图
+- [x] 设置个人默认绘图参数
+- [x] 动漫人物识别
 
 ## 致谢
 
 [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)：stable-diffusion-webui 项目  
 [秋葉 aaaki](https://space.bilibili.com/12566101/)：电子佛祖，赛博菩萨  
-[itorr/one-last-image](https://github.com/itorr/one-last-image)：一个优雅的卢浮宫风格化图片生成器
+[itorr/one-last-image](https://github.com/itorr/one-last-image)：一个优雅的卢浮宫风格化图片生成器  
 以及huggingface平台的优秀项目们：
 [Real-CUGAN](https://huggingface.co/spaces/DianXian/Real-CUGAN)、[DeepDanbooru_string](https://huggingface.co/spaces/NoCrypt/DeepDanbooru_string)、[anime-ai-detect](https://huggingface.co/spaces/saltacc/anime-ai-detect)、[anime-remove-background](https://huggingface.co/spaces/skytnt/anime-remove-background) 、[White-box-Cartoonization](https://huggingface.co/spaces/hylee/White-box-Cartoonization)、[img-to-music](https://huggingface.co/spaces/fffiloni/img-to-music)
 

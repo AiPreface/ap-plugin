@@ -17,13 +17,13 @@ import cfg from '../../../lib/config/config.js'
 import Parse from '../components/ai_painting/parse.js'
 
 
-export class setpolicy extends plugin {
+export class setpreset extends plugin {
     constructor() {
         super({
-            name: "AiPainting策略",
+            name: "AP-预设",
             dsc: "更改AiPainting策略",
             event: "message",
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     reg: "^#ap添加预设([\\s\\S]+)$",

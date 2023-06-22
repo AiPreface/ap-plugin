@@ -1,0 +1,16 @@
+concise_mode: false
+anime_me_card: true
+max_fold: 500
+nsfw_show: 1
+def_prompt: ""
+def_negativeprompt: EasyNegative, nsfw, lowres, bad anatomy, bad hands, text,
+  error, missing fingers, extra digit, fewer digits, cropped, worst quality, low
+  quality, normal quality, jpeg artifacts, signature, watermark, username,
+  blurry
+debug: false
+appreciation:
+  useSD: false
+  model: wd14-vit-v2-git
+realesrgan:
+  model1: ScuNET PSNR
+  model2: R-ESRGAN 4x+ Anime6B

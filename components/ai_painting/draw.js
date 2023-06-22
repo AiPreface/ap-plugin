@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-20 01:22:53
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-02-08 17:11:26
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-07 12:15:07
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\draw.js
  * @Description: 请求接口获取图片
  * 
@@ -12,7 +12,6 @@ import Config from "./config.js";
 import cfg from '../../../../lib/config/config.js'
 import NsfwCheck from "./nsfwcheck.js"
 import moment from "moment";
-import YAML from 'yaml'
 import path from 'path';
 import fs from 'fs';
 import fetch from "node-fetch";
@@ -20,6 +19,7 @@ import { bs64Size } from '../../utils/utils.js';
 import Log from '../../utils/Log.js'
 import process from "process";
 import { Pictools } from "../../utils/utidx.js";
+
 class Draw {
 
     /**获取一张图片。返回base64
@@ -35,7 +35,7 @@ class Draw {
                 code: 41,
                 info: "未配置接口",
                 msg: '',
-                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://www.wolai.com/tiamcvmiaLJLePhTr4LAJE\n发送#ap说明书以查看详细说明`
+                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://ap-plugin.com/Config/\n发送#ap说明书以查看详细说明`
             }
         let index = paramdata.specifyAPI || config.usingAPI
         let apiobj = config.APIList[index - 1]
@@ -105,67 +105,65 @@ class Draw {
             if (response.status == 401)
                 return {
                     code: response.status,
-                    info: "无访问权限",
+                    info: "未授权",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} ：无访问权限。请发送\n#ap设置接口${index}密码+你的密码\n来配置或更新密码（命令不带加号）`
+                    description: `接口${index}：${remark} ：401 Unauthorized  \n请发送\n#ap设置接口${index}账号xxx密码xxx\n以配置账号密码`
                 }
-            else if (response.status == 402) {
-                let msg = await response.text()
+            else if (response.status == 403)
                 return {
                     code: response.status,
-                    info: "需认证token",
-                    msg: msg,
-                    description: `接口${index}：${remark} ${msg}`
+                    info: "禁止访问",
+                    msg: response.statusText,
+                    description: `接口${index}：${remark} ：403 Forbidden  \n请发送\n#ap设置接口${index}账号xxx密码xxx\n以配置账号密码`
                 }
-            }
             else if (response.status == 404)
                 return {
                     code: response.status,
                     info: "NotFound",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 访问失败：404 NotFound。\n请检查接口连通性，或更换接口`
+                    description: `接口${index}：${remark} ：404 Not Found  \n请检查接口是否填写正确，或尝试使用其他接口`
                 }
             else if (response.status == 413)
                 return {
                     code: response.status,
                     info: "请求体过大",
                     msg: response.statusText,
-                    description: `错误：Request Entity Too Large\n请尝试使用其他图片`
+                    description: `接口${index}：${remark} ：413 Payload Too Large  \n请求实体过大，超出服务器的处理能力，请检查图片是否过大，或更改服务器端请求体大小限制`
                 }
             else if (response.status == 500)
                 return {
                     code: response.status,
                     info: "服务器内部错误",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 服务器内部错误：Internal Server Error\n服务器可能崩溃，也可能是暂时性故障。请稍后尝试，或检查服务器状态。\n若确认服务器状态正常后依然持续出现此错误，您也可以向开发者反馈。`
+                    description: `接口${index}：${remark} ：500 Internal Server Error  \n服务器内部错误，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else if (response.status == 502)
                 return {
                     code: response.status,
                     info: "Bad Gateway",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 错误：502 Bad Gateway\n若持续出现此错误，请检查stable diffusion是否添加了启动参数--api，或其他服务器错误\nhttps://product.pconline.com.cn/itbk/software/dnwt/1609/8402861.html`
+                    description: `接口${index}：${remark} ：502 Bad Gateway  \n作为网关或代理角色的服务器，从上游服务器收到无效响应，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else if (response.status == 503)
                 return {
                     code: response.status,
                     info: "服务不可用",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 服务不可用，可能触发了频率限制，请稍后重试或使用其他接口。`
+                    description: `接口${index}：${remark} ：503 Service Unavailable  \n由于超载或停机维护，服务不可用，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else if (response.status == 504)
                 return {
                     code: response.status,
                     info: "超时",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 超时：504 Gateway Time-out。\n如果频繁出现此错误，请检查绘图服务器状态，或更换接口`
+                    description: `接口${index}：${remark} ：504 Gateway Timeout  \n作为网关或代理角色的服务器，未及时从上游服务器接收请求，请检查服务器是否正常运行，或尝试使用其他接口`
                 }
             else {
                 let msg = {
                     code: response.status,
                     info: "未知错误",
                     msg: response.statusText,
-                    description: `接口${index}：${remark} 出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
+                    description: `接口${index}：${remark} ：${response.status} ${response.statusText}  \n出现未知错误，请尝试使用其他接口。\n您可前往控制台查看错误日志，并反馈给开发者。`
                 }
                 Log.e('【response_err】：', response)
                 Log.e('【response_err_status】：' + response.status)
@@ -178,7 +176,6 @@ class Draw {
 
         // 提取base64
         let res = await response.json();
-        // fs.writeFileSync(path.join(process.cwd(), 'resources/aptemp.json'), JSON.stringify(res, null, "\t"), "utf8");                  /*  */
         let base64 = res.images[0].toString().replace(/data:image\/png;|base64,/g, "");
         let resparam = res.parameters
         // 图片大小太小，判断为全黑故障图片
@@ -200,7 +197,7 @@ class Draw {
         if (paramdata.JH) {
             let jh = await NsfwCheck.check(base64)
             if (jh.message) {
-                if (jh.message == "【aiPainting图片审核】本次百度图片审核超时")
+                if (jh.message == "【AP-Plugin图片审核】本次百度图片审核超时")
                     return {
                         code: 32,
                         info: '百度图片审核超时',
@@ -232,7 +229,8 @@ class Draw {
             seed: resparam.seed,
             size: picinfo.size,
             md5: picinfo.md5,
-            base64: base64
+            base64: base64,
+            info: res.parameters,
         }
     }
 
@@ -258,22 +256,76 @@ class Draw {
     }
 }
 async function i(paramdata, apiobj) {
-    let options = await constructRequestOption(paramdata.param, apiobj.url);
-    if (apiobj.account_password) { options.headers['Authorization'] = `Basic ${Buffer.from(cfg.masterQQ[0] + ':' + apiobj.account_password, 'utf8').toString('base64')}`; }
-    return await fetch(apiobj.url + `/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
-}
-// ; async function i(NeAU1, LHGrhSZQ2) { let options = await constructRequestOption(NeAU1['\x70\x61\x72\x61\x6d']); if (LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64']) { options['\x68\x65\x61\x64\x65\x72\x73']['\x41\x75\x74\x68\x6f\x72\x69\x7a\x61\x74\x69\x6f\x6e'] = `Basic ${Buffer['\x66\x72\x6f\x6d'](cfg['\x6d\x61\x73\x74\x65\x72\x51\x51'][0] + '\x3a' + LHGrhSZQ2['\x61\x63\x63\x6f\x75\x6e\x74\x5f\x70\x61\x73\x73\x77\x6f\x72\x64'], '\x75\x74\x66\x38')['\x74\x6f\x53\x74\x72\x69\x6e\x67']('\x62\x61\x73\x65\x36\x34')}` } return await fetch(LHGrhSZQ2['\x75\x72\x6c'] + `/sdapi/v1/${NeAU1['\x70\x61\x72\x61\x6d']['\x62\x61\x73\x65\x36\x34'] ? "\x69\x6d\x67" : "\x74\x78\x74"}2img`, options) };
-async function constructRequestOption(param, url) {
-    // Log.i(param)                                 /*  */
-    let ntags = param.ntags + "nsfw, (nsfw:1.4), nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+    const PLUGINPATH = `${process.cwd()}/plugins/ap-plugin`, READMEPATH = `${PLUGINPATH}/README.md`;
+    try {
+        var currentVersion = /版本：(.*)/.exec(fs.readFileSync(READMEPATH, 'utf8'))[1];
+    } catch (err) {}
+    const options = await constructRequestOption(paramdata.param, apiobj);
+    if (apiobj.account_password) {
+      options.headers['Authorization'] = `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`;
+    }
+    options.headers['User-Agent'] = `AP-Plugin/@${currentVersion}`;
+    options.headers['Caller'] = `Master:${cfg.masterQQ[0].toString()}|Bot:${Bot.uin.toString()}|User:${paramdata.user.toString()}`;
+    return fetch(`${apiobj.url}/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
+  }
+  
+async function constructRequestOption(param, apiobj) {
+    //Log.i(param)
+    let ntags = param.ntags ? param.ntags : ''
+    if (!param.base64) {
+        let size = param.tags.match(/(\d+)\s*[×*]\s*(\d+)/)
+        if (size) {
+            size = size.slice(1, 3)
+        }
+        if (size) {
+            size[0] = Math.ceil(size[0] / 8) * 8;
+            size[1] = Math.ceil(size[1] / 8) * 8;
+        }        
+        if (size && (size[0] > 2048 || size[1] > 2048)) {
+            size = null
+        }
+        param.tags = param.tags.replace(/(\d+)\s*[×*]\s*(\d+)/, '').trim()
+        param.width = size ? size[0] : param.width
+        param.height = size ? size[1] : param.height
+        if (param.tags.match(/(H|h)ires(\.?fix)?/)) {
+            let hr_scale = param.tags.match(/(H|h)ires(\.?fix)?\s*(\d+(\.\d+)?)?/)[3]
+            if (hr_scale) {
+                hr_scale = Number(hr_scale).toFixed(2)
+            } else {
+                hr_scale = 2
+            }
+            if (hr_scale >= 1 && hr_scale <= 4) {
+                hr_scale = 2
+            }
+            param.tags = param.tags.replace(/(H|h)ires(\.?fix)?\s*(\d+(\.\d+)?)?/, '').trim()
+            param.enable_hr = true
+            param.denoising_strength = 0.7
+            param.hr_scale = hr_scale,
+            param.hr_upscaler = 'Latent'
+            param.hr_second_pass_steps = param.steps
+            param.width = Math.ceil(param.width / param.hr_scale)
+            param.height = Math.ceil(param.height / param.hr_scale)
+            param.width = Math.ceil(param.width / 8) * 8
+            param.height = Math.ceil(param.height / 8) * 8
+        }
+    }
     let seed = param.seed
     if (seed == -1) {
         seed = Math.floor(Math.random() * 2147483647)
     }
     // 请求接口判断是否存在指定sampler 
     if (param.sampler != 'Euler a') {
+        const PLUGINPATH = `${process.cwd()}/plugins/ap-plugin`, READMEPATH = `${PLUGINPATH}/README.md`;
         try {
-            let res = await fetch(url + `/sdapi/v1/samplers`)
+            var currentVersion = /版本：(.*)/.exec(fs.readFileSync(READMEPATH, 'utf8'))[1];
+        } catch (err) {}
+        try {
+            let res = await fetch(apiobj.url + `/sdapi/v1/samplers`, {
+                headers: {
+                    'User-Agent': 'AP-Plugin/@' + currentVersion,
+                    'Authorization': `Basic ${Buffer.from(`${apiobj.account_id}:${apiobj.account_password}`, 'utf8').toString('base64')}`,
+                }
+            })
             res = await res.json()
             let exist = false
             for (let val of res) {
@@ -283,43 +335,37 @@ async function constructRequestOption(param, url) {
                 }
             }
             Log.i(`指定的采样器${param.sampler}：${exist ? '存在' : '不存在'}`)
-            if (!exist)
+            if (!exist) {
                 param.sampler = 'Euler a'
+                Log.i(`接口不存在该采样器，默认使用Euler a`)
+                }
         } catch (err) {
             param.sampler = 'Euler a'
+            Log.i(`采样器列表请求出错，默认使用Euler a`)
         }
     }
+
+    let setting = await Config.getSetting()
 
     let data;
     // 文生图
     if (!param.base64) {
         data = {
-            "enable_hr": false,
-            "denoising_strength": 0,
+            "enable_hr": param.enable_hr ? true : false,
+            "denoising_strength": param.strength ? param.strength : 0,
             "firstphase_width": 0,
             "firstphase_height": 0,
-            "styles": ["string"],
-            // "subseed": -1,
-            // "subseed_strength": 0,
-            // "seed_resize_from_h": -1,
-            // "seed_resize_from_w": -1,
-            "batch_size": 1,
-            "n_iter": 1,
-            "restore_faces": false,
-            "tiling": false,
-            "eta": 0,
-            "s_churn": 0,
-            "s_tmax": 0,
-            "s_tmin": 0,
-            "s_noise": 1,
+            "hr_scale": param.hr_scale ? param.hr_scale : 2,
+            "hr_upscaler": param.hr_upscaler ? param.hr_upscaler : 'Latent',
+            "hr_second_pass_steps": param.hr_second_pass_steps ? param.hr_second_pass_steps : 0,
             "override_settings": {},
-            "prompt": param.tags,
+            "prompt": param.tags + setting.def_prompt,
             "seed": seed,
             "steps": param.steps,
             "cfg_scale": param.scale,
             "height": param.height,
             "width": param.width,
-            "negative_prompt": ntags,
+            "negative_prompt": ntags + setting.def_negativeprompt,
             "sampler_index": param.sampler,
         }
     }
@@ -329,19 +375,21 @@ async function constructRequestOption(param, url) {
             "init_images": ['data:image/jpeg;base64,' + param.base64],
             "sampler_index": param.sampler,
             "denoising_strength": param.strength,
-            "prompt": param.tags,
+            "prompt": param.tags + setting.def_prompt,
             "seed": seed,
             "steps": param.steps,
             "cfg_scale": param.scale,
             "width": param.width,
             "height": param.height,
-            "negative_prompt": ntags,
+            "negative_prompt": ntags + setting.def_negativeprompt,
             "styles": ["string"],
             "mask": "mask" in param ? param.mask : null,
             "mask_blur": "mask_blur" in param ? param.mask_blur : NaN,
             "inpainting_mask_invert": "inpainting_mask_invert" in param ? param.inpainting_mask_invert : NaN,
         }
     }
+
+    
     let options = {
         method: 'POST',
         headers: {

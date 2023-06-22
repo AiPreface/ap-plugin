@@ -25,16 +25,16 @@ export class AiDetect extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '鉴定图片',
+            name: 'AP-鉴定图片',
             /** 功能描述 */
             dsc: '简单开发示例',
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#?(检查|鉴定)(图|画)(片|像)$',
+                    reg: '^#?(检查|鉴定)((图|画)(片|像))?$',
                     /** 执行方法 */
                     fnc: 'anime_ai_detect'
                 },
@@ -51,7 +51,7 @@ export class AiDetect extends plugin {
 
     async anime_ai_detect(e) {
         if (!API)
-            return await e.reply("请先配置鉴定图片所需API，配置教程：https://www.wolai.com/3koPDP8wEne97evw1bjDiL")
+            return await e.reply("请先配置鉴定图片所需API，配置教程：https://ap-plugin.com/Config/docs5")
         if (FiguretypeUser[e.user_id]) {
             e.reply('当前有任务在列表中排队，请不要重复发送，鉴定完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
             return true

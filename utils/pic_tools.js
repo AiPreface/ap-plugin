@@ -20,6 +20,10 @@ import cfg from '../../../lib/config/config.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import md5 from "md5";
 import { bs64Size } from "./utils.js";
+import cheerio from 'cheerio'
+import FormData from 'form-data'
+import QRCode from 'qrcode'
+
 
 /**图片工具 */
 class Pictools extends plugin {
@@ -100,7 +104,7 @@ class Pictools extends plugin {
         Bot.pickUser(cfg.qq).sendMsg([segment.image(`base64://${base64}`), false, { recallMsg: 20 }]);
         let picinfo = await this.getPicInfo(base64, true)
         let md5 = picinfo.md5
-        return `https://gchat.qpic.cn/gchatpic_new/0/000000000-000000000-${md5}/0?term=3`
+        return `https://c2cpicdw.qpic.cn/offpic_new/0//0000000000-0000000000-${md5}/0?term=2`
     }
 
 
@@ -127,11 +131,81 @@ class Pictools extends plugin {
      * @return {string} 二维码的base64或url
      */
     async text_to_qrcode(text, isurl = true) {
-
-
-
+        let base64 = await QRCode.toDataURL(text)
+        if (isurl)
+            return base64
+        else
+            return this.base64_to_imgurl(base64)
     }
 
+    /**将图片提交进QQ图床，返回图片url
+     * @param {string} base64 图片的base64
+     * @return {string} 图片url
+     */
+    async upload_image(base64) {
+        return (await Bot.pickFriend(Bot.uin)._preprocess(segment.image(`base64://${base64}`))).imgs[0];
+    }
+
+
+
+    /**将图片提交进图床，返回图片url
+     * @param {string} content 图片的二进制内容
+     * @return {string} 图片url
+     */
+    async upload(content) {
+        // 访问主页获取 token
+        const response = await axios.get('https://postimages.org/');
+        if (response.status !== 200) {
+          return false;
+        }
+        const $ = cheerio.load(response.data);
+        let token = $('input[name="token"]').val();
+        if (!token) {
+          // 获取 token 失败，启用备用方案，转为字符串，然后正则匹配
+          token = response.data.toString().match(/"token","(.*?)"/)[1];
+          if (!token)
+            return false;
+        }
+        // 上传图片
+        const form = new FormData();
+        form.append('file', content, { filename: 'image.png' });
+        form.append('token', token);
+        form.append('upload_session', [...Array(32)].map(i=>(~~(Math.random()*36)).toString(36)).join(''));
+        form.append('numfiles', 1);
+        form.append('ui', JSON.stringify(['', '', '', true, '', '', new Date().toISOString()]));
+        form.append('optsize', '');
+        form.append('session_upload', Date.now());
+        form.append('gallery', '');
+        form.append('expire', 0);
+      
+        const config = {
+          headers: {
+            ...form.getHeaders(),
+          },
+        };
+      
+        const response2 = await axios.post('https://postimages.org/json/rr', form, config);
+        if (response2.status !== 200) {
+          return false;
+        }
+        const data = response2.data;
+        const web_url = data.url;
+        if (!web_url) {
+          return '_set_error fail. cannot find image URL';
+        }
+        // 获取图片链接
+        const response3 = await axios.get(web_url);
+        if (response3.status !== 200) {
+          return false;
+        }
+        const html = response3.data;
+        const $2 = cheerio.load(html);
+        const imageUrl = $2('meta[property="og:url"]').attr('content');
+        if (!imageUrl) {
+          return false;
+        }
+        return imageUrl;
+      }
 }
 
 export default new Pictools

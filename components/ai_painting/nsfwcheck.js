@@ -28,7 +28,7 @@ class NsfwCheck {
         // 未配置apikey
         if (this.appid == "Your_App_ID" || this.apikey == 'Your_Api_Key' || this.secretkey == "Your_Secret_Key") {
             return {
-                message: "百度图片审核服务调用失败，请先配置百度图片审核接口，配置教程：https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw \n\n您也可以发送“#ap全局设置审核关闭”以关闭图片审核功能，关闭后绘制的图片将直接发送，不再进行审核"
+                message: "百度图片审核服务调用失败，请先配置百度图片审核接口，配置教程：https://ap-plugin.com/Config/docs12 \n\n您也可以发送“#ap全局设置审核关闭”以关闭图片审核功能，关闭后绘制的图片将直接发送，不再进行审核"
             }
         }
         // 鉴黄
@@ -82,18 +82,18 @@ class NsfwCheck {
             data = await baiduJianhuangClient.imageCensorUserDefined(base64, "base64")
         } catch (err) {
             if (err.code == "ESOCKETTIMEDOUT")
-                return { message: "【aiPainting图片审核】本次百度图片审核超时" }
+                return { message: "【AP-Plugin图片审核】本次百度图片审核超时" }
             else if (err.code == "ENOENT")
-                return { message: "【aiPainting图片审核】图片获取失败" }
+                return { message: "【AP-Plugin图片审核】图片获取失败" }
             else {
                 Log.e('【百度图片审核报错】:', err.message)
                 Log.e('【百度图片审核报错】:', err)
-                return { message: '【aiPainting图片审核】遇到未知错误，建议查看控制台报错，向开发者反馈' }
+                return { message: '【AP-Plugin图片审核】遇到未知错误，建议查看控制台报错，向开发者反馈' }
             }
         }
         // 处理结果
         if (data.error_code == 14) {
-            return { message: "百度鉴黄服务调用失败，请先配置百度鉴黄接口，配置教程：https://www.wolai.com/9vacNhw3TPuCPy5pLYQnYw \n\n您也可以发送“ap全局设置鉴黄关闭”以关闭鉴黄功能" }
+            return { message: "百度鉴黄服务调用失败，请先配置百度鉴黄接口，配置教程：https://ap-plugin.com/Config/docs12 \n\n您也可以发送“ap全局设置鉴黄关闭”以关闭鉴黄功能" }
         } else if (data.error_code == 18) {
             return { message: "触发百度图像审核服务QPS限制。可能是请求频率过高，或你没有在百度云控制台开通“内容审核-图像”资源，或开通时间过短（小于15分钟）" }
         } else if (data.error_code == 216201 || data.conclusion == "审核失败") {

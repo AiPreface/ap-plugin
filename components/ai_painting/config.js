@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 00:40:50
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-07 19:48:25
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-06 22:01:40
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\config.js
  * @Description: 获取和写入ap各项配置
  * 
@@ -23,6 +23,7 @@ class Config {
         this.initCfg()
         this.synccfg()
         this.syncplc()
+        this.syncset()
         this.sync_api_format()
     }
 
@@ -62,6 +63,15 @@ class Config {
         // policy.gp.private = await this.syncobj(policy.gp.private, defpolicy.gp.private)
         this.setPolicy(policy)
     }
+    // 同步设置
+    async syncset() {
+        let setting = await this.getSetting()
+        let defsetting = await YAML.parse(
+            fs.readFileSync(path.join(`${Plugin_Path}/config/default_config/`, 'setting.yaml'), "utf8")
+        );
+        setting = await this.syncobj(setting, defsetting)
+        this.setSetting(setting)
+    }
     // 同步/config和/default_config中的属性
     async syncobj(config, defconfig) {
         for (let key in defconfig) {
@@ -82,7 +92,6 @@ class Config {
         for (let i = 0; i < apcfg.APIList.length; i++) {
             if (Object.keys(apcfg.APIList[i]).length == 1) {
                 let api = Object.keys(apcfg.APIList[i])[0]
-                console.log(`刷新接口格式：${api}`)
                 apcfg.APIList[i] = {
                     url: api,
                     remark: apcfg.APIList[i][api],
@@ -94,6 +103,35 @@ class Config {
             }
         }
     }
+
+        /**获取设置
+     * @return {*}
+     */
+        async getSetting() {
+            let apcfg = await YAML.parse(
+                fs.readFileSync(path.join(cfg_path, 'setting.yaml'), "utf8")
+            );
+            return apcfg
+        }
+    
+        /**写入配置
+         * @param {*} apcfg
+         * @return {*}
+         */
+        async setSetting(apcfg) { fs.writeFileSync(path.join(cfg_path, 'setting.yaml'), YAML.stringify(apcfg), "utf8"); }
+    
+        /**同步获取配置
+         * @param {*} apcfg
+         * @return {*}
+         */
+        mergeSetting() {
+            let apcfg = YAML.parse(fs.readFileSync(path.join(cfg_path, 'setting.yaml'), "utf8"));
+            let apcfgobj = {}
+            for (let key in apcfg) {
+                apcfgobj[key] = apcfg[key]
+            }
+            return apcfgobj
+        }
 
     /**获取配置
      * @return {*}
@@ -111,7 +149,18 @@ class Config {
      */
     async setcfg(apcfg) { fs.writeFileSync(path.join(cfg_path, 'config.yaml'), YAML.stringify(apcfg), "utf8"); }
 
-
+    /**同步获取配置
+     * @param {*} apcfg
+     * @return {*}
+     */
+    mergeConfig() {
+        let apcfg = YAML.parse(fs.readFileSync(path.join(cfg_path, 'config.yaml'), "utf8"));
+        let apcfgobj = {}
+        for (let key in apcfg) {
+            apcfgobj[key] = apcfg[key]
+        }
+        return apcfgobj
+    }
 
     /**获取ap策略
      * @return {*}
@@ -123,13 +172,39 @@ class Config {
         return plc
     }
 
+    /**同步获取ap策略
+     * @return {*}
+        */
+    mergePolicy() {
+        let plc = YAML.parse(fs.readFileSync(path.join(cfg_path, 'policy.yaml'), "utf8"));
+        let plcobj = {}
+        for (let key in plc) {
+            plcobj[key] = plc[key]
+        }
+        return plcobj
+    }
+
     /**写入ap策略
      * @param {*} policy
      * @return {*}
      */
     async setPolicy(policy) { fs.writeFileSync(path.join(cfg_path, 'policy.yaml'), YAML.stringify(policy), "utf8"); }
 
+    /**获取ap默认参数
+     * @return {*}
+        */
+    async getParse() {
+        let parse = await YAML.parse(
+            fs.readFileSync(path.join(cfg_path, 'parse.yaml'), "utf8")
+        );
+        return parse
+    }
 
+    /**写入ap默认参数
+     * @param {*} parse
+     * @return {*}
+     *  */
+    async setParse(parse) { fs.writeFileSync(path.join(cfg_path, 'parse.yaml'), YAML.stringify(parse), "utf8"); }
 
     /**获取违禁词列表
      * @return {*}

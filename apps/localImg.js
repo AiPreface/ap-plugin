@@ -15,7 +15,6 @@ import Config from '../components/ai_painting/config.js'
 import Parse from '../components/ai_painting/parse.js';
 import { chNum2Num, getuserName, parseImg } from '../utils/utils.js'
 import common from '../../../lib/common/common.js'
-import Log from '../utils/Log.js';
 import path from 'path';
 import fs from 'fs'
 const dirPath = path.join(process.cwd(), 'resources/yuhuo/aiPainting/pictures');
@@ -23,10 +22,10 @@ let confirm_clear = false
 export class LocalImg extends plugin {
     constructor() {
         super({
-            name: "本地图片管理",
+            name: "AP-本地图片管理",
             dsc: "本地图片管理",
             event: "message",
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     reg: "^#?ap检索(本地)?图片([\\s\\S]*)(第(.*)页)?$",
@@ -46,13 +45,17 @@ export class LocalImg extends plugin {
                     reg: "^#?ap查水表(第(.*)页)?$",
                     fnc: "FBI",
                 },
+                {
+                    reg: "^#?ap(储存|存储)状态$",
+                    fnc: "checkLocalImg",
+                    permission: "master",
+                }
             ],
         });
     };
     async searchLocalImg(e) {
         // 获取本群策略
         let current_group_policy = await Parse.parsecfg(e)
-        // console.log('【aiPainting】本群ap策略：\n',gpolicy)                    /*  */  
         // 判断功能是否开启
         if (!e.isMaster && current_group_policy.apMaster.indexOf(e.user_id) == -1) {
             // 判断群友权限
@@ -268,5 +271,27 @@ export class LocalImg extends plugin {
         }
         e.msg = `#ap检索图片${e.at}第${page}页`
         return this.searchLocalImg(e)
+    }
+
+    async checkLocalImg(e) {
+        let imageCount = 0;
+        let totalSize = 0;
+        function traverseFolder(currentPath) {
+            const files = fs.readdirSync(currentPath);
+            files.forEach(file => {
+                const filePath = path.join(currentPath, file);
+                const stats = fs.statSync(filePath);
+                if (stats.isDirectory()) {
+                    traverseFolder(filePath);
+                } else if (/\.(jpg|jpeg|png|gif)$/i.test(filePath)) {
+                    imageCount++;
+                    totalSize += stats.size;
+                }
+            });
+        }
+        traverseFolder(dirPath);
+        const sizeInMB = (totalSize / 1024 / 1024).toFixed(2);
+        e.reply(`本地共有${imageCount}张图片，总大小为${sizeInMB}MB。`);
+        return true;
     }
 }

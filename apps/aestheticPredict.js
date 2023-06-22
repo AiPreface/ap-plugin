@@ -16,6 +16,7 @@ import {
 import fetch from 'node-fetch'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
+import Log from '../utils/Log.js';
 
 let FiguretypeUser = {}
 let getImagetime = {}
@@ -26,33 +27,33 @@ export class score extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '动漫审美预测',
+			name: 'AP-审美预测',
 			/** 功能描述 */
 			dsc: '^动漫审美预测',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 0,
+			priority: 1009,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?(二次元美学|动漫审美预测)$',
-					/** 执行方法 */
-					fnc: 'score',
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					/** 日志 */
-					log: false,
-				}
+				/** 命令正则匹配 */
+				reg: '^#?(二次元美学|动漫审美预测)$',
+				/** 执行方法 */
+				fnc: 'score',
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				/** 日志 */
+				log: false,
+			}
 			]
 		})
 	}
 
 	async score(e) {
 		if (!API)
-			return await e.reply('请先配置动漫审美预测所需API，配置教程：https://www.wolai.com/oahXrMjG1KcxeqxrKLSa7k')
+			return await e.reply('请先配置动漫审美预测所需API，配置教程：https://ap-plugin.com/Config/docs9')
 		if (FiguretypeUser[e.user_id]) {
 			e.reply('当前有任务在列表中排队，请不要重复发送，取得结果后完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
 			return true
@@ -72,16 +73,16 @@ export class score extends plugin {
 			let base64 = Buffer.from(img.data, 'binary')
 				.toString('base64');
 			await fetch(API, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						data: [
-							"data:image/png;base64," + base64
-						]
-					})
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					data: [
+						"data:image/png;base64," + base64
+					]
 				})
+			})
 				.then(r => r.json())
 				.then(
 					r => {
@@ -92,8 +93,8 @@ export class score extends plugin {
 							.toFixed(2)
 						e.reply(`预测结果：${score}分，耗时：${time}秒`, true)
 						delete FiguretypeUser[e.user_id]
-					}, ).catch(error => {
-						console.log(error)
+					},).catch(error => {
+						Log.e(error)
 						e.reply('预测失败，请重试')
 						delete FiguretypeUser[e.user_id]
 					})

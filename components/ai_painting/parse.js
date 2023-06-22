@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:02:16
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-02-08 16:47:21
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-07 10:36:53
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\ai_painting\parse.js
  * @Description: 解析整合特定内容
  * 
@@ -19,7 +19,6 @@ class Parse {
     }
 
     /**获取指定群的ap策略
-     * @param {*} e OICQ事件参数e
      * @return {object} gpolicy：此群的ap策略
      */
     async parsecfg(e) {
@@ -50,7 +49,6 @@ class Parse {
 
 
     /**整合绘图所用参数
-     * @param {*} e OICQ事件参数e
      * @return {object}  paramdata 整合的参数
      */
     async mergeParam(e) {
@@ -70,8 +68,11 @@ class Parse {
 
         // 解析命令中的参数
         let txtparam = await this.parsetxt(e.msg)
+        // 获取用户默认参数
+        let paramcfg = await Config.getParse()
+        let userparam = e.user_id in paramcfg ? paramcfg[e.user_id] : paramcfg.default
         // 对于没有出现的属性，使用默认值填充
-        txtparam = this.complete_txtparam(txtparam)
+        txtparam = this.complete_txtparam(userparam, txtparam)
         // 如果指定了不存在的接口
         let config = await Config.getcfg()
         if (txtparam.specifyAPI > config.APIList.length)
@@ -81,9 +82,9 @@ class Parse {
             // 计算640*640像素下所对应的宽高
             let w = Math.round(Math.sqrt(640 * 640 * picInfo.width / picInfo.height))
             let h = Math.round(Math.sqrt(640 * 640 / picInfo.width * picInfo.height))
-            // 置为64的整数倍
-            h = h % 64 < 32 ? h - h % 64 : h + 64 - h % 64
-            w = w % 64 < 32 ? w - w % 64 : w + 64 - w % 64
+            // 置为8的整数倍
+            h = h % 8 < 4 ? h - h % 8 : h + 8 - h % 8
+            w = w % 8 < 4 ? w - w % 8 : w + 8 - w % 8
 
             txtparam.param.width = w
             txtparam.param.height = h
@@ -118,33 +119,7 @@ class Parse {
      * @return {*}  txtparam 绘图参数
      */
     async parsetxt(msg, is_check_preset = true) {
-        const samplerList = [
-            'Euler a',
-            'Euler',
-
-            'PLMS',
-            'LMS Karras',
-            'LMS',
-
-            'Heun',
-
-            'DPM fast',
-            'DPM adaptive',
-
-            'DPM2 Karras',
-            'DPM2 a Karras',
-            'DPM2 a',
-            'DPM2',
-
-            'DDIM',
-
-            'DPM++ 2S a Karras',
-            'DPM++ 2S a',
-            'DPM++ 2M Karras',
-            'DPM++ 2M',
-            'DPM++ SDE Karras',
-            'DPM++ SDE',
-        ]
+        const samplerList = ['Euler a', 'Euler', 'PLMS', 'LMS Karras', 'LMS', 'Heun', 'DPM fast', 'DPM adaptive', 'DPM2 Karras', 'DPM2 a Karras', 'DPM2 a', 'DPM2', 'DDIM', 'DPM++ 2S a Karras', 'DPM++ 2S a', 'DPM++ 2M Karras', 'DPM++ 2M', 'DPM++ SDE Karras', 'DPM++ SDE', 'UniPC'];
 
         let sampler = ""
 
@@ -165,9 +140,9 @@ class Parse {
             Landscape: /(横图|(&shape=)?Landscape)/i,
             Square: /(方图|(&shape=)?Square)/i,
             steps: /(步数|&?steps=)(\d{1,2})/i,
-            scale: /(自由度|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i,
+            scale: /(提示词相关性|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i,
             seed: /(种子|&?seed=)(\d{1,10})/i,
-            strength: /(强度|&?strength=)(0.(\d{1,5}))/i,
+            strength: /(重绘幅度|&?strength=)(0.(\d{1,5}))/i,
             specifyAPI: /接口(\d{1,2})/,
         }
         let shape = reg.Landscape.test(msg) ? "Landscape" : reg.Square.test(msg) ? "Square" : "";
@@ -181,7 +156,7 @@ class Parse {
 
         // 移除命令中的自定义参数
         msg = msg
-            .replace(/^(＃|#)?绘图/, "")
+            .replace(/^(＃|#)?(绘图|绘画|咏唱|绘世)/, "")
             .replace(/(\d{1,5})张/g, "")
             .replace(/(竖图|横图|方图|(&shape=)?Landscape|(&shape=)?Square)/gi, "")
             .replace(reg.scale, "")
@@ -207,22 +182,35 @@ class Parse {
             ntags = tres.ntags
             param = tres.param
         }
-
-        // 取tags中的pt
-        let pt_reg = /(【.+?】)/
+        let pt_reg = /(【.+?】|<[^<>]+?>)/
         let pt = []
         let npt = []
-        while (pt_reg.test(tags)) {
-            let check_pt = pt_reg.exec(tags)
-            // Log.i(check_pt)  //
-            pt.push(check_pt[0].replace(/^【/, '').replace(/】$/, '').trim())
-            tags = tags.replace(check_pt[0], '')
+        while (true) {
+            const check_tag = pt_reg.exec(tags)
+            if (!check_tag) {
+                break
+            }
+            const tag_content = check_tag[0].replace(/[【】<>]/g, '');
+            if (/<[^<>]+>/g.test(check_tag[0])) {
+                pt.push(`<${tag_content}>`)
+            } else if (/\【[^【\】]+\】/g.test(check_tag[0])) {
+                pt.push(tag_content)
+            }
+            tags = tags.replace(check_tag[0], '')
         }
-        while (pt_reg.test(ntags)) {
-            let check_pt = pt_reg.exec(ntags)
-            // Log.i(check_pt)  //
-            npt.push(check_pt[0].replace(/^【/, '').replace(/】$/, '').trim())
-            ntags = ntags.replace(check_pt[0], '')
+
+        while (true) {
+            const check_tag = pt_reg.exec(ntags)
+            if (!check_tag) {
+                break
+            }
+            const tag_content = check_tag[0].replace(/^【|】$|<|>$/g, '').trim()
+            if (/<[^<>]+>/g.test(check_tag[0])) {
+                npt.push(`<${tag_content}>`)
+            } else if (/\【[^【\】]+\】/g.test(check_tag[0])) {
+                npt.push(tag_content)
+            }
+            ntags = ntags.replace(check_tag[0], '')
         }
         // Log.i(pt)
         // Log.i(npt)
@@ -247,8 +235,8 @@ class Parse {
                 seed: seed,
                 scale: Number(scale),
                 steps: Number(steps),
-                width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : 512,
-                height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : 768,
+                width: shape == 'Landscape' ? 768 : shape == 'Square' ? 640 : NaN,
+                height: shape == 'Landscape' ? 512 : shape == 'Square' ? 640 : NaN,
                 tags: tags.trim(),
                 ntags: ntags.trim(),
                 pt: pt,
@@ -264,12 +252,18 @@ class Parse {
         return txtparam
     }
     /** 对于没有出现的属性，使用默认值填充 */
-    complete_txtparam(txtparam) {
-        txtparam.param.sampler = txtparam.param.sampler || 'Euler a'
-        txtparam.param.strength = txtparam.param.strength || 0.6
+    complete_txtparam(userparam, txtparam) {
+        txtparam.param.sampler = txtparam.param.sampler || userparam.sampler
+        txtparam.param.strength = txtparam.param.strength || userparam.strength
         txtparam.param.seed = txtparam.param.seed || -1
-        txtparam.param.scale = txtparam.param.scale || 11
-        txtparam.param.steps = txtparam.param.steps || 22
+        txtparam.param.scale = txtparam.param.scale || userparam.scale
+        txtparam.param.steps = txtparam.param.steps || userparam.steps
+        txtparam.param.width = userparam.width
+        txtparam.param.height = userparam.height
+        txtparam.param.enable_hr = userparam.enable_hr
+        txtparam.param.hr_upscaler = userparam.hr_upscaler
+        txtparam.param.hr_second_pass_steps = userparam.hr_second_pass_steps
+        txtparam.param.hr_scale = userparam.hr_scale
         return txtparam
     }
 

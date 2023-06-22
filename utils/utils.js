@@ -1,8 +1,8 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-19 12:56:44
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-16 18:41:12
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-03 16:30:13
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\utils\utils.js
  * @Description: 一些实用小工具
  * 
@@ -17,7 +17,6 @@ import Log from "./Log.js";
 
 /**
  * 处理消息中的图片：当消息引用了图片，或者消息有@对象，则将对应图片放入e.img ，优先级==> e.source.img > e.img > e.at的头像 > bot头像
- * @param {*} e OICQ事件参数e
  * @return {*} 处理过后的e
  */
 export async function parseImg(e) {
@@ -108,7 +107,6 @@ export function getgsName(name) {
  */
 export async function getuserName(e, qq = null) {
     qq = qq || e.user_id
-    qq = Number(qq)
     if (e && e.isGroup) {
         try {
             let member = await Bot.getGroupMemberInfo(e.group_id, qq);
@@ -120,8 +118,13 @@ export async function getuserName(e, qq = null) {
             logger.error("[getuserName]", err);
         }
     }
-    let user = await Bot.pickUser(qq).getSimpleInfo();
-    return String(user.nickname || qq);
+    let user
+    try {
+        user = (await Bot.pickUser(qq).getSimpleInfo()).nickname
+    } catch (error) { 
+        user = (await e.bot.pickUser(qq).getInfo()).nickname
+    }
+    return String(user || qq);
 }
 
 
@@ -209,8 +212,6 @@ export function chNum2Num(text, data = {}) {
     else {
         regExp = new RegExp(data.l_text + '(\[一二三四五六七八九十零百千万亿\]\+)' + data.r_text)
     }
-    // console.log(regExp)
-    // console.log(regExp.exec(text))
     let ret = regExp.exec(text)
     if (!ret) return text
     let chNum = ret[1].trim()

@@ -33,8 +33,8 @@ import { isEqual, chNum2Num } from './utils.js'
 // for (let key in presets) {
 //     console.log(key)
 //     let value = presets[key]
-//     let scale = /(自由度|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i.test(value) ? /(自由度|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i.exec(value)[2] : NaN
-//     value = value.replace(/(自由度|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i, "")
+//     let scale = /(提示词相关性|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i.test(value) ? /(提示词相关性|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i.exec(value)[2] : NaN
+//     value = value.replace(/(提示词相关性|&?scale=)((\d{1,2})(.(\d{1,5}))?)/i, "")
 //     let txtparam = await Parse.parsetxt(value)
 //     let param = {}
 //     if (scale) param = { scale: scale }

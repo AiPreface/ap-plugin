@@ -1,0 +1,11 @@
+default:
+  sampler: DPM++ 2S a Karras
+  steps: 20
+  width: 512
+  height: 768
+  scale: 7
+  strength: 0.5
+  enable_hr: true
+  hr_upscaler: R-ESRGAN 4x+ Anime6B
+  hr_second_pass_steps: 0
+  hr_scale: 1.5

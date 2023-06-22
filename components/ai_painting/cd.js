@@ -14,7 +14,7 @@ class CD {
 
     /**
      * 检查请求绘图的用户是否在cd ，若未cd则为其设置cd 
-     * @param {*} e OICQ事件参数e
+
      * @param {Object} gpolicy 该群的ap策略
      * @return {String} cd提醒文案
      * @return false 当未处于CD中
@@ -69,7 +69,6 @@ class CD {
 
     /**
      * 清除指定用户的cd
-     * @param {*} e OICQ事件参数e
      * @return {*} 
      */
     async clearCD(e) {
@@ -82,7 +81,6 @@ class CD {
 
 
     /**设置批量绘图的CD
-     * @param {*} e OICQ事件参数e
      * @param {*} num 批量绘制了num张图
      * @param {*} gpolicy 该群ap策略
      * @return {*}

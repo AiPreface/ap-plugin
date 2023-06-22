@@ -24,12 +24,12 @@ export class RemoveBackground extends plugin {
     constructor() {
         super({
             /** 功能名称 */
-            name: '图像去背景',
+            name: 'AP-图像去背景',
             /** 功能描述 */
             dsc: '图像去背景',
             event: 'message',
             /** 优先级，数字越小等级越高 */
-            priority: 5000,
+            priority: 1009,
             rule: [
                 {
                     /** 命令正则匹配 */
@@ -50,7 +50,7 @@ export class RemoveBackground extends plugin {
 
     async AnimeRemoveBackground(e) {
         if (!URL)
-            return await e.reply("请先配置去背景所需API，配置教程：https://www.wolai.com/sSZM1AHnBULxyc4s4hKquF")
+            return await e.reply("请先配置去背景所需API，配置教程：https://ap-plugin.com/Config/docs6")
         //将URL处理成API格式
         const API = 'https://' + URL.split('/')[4] + '-anime-remove-background.hf.space/api/queue/'
 
@@ -59,7 +59,7 @@ export class RemoveBackground extends plugin {
             return true
         }
         e = await parseImg(e)
-        
+
         if (this.e.img) {
             e.reply('正在为图像去背景，请稍候...', false, { at: true, recallMsg: 15 })
             FiguretypeUser[e.user_id] = setTimeout(() => {
@@ -85,7 +85,6 @@ export class RemoveBackground extends plugin {
             },
             )
             let statushash = response.data.hash
-            console.log(`本次请求hash为${statushash}`)
             let res = await axios.post(
                 API + 'status/',
                 {
@@ -93,7 +92,6 @@ export class RemoveBackground extends plugin {
                 },
             )
             let status = res.data.status
-            console.log(`本次请求状态为${status}`)
             while (status != 'COMPLETE') {
                 res = await axios.post(
                     API + 'status/',
@@ -102,10 +100,8 @@ export class RemoveBackground extends plugin {
                     },
                 )
                 status = res.data.status
-                console.log(`本次请求状态为${status}`)
                 await new Promise((resolve) => setTimeout(resolve, 1000));
             }
-            console.log(`本次请求完成`)
             let end = new Date()
             let time = ((end.getTime() - start.getTime()) / 1000).toFixed(2)
             e.reply(`耗时${time}s，正在发送结果...`, false, { at: true, recallMsg: 5 })

@@ -1,0 +1,3 @@
+"3146312184":
+  module: openpose
+  model: control_openpose-fp16 [9ca67cc5]

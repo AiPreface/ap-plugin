@@ -13,6 +13,7 @@ import fetch from 'node-fetch'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
 import { parseImg } from '../utils/utils.js';
+import Log from '../utils/Log.js';
 
 const _path = process.cwd();
 let ap_cfg = await Config.getcfg()
@@ -25,32 +26,32 @@ export class ImgToMusic extends plugin {
 	constructor() {
 		super({
 			/** 功能名称 */
-			name: '图像转音频',
+			name: 'AP-图像转音频',
 			/** 功能描述 */
 			dsc: '简单开发示例',
 			event: 'message',
 			/** 优先级，数字越小等级越高 */
-			priority: 5000,
+			priority: 1009,
 			rule: [{
-					/** 命令正则匹配 */
-					reg: '^#?(图像|图片)?(生成|转)音(频|乐).*$',
-					/** 执行方法 */
-					fnc: 'img_to_music'
-				},
-				{
-					/** 命令正则匹配 */
-					reg: '^.*$',
-					/** 执行方法 */
-					fnc: 'getImage',
-					log: false
-				}
+				/** 命令正则匹配 */
+				reg: '^#?(图像|图片)?(生成|转)音(频|乐).*$',
+				/** 执行方法 */
+				fnc: 'img_to_music'
+			},
+			{
+				/** 命令正则匹配 */
+				reg: '^.*$',
+				/** 执行方法 */
+				fnc: 'getImage',
+				log: false
+			}
 			]
 		})
 	}
 
 	async img_to_music(e) {
 		if (!API)
-			return await e.reply('请先配置图片转音频所需API，配置教程：https://www.wolai.com/jhofgb2jy1U4qgo2HRKhE7')
+			return await e.reply('请先配置图片转音频所需API，配置教程：https://ap-plugin.com/Config/docs8')
 		if (FiguretypeUser[e.user_id]) {
 			e.reply('当前有任务在列表中排队，请不要重复发送，转换完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
 			return true
@@ -91,25 +92,23 @@ export class ImgToMusic extends plugin {
 					type = "loop";
 				}
 			}
-			console.log(time, level, type)
 			await fetch(API, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						data: [
-							"data:image/png;base64," + base64,
-							time,
-							level,
-							type
-						]
-					})
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					data: [
+						"data:image/png;base64," + base64,
+						time,
+						level,
+						type
+					]
 				})
+			})
 				.then(r => r.json())
 				.then(
 					r => {
-						console.log(r)
 						let data = r.data;
 						let end = new Date()
 						let time = (end - start) / 1000
@@ -121,7 +120,7 @@ export class ImgToMusic extends plugin {
 				)
 				.catch(
 					r => {
-						console.log(r)
+						Log.e(r)
 						e.reply('转换失败，请稍后再试~', true)
 					}
 				)

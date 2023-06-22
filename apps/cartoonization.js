@@ -25,12 +25,12 @@ export class Cartoonization extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: '图片动漫化',
+      name: 'AP-图片动漫化',
       /** 功能描述 */
       dsc: '图片动漫化',
       event: 'message',
       /** 优先级，数字越小等级越高 */
-      priority: 5000,
+      priority: 1009,
       rule: [
         {
           /** 命令正则匹配 */
@@ -51,7 +51,7 @@ export class Cartoonization extends plugin {
 
   async WhiteBoxCartoonization(e) {
     if (!API)
-      return await e.reply("请先配置图片动漫化所需API，配置教程：https://www.wolai.com/ePdgFyjmMuUR9hfd4G2XLK")
+      return await e.reply("请先配置图片动漫化所需API，配置教程：https://ap-plugin.com/Config/docs7")
     if (FiguretypeUser[e.user_id]) {
       e.reply('当前有任务在列表中排队，请不要重复发送，动漫化完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
       return true

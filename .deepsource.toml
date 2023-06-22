@@ -1,7 +1,15 @@
 version = 1
 
+test_patterns = ["/**/*.js"]
+
 [[analyzers]]
 name = "javascript"
 
   [analyzers.meta]
   environment = ["nodejs"]
+
+[[transformers]]
+name = "prettier"
+
+[[transformers]]
+name = "standardjs"

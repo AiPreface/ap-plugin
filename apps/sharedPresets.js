@@ -1,8 +1,8 @@
 /*
  * @Author: 0卡苏打水
  * @Date: 2023-01-15 02:34:55
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-15 23:03:27
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-04-09 17:10:17
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\share_presets.js
  * @Description: 云端共享预设
  * 
@@ -22,10 +22,10 @@ const text = "请先安装依赖：pnpm add request -w"
 export class example extends plugin {
 	constructor() {
 		super({
-			name: '共享预设',
+			name: 'AP-共享预设',
 			dsc: '简单开发示例',
 			event: 'message',
-			priority: 5000,
+			priority: 1009,
 			rule: [{
 				reg: '^#?导出预设$',
 				fnc: 'Share_preset',
@@ -81,7 +81,7 @@ export class example extends plugin {
 			}
 		}
 		e.msg = e.msg.replace(/#?导入预设/, "");
-		e.msg = e.msg.match(/[a-zA-Z0-9]{4}/g);
+		e.msg = e.msg.match(/([a-zA-Z0-9-]{4})/g)
 		if (e.msg) {
 			e.msg = e.msg[0];
 		}
@@ -106,11 +106,9 @@ export class example extends plugin {
 		for (let val in res_data) {
 			if (!res_data[val].keywords) {
 				e.reply("远程预设文件第" + (val + 1) + "个数据keywords参数错误，无法导入")
-				console.log(res_data[val])
 				return true
 			} else if (!res_data[val].tags && res_data[val].tags != "") {
 				e.reply("远程预设文件第" + (val + 1) + "个数据tags参数错误，无法导入")
-				console.log(res_data[val])
 				return true
 			}
 		}
@@ -130,7 +128,7 @@ export class example extends plugin {
 					try {
 						data[val2].keywords = keywords
 					} catch (err) {
-						console.log("出现不合法的预设数据：" + JSON.stringify(data[val]))
+						Log.e("出现不合法的预设数据：" + JSON.stringify(data[val]))
 					}
 					splicelist.push(val)
 					merge++

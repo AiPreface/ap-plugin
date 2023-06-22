@@ -12,14 +12,19 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { parseImg } from '../utils/utils.js';
 import cfg from "../../../lib/config/config.js";
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+import Config from '../components/ai_painting/config.js';
+import axios from 'axios';
+
+const _path = process.cwd();
 
 export class Tools extends plugin {
     constructor() {
         super({
-            name: 'ap_tools',
+            name: 'AP-小工具',
             dsc: 'ap-plugin提供的一些小工具',
             event: 'message',
-            priority: 4000,
+            priority: 1009,
             rule: [
                 {
                     reg: '^#?看?看头像$',
@@ -37,6 +42,22 @@ export class Tools extends plugin {
                     reg: "^#?撤回$",
                     fnc: "WithDraw",
                 },
+                {
+                    reg: "^#?ap文档$",
+                    fnc: "apDoc",
+                },
+                {
+                    reg: "^#?ap(全局|本群|我的)词云$",
+                    fnc: "apWordCloud",
+                },
+                {
+                    reg: "^#?ap接口状态$",
+                    fnc: "apStatus",
+                },
+                {
+                    reg: "^#?(取消|停止)(绘图|咏唱|绘画|绘世|绘制).*$",
+                    fnc: "apCancel",
+                }
             ]
         })
     }
@@ -59,7 +80,7 @@ export class Tools extends plugin {
     }
 
     async image_template(e) {
-        e.reply('https://gchat.qpic.cn/gchatpic_new/0000000000/0000000000-0000000000-替换/0?term=3&is_origin=0')
+        e.reply('https://gchat.qpic.cn/gchatpic_new/0/0-0-替换/0?term=3&is_origin=0')
         return true
     }
 
@@ -117,7 +138,109 @@ export class Tools extends plugin {
     async withdrawFn(e) {
         try {
             e.group.recallMsg(e.source.seq, e.source.rand);
-            e.group.recallMsg(e.message_id); 
+            e.group.recallMsg(e.message_id);
         } catch (err) { }
+    }
+
+    async apDoc(e) {
+        e.reply("https://ap-plugin.com/Config/", true)
+        return true
+    }
+    async apWordCloud(e) {
+        if (e.at) e.user_id = e.at
+        let type = e.msg.match(/(全局|本群|我的)/)[1]
+        if (!e.group_id && type == '本群') return e.reply('请在相应群聊使用本指令', true)
+        let tags = await redis.get(`Yz:AiPainting:TagsUsage:${type == '我的' ? e.user_id : type == '本群' ? e.group_id : 'Global'}`)
+        if (!tags) return e.reply('暂无数据', true)
+        tags = JSON.parse(tags)
+        let tagCloud = []
+        for (let tag in tags) {
+            tagCloud.push({
+                word: tag,
+                weight: tags[tag]
+            })
+        }
+        tagCloud.sort((a, b) => b.value - a.value)
+        let data = {
+            quality: 90,
+            tplFile: `./plugins/ap-plugin/resources/textrank/textrank.html`,
+            pluResPath: `${_path}/plugins/ap-plugin/resources/`,
+            chartData: JSON.stringify(tagCloud)
+        }
+        let img = await puppeteer.screenshot('textrank', data)
+        e.reply(img)
+        return true
+    }
+
+    async apStatus(e) {
+        let apcfg = await Config.getcfg()
+        if (apcfg.APIList.length == 0) {
+            e.reply('当前暂无可用接口')
+            return true
+        }
+        let msg = '共有' + apcfg.APIList.length + '个接口'
+        let res = await Promise.all(apcfg.APIList.map(async (item) => {
+            let res = await axios.get(item.url, { timeout: 5000 }).catch(() => { })
+            return res
+        }))
+        for (let i = 0; i < res.length; i++) {
+            if (res[i]) {
+                let header = {}
+                if (apcfg.APIList[i].account_id && apcfg.APIList[i].account_password) {
+                    header = {
+                        'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[i].account_id}:${apcfg.APIList[i].account_password}`).toString('base64'),
+                        'User-Agent': `AP-Plugin`
+                    }
+                }
+                let progress = await axios.get(`${apcfg.APIList[i].url}/sdapi/v1/progress`, { headers: header, timeout: 5000 }).catch(() => { })
+                if (progress) {
+                    if (progress.data.eta_relative == '0') {
+                        msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 服务器很寂寞...`
+                    } else {
+                        msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} [${(progress.data.progress * 100).toFixed(0)}%]预计剩余${(progress.data.eta_relative).toFixed(2)}秒完成`
+                    }
+                } else {
+                    msg += `\n✅接口${i + 1}[${res[i].status}]：${apcfg.APIList[i].remark} 未能获取进度`
+                }
+            } else {
+                msg += `\n🚫接口${i + 1}[超时]：${apcfg.APIList[i].remark}`
+            }
+        }
+        e.reply(msg)
+        return true
+    }
+
+    async apCancel(e) {
+        let apcfg = await Config.getcfg()
+        if (apcfg.APIList.length == 0) {
+            e.reply('当前暂无可用接口')
+            return true
+        }
+        let num = e.msg.match(/接口(\d+)/)
+        if (num) {
+            num = parseInt(num[1]) - 1
+            if (num > apcfg.APIList.length) return e.reply('接口不存在')
+        } else {
+            num = apcfg.usingAPI - 1
+        }
+        let url = apcfg.APIList[num].url + '/sdapi/v1/interrupt'
+        let header = {}
+        if (apcfg.APIList[num].account_id && apcfg.APIList[num].account_password) {
+            header = {
+                'Authorization': 'Basic ' + Buffer.from(`${apcfg.APIList[num].account_id}:${apcfg.APIList[num].account_password}`).toString('base64'),
+                'User-Agent': `AP-Plugin`
+            }
+        }
+        try {
+            let res = await axios.post(url, { headers: header, timeout: 5000 })
+            if (res) {
+                e.reply(`接口${num + 1}：${apcfg.APIList[num].remark}已取消当前绘制任务`)
+            } else {
+                e.reply(`接口${num + 1}：${apcfg.APIList[num].remark}取消任务失败`)
+            }
+        } catch (err) {
+            e.reply(`接口${num + 1}：${apcfg.APIList[num].remark}取消任务失败`)
+        }
+        return true
     }
 }

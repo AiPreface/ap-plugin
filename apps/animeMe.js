@@ -1,29 +1,31 @@
 /*
  * @Author: 渔火Arcadia  https://github.com/yhArcadia
  * @Date: 2022-12-23 14:27:36
- * @LastEditors: 渔火Arcadia
- * @LastEditTime: 2023-01-09 16:04:14
+ * @LastEditors: 苏沫柒 3146312184@qq.com
+ * @LastEditTime: 2023-05-07 12:09:10
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\apps\anime_me.js
  * @Description: 二次元的我
  * 
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import { getuserName } from "../utils/utils.js";
+import Config from '../components/ai_painting/config.js';
 import { Draw, Parse, CD } from "../components/apidx.js";
 import Log from "../utils/Log.js";
 import { Pictools } from "../utils/utidx.js";
 import { getdsc } from "../components/anime_me/getdes.js";
-import { requestAppreciate } from './appreciate.js'
+import { requestAppreciate } from './appreciation.js'
 import cfg from '../../../lib/config/config.js'
 import moment from "moment";
-import NsfwCheck from "../components/ai_painting/nsfwcheck.js";
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+
 export class Anime_me extends plugin {
     constructor() {
         super({
-            name: '二次元的我',
+            name: 'AP-二次元的我',
             dsc: '二次元的我',
             event: 'message',
-            priority: 4999,
+            priority: 1009,
             rule: [
                 {
                     reg: "^(#|%|/)?二次元的我?$", //匹配消息正则，命令正则
@@ -54,7 +56,7 @@ export class Anime_me extends plugin {
         if (cdCheck)
             return await e.reply(cdCheck, true, { recallMsg: 15 });
 
-
+        e.reply("正在生成您的二次元形象，马上就好...", true)
         this.qq = e.at || e.user_id
         // 二次元的@bot
         if (e.atBot && !e.msg.includes("我")) this.qq = cfg.qq
@@ -73,8 +75,10 @@ export class Anime_me extends plugin {
 
         // 构造绘图参数
         let paramdata = await this.construct_param(dsc)
-        Log.i("二次元的", `${name}：`, (e.msg.startsWith('%') || e.msg.startsWith('/')) ? paramdata.param.tags : dsc);
-        // 根据描述获取图片
+        let logMessage = (e.msg.startsWith('%') || e.msg.startsWith('/'))
+            ? "\n英文提示词：" + paramdata.param.tags
+            : "\n中文关键词：" + dsc.ch + "\n英文提示词：" + dsc.en;
+        Log.i(logMessage);
         let res = await Draw.get_a_pic(paramdata)
         if (res.code) {
             CD.clearCD(e)
@@ -85,9 +89,21 @@ export class Anime_me extends plugin {
             e.reply('图片不合规，不予展示', true)
             return true
         }
-        // 发送图片 
-        return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
+        let setting = await Config.getSetting()
+        if (!setting.anime_me_card) {
+            return await e.reply([this.e.msg.startsWith('/') ? "" : `${dsc.ch.replace("_name_", name)}`, segment.image(`base64://${res.base64}`)], true)
+        } else {
+            let data = {
+                quality: 90,
+                tplFile: `./plugins/ap-plugin/resources/animeme/animeMe.html`,
+                imgBase64: res.base64,
+                text: this.e.msg.startsWith('/') ? "" : dsc.ch.replace("_name_", name)
+            }
+            let img = await puppeteer.screenshot('animeMe', data)
+            e.reply(img, true)
+        }
     }
+
 
 
     /**根据描述构造绘图的参数
@@ -125,24 +141,29 @@ export class Anime_me extends plugin {
         let current_group_policy = await Parse.parsecfg(this.e)
         if (!current_group_policy.JH) {
             JH = false
+        } else {
+            JH = true
         }
         let paramdata = {
             param: {
-                sampler: 'Euler a',
-                strength: 0.6,
+                enable_hr: true,
+                hr_scale: 1.5,
+                hr_upscaler: 'Latent (nearest-exact)',
+                sampler: 'DPM++ 2M Karras',
+                strength: 0.5,
                 seed: -1,
                 scale: 11,
-                steps: 25,
-                width: txdsc ? 384 : base64 ? 512 : 384,
-                height: 512,
-                tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en,
+                steps: 20,
+                width: txdsc ? 768 : base64 ? 640 : 768,
+                height: txdsc ? 512 : base64 ? 640 : 512,
+                tags: txdsc ? txdsc + ',' + (this.e.msg.startsWith('/') ? "" : dsc.en) : dsc.en + "(upper body: 1.8), (solo: 1.5)",
                 ntags: "",
                 base64: txdsc ? null : base64,
             },
             num: 1,
             rawtag: {
-                tags: dsc.en,
-                ntags: ""
+                tags: dsc.en + "(upper body: 1.8), (solo: 1.5)",
+                ntags: "EasyNegative, nsfw, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
             },
             specifyAPI: NaN,
             user: Number(this.qq),
@@ -180,7 +201,7 @@ export class Anime_me extends plugin {
         }
         else {
             e.reply('命令格式：\n#刷新二次元的我@用户\n或\n#全局刷新二次元的我')
-        } 
+        }
         return true
     }
 }
