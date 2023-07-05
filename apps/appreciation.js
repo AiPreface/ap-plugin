@@ -70,7 +70,7 @@ export class appreciate extends plugin {
         if (APIList.length === 0) {
             e.reply("请先配置绘图API");
         }
-        const { url, account_id, account_password } = APIList[usingAPI];
+        const { url, account_id, account_password } = APIList[usingAPI - 1];
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json",

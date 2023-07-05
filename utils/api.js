@@ -44,7 +44,7 @@ async function fetchData(apiEndpoint, errorMessage) {
         const config = await Config.getcfg();
         const { APIList, usingAPI } = config;
         if (APIList.length === 0) return false;
-        const { url, account_id, account_password } = APIList[usingAPI];
+        const { url, account_id, account_password } = APIList[usingAPI - 1];
         const headers = {
             "Content-Type": "application/json",
             Accept: "application/json",
