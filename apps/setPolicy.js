@@ -13,7 +13,6 @@ import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import { getuserName } from '../utils/utils.js';
-import cfg from '../../../lib/config/config.js'
 
 export class setpolicy extends plugin {
     constructor() {
@@ -402,7 +401,7 @@ export class setpolicy extends plugin {
             message:
                 "这些群友为了造福群友，不惜舍身忘死，他们无私无畏的奉献精神值得我们每一个人尊重和铭记",
             nickname: Bot.nickname,
-            user_id: cfg.qq,
+            user_id: Bot.uin,
         });
 
         let sendRes = null;
@@ -476,7 +475,7 @@ export class setpolicy extends plugin {
                 data_msg.push({
                     message: text,
                     nickname: Bot.nickname,
-                    user_id: cfg.qq,
+                    user_id: Bot.uin,
                 });
                 text = "";
             }
@@ -485,7 +484,7 @@ export class setpolicy extends plugin {
             data_msg.push({
                 message: text,
                 nickname: Bot.nickname,
-                user_id: cfg.qq,
+                user_id: Bot.uin,
             });
         }
 

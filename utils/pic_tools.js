@@ -16,7 +16,6 @@ import fetch from "node-fetch";
 import fs from 'fs';
 import { promisify } from "util";
 import { pipeline } from "stream";
-import cfg from '../../../lib/config/config.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import md5 from "md5";
 import { bs64Size } from "./utils.js";
@@ -101,7 +100,7 @@ class Pictools extends plugin {
      * @return {string} 图片url
      */
     async base64_to_imgurl(base64) {
-        Bot.pickUser(cfg.qq).sendMsg([segment.image(`base64://${base64}`), false, { recallMsg: 20 }]);
+        Bot.pickUser(Bot.uin).sendMsg([segment.image(`base64://${base64}`), false, { recallMsg: 20 }]);
         let picinfo = await this.getPicInfo(base64, true)
         let md5 = picinfo.md5
         return `https://c2cpicdw.qpic.cn/offpic_new/0//0000000000-0000000000-${md5}/0?term=2`

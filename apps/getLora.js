@@ -12,7 +12,6 @@ import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios'
 import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
-import cfg from '../../../lib/config/config.js'
 import { chNum2Num } from '../utils/utils.js';
 
 const _path = process.cwd();
@@ -117,7 +116,7 @@ export class GetLora extends plugin {
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,
-            user_id: cfg.qq,
+            user_id: Bot.uin,
         });
 
         // 处理每一条pt
@@ -127,7 +126,7 @@ export class GetLora extends plugin {
             data_msg.push({
                 message: `${i++} \n├预设名称：【${val}】\n└使用手势：<lora:${filename}:1>`,
                 nickname: Bot.nickname,
-                user_id: cfg.qq,
+                user_id: Bot.uin,
             });
         }
 

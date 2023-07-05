@@ -3,7 +3,6 @@ import axios from 'axios';
 import fs from 'fs';
 import YAML from 'yaml';
 import picTool from '../utils/pic_tools.js';
-import cfg from '../../../lib/config/config.js'
 import { parseImg } from '../utils/utils.js';
 import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
@@ -349,7 +348,7 @@ async function sendMsg(e, msg) {
   data_msg.push({
     message: msg,
     nickname: Bot.nickname,
-    user_id: cfg.qq,
+    user_id: Bot.uin,
   });
   let send_res = null;
   if (e.isGroup)

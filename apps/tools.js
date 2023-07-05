@@ -89,7 +89,7 @@ export class Tools extends plugin {
         // 没引用则放行指令
         if (!e.source) return false;
         // 如果是撤回机器人的消息,则不做权限判断
-        if (e.source.user_id == cfg.qq) {
+        if (e.source.user_id == Bot.uin) {
             await this.withdrawFn(e);
             return true;
         }

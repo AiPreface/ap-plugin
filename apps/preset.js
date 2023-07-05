@@ -13,7 +13,6 @@ import plugin from '../../../lib/plugins/plugin.js';
 import Config from '../components/ai_painting/config.js'
 import Log from '../utils/Log.js';
 import { isEqual, chNum2Num } from '../utils/utils.js';
-import cfg from '../../../lib/config/config.js'
 import Parse from '../components/ai_painting/parse.js'
 
 
@@ -189,14 +188,14 @@ export class setpreset extends plugin {
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,
-            user_id: cfg.qq,
+            user_id: Bot.uin,
         });
         // 处理每一条预设
         for (let val of selected_page) {
             data_msg.push({
                 message: this.stringifyPreset(val),
                 nickname: Bot.nickname,
-                user_id: cfg.qq,
+                user_id: Bot.uin,
             });
         }
 

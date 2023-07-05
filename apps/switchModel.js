@@ -85,7 +85,7 @@ export class ChangeModel extends plugin {
     data_msg.push({
       message: msg,
       nickname: Bot.nickname,
-      user_id: cfg.qq,
+      user_id: Bot.uin,
     });
     let send_res = null;
     if (e.isGroup)

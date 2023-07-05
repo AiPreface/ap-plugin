@@ -9,10 +9,7 @@
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 import gsCfg from "../../genshin/model/gsCfg.js";
-import fetch from 'node-fetch';
-import cfg from '../../../lib/config/config.js'
 import moment from "moment";
-import Log from "./Log.js";
 
 
 /**
@@ -25,7 +22,7 @@ export async function parseImg(e) {
     }
     if (!e.img) {
         if (e.atBot) {
-            e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${cfg.qq}`];
+            e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${Bot.uin}`];
         }
         if (e.at) {
             e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`];
