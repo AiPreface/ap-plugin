@@ -285,25 +285,25 @@ async function get_model_list() {
 
 async function get_vae_list() {
   let apiurl = await get_apiurl();
-  let url = apiurl + '/config';
+  let config = await Config.getcfg()
+  let apiobj = config.APIList[config.usingAPI - 1]
+  let url = apiurl + '/sdapi/v1/sd-vae';
   const headers = {
-    "Content-Type": "application/json",
+    "Content-Type": "application/json"
   };
+  if (apiobj.account_password) {
+    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
+  }
   const response = await fetch(url, {
     method: 'GET',
-    headers: headers,
+    headers: headers
   });
-  const vaedata = await response.json();
-  if (vaedata.detail == "Not authenticated") {
-    return ["当前接口WebUI设置了密码，无法获取VAE列表"]
+  const modeldata = await response.json();
+  let model_list = [];
+  for (var i in modeldata) {
+    model_list.push(modeldata[i]['model_name']);
   }
-  let vae_list = [];
-  for (var i in vaedata['components']) {
-    if (vaedata['components'][i]['id'] == 953) {
-      vae_list = vaedata['components'][i]['props']['choices'];
-    }
-  }
-  return vae_list
+  return model_list
 }
 
 async function get_apiurl() {
