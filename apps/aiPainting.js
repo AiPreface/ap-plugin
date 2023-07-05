@@ -230,7 +230,7 @@ export class Ai_Painting extends plugin {
       
       // 如果简洁模式开启，则只发送图片
       if (concise_mode) {
-        e.reply([segment.at(e.user_id), segment.image(`base64://${res.base64}`), `生成总耗时${elapsed.toFixed(2)}秒`] , false, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
+        e.reply([segment.at(e.user_id), {...segment.image(`base64://${res.base64}`), origin: true}, `生成总耗时${elapsed.toFixed(2)}秒`] , false, { recallMsg: current_group_policy.isRecall ? current_group_policy.recallDelay : 0 })
         this.addUsage(e.user_id, 1)
         return true
       } else {
@@ -251,7 +251,7 @@ export class Ai_Painting extends plugin {
         ].filter(Boolean).join('\n');
         let msg = [
           usageLimit ? `今日剩余${remainingTimes - 1}次\n` : "",
-          segment.image(`base64://${res.base64}`),
+          {...segment.image(`base64://${res.base64}`), origin: true},
         ]
         // Log.i(info.length)                                           /*  */
         let max_fold = setting.max_fold
@@ -332,7 +332,7 @@ export class Ai_Painting extends plugin {
           if (current_group_policy.isTellMaster) {
             let msg = [
               "【aiPainting】不合规图片：\n",
-              segment.image(`base64://${res.base64}`),
+              {...segment.image(`base64://${res.base64}`), origin: true},
               `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
               `\n正面：${res.info.prompt}`,
               `\n反面：${res.info.negative_prompt}`,
@@ -351,7 +351,7 @@ export class Ai_Painting extends plugin {
 
         // 存入合并消息等待发送
         data_msg.push({
-          message: [segment.image(`base64://${res.base64}`), paramdata.param.seed == -1 ? `\nseed=${res.seed}` : ''],
+          message: [{...segment.image(`base64://${res.base64}`), origin: true}, paramdata.param.seed == -1 ? `\n随机种子：${res.seed}` : ''],
           nickname: Bot.nickname,
           user_id: cfg.qq,
         });
