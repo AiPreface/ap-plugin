@@ -78,7 +78,7 @@ export class GetLora extends plugin {
 
         // 取用户指定的页数和关键词
         page = ret[3] || 1
-        keyword = ret[1] || ''
+        keyword = ret[2] || ''
         Log.i(page, keyword)
 
         // 遍历data中的元素，将data[i].name存入
@@ -125,7 +125,7 @@ export class GetLora extends plugin {
             saveId: `swichModel`,
             tplFile: `${_path}/plugins/ap-plugin/resources/listTemp/listTemp.html`,
             sidebar: `第${page}/${page_count}页`,
-            list_name: 'Lora',
+            list_name: keyword ? `包含关键词【${keyword}】的Lora` : 'Lora',
             _path: _path,
             imgType: 'png',
             header: apiobj.remark,
