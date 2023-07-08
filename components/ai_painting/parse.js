@@ -11,7 +11,7 @@
 import Config from './config.js'
 import { parseImg, chNum2Num, sleep } from '../../utils/utils.js'
 import { Pictools } from '../../utils/utidx.js'
-import Log from '../../utils/Log.js'
+import { _ } from '../../apps/getLora.js'
 import Translate from '../../utils/translate.js'
 
 class Parse {
@@ -164,6 +164,43 @@ class Parse {
             .replace(reg.strength, "")
             .replace(reg.steps, "")
             .replace(reg.specifyAPI, "")
+
+        try {
+            let loraReg = /(lora|Lora)(\d{1,4})(:(\d{1,2}(\.\d{1,2})?))?/i
+            let loraList = []
+            while (loraReg.test(msg)) {
+                let lora = loraReg.exec(msg)
+                let loraNum = Number(lora[2])
+                let loraWeight = lora[4] ? Number(lora[4]) : 0.8
+                if (loraNum > 10000) loraNum %= 10000
+                if (loraWeight > 10) loraWeight %= 10
+                loraList.push({ num: loraNum, weight: loraWeight })
+                msg = msg.replace(lora[0], "")
+            }
+
+            let apcfg = await Config.getcfg()
+            if (apcfg.APIList.length == 0) {
+                e.reply('当前暂无可用接口')
+                return true
+            }
+            let index = apcfg.usingAPI
+            let apiobj = apcfg.APIList[index - 1]
+            let Lora = (await _(apiobj)).data
+            let LoraArr = []
+            for (let i = 0; i < Lora.length; i++) {
+                LoraArr.push(Lora[i].name)
+            }
+            for (let i = 0; i < loraList.length; i++) {
+                let lora = loraList[i]
+                let loraName = LoraArr[lora.num - 1]
+                if (loraName) {
+                    let loraWeight = lora.weight
+                    msg += `<lora:${loraName}:${loraWeight}>`
+                }
+            }
+        } catch (error) {
+            Log.e('[主动替换Lora参数]出错', error)
+        }
 
 
         // 取tag和ntag
