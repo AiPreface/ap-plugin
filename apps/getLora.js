@@ -141,7 +141,7 @@ export class GetLora extends plugin {
         return true;
     }
 }
-async function _(BIh1) {
+export async function _(BIh1) {
     let API = BIh1['url'];
     if (!API.endsWith('/')) {
         API += '/';
