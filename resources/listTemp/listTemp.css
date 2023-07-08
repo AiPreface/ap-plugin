@@ -1,0 +1,140 @@
+@font-face {
+  font-family: "tttgbnumber";
+  src: url("../../../../resources/font/tttgbnumber.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "HYWenHei-55W";
+  src: url("../../../../resources/font/HYWenHei-55W.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  font-size: 18px;
+  color: #1e1f20;
+  font-family: PingFangSC-Medium, PingFang SC, sans-serif;
+  transform: scale(1.7);
+  transform-origin: 0 0;
+  width: 465px;
+}
+
+.container {
+  width: 465px;
+  padding: 20px 15px 10px 15px;
+  background-color: #ececec;
+}
+
+.head_box {
+  border-radius: 15px;
+  font-family: tttgbnumber;
+  padding: 10px 20px;
+  position: relative;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
+}
+
+.head_box .id_text {
+  font-size: 24px;
+}
+
+.logo {
+  font-size: 12px;
+  font-family: "tttgbnumber";
+  text-align: center;
+  color: #7994a7;
+  position: relative;
+  text-align: center;
+  padding-left: 10px;
+}
+
+.data_box {
+  border-radius: 15px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px 15px 5px 15px;
+  background: #f5f5f5;
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
+  position: relative;
+}
+
+.tab-lable {
+  position: absolute;
+  top: -10px;
+  left: -8px;
+  background: #a98242;
+  color: #fff;
+  font-size: 14px;
+  padding: 3px 10px;
+  border-radius: 15px 0 15px 15px;
+  z-index: 20;
+  font-family: HYWenHei-55W;
+}
+
+.head_box {
+  background-position-x: 42px;
+  background-repeat: no-repeat;
+  background-size: auto 101%;
+}
+
+.model_list {
+  display: table;
+  border-collapse: collapse;
+  width: calc(100% + 30px);
+  margin: 0 -15px -5px;
+  font-size: 10px;
+  /* border-radius: 0 0 15px 15px; */
+  overflow: hidden;
+}
+
+.model_list .avatar {
+  display: table-row;
+  font-family: tttgbnumber;
+}
+
+.model_list .th {
+  padding-left: 5px;
+  padding-right: 5px;
+  justify-content: center;
+  font-family: HYWenHei-55W;
+}
+
+.model_list .avatar > div {
+  box-shadow: 0 0 0.5px 0 #555 inset;
+  display: table-cell;
+  text-align: center;
+  height: 30px;
+  vertical-align: middle;
+  line-height: 30px;
+}
+
+.model_list .avatar .index {
+  color: #333;
+  width: 25px;
+  padding-left: 5px;
+}
+
+.model_list .true {
+  background: rgba(239, 214, 137, .6);
+}
+
+.model_list .avatar .model-name {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.model_list .avatar.th > div {
+  box-shadow: none;
+}
+
+.notice {
+  color: #888;
+  font-size: 12px;
+  text-align: center;
+  padding: 12px 5px 5px;
+}
