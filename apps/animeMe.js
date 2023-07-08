@@ -15,7 +15,6 @@ import Log from "../utils/Log.js";
 import { Pictools } from "../utils/utidx.js";
 import { getdsc } from "../components/anime_me/getdes.js";
 import { requestAppreciate } from './appreciation.js'
-import cfg from '../../../lib/config/config.js'
 import moment from "moment";
 import puppeteer from '../../../lib/puppeteer/puppeteer.js'
 
@@ -59,7 +58,7 @@ export class Anime_me extends plugin {
         e.reply("正在生成您的二次元形象，马上就好...", true)
         this.qq = e.at || e.user_id
         // 二次元的@bot
-        if (e.atBot && !e.msg.includes("我")) this.qq = cfg.qq
+        if (e.atBot && !e.msg.includes("我")) this.qq = Bot.uin
         // 优先取redis中的缓存数据
         let dsc = await JSON.parse(await redis.get(`Yz:AiPainting:ercydata:${this.qq}`));
         if (!dsc) {
@@ -187,7 +186,7 @@ export class Anime_me extends plugin {
         let all_list = await redis.keys('Yz:AiPainting:ercydata:*')
         // Log.i(all_list)
 
-        if (e.atBot) { e['at'] = cfg.qq }
+        if (e.atBot) { e['at'] = Bot.uin }
 
         if (is_all_refresh) {
             for (let val of all_list) {

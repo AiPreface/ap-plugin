@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <link rel="shortcut icon" href="#"/>
+    <link rel="stylesheet" type="text/css" href="{{_path}}/plugins/ap-plugin/resources/listTemp/listTemp.css"/>
+    <link rel="preload" href="{{resPath}}/font/tttgbnumber.ttf" as="font">
+  </head>
+  <body id="container" class="body_box">
+    <div class="container">
+      <div class="info_box">
+        <div class="head_box">
+          <div class="id_text">
+            {{header}}
+          </div>
+          <div class="lable">共检索到{{models.length}}个{{list_name}}</div>
+        </div>
+        <div class="data_box">
+          <div class="tab-lable">{{sidebar}}</div>
+          <div class="model_list">
+            <div class="avatar th">
+              <div class="index">#</div>
+              <div class="model-name">{{list1}}</div>
+              <div class="example">{{list2}}</div>
+            </div>
+            {{each models model idx}}
+            <div class="avatar {{model.able}}">
+              <div class="index">{{idx+1}}</div>
+              <div class="model-name">{{model.list1}}</div>
+              <div class="example">{{model.list2}}</div>
+            </div>
+            {{/each}}
+          </div>
+          <p class="notice">{{notice}}</p>
+        </div>
+        <div class="logo">Created By Yunzai-Bot & AP-Plugin</div>
+      </div>
+    </div>
+  </body>
+</html>

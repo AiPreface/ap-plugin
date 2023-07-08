@@ -9,8 +9,6 @@
  * Copyright (c) 2023 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
  */
 
-import moment from 'moment';
-import cfg from '../../../lib/config/config.js'
 import Config from '../components/ai_painting/config.js'
 import Parse from '../components/ai_painting/parse.js';
 import { chNum2Num, getuserName, parseImg } from '../utils/utils.js'
@@ -121,7 +119,7 @@ export class LocalImg extends plugin {
         data_msg.push({
             message: first_message,
             nickname: Bot.nickname,
-            user_id: cfg.qq,
+            user_id: Bot.uin,
         });
 
 

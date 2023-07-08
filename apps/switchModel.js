@@ -2,7 +2,9 @@ import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch';
 import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
-import cfg from "../../../lib/config/config.js";
+import puppeteer from '../../../lib/puppeteer/puppeteer.js'
+
+const _path = process.cwd()
 
 export class ChangeModel extends plugin {
   constructor() {
@@ -71,61 +73,86 @@ export class ChangeModel extends plugin {
       headers: headers
     });
     const optionsdata = await response.json();
-    let msg = "正在使用的模型：\n" + optionsdata['sd_model_checkpoint'] + "\n\n可用模型列表：";
-    let modelList = await get_model_list();
-    if (modelList.length == 0) {
-      msg.push("\n模型列表为空");
-    } else {
-      for (var i = 0; i < modelList.length; i++) {
-        modelList[i] = modelList[i].replace(/^.*\//, '');
-        msg = msg + "\n" + modelList[i];
+    let useModel = optionsdata['sd_model_checkpoint'].split('.').slice(0, -1).join('.');
+    let modeldata = await get_model_list();
+    let TmpModels = [];
+    for (var i in modeldata) {
+      TmpModels.push({
+        "list1": modeldata[i]['model_name'],
+        "list2": modeldata[i]['hash']
+      });
+    }
+    for (var i = 0; i < TmpModels.length; i++) {
+      if (TmpModels[i].list1 == useModel) {
+        TmpModels[i].able = true;
+        break;
       }
     }
-    let data_msg = []
-    data_msg.push({
-      message: msg,
-      nickname: Bot.nickname,
-      user_id: cfg.qq,
-    });
-    let send_res = null;
-    if (e.isGroup)
-      send_res = await e.reply(await e.group.makeForwardMsg(data_msg));
-    else send_res = await e.reply(await e.friend.makeForwardMsg(data_msg));
-    if (!send_res) {
-      e.reply("消息发送失败，可能被风控~");
-    }
+    let base64 = await puppeteer.screenshot('ap-plugin', {
+      saveId: `swichModel`,
+      tplFile: `${_path}/plugins/ap-plugin/resources/listTemp/listTemp.html`,
+      sidebar: `模型列表`,
+      list_name: '模型',
+      _path: _path,
+      imgType: 'png',
+      header: apiobj.remark,
+      models: TmpModels,
+      list1: '模型名称',
+      list2: '哈希值',
+      notice: '使用#切换模型+序号可直接更改当前接口的模型'
+    })
+    e.reply(base64);
     return true;
   }
 
   async VAEList(e) {
-    try {
-      let apiurl = await get_apiurl();
-      let url = apiurl + '/sdapi/v1/options';
-      const headers = {
-        "Content-Type": "application/json"
-      };
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: headers
-      });
-      const optionsdata = await response.json();
-      let msg = ["正在使用的VAE：\n" + optionsdata['sd_vae'] + "\n\n可用VAE列表："];
-      let VAEList = await get_vae_list();
-      if (VAEList.length == 0) {
-        msg.push("\nVAE列表为空");
-      } else {
-        for (var i = 0; i < VAEList.length; i++) {
-          VAEList[i] = VAEList[i].replace(/^.*\//, '');
-          msg.push("\n" + VAEList[i]);
-        }
-      }
-      e.reply(msg, true);
-      return true;
-    } catch (error) {
-      Log.e(error);
-      e.reply("获取VAE列表失败", true);
-      return true;
+    let apiurl = await get_apiurl();
+    let config = await Config.getcfg()
+    let apiobj = config.APIList[config.usingAPI - 1]
+    let url = apiurl + '/sdapi/v1/options';
+    const headers = {
+      "Content-Type": "application/json"
+    };
+    if (apiobj.account_password) {
+      headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `
     }
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers
+    });
+    const optionsdata = await response.json();
+    let modeldata = await get_vae_list();
+    let TmpModels = [];
+    for (var i in modeldata) {
+      let list1 = modeldata[i]['model_name'].split('.').slice(0, -1).join('.')
+      let list2 = modeldata[i]['model_name'].split('.')[modeldata[i]['model_name'].split('.').length - 1]
+      TmpModels.push({
+        "list1": list1,
+        "list2": list2
+      });
+    }
+    let useModel = optionsdata['sd_vae'].split('.').slice(0, -1).join('.');
+    for (var i = 0; i < TmpModels.length; i++) {
+      if (TmpModels[i].list1 == useModel) {
+        TmpModels[i].able = true;
+        break;
+      }
+    }
+    let base64 = await puppeteer.screenshot('ap-plugin', {
+      saveId: `swichModel`,
+      tplFile: `${_path}/plugins/ap-plugin/resources/listTemp/listTemp.html`,
+      sidebar: `VAE列表`,
+      list_name: 'VAE',
+      _path: _path,
+      imgType: 'png',
+      header: apiobj.remark,
+      models: TmpModels,
+      list1: 'VAE名称',
+      list2: '文件类型',
+      notice: '使用#切换VAE+序号可直接更改当前接口的模型'
+    })
+    e.reply(base64);
+    return true;
   }
 
   async changeModel(e) {
@@ -139,8 +166,17 @@ export class ChangeModel extends plugin {
       return true;
     }
     let modelList = await get_model_list();
-    Log.i("模型列表是" + modelList);
-    Log.i("要切换的模型是" + model);
+    for (var i in modelList) {
+      modelList[i] = modelList[i]['title'];
+    }
+    if (!isNaN(model)) {
+      model = parseInt(model);
+      if (model > modelList.length || model < 1) {
+        e.reply("模型序号不存在", true);
+        return false;
+      }
+      model = modelList[model - 1];
+    }
     let modelPrefix = modelList.filter(function (item) {
       return item.indexOf(model) == 0;
     });
@@ -152,7 +188,7 @@ export class ChangeModel extends plugin {
       e.reply("模型名不唯一", true);
       return false;
     } else {
-      e.reply("正在切换模型，请耐心等待", true)
+      e.reply("正在切换模型，请耐心等待，即将切换为" + modelPrefix[0], true);
       let url = apiurl + '/sdapi/v1/options';
       let data = {
         "sd_model_checkpoint": modelPrefix[0]
@@ -184,16 +220,26 @@ export class ChangeModel extends plugin {
       let VAE = e.msg.replace(/^#?切换(VAE|vae|Vae)/, '');
       VAE = VAE.trim();
       if (VAE == "") {
-        e.reply("VAE不能为空", true);
+        e.reply("VAE不能为空，请输入vae名称或者序号", true);
         return true;
       }
       let VAEList = await get_vae_list();
-      if (VAEList == ["当前接口WebUI设置了密码，无法获取VAE列表"]) {
-        e.reply("当前接口WebUI设置了密码，无法获取VAE列表并切换", true);
+      for (var i in VAEList) {
+        VAEList[i] = VAEList[i]['model_name'];
+      }
+      if (!isNaN(VAE)) {
+        VAE = parseInt(VAE);
+        if (VAE > VAEList.length || VAE < 1) {
+          e.reply("VAE序号不存在", true);
+          return false;
+        }
+        VAE = VAEList[VAE - 1];
+      }
+      VAE = VAE.trim();
+      if (VAE == "") {
+        e.reply("VAE不能为空", true);
         return true;
       }
-      Log.i("模型列表是" + VAEList);
-      Log.i("要切换的模型是" + VAE);
       let VAEPrefix = VAEList.filter(function (item) {
         return item.indexOf(VAE) == 0;
       });
@@ -205,7 +251,7 @@ export class ChangeModel extends plugin {
         e.reply("模型名不唯一", true);
         return false;
       } else {
-        e.reply("正在切换模型，请耐心等待", true)
+        e.reply("正在切换模型，请耐心等待，即将切换为" + VAEPrefix[0], true)
         let url = apiurl + '/sdapi/v1/options';
         let data = {
           "sd_vae": VAEPrefix[0]
@@ -260,9 +306,28 @@ export class ChangeModel extends plugin {
 
 async function get_model_list() {
   let apiurl = await get_apiurl();
+  let config = await Config.getcfg();
+  let apiobj = config.APIList[config.usingAPI - 1];
+  let url = apiurl + '/sdapi/v1/sd-models';
+  const headers = {
+    "Content-Type": "application/json"
+  };
+  if (apiobj.account_password) {
+    headers.Authorization = `Basic ${Buffer.from(apiobj.account_id + ':' + apiobj.account_password, 'utf8').toString('base64')} `;
+  }
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: headers
+  });
+  const modeldata = await response.json();
+  return modeldata;
+}
+
+async function get_vae_list() {
+  let apiurl = await get_apiurl();
   let config = await Config.getcfg()
   let apiobj = config.APIList[config.usingAPI - 1]
-  let url = apiurl + '/sdapi/v1/sd-models';
+  let url = apiurl + '/sdapi/v1/sd-vae';
   const headers = {
     "Content-Type": "application/json"
   };
@@ -274,36 +339,7 @@ async function get_model_list() {
     headers: headers
   });
   const modeldata = await response.json();
-  let model_list = [];
-  let model_name = [];
-  for (var i in modeldata) {
-    model_list.push(modeldata[i]['title']);
-    model_name.push(modeldata[i]['model_name']);
-  }
-  return model_list
-}
-
-async function get_vae_list() {
-  let apiurl = await get_apiurl();
-  let url = apiurl + '/config';
-  const headers = {
-    "Content-Type": "application/json",
-  };
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: headers,
-  });
-  const vaedata = await response.json();
-  if (vaedata.detail == "Not authenticated") {
-    return ["当前接口WebUI设置了密码，无法获取VAE列表"]
-  }
-  let vae_list = [];
-  for (var i in vaedata['components']) {
-    if (vaedata['components'][i]['id'] == 953) {
-      vae_list = vaedata['components'][i]['props']['choices'];
-    }
-  }
-  return vae_list
+  return modeldata;
 }
 
 async function get_apiurl() {
