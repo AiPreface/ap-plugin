@@ -185,7 +185,7 @@ export class setpolicy extends plugin {
         let regExp = /^#ap(设置|解除)管理权限(\d{5,11})$/
         let ret = regExp.exec(e.msg)
         if (ret) { qq = Number(ret[2]) }
-        qq = qq || Number(e.at)
+        qq = qq || e.at
         if (!qq) {
             e.reply('请艾特该用户，或者在命令后带上QQ号')
             return true

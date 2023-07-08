@@ -234,7 +234,7 @@ export class set_parse extends plugin {
       }
     } else {
       parseDataUser = parseData[e.user_id];
-      msg = `${e.nickname}当前设置：\n`;
+      msg = `${ e.nickname || e.member.nickname }当前设置：\n`;
     }
     msg += "【采样方法】：" + parseDataUser.sampler + "\n";
     msg += "【迭代次数】：" + parseDataUser.steps + "\n";
@@ -253,18 +253,19 @@ export class set_parse extends plugin {
 async function initialization(e) {
   // 判断是否有用户数据，没有则创建
   let parseData = YAML.parse(fs.readFileSync(parsePath, "utf8"));
+  let defaultData = parseData["default"];
   if (!parseData[e.user_id]) {
     parseData[e.user_id] = {
-      sampler: "Euler a",
-      steps: 22,
-      width: 512,
-      height: 768,
-      scale: 7,
-      strength: 0.75,
-      enable_hr: false,
-      hr_upscaler: "Latent",
-      hr_second_pass_steps: 0,
-      hr_scale: 2
+      sampler: defaultData.sampler,
+      steps: defaultData.steps,
+      width: defaultData.width,
+      height: defaultData.height,
+      scale: defaultData.scale,
+      strength: defaultData.strength,
+      enable_hr: defaultData.enable_hr,
+      hr_upscaler: defaultData.hr_upscaler,
+      hr_second_pass_steps: defaultData.hr_second_pass_steps,
+      hr_scale: defaultData.hr_scale
     };
   }
   fs.writeFileSync(parsePath, YAML.stringify(parseData));

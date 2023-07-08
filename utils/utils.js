@@ -22,10 +22,18 @@ export async function parseImg(e) {
     }
     if (!e.img) {
         if (e.atBot) {
-            e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${Bot.uin}`];
+            try {
+                e.img = [e.bot.avatar]
+            } catch (error) {
+                e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${Bot.uin}`];
+            }
         }
         if (e.at) {
-            e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`];
+            try {
+                e.img = [await e.group.pickMember(e.at).getAvatarUrl()]
+            } catch (error) {
+                e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`];
+            }
         }
     }
     if (e.source) {
@@ -112,7 +120,7 @@ export async function getuserName(e, qq = null) {
                 return String(name)
             }
         } catch (err) {
-            logger.error("[getuserName]", err);
+            return (await e.group.pickMember(qq).getInfo()).nickname
         }
     }
     let user

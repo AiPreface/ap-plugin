@@ -13,7 +13,6 @@ import Config from '../components/ai_painting/config.js';
 import Log from '../utils/Log.js';
 import { parseImg } from '../utils/utils.js';
 import pic_tools from '../utils/pic_tools.js';
-import { segment } from 'icqq';
 
 let ap_cfg = await Config.getcfg()
 const API = ap_cfg.appreciate
