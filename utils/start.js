@@ -19,23 +19,23 @@ export async function initialize() {
     logger.mark(logger.red("⛔未找到配置文件，将自动生成配置文件"));
     try {
       Bot.pickUser(cfg.masterQQ[0]).sendMsg(
-        "[AP-Plugin自检]检测到您是首次安装，我们建议您花点时间看一看我们的配置文档：https://ap-plugin.com/Config/，\n为了更好的使用本插件，我们建议您使用【#ap安装依赖】进行一键安装必要依赖",
+        `[AP-Plugin自检]检测到您是首次安装，我们建议您花点时间看一看我们的配置文档：https://ap-plugin.com/Config/，\n为了更好的使用本插件，我们建议您使用【#ap安装依赖】进行一键安装必要依赖`
       );
     } catch (error) {
       logger.mark(
-        "[AP-Plugin自检]检测到您是首次安装，我们建议您花点时间看一看我们的配置文档：https://ap-plugin.com/Config/，\n为了更好的使用本插件，我们建议您使用【#ap安装依赖】进行一键安装必要依赖",
+        `[AP-Plugin自检]检测到您是首次安装，我们建议您花点时间看一看我们的配置文档：https://ap-plugin.com/Config/，\n为了更好的使用本插件，我们建议您使用【#ap安装依赖】进行一键安装必要依赖`
       );
     }
   } else {
     const config = YAML.parse(
-      fs.readFileSync("./plugins/ap-plugin/config/config/config.yaml", "utf8"),
+      fs.readFileSync("./plugins/ap-plugin/config/config/config.yaml", "utf8")
     );
     const preset = JSON.parse(
-      fs.readFileSync("./plugins/ap-plugin/config/config/preset.json", "utf8"),
+      fs.readFileSync("./plugins/ap-plugin/config/config/preset.json", "utf8")
     );
     if (config.APIList.length != 0) {
       logger.mark(
-        logger.green("✅已加载【" + config.APIList.length + "】个绘图API接口"),
+        logger.green("✅已加载【" + config.APIList.length + "】个绘图API接口")
       );
     } else {
       logger.mark(logger.red("⛔未加载任何绘图API接口"));

@@ -20,10 +20,7 @@
 body {
   font-size: 18px;
   color: #1e1f20;
-  font-family:
-    PingFangSC-Medium,
-    PingFang SC,
-    sans-serif;
+  font-family: PingFangSC-Medium, PingFang SC, sans-serif;
   transform: scale(1.7);
   transform-origin: 0 0;
   width: 465px;
@@ -124,7 +121,7 @@ body {
 }
 
 .model_list .true {
-  background: rgba(239, 214, 137, 0.6);
+  background: rgba(239, 214, 137, .6);
 }
 
 .model_list .avatar .model-name {
