@@ -13,6 +13,7 @@ import { parseImg, chNum2Num, sleep } from "../../utils/utils.js";
 import { Pictools } from "../../utils/utidx.js";
 import { _ } from "../../apps/getLora.js";
 import Translate from "../../utils/translate.js";
+import Log from "../../utils/Log.js";
 
 class Parse {
   constructor() {}
