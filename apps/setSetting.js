@@ -91,6 +91,14 @@ export class setSetting extends plugin {
                     fnc: 'setViolation',
                     /** 主人权限 */
                     permission: "master"
+                },
+                {
+                    /** 命令正则匹配 */
+                    reg: '^#ap(不)?屏蔽艾特$',
+                    /** 执行方法 */
+                    fnc: 'setAtBot',
+                    /** 主人权限 */
+                    permission: "master"
                 }
             ]
         })
@@ -255,6 +263,14 @@ export class setSetting extends plugin {
         setting.nsfw_show = Number(violation);
         Config.setSetting(setting);
         e.reply(`违规图片展示方式已设置为：${violation == '1' ? '展示MD5' : violation == '2' ? '展示图链二维码' : violation == '3' ? '展示图床链接' : '分享卡片'}`);
+        return true;
+    }
+    async setAtBot(e) {
+        let setting = await Config.getSetting();
+        let shield = e.msg.includes('不屏蔽') ? false : true;
+        setting.shield = shield;
+        Config.setSetting(setting);
+        e.reply(`${shield ? '已屏蔽' : '已取消屏蔽'}艾特绘图`);
         return true;
     }
 }
