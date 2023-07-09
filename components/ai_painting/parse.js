@@ -261,7 +261,7 @@ class Parse {
         }
       }
     } catch (error) {
-      Log.e("[主动替换Lora参数]出错", error);
+      Log.e("[主动替换Lora参数]出错");
     }
 
     // 取tag和ntag

@@ -10,6 +10,7 @@
  */
 import gsCfg from "../../genshin/model/gsCfg.js";
 import moment from "moment";
+import Config from '../components/ai_painting/config.js';
 
 
 /**
@@ -22,10 +23,12 @@ export async function parseImg(e) {
     }
     if (!e.img) {
         if (e.atBot) {
-            try {
-                e.img = [e.bot.avatar]
-            } catch (error) {
-                e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${Bot.uin}`];
+            let setting = await Config.getSetting();
+            if (setting.shield) {
+                delete e.img;
+            } else {
+                e.img = [];
+                e.img[0] = e.bot.avatar || `https://q1.qlogo.cn/g?b=qq&s=0&nk=${Bot.uin}`;
             }
         }
         if (e.at) {
@@ -126,7 +129,7 @@ export async function getuserName(e, qq = null) {
     let user
     try {
         user = (await Bot.pickUser(qq).getSimpleInfo()).nickname
-    } catch (error) { 
+    } catch (error) {
         user = (await e.bot.pickUser(qq).getInfo()).nickname
     }
     return String(user || qq);
