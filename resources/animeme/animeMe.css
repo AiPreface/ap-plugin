@@ -1,87 +1,88 @@
 @font-face {
-    font-family: "tttgbnumber";
-    src: url("../../../../resources/font/tttgbnumber.ttf");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "tttgbnumber";
+  src: url("../../../../resources/font/tttgbnumber.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "字魂正酷超级黑";
-    src: url("../../../../plugins/ap-plugin/resources/animeme/fonts/字魂正酷超级黑.ttf");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "字魂正酷超级黑";
+  src: url("../../../../plugins/ap-plugin/resources/animeme/fonts/字魂正酷超级黑.ttf");
+  font-weight: normal;
+  font-style: normal;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
 }
 
 #background_filter {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: transparent;
-    backdrop-filter: blur(5px);
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
 }
 
 #content,
 #aigc_img {
-    display: block;
-    float: left;
+  display: block;
+  float: left;
 }
 
-#aigc_img, img {
-    border-radius: 5%;
-    box-shadow: 0 0 6px 2px rgb(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
+#aigc_img,
+img {
+  border-radius: 5%;
+  box-shadow: 0 0 6px 2px rgb(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
 }
 
 img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .container {
-    position: relative;
-    width: 2592px;
+  position: relative;
+  width: 2592px;
 }
 
 #content p:first-child,
 #content p:last-child {
-    color: #fff;
-    font-weight: bolder;
-    font-family: 字魂正酷超级黑;
-    text-align: center;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-weight: bolder;
+  font-family: 字魂正酷超级黑;
+  text-align: center;
+  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.6);
 }
 
 #content p:first-child {
-    letter-spacing: 0.2rem;
-    font-size: clamp(2.34rem, 1rem + 4.472vw, 6.5rem);
-    margin-top: 150px;
+  letter-spacing: 0.2rem;
+  font-size: clamp(2.34rem, 1rem + 4.472vw, 6.5rem);
+  margin-top: 150px;
 }
 
 #content p:last-child {
-    text-indent: 3rem;
-    font-size: clamp(1.44rem, 0.48rem + 2.1vw, 3.84rem);
-    letter-spacing: 0.1rem;
-    line-height: 1.3;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    margin-top: 35px;
+  text-indent: 3rem;
+  font-size: clamp(1.44rem, 0.48rem + 2.1vw, 3.84rem);
+  letter-spacing: 0.1rem;
+  line-height: 1.3;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  margin-top: 35px;
 }
 
 #bottom_text {
-    font-size: 40px;
-    font-family: "tttgbnumber";
-    color: #ffffff;
-    position: absolute;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    bottom: 20px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    padding-left: 10px;
+  font-size: 40px;
+  font-family: "tttgbnumber";
+  color: #ffffff;
+  position: absolute;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding-left: 10px;
 }
