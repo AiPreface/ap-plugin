@@ -246,9 +246,7 @@ class Parse {
         return true;
       }
       if (loraList.length > 0) {
-        const index = apcfg.usingAPI;
-        const apiobj = apcfg.APIList[index - 1];
-        const Lora = (await _(apiobj)).data;
+        const Lora = await redis.get(`Yz:AiPainting:LoraList`)
         const LoraArr = [];
         for (let i = 0; i < Lora.length; i++) {
           LoraArr.push(Lora[i].name);

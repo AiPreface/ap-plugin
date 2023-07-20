@@ -51,6 +51,7 @@ export class GetLora extends plugin {
     let response;
     try {
       response = await _(apiobj);
+      await redis.set(`Yz:AiPainting:LoraList`, JSON.stringify(response.data));
     } catch (err) {
       Log.e(err);
       if (err.response.data.detail == "Not Found") {
@@ -80,7 +81,7 @@ export class GetLora extends plugin {
     const ret = regExp.exec(e.msg);
 
     // 取用户指定的页数和关键词
-    page = ret[3] || 1;
+    page = ret[4] || 1;
     keyword = ret[2] || "";
     Log.i(page, keyword);
 
@@ -106,18 +107,17 @@ export class GetLora extends plugin {
       );
     }
 
-    // 计算预设页数（99条每页）
-    const page_count = Math.ceil(lora_list.length / 99);
+    // 计算预设页数（100条每页）
+    const page_count = Math.ceil(lora_list.length / 100);
     if (page > page_count) {
       return e.reply(
-        `当前接口中${
-          keyword ? `包含关键词【${keyword}】` : ""
+        `当前接口中${keyword ? `包含关键词【${keyword}】` : ""
         }的Lora只有${page_count}页哦`,
       );
     }
 
     // 取出指定的一页预设
-    const selected_page = lora_list.slice((page - 1) * 99, page * 99);
+    const selected_page = lora_list.slice((page - 1) * 100, page * 100);
     // Log.i(selected_page, selected_page.length)
 
     // 构建合并消息数组
@@ -136,6 +136,7 @@ export class GetLora extends plugin {
       });
     }
 
+
     const base64 = await puppeteer.screenshot("ap-plugin", {
       saveId: "swichModel",
       tplFile: `${_path}/plugins/ap-plugin/resources/listTemp/listTemp.html`,
@@ -148,7 +149,7 @@ export class GetLora extends plugin {
       list1: "文件名称",
       list2: "触发词",
       notice:
-        '使用##Lora列表第x页来查看对应页，使用"lora序号:权重"使用指定Lora',
+        '使用#Lora列表第x页来查看对应页，使用"lora序号:权重"使用指定Lora',
     });
     e.reply(base64);
     return true;
