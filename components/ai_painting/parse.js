@@ -245,19 +245,21 @@ class Parse {
         e.reply("当前暂无可用接口");
         return true;
       }
-      const index = apcfg.usingAPI;
-      const apiobj = apcfg.APIList[index - 1];
-      const Lora = (await _(apiobj)).data;
-      const LoraArr = [];
-      for (let i = 0; i < Lora.length; i++) {
-        LoraArr.push(Lora[i].name);
-      }
-      for (let i = 0; i < loraList.length; i++) {
-        const lora = loraList[i];
-        const loraName = LoraArr[lora.num - 1];
-        if (loraName) {
-          const loraWeight = lora.weight;
-          msg += `<lora:${loraName}:${loraWeight}>`;
+      if (loraList.length > 0) {
+        const index = apcfg.usingAPI;
+        const apiobj = apcfg.APIList[index - 1];
+        const Lora = (await _(apiobj)).data;
+        const LoraArr = [];
+        for (let i = 0; i < Lora.length; i++) {
+          LoraArr.push(Lora[i].name);
+        }
+        for (let i = 0; i < loraList.length; i++) {
+          const lora = loraList[i];
+          const loraName = LoraArr[lora.num - 1];
+          if (loraName) {
+            const loraWeight = lora.weight;
+            msg += `<lora:${loraName}:${loraWeight}>`;
+          }
         }
       }
     } catch (error) {
