@@ -89,7 +89,7 @@ class Parse {
     }
 
     // 解析命令中的参数
-    let txtparam = await this.parsetxt(e.msg);
+    let txtparam = await this.parsetxt(e);
     // 获取用户默认参数
     const paramcfg = await Config.getParse();
     const userparam =
@@ -148,7 +148,8 @@ class Parse {
    * @param {boolean} is_check_preset 是否匹配和替换预设
    * @return {*}  txtparam 绘图参数
    */
-  async parsetxt(msg, is_check_preset = true) {
+  async parsetxt(e, is_check_preset = true) {
+    let msg = e.msg;
     const samplerList = [
       "Euler a",
       "Euler",
@@ -228,6 +229,7 @@ class Parse {
       .replace(reg.specifyAPI, "");
 
     try {
+      let isMatchingLora = false;
       const loraReg = /(lora|Lora)(\d{1,4})(:(\d{1,2}(\.\d{1,2})?))?/i;
       const loraList = [];
       while (loraReg.test(msg)) {
@@ -239,14 +241,8 @@ class Parse {
         loraList.push({ num: loraNum, weight: loraWeight });
         msg = msg.replace(lora[0], "");
       }
-
-      const apcfg = await Config.getcfg();
-      if (apcfg.APIList.length == 0) {
-        e.reply("当前暂无可用接口");
-        return true;
-      }
       if (loraList.length > 0) {
-        const Lora = await redis.get(`Yz:AiPainting:LoraList`)
+        const Lora = await JSON.parse(await redis.get(`Yz:AiPainting:LoraList`));
         const LoraArr = [];
         for (let i = 0; i < Lora.length; i++) {
           LoraArr.push(Lora[i].name);
@@ -260,9 +256,40 @@ class Parse {
           }
         }
       }
+      if (isMatchingLora) {
+        e.reply(`匹配到Lora：${msgArr.map(lora => lora.split(":")[1]).join(",")}`)
+      }
     } catch (error) {
-      Log.e("[主动替换Lora参数]出错");
+      Log.e("[主动替换Lora参数]出错", error);
     }
+
+    let matchLora = (await Config.getSetting()).matchLora;
+    if (matchLora) {
+      try {
+        let isMatchingLora = false;
+        msg = msg.replace(/，/g, ",");
+        const msgArr = msg.split(",");
+        const loraArr = (await JSON.parse(await redis.get(`Yz:AiPainting:LoraList`))).map(lora => lora.name);
+        for (let i = 0; i < msgArr.length; i++) {
+          if (/^[a-zA-Z0-9]+$/.test(msgArr[i])) continue;
+          const msgElement = msgArr[i].replace(/:.*/g, "");
+          const matchingLora = loraArr.find(loraName => loraName.includes(msgElement));
+          if (matchingLora) {
+            const weight = msgArr[i].split(":")[1] || 0.8;
+            msgArr[i] = `<lora:${matchingLora}:${weight}>`;
+            isMatchingLora = true;
+          }
+        }
+        msg = msgArr.join(",");
+        if (isMatchingLora) {
+          e.reply(`匹配到Lora：${msgArr.map(lora => lora.split(":")[1]).join(",")}`)
+        }
+      } catch (error) {
+        console.error("[主动替换Lora参数]出错", error);
+      }
+    }
+
+
 
     // 取tag和ntag
     const ntgReg = /ntag(s?)( = |=|＝| ＝ )?(.*)/i;

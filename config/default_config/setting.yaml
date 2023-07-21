@@ -15,3 +15,4 @@ realesrgan:
   model1: ScuNET PSNR
   model2: R-ESRGAN 4x+ Anime6B
 shield: true
+matchLora: true

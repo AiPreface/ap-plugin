@@ -100,8 +100,25 @@ export class setSetting extends plugin {
           /** 主人权限 */
           permission: "master",
         },
+        {
+          /** 命令正则匹配 */
+          reg: "^#?(关闭|开启)匹配Lora$",
+          /** 执行方法 */
+          fnc: "setMatchLora",
+          /** 主人权限 */
+          permission: "master",
+        }
       ],
     });
+  }
+
+  async setMatchLora(e) {
+    const setting = await Config.getSetting();
+    const matchLora = e.msg.includes("开启") ? true : false;
+    setting.matchLora = matchLora;
+    Config.setSetting(setting);
+    e.reply(`${matchLora ? "已开启" : "已关闭"}自动匹配Lora`);
+    return true;
   }
 
   async setNegative(e) {
