@@ -263,34 +263,6 @@ class Parse {
       Log.e("[主动替换Lora参数]出错", error);
     }
 
-    let matchLora = (await Config.getSetting()).matchLora;
-    if (matchLora) {
-      try {
-        let isMatchingLora = false;
-        msg = msg.replace(/，/g, ",");
-        const msgArr = msg.split(",").map(tag => tag.trim());
-        const loraArr = (await JSON.parse(await redis.get(`Yz:AiPainting:LoraList`))).map(lora => lora.name);
-        for (let i = 0; i < msgArr.length; i++) {
-          if (/^[a-zA-Z0-9]+$/.test(msgArr[i])) continue;
-          const msgElement = msgArr[i].replace(/:.*/g, "");
-          if (msgElement === "") continue;
-          const matchingLora = loraArr.find(loraName => loraName.includes(msgElement));
-          if (matchingLora) {
-            const weight = msgArr[i].split(":")[1] || 0.8;
-            msgArr[i] = `<lora:${matchingLora}:${weight}>`;
-            isMatchingLora = true;
-          }
-        }
-        msg = msgArr.join(",");
-        if (isMatchingLora) {
-          e.reply(`匹配到Lora：${msgArr.map(lora => lora.split(":")[1]).join(",")}`)
-        }
-      } catch (error) {
-        console.error("[主动替换Lora参数]出错", error);
-      }
-    }
-
-
 
     // 取tag和ntag
     const ntgReg = /ntag(s?)( = |=|＝| ＝ )?(.*)/i;
@@ -308,6 +280,39 @@ class Parse {
       ntags = tres.ntags;
       param = tres.param;
     }
+
+    // 中文匹配lora
+    let matchLora = (await Config.getSetting()).matchLora;
+    if (matchLora) {
+      try {
+        let isMatchingLora = false;
+        tags = tags.replace(/，/g, ",");
+        const msgArr = tags.split(",").map(tag => tag.trim());
+        let allMatchedLora = [];
+        const loraArr = (await JSON.parse(await redis.get(`Yz:AiPainting:LoraList`))).map(lora => lora.name);
+        for (let i = 0; i < msgArr.length; i++) {
+          // 如果包含不包含中文字符则进入新的循环
+          if (!/[\u4E00-\u9FFF]/g.test(msgArr[i])) continue;
+          const msgElement = msgArr[i].replace(/:.*/g, "");
+          if (msgElement === "") continue;
+          const matchingLora = loraArr.find(loraName => loraName.includes(msgElement));
+          if (matchingLora) {
+            allMatchedLora.push(matchingLora)
+            const weight = msgArr[i].split(":")[1] || 0.8;
+            msgArr[i] = `<lora:${matchingLora}:${weight}>`;
+            isMatchingLora = true;
+          }
+        }
+        tags = msgArr.join(",");
+        if (isMatchingLora) {
+          e.reply(`匹配到Lora：${allMatchedLora.join(",")}`)
+        }
+      } catch (error) {
+        console.error("[主动替换Lora参数]出错", error);
+      }
+    }
+
+
     const pt_reg = /(【.+?】|<[^<>]+?>)/;
     const pt = [];
     const npt = [];
