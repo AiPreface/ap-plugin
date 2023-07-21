@@ -45,7 +45,7 @@ export class setpreset extends plugin {
     /**添加预设     */
     async addPreset(e) {
 
-        let raw_preset = await this.parsePreset(e.msg)
+        let raw_preset = await this.parsePreset(e)
         Log.i(raw_preset)
         if (!raw_preset) {
             e.reply('格式：\n#ap添加预设预设名=>预设内容\n例如：#ap添加预设栗子=>🌰\n\n进阶用法：预设内容可包含scale、正面tag、负面tag，格式与#绘图的格式相同，将自动解析参数。')
@@ -82,10 +82,10 @@ export class setpreset extends plugin {
         return true
     }
     /* 处理消息，解析为ap标准预设格式 */
-    async parsePreset(msg) {
+    async parsePreset(e) {
 
         let regExp = /^#ap添加预设([\s\S]+)=>([\s\S]+)$/
-        let reg_result = regExp.exec(msg)
+        let reg_result = regExp.exec(e.msg)
         if (!reg_result)
             return false
 
@@ -93,7 +93,7 @@ export class setpreset extends plugin {
         kword = kword.trim()
 
         // 解析预设的value
-        let res = await Parse.parsetxt(reg_result[2], false)
+        let res = await Parse.parsetxt(reg_result[2], false, e)
         // Log.w(res)
         // 回填pt
         if (res.param.pt.length) {

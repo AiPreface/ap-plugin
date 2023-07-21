@@ -89,7 +89,7 @@ class Parse {
     }
 
     // 解析命令中的参数
-    let txtparam = await this.parsetxt(e);
+    let txtparam = await this.parsetxt(e.msg, undefined, e);
     // 获取用户默认参数
     const paramcfg = await Config.getParse();
     const userparam =
@@ -148,8 +148,7 @@ class Parse {
    * @param {boolean} is_check_preset 是否匹配和替换预设
    * @return {*}  txtparam 绘图参数
    */
-  async parsetxt(e, is_check_preset = true) {
-    let msg = e.msg;
+  async parsetxt(msg, is_check_preset = true, e) {
     const samplerList = [
       "Euler a",
       "Euler",
