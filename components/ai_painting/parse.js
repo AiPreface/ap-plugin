@@ -268,11 +268,12 @@ class Parse {
       try {
         let isMatchingLora = false;
         msg = msg.replace(/，/g, ",");
-        const msgArr = msg.split(",");
+        const msgArr = msg.split(",").map(tag => tag.trim());
         const loraArr = (await JSON.parse(await redis.get(`Yz:AiPainting:LoraList`))).map(lora => lora.name);
         for (let i = 0; i < msgArr.length; i++) {
           if (/^[a-zA-Z0-9]+$/.test(msgArr[i])) continue;
           const msgElement = msgArr[i].replace(/:.*/g, "");
+          if (msgElement === "") continue;
           const matchingLora = loraArr.find(loraName => loraName.includes(msgElement));
           if (matchingLora) {
             const weight = msgArr[i].split(":")[1] || 0.8;
