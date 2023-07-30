@@ -98,7 +98,7 @@ git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
 - 使用 Github
 
 ```
-git clone https://github.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
+git clone https://github.com/ap-plugin/ap-plugin.git ./plugins/ap-plugin
 ```
 
  <!-- 3. 安装必要依赖（axios）
