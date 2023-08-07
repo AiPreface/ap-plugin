@@ -202,7 +202,7 @@ export class Ai_Painting extends plugin {
         if (current_group_policy.isTellMaster) {
           let msg = [
             "【aiPainting】不合规图片：\n",
-            segment.image(`base64://${res.base64}`),
+            {...segment.image(`base64://${res.base64}`), origin: true},
             `\n来自${e.isGroup ? `群【${(await Bot.getGroupInfo(e.group_id)).group_name}】(${e.group_id})的` : ""}用户【${await getuserName(e)}】(${e.user_id})`,
             `\n正面：${res.info.prompt}`,
             `\n反面：${res.info.negative_prompt}`,

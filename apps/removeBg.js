@@ -107,7 +107,7 @@ export class RemoveBackground extends plugin {
             e.reply(`耗时${time}s，正在发送结果...`, false, { at: true, recallMsg: 5 })
             res.data.data.data[1] = res.data.data.data[1].replace(/^data:image\/png;base64,/, "")
             let buffer = Buffer.from(res.data.data.data[1], 'base64')
-            await e.reply(segment.image(buffer), true)
+            await e.reply({...segment.image(`base64://${buffer}`), origin: true}, true)
             delete FiguretypeUser[e.user_id];
             return true
         } else {
