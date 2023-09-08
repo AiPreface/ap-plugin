@@ -19,6 +19,7 @@ import { bs64Size } from '../../utils/utils.js';
 import Log from '../../utils/Log.js'
 import process from "process";
 import { Pictools } from "../../utils/utidx.js";
+import https from "https";
 
 class Draw {
 
@@ -266,6 +267,12 @@ async function i(paramdata, apiobj) {
     }
     options.headers['User-Agent'] = `AP-Plugin/@${currentVersion}`;
     options.headers['Caller'] = `Master:${cfg.masterQQ[0].toString()}|Bot:${Bot.uin.toString()}|User:${paramdata.user.toString()}`;
+    // 支持HTTPS自签名证书：
+    if (apiobj.url.startsWith('https://')) {
+        options.agent = new https.Agent({ 
+            rejectUnauthorized: false 
+        });
+    }
     return fetch(`${apiobj.url}/sdapi/v1/${paramdata.param.base64 ? "img" : "txt"}2img`, options);
   }
   
