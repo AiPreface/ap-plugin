@@ -273,11 +273,6 @@ export class louvreimg extends plugin {
 		e.reply([
 			segment.image('base64://' + res.replace(/^data:image\/\w+;base64,/, "")),
 			// /^#?(louvre|卢浮宫)$/.test(e.msg.trim()) ? '' : '\n当前生成参数：\n精细程度：' + style.convoluteName + '\n降噪：' + (style.denoise ? '开启' : '关闭') + '\n水印：' + (style.watermark ? '开启' : '关闭') + '\nKiss：' + (style.kuma ? '开启' : '关闭') + '\n初回：' + (style.hajimei ? '开启' : '关闭') + '\n线迹轻重：' + style.shadeLimit + '\n调子数量：' + style.shadeLight,
-			true,
-			{
-				at: true,
-				recallMsg: 15
-			}
 		], true)
 		delete FiguretypeUser[e.user_id];
 		return true;
