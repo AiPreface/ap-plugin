@@ -125,7 +125,11 @@ export async function getuserName(e, qq = null) {
   try {
     user = (await Bot.pickUser(qq).getSimpleInfo()).nickname;
   } catch (error) {
-    user = (await e.bot.pickUser(qq).getInfo()).nickname;
+    try {
+      user = (await e.bot.pickUser(qq).getInfo()).nickname;
+    } catch (error) {
+      user = "未知用户";
+    }
   }
   return String(user || qq);
 }
