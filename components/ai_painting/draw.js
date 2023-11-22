@@ -61,7 +61,7 @@ class Draw {
                     code: 12,
                     info: "连接被拒绝",
                     msg: err.message,
-                    description: `接口${index}：${remark} 连接被服务区拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器是否开启、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
+                    description: `接口${index}：${remark} 连接被服务器拒绝：ECONNREFUSED，请检查端口号或接口是否配置正确、服务器是否开启、服务器防火墙是否放行了对应端口，或尝试使用其他接口`
                 }
             else if (err.code == "EPROTO")
                 return {
