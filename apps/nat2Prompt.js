@@ -44,7 +44,7 @@ export class nat2pmpt extends plugin {
 		await e.reply("即将生成至少" + len + "个prompt，请稍后......")
 		try {
 			const response = await axios.post(
-				'https://openai.ap-plugin.com/', {
+				'https://nat2pmpt.pages.dev/v1/chat/completions', {
 				'model': 'gpt-3.5-turbo',
 				'messages': [{
 					'role': 'user',
