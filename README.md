@@ -84,10 +84,10 @@ cd Yunzai-Bot
 
 #### 2. 克隆本仓库至 plugins 目录
 
-- 使用 Gitee（国内服务器推荐使用此方法）
+- 使用 Ghproxy（国内服务器推荐使用此方法）
 
 ```
-git clone https://gitee.com/yhArcadia/ap-plugin.git ./plugins/ap-plugin
+git clone https://mirror.ghproxy.com/https://github.com/ap-plugin/ap-plugin.git ./plugins/ap-plugin
 ```
 
 - 使用 Github
