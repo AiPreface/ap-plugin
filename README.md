@@ -113,8 +113,7 @@ pnpm add axios -w
 pnpm restart
 ```
 
-首次载入请输入`#ap安装依赖`进行依赖安装
-或进入ap-plugin目录输入`pnpm i`进行依赖安装
+首次载入请进入ap-plugin目录输入`pnpm i`进行依赖安装
 
 <br><br>
 
