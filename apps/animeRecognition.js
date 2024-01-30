@@ -75,7 +75,7 @@ export class animedb extends plugin {
 			fs.writeFileSync(Path + 'img.png', base64, 'base64')
 			const form = new FormData()
 			form.append('image', await fileFromPath(Path + 'img.png'))
-			const res = await fetch('https://aiapiv2.animedb.cn/ai/api/detect', {
+			const res = await fetch('https://aiapiv2.animedb.cn/ai/api/detect?model=anime_model_lovelive', {
 				method: 'POST',
 				body: form
 			})
