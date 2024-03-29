@@ -1,33 +1,14 @@
-<!--
- * @Author: 渔火Arcadia  https://github.com/yhArcadia
- * @Date: 2022-12-22 00:38:21
- * @LastEditors: 苏沫柒 3146312184@qq.com
- * @LastEditTime: 2023-04-16 14:10:08
- * @FilePath: \Yunzai-Bot\plugins\ap-plugin\README.md
- * @Description: 版本：3.0.0
- *
- * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
--->
-
 <p align="center">
-  <a href="https://ap-plugin.com/"><img src="./resources/readme/logo.png" width="200" height="200" alt="ap-plugin"></a>
+  <a href="https://docs.yunzai.art"><img src="./resources/readme/header.png" width="100%" height="100%" alt="mj-plugin"></a>
 </p>
 
 <div align="center">
 
-# Ap-plugin
+# AP-PLUGIN
 
 _🎉 基于 Yunzai-Bot 的 AI 绘图插件 🎉_
 
 </div>
-
-<p align="center">
-  </a>
-    <img src="./resources/readme/header.png">
-  </a>
-</p>
-
----
 
 <span id="header"></span>
 
@@ -51,30 +32,11 @@ _🎉 基于 Yunzai-Bot 的 AI 绘图插件 🎉_
 
 ## 简介
 
-Ap-plugin 是一款在 QQ 内快速调用[Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)提供的 API 接口进行多参数便捷 AI 绘图的[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)插件，除此之外也拥有多种图片处理功能，本插件功能不断拓展中，更多功能敬请期待……
+AP-Plugin 是一款在 QQ 内快速调用[Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)提供的 API 接口进行多参数便捷 AI 绘图的[Yunzai-Bot](https://github.com/Le-niao/Yunzai-Bot)插件，除此之外也拥有多种图片处理功能，本插件功能不断拓展中，更多功能敬请期待……
 
 <br>
 
 ## 安装插件
-
-<!-- ### 前置安装注意
-
-本插件有较多复杂配置，如果没有以下技能，请停止对插件的安装。
-
-* 可能需要义务教育要求的阅读理解水平
-* 可能需要义务教育要求的语文理解水平
-* 需要认识26个字母并学会如何翻译它们
-* 能熟练地使用一种浏览器
-* 有基础的代码辨识能力，比如什么是True，什么是False
-* 对于Yunzai有一定的了解，有一定的错误排查能力
-
-如果您在配置与使用中遇到问题，请先阅读[提问的智慧](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)后，加入我们的[交流群](#header)进行提问，一般来说聪明问题将会得到解答 -->
-
-<p align="center">
-  <a href="https://asciinema.org/a/550312">
-    <img src="./resources/readme/code.gif">
-  </a>
-</p>
 
 #### 1. 挂载至 Yunzai-Bot 目录
 
@@ -87,33 +49,26 @@ cd Yunzai-Bot
 - 使用 Ghproxy（国内服务器推荐使用此方法）
 
 ```
-git clone https://mirror.ghproxy.com/https://github.com/ap-plugin/ap-plugin.git ./plugins/ap-plugin
+git clone https://mirror.ghproxy.com/https://github.com/AiPreface/ap-plugin.git ./plugins/ap-plugin
 ```
 
 - 使用 Github
 
 ```
-git clone https://github.com/ap-plugin/ap-plugin.git ./plugins/ap-plugin
+git clone https://github.com/AiPreface/ap-plugin.git ./plugins/ap-plugin
 ```
 
- <!-- 3. 安装必要依赖（axios）
- - 使用npm
+#### 3. 安装依赖
+
 ```
-npm install axios --registry=https://registry.npmmirror.com
+pnpm install --filter=ap-plugin
 ```
 
- - 使用pnpm
-```
-pnpm add axios -w
-``` -->
-
-#### 3. 重启 Yunzai
+#### 4. 重启 Yunzai
 
 ```
 pnpm restart
 ```
-
-首次载入请进入ap-plugin目录输入`pnpm i`进行依赖安装
 
 <br><br>
 
@@ -418,17 +373,13 @@ cnpm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-
 
 ## Todo
 
-- [ ] 更严谨的 API 鉴权方式（Arcadia）
-- [ ] 简单图片处理（Su）
-- [ ] 群友 XP 统计与 Tags 使用排名（Arcadia）
-- [ ] 咕咕咕？
-
 - [x] 云端同步与共享预设
 - [x] 接入百度，有道翻译（Arcadia）
 - [x] 图片局部重绘
 - [x] 多搜索引擎搜图
 - [x] 设置个人默认绘图参数
 - [x] 动漫人物识别
+- [x] 更严谨的 API 鉴权方式
 
 ## 致谢
 
