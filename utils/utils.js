@@ -54,6 +54,7 @@ export async function parseImg(e) {
         }
       }
     }
+  }
   if (e.reply_id) {
     let reply = (await e.getReply(e.reply_id)).message;
     for (const val of reply) {
@@ -62,7 +63,6 @@ export async function parseImg(e) {
         break;
       }
     }
-  }
   }
   return e;
 }
