@@ -54,6 +54,15 @@ export async function parseImg(e) {
         }
       }
     }
+  if (e.reply_id) {
+    let reply = (await e.getReply(e.reply_id)).message;
+    for (const val of reply) {
+      if (val.type === "image") {
+        e.img = [val.url];
+        break;
+      }
+    }
+  }
   }
   return e;
 }
