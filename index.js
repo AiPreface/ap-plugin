@@ -31,6 +31,6 @@ for (let i in files) {
 }
 
 logger.info(logger.green("- AP-PLUGIN 载入成功"));
-logger.info(logger.magenta(`- 欢迎加入新组织【貓娘樂園🍥🏳️‍⚧️】（群号 551081559）`));
+logger.info(logger.magenta(`- 欢迎加入新组织【貓娘樂園🍥🏳️‍⚧️】（群号 707331865）`));
 
 export { apps };

@@ -8,7 +8,7 @@
 
 - 使用开源的 [Stable Diffusion web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) 作为后端，自己免费部署，生成的图片多样化，功能更加丰富
 
-- 使用中遇到问题请加QQ群咨询：[707331865](https://qm.qq.com/q/TXTIS9KhO2)
+- **使用中遇到问题请加QQ群咨询：[707331865](https://qm.qq.com/q/TXTIS9KhO2)**
 
 > [!TIP]
 > 这个插件是我刚接触 Yunzai 时，和一个叫 [渔火](https://github.com/yhArcadia) 的大哥哥一起写的（其实我就是在他的插件上面加乱七八糟的东西，导致现在这么臃肿）。他是我的启蒙老师哦，之前我是一点 JavaScript 都不会的。现在他都退坑了都找到女朋友啦！
