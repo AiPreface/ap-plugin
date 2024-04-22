@@ -1,23 +1,22 @@
 import Config from "./components/ai_painting/config.js";
 import lodash from "lodash";
 import path from "path";
+import { pluginRoot } from "./model/path.js";
 
 export function supportGuoba() {
   return {
     pluginInfo: {
       name: "ap-plugin",
-      title: "AP-Plugin绘图插件",
-      author: "@渔火Arcadia @0卡苏打水",
-      authorLink: "https://gitee.com/yhArcadia",
-      link: "https://gitee.com/yhArcadia/ap-plugin",
+      title: "ap-plugin",
+      author: ['@yhArcadia', '@CikeyQi'],
+      authorLink: ['https://github.com/yhArcadia', 'https://github.com/CikeyQi'],
+      link: "https://github.com/AiPreface/ap-plugin",
       isV3: true,
       isV2: false,
       description: "基于Yunzai-Bot的AI绘图插件，使用Stable Diffusion接口",
       icon: "mdi:stove",
       iconColor: "#d19f56",
-      iconPath: path.join(
-        process.cwd() + "/plugins/ap-plugin/resources/readme/logo.png"
-      ),
+      iconPath: path.join(pluginRoot, 'resources/readme/girl.png'),
     },
     configInfo: {
       schemas: [
@@ -527,13 +526,10 @@ export function supportGuoba() {
         }
         config = lodash.merge(Config.mergeConfig(), config);
         config.baidu_appid = parseInt(config.baidu_appid);
-        // 特殊处理数组
-        // 由于 lodash.merge 会将数组也合并，所以会导致删除的数据也被合并进去了，就删不掉了，所以这里数组需要直接赋值
         config.APIList = data['config.APIList'];
         Config.setcfg(config);
 
         policy = lodash.merge(Config.mergePolicy(), policy);
-        // 特殊处理数组
         policy.prohibitedUserList = data['policy.prohibitedUserList'];
         Config.setPolicy(policy);
         return Result.ok({}, "保存成功~");
