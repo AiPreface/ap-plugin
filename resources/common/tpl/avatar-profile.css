@@ -34,13 +34,17 @@
 .profile .char-name {
   font-size: 50px;
   font-family: NZBZ;
-  text-shadow: 0 0 3px #000, 2px 2px 4px rgba(0, 0, 0, 0.7);
+  text-shadow:
+    0 0 3px #000,
+    2px 2px 4px rgba(0, 0, 0, 0.7);
   text-align: right;
 }
 .profile .char-lv {
   font-family: Number;
   margin-bottom: 20px;
-  text-shadow: 0 0 3px #000, 2px 2px 4px rgba(0, 0, 0, 0.7);
+  text-shadow:
+    0 0 3px #000,
+    2px 2px 4px rgba(0, 0, 0, 0.7);
   text-align: right;
 }
 .profile .attr {
@@ -162,7 +166,9 @@
   background: #2e353e;
   color: #ffdfa0;
   font-weight: bold;
-  box-shadow: 0 0 1px 0 #d3bc8e, 1px 1px 2px 0 rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 1px 0 #d3bc8e,
+    1px 1px 2px 0 rgba(0, 0, 0, 0.5);
 }
 .profile .talent-icon.talent-crown:after {
   content: "";

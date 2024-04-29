@@ -1,7 +1,7 @@
 import fs from 'fs'
 import fetch from 'node-fetch'
 
-export async function downloadFile(url, filePath, fileName) {
+export async function downloadFile (url, filePath, fileName) {
   fs.rmdirSync(filePath)
   fs.mkdirSync(filePath)
   const res = await fetch(url, {
@@ -17,9 +17,10 @@ export async function downloadFile(url, filePath, fileName) {
 }
 
 export const getRangeCode = (len = 6) => {
-  var orgStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const orgStr =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let returnStr = ''
-  for (var i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     returnStr += orgStr.charAt(Math.floor(Math.random() * orgStr.length))
   }
   return returnStr

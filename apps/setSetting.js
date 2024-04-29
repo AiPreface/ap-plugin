@@ -1,352 +1,352 @@
-import plugin from "../../../lib/plugins/plugin.js";
-import Config from "../components/ai_painting/config.js";
+import plugin from '../../../lib/plugins/plugin.js'
+import Config from '../components/ai_painting/config.js'
 
-const _path = process.cwd();
+const _path = process.cwd()
 
 export class setSetting extends plugin {
-  constructor() {
+  constructor () {
     super({
       /** 功能名称 */
-      name: "AP-设置设置",
+      name: 'AP-设置设置',
       /** 功能描述 */
-      dsc: "设置设置",
-      event: "message",
+      dsc: '设置设置',
+      event: 'message',
       /** 优先级，数字越小等级越高 */
       priority: 1009,
       rule: [
         {
           /** 命令正则匹配 */
-          reg: "^#ap设置负面.*",
+          reg: '^#ap设置负面.*',
           /** 执行方法 */
-          fnc: "setNegative",
+          fnc: 'setNegative',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#ap设置正面.*",
+          reg: '^#ap设置正面.*',
           /** 执行方法 */
-          fnc: "setPositive",
+          fnc: 'setPositive',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#ap(开启|关闭)简洁模式$",
+          reg: '^#ap(开启|关闭)简洁模式$',
           /** 执行方法 */
-          fnc: "setSimple",
+          fnc: 'setSimple',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#ap设置合并字数.*",
+          reg: '^#ap设置合并字数.*',
           /** 执行方法 */
-          fnc: "setMerge",
+          fnc: 'setMerge',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#ap设置调试模式(开启|关闭)$",
+          reg: '^#ap设置调试模式(开启|关闭)$',
           /** 执行方法 */
-          fnc: "setDebug",
+          fnc: 'setDebug'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#(ap)?设置使用(sd|db)鉴赏图片$",
+          reg: '^#(ap)?设置使用(sd|db)鉴赏图片$',
           /** 执行方法 */
-          fnc: "setAppreciation",
+          fnc: 'setAppreciation',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#(ap)?设置鉴赏模型.*",
+          reg: '^#(ap)?设置鉴赏模型.*',
           /** 执行方法 */
-          fnc: "setAppreciationModel",
+          fnc: 'setAppreciationModel',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#(ap)?设置大清晰术算法(1|2).*",
+          reg: '^#(ap)?设置大清晰术算法(1|2).*',
           /** 执行方法 */
-          fnc: "setSuperResolutionModel",
+          fnc: 'setSuperResolutionModel',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#(ap)?设置二次元的我卡片(开启|关闭)$",
+          reg: '^#(ap)?设置二次元的我卡片(开启|关闭)$',
           /** 执行方法 */
-          fnc: "setCard",
+          fnc: 'setCard',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#(ap)?设置违规图片展示方式(1|2|3|4)$",
+          reg: '^#(ap)?设置违规图片展示方式(1|2|3|4)$',
           /** 执行方法 */
-          fnc: "setViolation",
+          fnc: 'setViolation',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#ap(不)?屏蔽艾特$",
+          reg: '^#ap(不)?屏蔽艾特$',
           /** 执行方法 */
-          fnc: "setAtBot",
+          fnc: 'setAtBot',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         },
         {
           /** 命令正则匹配 */
-          reg: "^#?(关闭|开启)匹配Lora$",
+          reg: '^#?(关闭|开启)匹配Lora$',
           /** 执行方法 */
-          fnc: "setMatchLora",
+          fnc: 'setMatchLora',
           /** 主人权限 */
-          permission: "master",
+          permission: 'master'
         }
-      ],
-    });
+      ]
+    })
   }
 
-  async setMatchLora(e) {
-    const setting = await Config.getSetting();
-    const matchLora = e.msg.includes("开启") ? true : false;
-    setting.matchLora = matchLora;
-    Config.setSetting(setting);
-    e.reply(`${matchLora ? "已开启" : "已关闭"}自动匹配Lora`);
-    return true;
+  async setMatchLora (e) {
+    const setting = await Config.getSetting()
+    const matchLora = !!e.msg.includes('开启')
+    setting.matchLora = matchLora
+    Config.setSetting(setting)
+    e.reply(`${matchLora ? '已开启' : '已关闭'}自动匹配Lora`)
+    return true
   }
 
-  async setNegative(e) {
-    const setting = await Config.getSetting();
-    const negativePrompt = e.msg.replace("#ap设置负面", "").trim();
-    setting.def_negativeprompt = negativePrompt;
-    Config.setSetting(setting);
+  async setNegative (e) {
+    const setting = await Config.getSetting()
+    const negativePrompt = e.msg.replace('#ap设置负面', '').trim()
+    setting.def_negativeprompt = negativePrompt
+    Config.setSetting(setting)
     e.reply(
-      `全局负面已设置为：${negativePrompt}，每次绘画时会自动使用该负面Prompt`,
-    );
-    return true;
+      `全局负面已设置为：${negativePrompt}，每次绘画时会自动使用该负面Prompt`
+    )
+    return true
   }
 
-  async setPositive(e) {
-    const setting = await Config.getSetting();
-    const positivePrompt = e.msg.replace("#ap设置正面", "").trim();
-    setting.def_prompt = positivePrompt;
-    Config.setSetting(setting);
+  async setPositive (e) {
+    const setting = await Config.getSetting()
+    const positivePrompt = e.msg.replace('#ap设置正面', '').trim()
+    setting.def_prompt = positivePrompt
+    Config.setSetting(setting)
     e.reply(
-      `全局正面已设置为：${positivePrompt}，每次绘画时会自动使用该正面Prompt`,
-    );
-    return true;
+      `全局正面已设置为：${positivePrompt}，每次绘画时会自动使用该正面Prompt`
+    )
+    return true
   }
 
-  async setSimple(e) {
-    const setting = await Config.getSetting();
-    const simple = e.msg.replace("#ap", "").replace("简洁模式", "").trim();
-    setting.concise_mode = simple == "开启";
-    Config.setSetting(setting);
+  async setSimple (e) {
+    const setting = await Config.getSetting()
+    const simple = e.msg.replace('#ap', '').replace('简洁模式', '').trim()
+    setting.concise_mode = simple == '开启'
+    Config.setSetting(setting)
     e.reply(
       `简洁模式已${simple}，单次绘图将${
-        simple == "开启" ? "不" : ""
-      }显示详细信息`,
-    );
-    return true;
+        simple == '开启' ? '不' : ''
+      }显示详细信息`
+    )
+    return true
   }
 
-  async setMerge(e) {
-    const setting = await Config.getSetting();
-    const merge = e.msg.replace("#ap设置合并字数", "").trim();
+  async setMerge (e) {
+    const setting = await Config.getSetting()
+    const merge = e.msg.replace('#ap设置合并字数', '').trim()
     if (isNaN(merge) || merge < 1 || merge > 800) {
-      e.reply("合并字数必须为1-800之间的数字");
-      return true;
+      e.reply('合并字数必须为1-800之间的数字')
+      return true
     }
-    setting.merge = merge;
-    Config.setSetting(setting);
+    setting.merge = merge
+    Config.setSetting(setting)
     e.reply(
-      `合并字数已设置为：${merge}，详细信息若超出${merge}字将会被合并发送`,
-    );
-    return true;
+      `合并字数已设置为：${merge}，详细信息若超出${merge}字将会被合并发送`
+    )
+    return true
   }
 
-  async setDebug(e) {
-    const setting = await Config.getSetting();
-    const debug = e.msg.replace("#ap设置调试模式", "").trim();
-    setting.debug = debug == "开启";
-    Config.setSetting(setting);
+  async setDebug (e) {
+    const setting = await Config.getSetting()
+    const debug = e.msg.replace('#ap设置调试模式', '').trim()
+    setting.debug = debug == '开启'
+    Config.setSetting(setting)
     e.reply(
-      `调试模式已${debug == "开启" ? "开启" : "关闭"}，详细信息将${
-        debug == "开启" ? "会" : "不会"
-      }被输出至控制台`,
-    );
-    return true;
+      `调试模式已${debug == '开启' ? '开启' : '关闭'}，详细信息将${
+        debug == '开启' ? '会' : '不会'
+      }被输出至控制台`
+    )
+    return true
   }
 
-  async setAppreciation(e) {
-    const setting = await Config.getSetting();
+  async setAppreciation (e) {
+    const setting = await Config.getSetting()
     const appreciation = e.msg
-      .replace(/#(ap)?设置使用/, "")
-      .replace("鉴赏图片", "")
-      .trim();
-    setting.appreciation.useSD = appreciation == "sd";
-    Config.setSetting(setting);
+      .replace(/#(ap)?设置使用/, '')
+      .replace('鉴赏图片', '')
+      .trim()
+    setting.appreciation.useSD = appreciation == 'sd'
+    Config.setSetting(setting)
     e.reply(
       `鉴赏图片接口已设置为：${
-        appreciation == "sd" ? "Stable Diffusion" : "DeepDanbooru"
-      }`,
-    );
-    return true;
+        appreciation == 'sd' ? 'Stable Diffusion' : 'DeepDanbooru'
+      }`
+    )
+    return true
   }
 
-  async setAppreciationModel(e) {
-    const config = await Config.getcfg();
-    const apiobj = config.APIList[config.usingAPI - 1];
-    const url = apiobj.url + "/tagger/v1/interrogators";
+  async setAppreciationModel (e) {
+    const config = await Config.getcfg()
+    const apiobj = config.APIList[config.usingAPI - 1]
+    const url = apiobj.url + '/tagger/v1/interrogators'
     const headers = {
-      "Content-Type": "application/json",
-    };
+      'Content-Type': 'application/json'
+    }
     if (apiobj.account_password) {
       headers.Authorization = `Basic ${Buffer.from(
-        apiobj.account_id + ":" + apiobj.account_password,
-        "utf8",
-      ).toString("base64")} `;
-      headers.User_Agent = "AP-Plugin";
+        apiobj.account_id + ':' + apiobj.account_password,
+        'utf8'
+      ).toString('base64')} `
+      headers.User_Agent = 'AP-Plugin'
     }
-    let response;
+    let response
     try {
-      response = await axios.get(url, { headers });
+      response = await axios.get(url, { headers })
     } catch (error) {
       response = {
         models: [
-          "wd14-convnextv2-v2",
-          "wd14-vit-v2",
-          "wd14-convnext-v2",
-          "wd14-swinv2-v2",
-          "wd14-convnextv2-v2-git",
-          "wd14-vit-v2-git",
-          "wd14-convnext-v2-git",
-          "wd14-swinv2-v2-git",
-          "wd14-vit",
-          "wd14-convnext",
-        ],
-      };
+          'wd14-convnextv2-v2',
+          'wd14-vit-v2',
+          'wd14-convnext-v2',
+          'wd14-swinv2-v2',
+          'wd14-convnextv2-v2-git',
+          'wd14-vit-v2-git',
+          'wd14-convnext-v2-git',
+          'wd14-swinv2-v2-git',
+          'wd14-vit',
+          'wd14-convnext'
+        ]
+      }
     }
-    const modelList = response.data.models;
-    const setting = await Config.getSetting();
-    const appreciationModel = e.msg.replace(/#(ap)?设置鉴赏模型/, "").trim();
-    if (appreciationModel == "") {
-      e.reply("鉴赏模型不能为空");
-      return true;
+    const modelList = response.data.models
+    const setting = await Config.getSetting()
+    const appreciationModel = e.msg.replace(/#(ap)?设置鉴赏模型/, '').trim()
+    if (appreciationModel == '') {
+      e.reply('鉴赏模型不能为空')
+      return true
     }
     if (!modelList.includes(appreciationModel)) {
-      e.reply(`鉴赏模型不存在，可用模型有：\n${modelList.join("\n")}`);
-      return true;
+      e.reply(`鉴赏模型不存在，可用模型有：\n${modelList.join('\n')}`)
+      return true
     }
-    setting.appreciation.model = appreciationModel;
-    Config.setSetting(setting);
-    e.reply(`鉴赏模型已设置为：${appreciationModel}`);
-    return true;
+    setting.appreciation.model = appreciationModel
+    Config.setSetting(setting)
+    e.reply(`鉴赏模型已设置为：${appreciationModel}`)
+    return true
   }
 
-  async setSuperResolutionModel(e) {
-    const config = await Config.getcfg();
-    const apiobj = config.APIList[config.usingAPI - 1];
-    const url = apiobj.url + "/sdapi/v1/upscalers";
+  async setSuperResolutionModel (e) {
+    const config = await Config.getcfg()
+    const apiobj = config.APIList[config.usingAPI - 1]
+    const url = apiobj.url + '/sdapi/v1/upscalers'
     const headers = {
-      "Content-Type": "application/json",
-    };
+      'Content-Type': 'application/json'
+    }
     if (apiobj.account_password) {
       headers.Authorization = `Basic ${Buffer.from(
-        apiobj.account_id + ":" + apiobj.account_password,
-        "utf8",
-      ).toString("base64")} `;
-      headers.User_Agent = "AP-Plugin";
+        apiobj.account_id + ':' + apiobj.account_password,
+        'utf8'
+      ).toString('base64')} `
+      headers.User_Agent = 'AP-Plugin'
     }
-    let modelList;
+    let modelList
     try {
-      const response = await axios.get(url, { headers });
+      const response = await axios.get(url, { headers })
       for (let i = 0; i < response.data.length; i++) {
-        modelList.push(response.data[i].name);
+        modelList.push(response.data[i].name)
       }
     } catch (error) {
       modelList = [
-        "None",
-        "Lanczos",
-        "Nearest",
-        "BSRGAN",
-        "ESRGAN_4x",
-        "LDSR",
-        "R-ESRGAN 4x+",
-        "R-ESRGAN 4x+ Anime6B",
-        "ScuNET",
-        "ScuNET PSNR",
-        "SwinIR_4x",
-      ];
+        'None',
+        'Lanczos',
+        'Nearest',
+        'BSRGAN',
+        'ESRGAN_4x',
+        'LDSR',
+        'R-ESRGAN 4x+',
+        'R-ESRGAN 4x+ Anime6B',
+        'ScuNET',
+        'ScuNET PSNR',
+        'SwinIR_4x'
+      ]
     }
-    const setting = await Config.getSetting();
+    const setting = await Config.getSetting()
     const superResolutionModel = e.msg
-      .replace(/#(ap)?设置大清晰术算法(1|2)/, "")
-      .trim();
-    if (superResolutionModel == "") {
-      e.reply("大清晰术算法不能为空");
-      return true;
+      .replace(/#(ap)?设置大清晰术算法(1|2)/, '')
+      .trim()
+    if (superResolutionModel == '') {
+      e.reply('大清晰术算法不能为空')
+      return true
     }
     if (!modelList.includes(superResolutionModel)) {
-      e.reply(`大清晰术算法不存在，可用算法有：\n${modelList.join("\n")}`);
-      return true;
+      e.reply(`大清晰术算法不存在，可用算法有：\n${modelList.join('\n')}`)
+      return true
     }
-    if (e.msg.indexOf("#ap设置大清晰术算法1") != -1) {
-      setting.realesrgan.model1 = superResolutionModel;
-      e.reply(`大清晰术算法1已设置为：${superResolutionModel}`);
+    if (e.msg.indexOf('#ap设置大清晰术算法1') != -1) {
+      setting.realesrgan.model1 = superResolutionModel
+      e.reply(`大清晰术算法1已设置为：${superResolutionModel}`)
     } else {
-      setting.realesrgan.model2 = superResolutionModel;
-      e.reply(`大清晰术算法2已设置为：${superResolutionModel}`);
+      setting.realesrgan.model2 = superResolutionModel
+      e.reply(`大清晰术算法2已设置为：${superResolutionModel}`)
     }
-    Config.setSetting(setting);
-    return true;
+    Config.setSetting(setting)
+    return true
   }
 
-  async setCard(e) {
-    const setting = await Config.getSetting();
-    const card = e.msg.replace(/#(ap)?设置二次元的我卡片/, "").trim();
-    if (card == "开启") {
-      setting.anime_me_card = true;
-      e.reply("二次元的我卡片已开启，将会在每次发送图片时发送图片卡片");
-    } else if (card == "关闭") {
-      setting.anime_me_card = false;
-      e.reply("二次元的我卡片已关闭，将直接发送原图");
+  async setCard (e) {
+    const setting = await Config.getSetting()
+    const card = e.msg.replace(/#(ap)?设置二次元的我卡片/, '').trim()
+    if (card == '开启') {
+      setting.anime_me_card = true
+      e.reply('二次元的我卡片已开启，将会在每次发送图片时发送图片卡片')
+    } else if (card == '关闭') {
+      setting.anime_me_card = false
+      e.reply('二次元的我卡片已关闭，将直接发送原图')
     }
-    Config.setSetting(setting);
-    return true;
+    Config.setSetting(setting)
+    return true
   }
 
-  async setViolation(e) {
-    const setting = await Config.getSetting();
-    const violation = e.msg.replace(/#(ap)?设置违规图片展示方式/, "").trim();
-    setting.nsfw_show = Number(violation);
-    Config.setSetting(setting);
+  async setViolation (e) {
+    const setting = await Config.getSetting()
+    const violation = e.msg.replace(/#(ap)?设置违规图片展示方式/, '').trim()
+    setting.nsfw_show = Number(violation)
+    Config.setSetting(setting)
     e.reply(
       `违规图片展示方式已设置为：${
-        violation == "1"
-          ? "展示MD5"
-          : violation == "2"
-          ? "展示图链二维码"
-          : violation == "3"
-          ? "展示图床链接"
-          : "分享卡片"
-      }`,
-    );
-    return true;
+        violation == '1'
+          ? '展示MD5'
+          : violation == '2'
+            ? '展示图链二维码'
+            : violation == '3'
+              ? '展示图床链接'
+              : '分享卡片'
+      }`
+    )
+    return true
   }
 
-  async setAtBot(e) {
-    const setting = await Config.getSetting();
-    const shield = !e.msg.includes("不屏蔽");
-    setting.shield = shield;
-    Config.setSetting(setting);
-    e.reply(`${shield ? "已屏蔽" : "已取消屏蔽"}艾特绘图`);
-    return true;
+  async setAtBot (e) {
+    const setting = await Config.getSetting()
+    const shield = !e.msg.includes('不屏蔽')
+    setting.shield = shield
+    Config.setSetting(setting)
+    e.reply(`${shield ? '已屏蔽' : '已取消屏蔽'}艾特绘图`)
+    return true
   }
 }

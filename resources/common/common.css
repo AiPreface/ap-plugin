@@ -1,20 +1,28 @@
 @font-face {
-  font-family: 'Number';
-  src: url("./font/tttgbnumber.woff") format('woff'), url("./font/tttgbnumber.ttf") format('truetype');
+  font-family: "Number";
+  src:
+    url("./font/tttgbnumber.woff") format("woff"),
+    url("./font/tttgbnumber.ttf") format("truetype");
 }
 @font-face {
-  font-family: 'NZBZ';
-  src: url("./font/NZBZ.woff") format('woff'), url("./font/NZBZ.ttf") format('truetype');
+  font-family: "NZBZ";
+  src:
+    url("./font/NZBZ.woff") format("woff"),
+    url("./font/NZBZ.ttf") format("truetype");
 }
 @font-face {
-  font-family: 'YS';
-  src: url("./font/HYWH-65W.woff") format('woff'), url("./font/HYWH-65W.ttf") format('truetype');
+  font-family: "YS";
+  src:
+    url("./font/HYWH-65W.woff") format("woff"),
+    url("./font/HYWH-65W.ttf") format("truetype");
 }
 .font-YS {
-  font-family: Number, "汉仪文黑-65W", YS, PingFangSC-Medium, "PingFang SC", sans-serif;
+  font-family: Number, "汉仪文黑-65W", YS, PingFangSC-Medium, "PingFang SC",
+    sans-serif;
 }
 .font-NZBZ {
-  font-family: Number, "印品南征北战NZBZ体", NZBZ, "汉仪文黑-65W", YS, PingFangSC-Medium, "PingFang SC", sans-serif;
+  font-family: Number, "印品南征北战NZBZ体", NZBZ, "汉仪文黑-65W", YS,
+    PingFangSC-Medium, "PingFang SC", sans-serif;
 }
 * {
   margin: 0;
@@ -26,7 +34,8 @@
 body {
   font-size: 18px;
   color: #1e1f20;
-  font-family: Number, "汉仪文黑-65W", YS, PingFangSC-Medium, "PingFang SC", sans-serif;
+  font-family: Number, "汉仪文黑-65W", YS, PingFangSC-Medium, "PingFang SC",
+    sans-serif;
   transform: scale(1.4);
   transform-origin: 0 0;
   width: 600px;
@@ -44,9 +53,12 @@ body {
   margin-top: 30px;
 }
 .head-box .title {
-  font-family: Number, "印品南征北战NZBZ体", NZBZ, "汉仪文黑-65W", YS, PingFangSC-Medium, "PingFang SC", sans-serif;
+  font-family: Number, "印品南征北战NZBZ体", NZBZ, "汉仪文黑-65W", YS,
+    PingFangSC-Medium, "PingFang SC", sans-serif;
   font-size: 36px;
-  text-shadow: 0 0 1px #000, 1px 1px 3px rgba(0, 0, 0, 0.9);
+  text-shadow:
+    0 0 1px #000,
+    1px 1px 3px rgba(0, 0, 0, 0.9);
 }
 .head-box .title .label {
   display: inline-block;
@@ -60,7 +72,9 @@ body {
 }
 .head-box .label {
   font-size: 16px;
-  text-shadow: 0 0 1px #000, 1px 1px 3px rgba(0, 0, 0, 0.9);
+  text-shadow:
+    0 0 1px #000,
+    1px 1px 3px rgba(0, 0, 0, 0.9);
 }
 .head-box .label span {
   color: #d3bc8e;
@@ -171,7 +185,7 @@ body {
   width: 50px;
   height: 50px;
   display: inline-block;
-  background: url('./item/fetter.png');
+  background: url("./item/fetter.png");
   background-size: auto 100%;
 }
 .fetter.fetter1 {
@@ -261,7 +275,9 @@ body {
   background-size: auto 100%;
   margin: 5px 15px 5px 10px;
   position: relative;
-  box-shadow: 0 0 1px 0 #ccc, 2px 2px 4px 0 rgba(50, 50, 50, 0.8);
+  box-shadow:
+    0 0 1px 0 #ccc,
+    2px 2px 4px 0 rgba(50, 50, 50, 0.8);
   overflow: hidden;
   color: #fff;
   font-size: 16px;

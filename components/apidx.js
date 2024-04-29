@@ -5,8 +5,8 @@
  * @LastEditTime: 2023-01-02 18:52:49
  * @FilePath: \Yunzai-Bot\plugins\ap-plugin\components\apidx.js
  * @Description: 整合ap绘图组件出口
- * 
- * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved. 
+ *
+ * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
  */
 
 import Parse from './ai_painting/parse.js'
