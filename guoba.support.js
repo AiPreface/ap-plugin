@@ -7,22 +7,23 @@ export function supportGuoba() {
   return {
     pluginInfo: {
       name: "ap-plugin",
-      title: "ap-plugin",
+      title: "AI绘图插件",
       author: ['@yhArcadia', '@CikeyQi'],
       authorLink: ['https://github.com/yhArcadia', 'https://github.com/CikeyQi'],
       link: "https://github.com/AiPreface/ap-plugin",
       isV3: true,
       isV2: false,
+      showInMenu: true,
       description: "基于Yunzai-Bot的AI绘图插件，使用Stable Diffusion接口",
-      icon: "mdi:stove",
-      iconColor: "#d19f56",
+      icon: "fluent-emoji-flat:pencil",
+      iconColor: "#fe9451",
       iconPath: path.join(pluginRoot, 'resources/readme/girl.png'),
     },
     configInfo: {
       schemas: [
         {
           component: "Divider",
-          label: "Stable Diffusion接口配置",
+          label: "绘图 相关设置",
           componentProps: {
             orientation: "left",
             plain: true,
@@ -31,8 +32,7 @@ export function supportGuoba() {
         {
           field: "config.APIList",
           label: "绘图接口",
-          bottomHelpMessage:
-            "用于生成图片等一系列功能，是本插件主要功能",
+          bottomHelpMessage: "用于生成图片等一系列功能，是本插件主要功能",
           component: "GSubForm",
           componentProps: {
             multiple: true,
@@ -64,7 +64,7 @@ export function supportGuoba() {
         },
         {
           field: 'config.usingAPI',
-          label: '使用的接口',
+          label: '使用接口',
           component: 'Select',
           componentProps: {
             options: Config.mergeConfig().APIList.map((item, index) => { return { label: item.remark, value: index + 1 } })
@@ -72,7 +72,7 @@ export function supportGuoba() {
         },
         {
           component: "Divider",
-          label: "百度图片审核配置",
+          label: "审核 相关设置",
           componentProps: {
             orientation: "left",
             plain: true,
@@ -80,9 +80,8 @@ export function supportGuoba() {
         },
         {
           field: "config.baidu_appid",
-          label: "ID",
-          bottomHelpMessage:
-            "用于图片审核服务，请在百度云图片审核应用列表中查看",
+          label: "BAIDU_APPID",
+          bottomHelpMessage: "用于图片审核服务，请在百度云图片审核应用列表中查看",
           component: "Input",
           required: false,
           componentProps: {
@@ -119,106 +118,7 @@ export function supportGuoba() {
         },
         {
           component: "Divider",
-          label: "附加功能接口配置",
-          componentProps: {
-            orientation: "left",
-            plain: true,
-          },
-        },
-        {
-          field: "config.Real_CUGAN",
-          label: "大清晰术接口",
-          bottomHelpMessage: "用于超分，放大图片",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://dianxian-real-cugan.hf.space/api/predict",
-          },
-        },
-        {
-          field: "config.appreciate",
-          label: "图片鉴赏接口",
-          bottomHelpMessage: "用于鉴赏，二次元的我功能",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://nocrypt-deepdanbooru-string.hf.space/api/predict",
-          },
-        },
-
-        {
-          field: "config.ai_detect",
-          label: "图片鉴定接口",
-          bottomHelpMessage: "用于检测图片是否为AI所作，如：",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://saltacc-anime-ai-detect.hf.space/run/predict",
-          },
-        },
-        {
-          field: "config.remove_bg",
-          label: "图片去背景接口",
-          bottomHelpMessage: "用于去除图片背景",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://huggingface.co/spaces/skytnt/anime-remove-background",
-          },
-        },
-        {
-          field: "config.cartoonization",
-          label: "图片动漫化接口",
-          bottomHelpMessage: "用于图片动漫化",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://hylee-white-box-cartoonization.hf.space/api/predict/",
-          },
-        },
-        {
-          field: "config.img_to_music",
-          label: "图片转音乐接口",
-          bottomHelpMessage: "用于图片转音乐",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://fffiloni-img-to-music.hf.space/run/i2m",
-          },
-        },
-        {
-          field: "config.anime_aesthetic_predict",
-          label: "图片美学评分接口",
-          bottomHelpMessage: "用于图片美学评分",
-          component: "Input",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入接口地址，如https://skytnt-anime-aesthetic-predict.hf.space/run/predict",
-          },
-        },
-        {
-          field: "config.openai_key",
-          label: "OpenAI密钥",
-          bottomHelpMessage: "用于自然语言处理",
-          component: "InputPassword",
-          required: false,
-          componentProps: {
-            placeholder:
-              "请输入密钥，如sk-tZgIILD1th6DqMiBM3VZH3BlbkFJnyEYu9t9kfQEzC6ocBOS",
-            maxlength: 51,
-            showCount: true,
-          },
-        },
-        {
-          component: "Divider",
-          label: "翻译功能配置",
+          label: "翻译 相关设置",
           componentProps: {
             orientation: "left",
             plain: true,
@@ -250,7 +150,7 @@ export function supportGuoba() {
         },
         {
           field: "config.youdao_translate.id",
-          label: "有道翻译应用ID",
+          label: "有道翻译ID",
           bottomHelpMessage: "用于翻译中文Prompt，请在有道智云控制台中查看",
           component: "Input",
           required: false,
@@ -262,7 +162,7 @@ export function supportGuoba() {
         },
         {
           field: "config.youdao_translate.key",
-          label: "有道翻译应用密钥",
+          label: "有道翻译密钥",
           bottomHelpMessage: "用于翻译中文Prompt，请在有道智云控制台中查看",
           component: "Input",
           required: false,
@@ -274,7 +174,7 @@ export function supportGuoba() {
         },
         {
           component: "Divider",
-          label: "策略相关配置",
+          label: "策略 相关设置",
           componentProps: {
             orientation: "left",
             plain: true,
@@ -293,7 +193,7 @@ export function supportGuoba() {
         },
         {
           field: "policy.localNum",
-          label: "本地检索图片张数",
+          label: "检索图片",
           bottomHelpMessage: "单位：张，默认为50",
           component: "InputNumber",
           required: true,
@@ -304,27 +204,26 @@ export function supportGuoba() {
         },
         {
           field: "policy.isDownload",
-          label: "图片存入本地",
+          label: "存入本地",
           bottomHelpMessage: "默认关闭，开启后会将图片存入本地",
           component: "Switch",
         },
         {
           field: "policy.isTellMaster",
-          label: "违规图片通知主人",
+          label: "通知主人",
           bottomHelpMessage: "默认关闭，开启后会将违规图片通知主人",
           component: "Switch",
         },
         {
           field: "policy.isAllowSearchLocalImg",
-          label: "成员搜索本地图片",
+          label: "成员检索",
           bottomHelpMessage: "默认关闭，开启后会允许成员搜索本地图片",
           component: "Switch",
         },
         {
           field: "policy.prohibitedUserList",
-          label: "禁止使用的用户",
-          bottomHelpMessage:
-            "封禁的用户QQ号，封禁的用户无法绘图",
+          label: "封禁用户",
+          bottomHelpMessage: "封禁的用户QQ号，封禁的用户无法绘图",
           component: "GTags",
           componentProps: {
             placeholder: '请输入黑名单QQ',
@@ -336,10 +235,10 @@ export function supportGuoba() {
               placeholder: '请输入QQ号',
               okText: '添加',
               rules: [
-                {required: true, message: 'QQ号得填上才行哦~'},
-                {pattern: '^\\d+$', message: 'QQ号应该是纯数字的吧'},
-                {min: 5, message: '真的有这么短的QQ号吗？'},
-                {max: 10, message: '太…太长了……'},
+                { required: true, message: 'QQ号得填上才行哦~' },
+                { pattern: '^\\d+$', message: 'QQ号应该是纯数字的吧' },
+                { min: 5, message: '真的有这么短的QQ号吗？' },
+                { max: 10, message: '太…太长了……' },
               ],
             },
             valueFormatter: ((value) => Number.parseInt(value)).toString(),
@@ -347,13 +246,31 @@ export function supportGuoba() {
         },
         {
           field: "policy.apMaster",
-          label: "AP管理员QQ号",
-          bottomHelpMessage: "AP管理员QQ号，用于更改相关设置",
-          component: "GSelectFriend",
+          label: "管理员QQ号",
+          bottomHelpMessage: "管理员QQ号，用于更改相关设置",
+          component: "GTags",
+          componentProps: {
+            placeholder: '请输入黑名单QQ',
+            allowAdd: true,
+            allowDel: true,
+            showPrompt: true,
+            promptProps: {
+              content: '请输入QQ号：',
+              placeholder: '请输入QQ号',
+              okText: '添加',
+              rules: [
+                { required: true, message: 'QQ号得填上才行哦~' },
+                { pattern: '^\\d+$', message: 'QQ号应该是纯数字的吧' },
+                { min: 5, message: '真的有这么短的QQ号吗？' },
+                { max: 10, message: '太…太长了……' },
+              ],
+            },
+            valueFormatter: ((value) => Number.parseInt(value)).toString(),
+          },
         },
         {
           component: "Divider",
-          label: "全局策略相关配置",
+          label: "全局 相关设置",
           componentProps: {
             orientation: "left",
             plain: true,
@@ -361,19 +278,19 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.global.enable",
-          label: "全局启用绘图",
+          label: "启用绘图",
           bottomHelpMessage: "默认开启，关闭后所有群都无法绘图",
           component: "Switch",
         },
         {
           field: "policy.gp.global.JH",
-          label: "全局图片审核",
+          label: "图片审核",
           bottomHelpMessage: "默认开启，关闭后图片将不会被审核",
           component: "Switch",
         },
         {
           field: "policy.gp.global.gcd",
-          label: "全局群聊CD",
+          label: "群聊CD",
           bottomHelpMessage: "单位：秒，默认为20",
           component: "InputNumber",
           required: true,
@@ -384,7 +301,7 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.global.pcd",
-          label: "全局个人CD",
+          label: "个人CD",
           bottomHelpMessage: "单位：秒，默认为40",
           component: "InputNumber",
           required: true,
@@ -395,13 +312,13 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.global.isRecall",
-          label: "全局是否撤回",
+          label: "全局撤回",
           bottomHelpMessage: "默认关闭，开启后会在发送图片后撤回",
           component: "Switch",
         },
         {
           field: "policy.gp.global.recallDelay",
-          label: "全局撤回时间",
+          label: "撤回时间",
           bottomHelpMessage: "单位：秒，默认为60",
           component: "InputNumber",
           required: true,
@@ -412,13 +329,13 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.global.isBan",
-          label: "全局封禁违禁用户",
+          label: "封禁用户",
           bottomHelpMessage: "默认关闭，开启后会封禁违禁词用户",
           component: "Switch",
         },
         {
           field: "policy.gp.global.usageLimit",
-          label: "全局每日使用次数",
+          label: "次数限制",
           bottomHelpMessage: "单位：次，默认为30",
           component: "InputNumber",
           required: true,
@@ -429,7 +346,7 @@ export function supportGuoba() {
         },
         {
           component: "Divider",
-          label: "私聊相关配置",
+          label: "私聊 相关设置",
           componentProps: {
             orientation: "left",
             plain: true,
@@ -437,19 +354,19 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.private.enable",
-          label: "私聊启用绘图",
+          label: "启用绘图",
           bottomHelpMessage: "默认开启，关闭后所有私聊都无法绘图",
           component: "Switch",
         },
         {
           field: "policy.gp.private.JH",
-          label: "私聊图片审核",
+          label: "图片审核",
           bottomHelpMessage: "默认开启，关闭后图片将不会被审核",
           component: "Switch",
         },
         {
           field: "policy.gp.private.gcd",
-          label: "私聊群聊CD",
+          label: "群聊CD",
           bottomHelpMessage: "单位：秒，默认为20",
           component: "InputNumber",
           componentProps: {
@@ -459,7 +376,7 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.private.pcd",
-          label: "私聊个人CD",
+          label: "个人CD",
           bottomHelpMessage: "单位：秒，默认为40",
           component: "InputNumber",
           componentProps: {
@@ -469,13 +386,13 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.private.isRecall",
-          label: "私聊是否撤回",
+          label: "是否撤回",
           bottomHelpMessage: "默认关闭，开启后会在发送图片后撤回",
           component: "Switch",
         },
         {
           field: "policy.gp.private.recallDelay",
-          label: "私聊撤回延迟时间",
+          label: "延迟时间",
           bottomHelpMessage: "单位：秒，默认为60",
           component: "InputNumber",
           componentProps: {
@@ -485,18 +402,109 @@ export function supportGuoba() {
         },
         {
           field: "policy.gp.private.isBan",
-          label: "私聊封禁违禁用户",
+          label: "封禁用户",
           bottomHelpMessage: "默认关闭，开启后会封禁违禁词用户",
           component: "Switch",
         },
         {
           field: "policy.gp.private.usageLimit",
-          label: "私聊使用次数限制",
+          label: "次数限制",
           bottomHelpMessage: "单位：次，默认为30",
           component: "InputNumber",
           componentProps: {
             placeholder: "请输入私聊每日使用次数限制，如30",
             addonAfter: "次",
+          },
+        },
+        {
+          component: "Divider",
+          label: "第三方 相关设置",
+          componentProps: {
+            orientation: "left",
+            plain: true,
+          },
+        },
+        {
+          field: "config.Real_CUGAN",
+          label: "清晰术接口",
+          bottomHelpMessage: "用于超分，放大图片",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://dianxian-real-cugan.hf.space/api/predict",
+          },
+        },
+        {
+          field: "config.appreciate",
+          label: "鉴赏接口",
+          bottomHelpMessage: "用于鉴赏，二次元的我功能",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://nocrypt-deepdanbooru-string.hf.space/api/predict",
+          },
+        },
+
+        {
+          field: "config.ai_detect",
+          label: "鉴定接口",
+          bottomHelpMessage: "用于检测图片是否为AI所作，如：",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://saltacc-anime-ai-detect.hf.space/run/predict",
+          },
+        },
+        {
+          field: "config.remove_bg",
+          label: "去背景接口",
+          bottomHelpMessage: "用于去除图片背景",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://huggingface.co/spaces/skytnt/anime-remove-background",
+          },
+        },
+        {
+          field: "config.cartoonization",
+          label: "动漫化接口",
+          bottomHelpMessage: "用于图片动漫化",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://hylee-white-box-cartoonization.hf.space/api/predict/",
+          },
+        },
+        {
+          field: "config.img_to_music",
+          label: "转音乐接口",
+          bottomHelpMessage: "用于图片转音乐",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://fffiloni-img-to-music.hf.space/run/i2m",
+          },
+        },
+        {
+          field: "config.anime_aesthetic_predict",
+          label: "评分接口",
+          bottomHelpMessage: "用于图片美学评分",
+          component: "Input",
+          required: false,
+          componentProps: {
+            placeholder: "请输入接口地址，如https://skytnt-anime-aesthetic-predict.hf.space/run/predict",
+          },
+        },
+        {
+          field: "config.openai_key",
+          label: "OpenAI密钥",
+          bottomHelpMessage: "用于自然语言处理",
+          component: "InputPassword",
+          required: false,
+          componentProps: {
+            placeholder: "请输入密钥，如sk-tZgIILD1th6DqMiBM3VZH3BlbkFJnyEYu9t9kfQEzC6ocBOS",
+            maxlength: 51,
+            showCount: true,
           },
         },
       ],
@@ -531,6 +539,7 @@ export function supportGuoba() {
 
         policy = lodash.merge(Config.mergePolicy(), policy);
         policy.prohibitedUserList = data['policy.prohibitedUserList'];
+        policy.apMaster = data['policy.apMaster'];
         Config.setPolicy(policy);
         return Result.ok({}, "保存成功~");
       },

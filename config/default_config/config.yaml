@@ -1,6 +1,6 @@
-baidu_appid: Your_App_ID
-baidu_apikey: Your_Api_Key
-baidu_secretkey: Your_Secret_Key
+baidu_appid: ''
+baidu_apikey: ''
+baidu_secretkey: ''
 appreciate:
 Real_CUGAN:
 ai_detect:

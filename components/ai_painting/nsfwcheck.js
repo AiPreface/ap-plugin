@@ -26,7 +26,7 @@ class NsfwCheck {
      */
     async check(base64) {
         // 未配置apikey
-        if (this.appid == "Your_App_ID" || this.apikey == 'Your_Api_Key' || this.secretkey == "Your_Secret_Key") {
+        if (this.appid == "" || this.apikey == '' || this.secretkey == "") {
             return {
                 message: "百度图片审核服务调用失败，请先配置百度图片审核接口，配置教程：https://ap-plugin.com/Config/docs12 \n\n您也可以发送“#ap全局设置审核关闭”以关闭图片审核功能，关闭后绘制的图片将直接发送，不再进行审核"
             }
