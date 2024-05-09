@@ -136,7 +136,7 @@ export class update extends plugin {
 
     let end = ''
     end =
-      '更多详细信息，请前往gitee查看\nhttps://github.com/AiPreface/ap-plugin/commits/main'
+      '更多详细信息，请前往github查看\nhttps://github.com/AiPreface/ap-plugin/commits/main'
 
     log = await this.makeForwardMsg(`ap-plugin更新日志，共${line}条`, log, end)
 
