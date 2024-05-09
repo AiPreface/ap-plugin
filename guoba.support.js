@@ -14,7 +14,7 @@ export function supportGuoba() {
       isV3: true,
       isV2: false,
       showInMenu: true,
-      description: "基于Yunzai-Bot的AI绘图插件，使用Stable Diffusion接口",
+      description: "基于 Yunzai 的 AI 绘图插件，使用 Stable Diffusion 接口",
       icon: "fluent-emoji-flat:pencil",
       iconColor: "#fe9451",
       iconPath: path.join(pluginRoot, 'resources/readme/girl.png'),
