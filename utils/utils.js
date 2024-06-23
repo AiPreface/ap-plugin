@@ -8,7 +8,7 @@
  *
  * Copyright (c) 2022 by 渔火Arcadia 1761869682@qq.com, All Rights Reserved.
  */
-import gsCfg from "../../genshin/model/gsCfg.js";
+// import gsCfg from "../../genshin/model/gsCfg.js";
 import moment from "moment";
 import Config from "../components/ai_painting/config.js";
 
@@ -95,21 +95,21 @@ export function randomArrayMember(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-/**
- * 通过角色别名获取角色原名
- * @param {string} name 角色别称
- * @return {string} 角色原名
- * @return null：未匹配到角色名
- */
-export function getgsName(name) {
-  const nameArr = gsCfg.getAllAbbr();
-  for (const rolename of Object.values(nameArr)) {
-    if (rolename.includes(name)) {
-      return rolename[0];
-    }
-  }
-  return null;
-}
+// /**
+//  * 通过角色别名获取角色原名
+//  * @param {string} name 角色别称
+//  * @return {string} 角色原名
+//  * @return null：未匹配到角色名
+//  */
+// export function getgsName(name) {
+//   const nameArr = gsCfg.getAllAbbr();
+//   for (const rolename of Object.values(nameArr)) {
+//     if (rolename.includes(name)) {
+//       return rolename[0];
+//     }
+//   }
+//   return null;
+// }
 
 /**
  * 获取指定用户的昵称。
