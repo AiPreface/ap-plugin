@@ -1,6 +1,6 @@
 {
   "name": "ap-plugin",
-  "version": "2.11.5",
+  "version": "2.11.6",
   "description": "Yunzai-Bot的AI绘图插件",
   "main": "index.js",
   "scripts": {

@@ -9,17 +9,17 @@
  */
 
 import fs from 'fs'
-let currentVersion = undefined
-let README_path = `${process.cwd()}/plugins/ap-plugin/README.md`
+import { pluginRoot } from '../model/path.js'
+let currentVersion
+const package_path = `${pluginRoot}/package.json`
 try {
-    if (fs.existsSync(README_path)) {
-        let README = fs.readFileSync(README_path) || ''
-        let reg = /版本：(.*)/.exec(README)
-        if (reg) {
-            currentVersion = reg[1]
-        }
+    const package_json = JSON.parse(fs.readFileSync(package_path, 'utf-8'))
+    if (package_json.version) {
+        currentVersion = package_json.version
     }
-} catch (err) { }
+} catch (err) {
+    console.log('读取package.json失败', err)
+}
 
 /**快捷logger：i-info m-mark w-warn e-error 
  */
