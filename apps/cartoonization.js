@@ -51,7 +51,7 @@ export class Cartoonization extends plugin {
 
   async WhiteBoxCartoonization(e) {
     if (!API)
-      return await e.reply("请先配置图片动漫化所需API，配置教程：https://ap-plugin.com/Config/docs7")
+      return await e.reply("请先配置图片动漫化所需API")
     if (FiguretypeUser[e.user_id]) {
       e.reply('当前有任务在列表中排队，请不要重复发送，动漫化完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
       return true

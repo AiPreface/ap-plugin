@@ -43,10 +43,6 @@ export class Tools extends plugin {
                     fnc: "WithDraw",
                 },
                 {
-                    reg: "^#?ap文档$",
-                    fnc: "apDoc",
-                },
-                {
                     reg: "^#?ap(全局|本群|我的)词云$",
                     fnc: "apWordCloud",
                 },
@@ -140,11 +136,6 @@ export class Tools extends plugin {
             e.group.recallMsg(e.source.seq, e.source.rand);
             e.group.recallMsg(e.message_id);
         } catch (err) { }
-    }
-
-    async apDoc(e) {
-        e.reply("https://ap-plugin.com/Config/", true)
-        return true
     }
     async apWordCloud(e) {
         if (e.at) e.user_id = e.at

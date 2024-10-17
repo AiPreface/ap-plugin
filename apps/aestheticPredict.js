@@ -53,7 +53,7 @@ export class score extends plugin {
 
 	async score(e) {
 		if (!API)
-			return await e.reply('请先配置动漫审美预测所需API，配置教程：https://ap-plugin.com/Config/docs9')
+			return await e.reply('请先配置动漫审美预测所需API')
 		if (FiguretypeUser[e.user_id]) {
 			e.reply('当前有任务在列表中排队，请不要重复发送，取得结果后完成后会自动发送结果，如果长时间没有结果，请等待1分钟再试')
 			return true

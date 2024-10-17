@@ -35,7 +35,7 @@ class Draw {
                 code: 41,
                 info: "未配置接口",
                 msg: '',
-                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://ap-plugin.com/Config/\n发送#ap说明书以查看详细说明`
+                description: `当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n发送#ap说明书以查看详细说明`
             }
         let index = paramdata.specifyAPI || config.usingAPI
         let apiobj = config.APIList[index - 1]

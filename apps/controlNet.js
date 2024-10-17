@@ -362,7 +362,7 @@ async function sendMsg(e, msg) {
 async function getAPI(e) {
   let config = await Config.getcfg()
   if (config.APIList.length == 0) {
-    e.reply(`当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n参考文档：https://ap-plugin.com/Config/\n发送#ap说明书以查看详细说明`)
+    e.reply(`当前无可用绘图接口，请先配置接口。\n配置指令： #ap添加接口\n发送#ap说明书以查看详细说明`)
     return true
   }
   let api = config.APIList[config.usingAPI - 1].url

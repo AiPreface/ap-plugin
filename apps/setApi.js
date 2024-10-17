@@ -98,7 +98,7 @@ export class set extends plugin {
 				.trim()
 
 		if (/hf.space/.test(api))
-			return e.reply("大清晰术和鉴赏的接口无法用于绘图哦，详见https://ap-plugin.com/Config/")
+			return e.reply("大清晰术和鉴赏的接口无法用于绘图哦")
 
 		let apcfg = await Config.getcfg()
 
@@ -208,7 +208,7 @@ export class set extends plugin {
 		let li = []
 		let i = 1
 		if (apcfg.APIList.length == 0) {
-			return e.reply("当前无可用接口，请先添加接口\n命令：#ap添加接口\n参考文档：https://ap-plugin.com/Config/docs1")
+			return e.reply("当前无可用接口，请先添加接口\n命令：#ap添加接口")
 		}
 		for (let val of apcfg.APIList) {
 			li.push(`${i}：${val.remark}${i == apcfg.usingAPI ? ' [默认]' : ''}` + (e.isPrivate && e.isMaster ? `\n   ${val.url}` : ''))
