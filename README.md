@@ -1,7 +1,7 @@
 ![ap-plugin](https://socialify.git.ci/AiPreface/ap-plugin/image?description=1&font=Raleway&forks=1&issues=1&language=1&name=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Auto)
-
-<img decoding="async" align=right src="resources/readme/girl.png" width="35%">
-
+<!--
+ * <img decoding="async" align=right src="resources/readme/girl.png" width="35%">
+-->
 # AP-PLUGIN🍊
 
 - 一个适用于 [Yunzai 系列机器人框架](https://github.com/yhArcadia/Yunzai-Bot-plugins-index) 的的 AI 绘图插件，让你在输入框中拥有便捷的 AI 绘画体验
@@ -11,7 +11,7 @@
 - **使用中遇到问题请加 QQ 群咨询：[707331865](https://qm.qq.com/q/TXTIS9KhO2)**
 
 > [!TIP]
-> 这个插件是我刚接触 Yunzai 时，和一个叫 [渔火](https://github.com/yhArcadia) 的大哥哥一起写的（其实我就是在他的插件上面加乱七八糟的东西，导致现在这么臃肿）。他是我的启蒙老师哦，之前我是一点 JavaScript 都不会的。现在他都退坑了都找到女朋友啦！
+> 这个插件是我刚接触 Yunzai 时，和 [渔火](https://github.com/yhArcadia) 合作开发的，已先后跑路不再维护，新作见 [nai-plugin](https://github.com/CikeyQi/nai-plugin) 和 [mj-plugin](https://github.com/CikeyQi/mj-plugin)。
 
 ## 安装插件
 
